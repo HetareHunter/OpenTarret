@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ImpactWave_MT
+  m_Shader: {fileID: -6465566751694194690, guid: 1b2ff92bb0b9933499ad3cd2c7ebd577,
+    type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Floats:
+    - Vector1_12A5545F: 0
+    - Vector1_635B05D0: 1
+    - Vector1_721B7755: 33.1
+    - Vector1_9106B43C: 12
+    - Vector1_C47D2E4: 1.69
+    - Vector1_C6F3F94B: 1
+    - Vector1_CD107C4D: 1
+    - Vector1_CFDD39B5: 0.75
+    - Vector1_DDF07435: 0
+    m_Colors: []

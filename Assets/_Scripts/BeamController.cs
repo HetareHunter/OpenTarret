@@ -12,7 +12,7 @@ public class BeamController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (Input.GetButtonDown("Fire1"))
         {

@@ -490,6 +490,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: radiation1
       objectReference: {fileID: 0}
+    - target: {fileID: 712295099053585808, guid: 645e68590a77c644a9f023c3bbac02b0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 713864596279707506, guid: 645e68590a77c644a9f023c3bbac02b0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -619,6 +624,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: radiation
+      objectReference: {fileID: 0}
+    - target: {fileID: 238180111137576764, guid: 85247a0892d7fd943a5f4bdec53bd481,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 85247a0892d7fd943a5f4bdec53bd481, type: 3}

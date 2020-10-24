@@ -8,6 +8,12 @@ public class Attack : MonoBehaviour
     [SerializeField] float rayDistance = 1;
     [SerializeField] GameObject muzzleExlodeEffect;
     [SerializeField] GameObject muzzleExplodeEffectInsPosi;
+    [SerializeField] GameObject impactObj;
+    GameObject insImpact;
+    [SerializeField] float impactCoefficient = 1;
+    bool onFire = false;
+    [SerializeField] float impactDeathTime = 2;
+
 
     // Update is called once per frame
     void Update()
@@ -36,10 +42,28 @@ public class Attack : MonoBehaviour
                 }
             }
         }
-        
+        if (onFire)
+        {
+            ImpactScaleUp(insImpact.transform.localScale.x);
+            Destroy(insImpact, impactDeathTime);
+            
+        }
+        if (insImpact == null)
+        {
+            onFire = false;
+        }
     }
     void LaunchFireEffect()
     {
+        onFire = true;
         Instantiate(muzzleExlodeEffect, muzzleExplodeEffectInsPosi.transform);
+        insImpact = Instantiate(impactObj, muzzleExplodeEffectInsPosi.transform);
+        
+    }
+
+    void ImpactScaleUp(float insImpactScale)
+    {
+        insImpact.transform.localScale = new Vector3(insImpactScale += impactCoefficient,
+            insImpactScale += impactCoefficient, insImpact.transform.lossyScale.z);
     }
 }

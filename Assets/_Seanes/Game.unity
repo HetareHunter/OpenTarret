@@ -10497,6 +10497,28 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6833807476546700254, guid: 8b513d325eac3bc45896743254e8f74e,
         type: 3}
+    - target: {fileID: 3368387769552506377, guid: 19d25fadb8abf534faef666945d1217d,
+        type: 3}
+      propertyPath: impactObj
+      value: 
+      objectReference: {fileID: 5482894626388843990, guid: 164afa9e4fb92dd41b15590b91f17461,
+        type: 3}
+    - target: {fileID: 3368387769552506377, guid: 19d25fadb8abf534faef666945d1217d,
+        type: 3}
+      propertyPath: impactCoefficient
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3368387769552506377, guid: 19d25fadb8abf534faef666945d1217d,
+        type: 3}
+      propertyPath: insImpact
+      value: 
+      objectReference: {fileID: 1238047293324255071, guid: 6e4628af9799f61408a5e2c68d790136,
+        type: 3}
+    - target: {fileID: 3368387769552506377, guid: 19d25fadb8abf534faef666945d1217d,
+        type: 3}
+      propertyPath: rayDirection.z
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19d25fadb8abf534faef666945d1217d, type: 3}
 --- !u!1 &907243916
@@ -25527,6 +25549,10 @@ PrefabInstance:
       propertyPath: minRenderScale
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
+      propertyPath: useRecommendedMSAALevel
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 20000010189485334, guid: 126d619cf4daa52469682f85c1378b4a,
         type: 3}
       propertyPath: m_Enabled
@@ -25607,7 +25633,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
-  m_RenderPostProcessing: 1
+  m_RenderPostProcessing: 0
   m_Antialiasing: 1
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -25773,7 +25799,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1563494489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25873,7 +25899,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
