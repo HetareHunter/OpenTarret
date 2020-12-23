@@ -6,11 +6,12 @@ public class ReturnPosition : MonoBehaviour
 {
     Vector3 startPosition;
     Quaternion startRotation;
-    [SerializeField] OVRGrabber oVRGrabberRight;
-    [SerializeField] OVRGrabber oVRGrabberLeft;
+    OVRGrabbable grabbable;
+    //bool isGrabbed = false;
     // Start is called before the first frame update
     void Start()
     {
+        grabbable = GetComponent<OVRGrabbable>();
         startPosition = transform.position;
         startRotation = transform.rotation;
     }
@@ -18,12 +19,25 @@ public class ReturnPosition : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (oVRGrabberRight.grabbedObject != gameObject && oVRGrabberLeft.grabbedObject != gameObject)
+        Released();
+    }
+
+    private void Released()
+    {
+        if (!grabbable.isGrabbed)
         {
             transform.position = startPosition;
             transform.rotation = startRotation;
         }
     }
 
+    //private void Grabbed()
+    //{
+    //    if (OVRInput.GetDown(OVRInput.RawButton.RHandTrigger) || OVRInput.GetDown(OVRInput.RawButton.LHandTrigger))
+    //    {
+    //        startPosition = grabber.grabbedObject.gameObject.transform.position;
+    //        startRotation = grabber.grabbedObject.gameObject.transform.rotation;
+    //    }
+    //}
 
 }
