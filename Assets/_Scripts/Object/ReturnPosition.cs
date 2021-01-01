@@ -1,43 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
+using UniRx;
 
 public class ReturnPosition : MonoBehaviour
 {
+    Rigidbody m_rb;
     Vector3 startPosition;
-    Quaternion startRotation;
-    OVRGrabbable grabbable;
-    //bool isGrabbed = false;
+    Vector3 startRotation;
+    [SerializeField] float returnSpeed = 1.0f;
+
     // Start is called before the first frame update
     void Start()
     {
-        grabbable = GetComponent<OVRGrabbable>();
+        m_rb = GetComponent<Rigidbody>();
         startPosition = transform.position;
-        startRotation = transform.rotation;
+        startRotation = transform.localEulerAngles;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Released()
     {
-        Released();
+        transform.DOMove(startPosition, returnSpeed)
+            .SetEase(Ease.OutCirc)
+            .OnComplete(()=>m_rb.velocity = Vector3.zero);
+        transform.DOLocalRotate(startRotation, returnSpeed);
+        
     }
-
-    private void Released()
-    {
-        if (!grabbable.isGrabbed)
-        {
-            transform.position = startPosition;
-            transform.rotation = startRotation;
-        }
-    }
-
-    //private void Grabbed()
-    //{
-    //    if (OVRInput.GetDown(OVRInput.RawButton.RHandTrigger) || OVRInput.GetDown(OVRInput.RawButton.LHandTrigger))
-    //    {
-    //        startPosition = grabber.grabbedObject.gameObject.transform.position;
-    //        startRotation = grabber.grabbedObject.gameObject.transform.rotation;
-    //    }
-    //}
 
 }
