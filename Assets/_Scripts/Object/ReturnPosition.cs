@@ -4,28 +4,31 @@ using UnityEngine;
 using DG.Tweening;
 using UniRx;
 
-public class ReturnPosition : MonoBehaviour
+namespace Players
 {
-    Rigidbody m_rb;
-    Vector3 startPosition;
-    Vector3 startRotation;
-    [SerializeField] float returnSpeed = 1.0f;
-
-    // Start is called before the first frame update
-    void Start()
+    public class ReturnPosition : MonoBehaviour
     {
-        m_rb = GetComponent<Rigidbody>();
-        startPosition = transform.position;
-        startRotation = transform.localEulerAngles;
-    }
+        Rigidbody m_rb;
+        Vector3 startPosition;
+        Vector3 startRotation;
+        [SerializeField] float returnSpeed = 1.0f;
 
-    public void Released()
-    {
-        transform.DOMove(startPosition, returnSpeed)
-            .SetEase(Ease.OutCirc)
-            .OnComplete(()=>m_rb.velocity = Vector3.zero);
-        transform.DOLocalRotate(startRotation, returnSpeed);
-        
-    }
+        // Start is called before the first frame update
+        void Start()
+        {
+            m_rb = GetComponent<Rigidbody>();
+            startPosition = transform.position;
+            startRotation = transform.localEulerAngles;
+        }
 
+        public void Released()
+        {
+            transform.DOMove(startPosition, returnSpeed)
+                .SetEase(Ease.OutCirc)
+                .OnComplete(() => m_rb.velocity = Vector3.zero);
+            transform.DOLocalRotate(startRotation, returnSpeed);
+
+        }
+
+    }
 }

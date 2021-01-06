@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CustomOVRGrabbable : OVRGrabber
+namespace Players
 {
-    protected override void GrabBegin()
+    public class CustomOVRGrabbable : OVRGrabber
     {
-        base.GrabBegin();
-        if (m_grabbedObj is IGrabbable)
+        protected override void GrabBegin()
         {
-            ((IGrabbable)m_grabbedObj).GrabBegin(m_controller);
+            base.GrabBegin();
+            if (m_grabbedObj is IGrabbable)
+            {
+                ((IGrabbable)m_grabbedObj).GrabBegin(m_controller);
+            }
         }
     }
 }
