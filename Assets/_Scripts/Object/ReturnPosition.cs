@@ -9,7 +9,7 @@ namespace Players
     public class ReturnPosition : MonoBehaviour
     {
         Rigidbody m_rb;
-        Vector3 startPosition;
+        [SerializeField] Transform returningPosition;
         Vector3 startRotation;
         [SerializeField] float returnSpeed = 1.0f;
 
@@ -17,13 +17,12 @@ namespace Players
         void Start()
         {
             m_rb = GetComponent<Rigidbody>();
-            startPosition = transform.position;
             startRotation = transform.localEulerAngles;
         }
 
         public void Released()
         {
-            transform.DOMove(startPosition, returnSpeed)
+            transform.DOLocalMove(returningPosition.position, returnSpeed)
                 .SetEase(Ease.OutCirc)
                 .OnComplete(() => m_rb.velocity = Vector3.zero);
             transform.DOLocalRotate(startRotation, returnSpeed);
