@@ -14,8 +14,7 @@ namespace Players
         ReturnPosition returnPosition = new ReturnPosition();
         [SerializeField] Transform m_rotateTarget;
         [SerializeField] Transform m_handle;
-        [SerializeField, Range(0, 50.0f)] float handleRotateLimit;
-        Vector3 m_preHandlePosi;
+        public float handleRotateLimit = 20.0f;
         float m_preHandleToPlayerDis;
         float rotateAngle;
         /// <summary> ハンドルの感度 </summary>
@@ -25,7 +24,17 @@ namespace Players
         /// <summary>
         /// これ以上離れると自動的に手を放す
         /// </summary>
-        [SerializeField] float playersArmLength = 0.6f; 
+        [SerializeField] float playersArmLength = 0.6f;
+
+        /// <summary>
+        /// ハンドルがどれほど回転した状態になっているかの割合
+        /// </summary>
+        public float HandleRotatePer 
+        { 
+            get  {
+                return m_handle.transform.localRotation.x / handleRotateLimit;
+            }
+        }
 
         public void GrabBegin(OVRInput.Controller controller)
         {
@@ -36,7 +45,6 @@ namespace Players
         protected override void Start()
         {
             returnPosition = GetComponent<ReturnPosition>();
-            m_preHandlePosi = m_rotateTarget.localPosition;
         }
         void FixedUpdate()
         {
@@ -53,7 +61,7 @@ namespace Players
                 {
                     RotateHandle();
                 }
-                
+
             }
 
             if (OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger, currentController))
@@ -69,16 +77,9 @@ namespace Players
         {
             float handleMoveDistance = MeasurementGrabToPlayer() / Time.deltaTime * handleSensitivity;
             Debug.Log("handleMoveDistance : " + handleMoveDistance);
-            //float handleMoveDistance = (m_preHandlePosi.z - transform.localPosition.z) / Time.deltaTime * handleSensitivity;
             rotateAngle += handleMoveDistance;
             rotateAngle = Mathf.Clamp(rotateAngle, -handleRotateLimit, handleRotateLimit);
             m_handle.localRotation = Quaternion.AngleAxis(rotateAngle, Vector3.right);
-            //if (!(Mathf.Abs(m_handle.localRotation.x) > handleRotateLimit))
-            //{
-            //    m_handle.transform.Rotate(Vector3.right, rotateAngle, Space.Self);
-            //}
-            //m_handle.transform.Rotate(Vector3.right, rotateAngle, Space.Self);
-            m_preHandlePosi = m_rotateTarget.localPosition;
         }
 
         /// <summary>
@@ -89,7 +90,7 @@ namespace Players
             float handleToPlayerDis = Vector3.Distance(transform.position, player.transform.position);
             float preHandleToPlayerDis = m_preHandleToPlayerDis;
             m_preHandleToPlayerDis = handleToPlayerDis;
-            
+
             return preHandleToPlayerDis - handleToPlayerDis;
         }
 
@@ -107,7 +108,6 @@ namespace Players
         {
             rotateAngle = 0;
             m_handle.rotation = Quaternion.AngleAxis(rotateAngle, Vector3.right);
-            m_preHandlePosi = m_rotateTarget.position;
         }
     }
 }
