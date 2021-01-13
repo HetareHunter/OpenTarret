@@ -29,10 +29,18 @@ namespace Players
         /// <summary>
         /// ハンドルがどれほど回転した状態になっているかの割合
         /// </summary>
-        public float HandleRotatePer 
-        { 
-            get  {
-                return m_handle.transform.localRotation.x / handleRotateLimit;
+        public float HandleRotatePer
+        {
+            get
+            {
+                if (m_handle.transform.localEulerAngles.x >= 180)
+                {
+                    return (m_handle.transform.localEulerAngles.x - 360) / handleRotateLimit;
+                }
+                else
+                {
+                    return m_handle.transform.localEulerAngles.x / handleRotateLimit;
+                }
             }
         }
 
@@ -48,7 +56,6 @@ namespace Players
         }
         void FixedUpdate()
         {
-            //GrabBegin(currentController);
             if (isGrabbed && OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, currentController))
             {
                 // implement
@@ -70,13 +77,15 @@ namespace Players
                 ResetRotateHandle();
                 m_preHandleToPlayerDis = 0;
             }
-            Debug.Log("currentcontroller:" + currentController);
+            //Debug.Log("currentcontroller:" + currentController);
+            Debug.Log("HandleRotatePer:" + HandleRotatePer);
+            Debug.Log("m_handle.transform.localEulerAngles.x:" + m_handle.transform.localEulerAngles.x);
         }
 
         void RotateHandle()
         {
             float handleMoveDistance = MeasurementGrabToPlayer() / Time.deltaTime * handleSensitivity;
-            Debug.Log("handleMoveDistance : " + handleMoveDistance);
+            //Debug.Log("handleMoveDistance : " + handleMoveDistance);
             rotateAngle += handleMoveDistance;
             rotateAngle = Mathf.Clamp(rotateAngle, -handleRotateLimit, handleRotateLimit);
             m_handle.localRotation = Quaternion.AngleAxis(rotateAngle, Vector3.right);

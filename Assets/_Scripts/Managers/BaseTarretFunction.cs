@@ -14,7 +14,7 @@ namespace Managers
         [SerializeField] float m_rotateSpeed = 100.0f;
 
 
-        public float SetRotateSpeed(Transform leftController, Transform rightController)
+        public float SetHorizontalRotateSpeed(Transform leftController, Transform rightController)
         {
             float rotateSpeed = leftController.transform.localRotation.x * rightController.localRotation.x * m_rotateSpeed;
             if (leftController.transform.localRotation.x > rightController.localRotation.x)
@@ -27,6 +27,17 @@ namespace Managers
             }
         }
 
-
+        public float SetVerticalRotateSpeed(Transform leftController, Transform rightController)
+        {
+            float rotateSpeed = leftController.transform.localRotation.x * rightController.localRotation.x * m_rotateSpeed;
+            if (leftController.transform.localRotation.x > 0)
+            {
+                return -rotateSpeed;
+            }
+            else
+            {
+                return rotateSpeed;
+            }
+        }
     }
 }

@@ -24,7 +24,7 @@ namespace Managers
         
         public void JudgeTarretCommandState()
         {
-            if (Mathf.Abs(leftHandle.HandleRotatePer) > m_commandPlay && Mathf.Abs(rightHandle.HandleRotatePer) < -m_commandPlay)
+            if (Mathf.Abs(leftHandle.HandleRotatePer) > m_commandPlay && Mathf.Abs(rightHandle.HandleRotatePer) > m_commandPlay)
             {
                 if (leftHandle.HandleRotatePer > m_commandPlay && rightHandle.HandleRotatePer < -m_commandPlay ||
                     leftHandle.HandleRotatePer < m_commandPlay && rightHandle.HandleRotatePer > -m_commandPlay)

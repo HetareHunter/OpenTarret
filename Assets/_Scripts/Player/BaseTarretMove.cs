@@ -10,9 +10,13 @@ namespace Players
     /// </summary>
     public class BaseTarretMove : MonoBehaviour
     {
-        [SerializeField] GameObject RootPosi;
+        [SerializeField] GameObject rootPos;
+        [SerializeField] GameObject muzzleFlameJointPos;
         [SerializeField] GameObject m_leftHandlePos;
         [SerializeField] GameObject m_rightHandlePos;
+
+        [SerializeField] float maxMuzzleFlameJointRotate = 120.0f;
+        [SerializeField] float minMuzzleFlameJointRotate = 50.0f;
 
         BaseTarretFunction baseTarretControl;
         BaseTarretBrain baseTarretBrain;
@@ -38,26 +42,32 @@ namespace Players
             {
 
             }
-            
+
         }
 
         void HorizontalRotate()
         {
-            //if (m_leftHandlePos.transform.localRotation.x < m_rightHandlePos.transform.localRotation.x) //左回りの回転をする
-            //{
-            //    RootPosi.transform.Rotate(new Vector3(0, 90, 0) * Time.deltaTime * -baseTarretControl
-            //        .SetRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform));
-            //}
-            //else if (m_leftHandlePos.transform.localRotation.x > m_rightHandlePos.transform.localRotation.x) //右回りの回転をする
-            //{
-            //    RootPosi.transform.Rotate(new Vector3(0, 90, 0) * Time.deltaTime * baseTarretControl
-            //        .SetRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform));
-            //}
-            RootPosi.transform.Rotate(new Vector3(0, 90, 0) * Time.deltaTime * baseTarretControl
-                    .SetRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform));
+            rootPos.transform.Rotate(new Vector3(0, 90, 0) * Time.deltaTime * baseTarretControl
+                    .SetHorizontalRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform));
         }
 
         void VerticalRotate()
+        {
+            if (muzzleFlameJointPos.transform.localEulerAngles.x > maxMuzzleFlameJointRotate ||
+                    muzzleFlameJointPos.transform.localEulerAngles.x < minMuzzleFlameJointRotate)
+            {
+                muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * Time.deltaTime * baseTarretControl
+                .SetVerticalRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform) * -1.0f);
+            }
+            else
+            {
+                muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * Time.deltaTime * baseTarretControl
+                    .SetVerticalRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform));
+            }
+            
+        }
+
+        void LimitVerticalRotate()
         {
 
         }
