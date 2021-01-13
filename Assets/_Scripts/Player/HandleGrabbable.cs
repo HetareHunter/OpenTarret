@@ -59,7 +59,6 @@ namespace Players
             if (isGrabbed && OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, currentController))
             {
                 // implement
-                RotateHandle();
             }
 
             if (isGrabbed && OVRInput.Get(OVRInput.Button.PrimaryHandTrigger, currentController))
@@ -68,15 +67,27 @@ namespace Players
                 {
                     RotateHandle();
                 }
+                else
+                {
+                    returnPosition.Released();
+                    ResetRotateHandle();
+                    m_preHandleToPlayerDis = 0;
+                }
 
             }
-
-            if (OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger, currentController))
+            else
             {
                 returnPosition.Released();
                 ResetRotateHandle();
                 m_preHandleToPlayerDis = 0;
             }
+
+            //if (OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger, currentController))
+            //{
+            //    returnPosition.Released();
+            //    ResetRotateHandle();
+            //    m_preHandleToPlayerDis = 0;
+            //}
             //Debug.Log("currentcontroller:" + currentController);
             Debug.Log("HandleRotatePer:" + HandleRotatePer);
             Debug.Log("m_handle.transform.localEulerAngles.x:" + m_handle.transform.localEulerAngles.x);
