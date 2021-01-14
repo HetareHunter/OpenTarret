@@ -24,7 +24,7 @@ namespace Players
         /// <summary>
         /// これ以上離れると自動的に手を放す
         /// </summary>
-        [SerializeField] float playersArmLength = 0.6f;
+        [SerializeField] float playersArmLength = 0.7f;
 
         /// <summary>
         /// ハンドルがどれほど回転した状態になっているかの割合
@@ -56,6 +56,13 @@ namespace Players
         }
         void FixedUpdate()
         {
+            if (!isGrabbed)
+            {
+                returnPosition.Released();
+                ResetRotateHandle();
+                m_preHandleToPlayerDis = 0;
+            }
+
             if (isGrabbed && OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, currentController))
             {
                 // implement
@@ -63,7 +70,7 @@ namespace Players
 
             if (isGrabbed && OVRInput.Get(OVRInput.Button.PrimaryHandTrigger, currentController))
             {
-                if (IsHoldOn())
+                if (IsGrabbable())
                 {
                     RotateHandle();
                 }
@@ -75,12 +82,8 @@ namespace Players
                 }
 
             }
-            else
-            {
-                returnPosition.Released();
-                ResetRotateHandle();
-                m_preHandleToPlayerDis = 0;
-            }
+
+            
 
             //if (OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger, currentController))
             //{
@@ -119,7 +122,7 @@ namespace Players
         /// 毎フレーム判定し、コライダーがタレットのハンドルから一定の距離以上離れたら手を放す
         /// </summary>
         /// <returns></returns>
-        bool IsHoldOn()
+        bool IsGrabbable()
         {
             return Vector3.Distance(transform.position, player.transform.position) < playersArmLength;
         }
@@ -127,7 +130,8 @@ namespace Players
         void ResetRotateHandle()
         {
             rotateAngle = 0;
-            m_handle.rotation = Quaternion.AngleAxis(rotateAngle, Vector3.right);
+            //m_handle.rotation = Quaternion.AngleAxis(rotateAngle, Vector3.right);
+            m_handle.rotation = new Quaternion(0, 0, 0, 0);
         }
     }
 }

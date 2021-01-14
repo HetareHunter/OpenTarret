@@ -11,12 +11,13 @@ namespace Managers
     /// </summary>
     public class BaseTarretFunction : MonoBehaviour
     {
-        [SerializeField] float m_rotateSpeed = 100.0f;
+        [SerializeField] float m_horizontalRotateSpeed = 100.0f;
+        [SerializeField] float m_verticalRotateSpeed = 50.0f;
 
 
         public float SetHorizontalRotateSpeed(Transform leftController, Transform rightController)
         {
-            float rotateSpeed = leftController.transform.localRotation.x * rightController.localRotation.x * m_rotateSpeed;
+            float rotateSpeed = leftController.transform.localRotation.x * rightController.localRotation.x * m_horizontalRotateSpeed;
             if (leftController.transform.localRotation.x > rightController.localRotation.x)
             {
                 return rotateSpeed;
@@ -29,14 +30,14 @@ namespace Managers
 
         public float SetVerticalRotateSpeed(Transform leftController, Transform rightController)
         {
-            float rotateSpeed = leftController.transform.localRotation.x * rightController.localRotation.x * m_rotateSpeed;
+            float rotateSpeed = leftController.transform.localRotation.x * rightController.localRotation.x * m_verticalRotateSpeed;
             if (leftController.transform.localRotation.x > 0)
             {
-                return -rotateSpeed;
+                return rotateSpeed;
             }
             else
             {
-                return rotateSpeed;
+                return -rotateSpeed;
             }
         }
     }

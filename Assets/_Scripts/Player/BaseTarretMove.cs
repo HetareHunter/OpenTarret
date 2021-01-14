@@ -53,18 +53,28 @@ namespace Players
 
         void VerticalRotate()
         {
-            if (muzzleFlameJointPos.transform.localEulerAngles.x > maxMuzzleFlameJointRotate ||
-                    muzzleFlameJointPos.transform.localEulerAngles.x < minMuzzleFlameJointRotate)
+            if (muzzleFlameJointPos.transform.localEulerAngles.x > maxMuzzleFlameJointRotate)
             {
-                muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * Time.deltaTime * baseTarretControl
-                .SetVerticalRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform) * -1.0f);
+                if (baseTarretBrain.leftHandle.HandleRotatePer > 0.0f) //回転の限界値を超えるときは逆回転の操作しか受け付けない
+                {
+                    muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * Time.deltaTime * baseTarretControl
+                .SetVerticalRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform));
+                }
+                
+            }
+            else if(muzzleFlameJointPos.transform.localEulerAngles.x < minMuzzleFlameJointRotate)
+            {
+                if(baseTarretBrain.leftHandle.HandleRotatePer < 0.0f)
+                {
+                    muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * Time.deltaTime * baseTarretControl
+                    .SetVerticalRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform));
+                }
             }
             else
             {
                 muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * Time.deltaTime * baseTarretControl
                     .SetVerticalRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform));
             }
-            
         }
 
         void LimitVerticalRotate()

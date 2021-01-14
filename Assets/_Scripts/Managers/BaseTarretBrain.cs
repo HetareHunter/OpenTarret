@@ -12,27 +12,33 @@ namespace Managers
         VerticalRotate,
 
     }
+
+    /// <summary>
+    /// タレットのステートを管理するクラス
+    /// </summary>
     public class BaseTarretBrain : MonoBehaviour
     {
-        [SerializeField] HandleGrabbable leftHandle;
-        [SerializeField] HandleGrabbable rightHandle;
+        public HandleGrabbable leftHandle;
+        public HandleGrabbable rightHandle;
 
         /// <summary>バイクのブレーキのあそびと同じ意味 </summary>
         public float m_commandPlay = 0.1f;
 
         public TarretCommand tarretCommanfState = TarretCommand.Idle;
-        
+
         public void JudgeTarretCommandState()
         {
+            if (!leftHandle.isGrabbed || !rightHandle.isGrabbed) ChangeTarretCommandIdle();
+
             if (Mathf.Abs(leftHandle.HandleRotatePer) > m_commandPlay && Mathf.Abs(rightHandle.HandleRotatePer) > m_commandPlay)
             {
                 if (leftHandle.HandleRotatePer > m_commandPlay && rightHandle.HandleRotatePer < -m_commandPlay ||
-                    leftHandle.HandleRotatePer < m_commandPlay && rightHandle.HandleRotatePer > -m_commandPlay)
+                    leftHandle.HandleRotatePer < -m_commandPlay && rightHandle.HandleRotatePer > m_commandPlay)
                 {
                     ChangeTarretCommandHorizontalRotate();
                 }
-                else if (leftHandle.HandleRotatePer > m_commandPlay && rightHandle.HandleRotatePer > -m_commandPlay ||
-                    leftHandle.HandleRotatePer < m_commandPlay && rightHandle.HandleRotatePer < -m_commandPlay)
+                else if (leftHandle.HandleRotatePer > m_commandPlay && rightHandle.HandleRotatePer > m_commandPlay ||
+                    leftHandle.HandleRotatePer < -m_commandPlay && rightHandle.HandleRotatePer < -m_commandPlay)
                 {
                     ChangeTarretCommandVerticalRotate();
                 }
