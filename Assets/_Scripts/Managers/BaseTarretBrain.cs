@@ -10,6 +10,7 @@ namespace Managers
         Idle,
         HorizontalRotate,
         VerticalRotate,
+        Attack,
 
     }
 
@@ -21,7 +22,7 @@ namespace Managers
         public HandleGrabbable leftHandle;
         public HandleGrabbable rightHandle;
 
-        BaseTarretFunction tarretFunction;
+        BaseTarretRotateFunction tarretFunction;
 
         /// <summary>バイクのブレーキのあそびと同じ意味 </summary>
         public float m_commandPlay = 0.1f;
@@ -30,7 +31,7 @@ namespace Managers
 
         private void Start()
         {
-            tarretFunction = GetComponent<BaseTarretFunction>();
+            tarretFunction = GetComponent<BaseTarretRotateFunction>();
         }
 
         public void JudgeTarretCommandState()
@@ -71,6 +72,11 @@ namespace Managers
         void ChangeTarretCommandVerticalRotate()
         {
             tarretCommanfState = TarretCommand.VerticalRotate;
+        }
+
+        void ChangeTarretCommandAttack()
+        {
+            tarretCommanfState = TarretCommand.Attack;
         }
     }
 }

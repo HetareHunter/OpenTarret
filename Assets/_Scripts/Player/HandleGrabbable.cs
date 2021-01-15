@@ -61,12 +61,18 @@ namespace Players
                 returnPosition.Released();
                 ResetRotateHandle();
                 m_preHandleToPlayerDis = 0;
+                m_allowOffhandGrab = true;
             }
 
             if (isGrabbed && OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, currentController))
             {
                 // implement
+                if (currentController == OVRInput.Controller.RTouch)
+                {
+
+                }
             }
+
 
             if (isGrabbed && OVRInput.Get(OVRInput.Button.PrimaryHandTrigger, currentController))
             {
@@ -79,21 +85,11 @@ namespace Players
                     returnPosition.Released();
                     ResetRotateHandle();
                     m_preHandleToPlayerDis = 0;
+                    m_allowOffhandGrab = false;
                 }
 
             }
 
-            
-
-            //if (OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger, currentController))
-            //{
-            //    returnPosition.Released();
-            //    ResetRotateHandle();
-            //    m_preHandleToPlayerDis = 0;
-            //}
-            //Debug.Log("currentcontroller:" + currentController);
-            //Debug.Log("HandleRotatePer:" + HandleRotatePer);
-            //Debug.Log("m_handle.transform.localEulerAngles.x:" + m_handle.transform.localEulerAngles.x);
         }
 
         void RotateHandle()

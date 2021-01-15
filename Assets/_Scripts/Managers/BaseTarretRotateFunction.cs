@@ -9,7 +9,7 @@ namespace Managers
     /// <summary>
     /// タレットの機能ロジックを格納しているクラス
     /// </summary>
-    public class BaseTarretFunction : MonoBehaviour
+    public class BaseTarretRotateFunction : MonoBehaviour
     {
         [SerializeField] float m_horizontalRotateSpeed = 100.0f;
         [SerializeField] float m_verticalRotateSpeed = 50.0f;

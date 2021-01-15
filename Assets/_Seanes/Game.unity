@@ -598,7 +598,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 327468028}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 10
   m_Type: 3
   m_Shape: 0
@@ -1225,6 +1225,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1384475945}
+  - {fileID: 1535819765}
   m_Father: {fileID: 1753810625852245944}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1574,7 +1575,7 @@ Transform:
   m_GameObject: {fileID: 1316524899}
   m_LocalRotation: {x: -0.000000029802322, y: -0, z: -0, w: -1}
   m_LocalPosition: {x: 0.004019309, y: 1.0369582, z: -0.017622449}
-  m_LocalScale: {x: 0.058562394, y: 0.21502447, z: 0.06389277}
+  m_LocalScale: {x: 0.02047224, y: 0.21502447, z: 0.05725048}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -1592,8 +1593,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_allowOffhandGrab: 1
-  m_snapPosition: 0
-  m_snapOrientation: 0
+  m_snapPosition: 1
+  m_snapOrientation: 1
   m_snapOffset: {fileID: 0}
   m_grabPoints: []
   m_rotateTarget: {fileID: 1316524900}
@@ -1970,7 +1971,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.3715735, g: 0.38641194, b: 0.4716981, a: 1}
+  m_Color: {r: 0.86627805, g: 0.8826767, b: 0.9716981, a: 1}
   m_Intensity: 1.75
   m_Range: 35.73
   m_SpotAngle: 96.070206
@@ -2362,6 +2363,36 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 11477634, guid: ba1fa4a8c66106b4988c88fe4b8e8502, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ba1fa4a8c66106b4988c88fe4b8e8502, type: 3}
+--- !u!1 &1535819764
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1535819765}
+  m_Layer: 0
+  m_Name: AimPosi
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1535819765
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535819764}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.259}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 971206263}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1660531665 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400004, guid: 126d619cf4daa52469682f85c1378b4a,
@@ -2730,7 +2761,7 @@ MonoBehaviour:
   muzzleFlameJointPos: {fileID: 70038617}
   m_leftHandlePos: {fileID: 1841437301840685145}
   m_rightHandlePos: {fileID: 1079742494}
-  maxMuzzleFlameJointRotate: 0.5
+  maxMuzzleFlameJointRotate: 0.55
   minMuzzleFlameJointRotate: 0.35
 --- !u!114 &919132149343322595
 MonoBehaviour:
@@ -3510,7 +3541,7 @@ Transform:
   m_GameObject: {fileID: 7062794110715566446}
   m_LocalRotation: {x: -0.000000029802322, y: -0, z: -0, w: -1}
   m_LocalPosition: {x: -0.09708069, y: 1.0369582, z: -0.017622449}
-  m_LocalScale: {x: 0.058562394, y: 0.21502447, z: 0.06389277}
+  m_LocalScale: {x: 0.020472242, y: 0.21502447, z: 0.057250477}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -3528,8 +3559,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_allowOffhandGrab: 1
-  m_snapPosition: 0
-  m_snapOrientation: 0
+  m_snapPosition: 1
+  m_snapOrientation: 1
   m_snapOffset: {fileID: 0}
   m_grabPoints: []
   m_rotateTarget: {fileID: 7062794110715566447}

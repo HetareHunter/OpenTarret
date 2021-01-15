@@ -18,12 +18,12 @@ namespace Players
         [SerializeField] float maxMuzzleFlameJointRotate = 0.5f;
         [SerializeField] float minMuzzleFlameJointRotate = 0.3f;
 
-        BaseTarretFunction baseTarretControl;
+        BaseTarretRotateFunction baseTarretControl;
         BaseTarretBrain baseTarretBrain;
 
         private void Start()
         {
-            baseTarretControl = GetComponent<BaseTarretFunction>();
+            baseTarretControl = GetComponent<BaseTarretRotateFunction>();
             baseTarretBrain = GetComponent<BaseTarretBrain>();
         }
 
@@ -78,11 +78,6 @@ namespace Players
                 muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * Time.deltaTime * baseTarretControl
                     .SetVerticalRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform));
             }
-        }
-
-        void LimitVerticalRotate()
-        {
-
         }
     }
 }
