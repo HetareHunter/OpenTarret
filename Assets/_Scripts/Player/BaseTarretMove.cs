@@ -15,8 +15,8 @@ namespace Players
         [SerializeField] GameObject m_leftHandlePos;
         [SerializeField] GameObject m_rightHandlePos;
 
-        [SerializeField] float maxMuzzleFlameJointRotate = 120.0f;
-        [SerializeField] float minMuzzleFlameJointRotate = 50.0f;
+        [SerializeField] float maxMuzzleFlameJointRotate = 0.5f;
+        [SerializeField] float minMuzzleFlameJointRotate = 0.3f;
 
         BaseTarretFunction baseTarretControl;
         BaseTarretBrain baseTarretBrain;
@@ -53,18 +53,21 @@ namespace Players
 
         void VerticalRotate()
         {
-            if (muzzleFlameJointPos.transform.localEulerAngles.x > maxMuzzleFlameJointRotate)
+            Debug.Log("muzzleFlameJointPos localRotation.x " + muzzleFlameJointPos.transform.localRotation.x);
+            if (muzzleFlameJointPos.transform.localRotation.x > maxMuzzleFlameJointRotate)
             {
-                if (baseTarretBrain.leftHandle.HandleRotatePer > 0.0f) //回転の限界値を超えるときは逆回転の操作しか受け付けない
+                //Debug.Log("leftHandle.HandleRotatePer:" + baseTarretBrain.leftHandle.HandleRotatePer);
+                //Debug.Log("rightHandle.HandleRotatePer:" + baseTarretBrain.rightHandle.HandleRotatePer);
+                if (baseTarretBrain.leftHandle.HandleRotatePer < 0.0f) //回転の限界値を超えるときは逆回転の操作しか受け付けない
                 {
                     muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * Time.deltaTime * baseTarretControl
                 .SetVerticalRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform));
                 }
-                
+
             }
-            else if(muzzleFlameJointPos.transform.localEulerAngles.x < minMuzzleFlameJointRotate)
+            else if(muzzleFlameJointPos.transform.localRotation.x < minMuzzleFlameJointRotate)
             {
-                if(baseTarretBrain.leftHandle.HandleRotatePer < 0.0f)
+                if (baseTarretBrain.leftHandle.HandleRotatePer > 0.0f)
                 {
                     muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * Time.deltaTime * baseTarretControl
                     .SetVerticalRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform));

@@ -21,10 +21,17 @@ namespace Managers
         public HandleGrabbable leftHandle;
         public HandleGrabbable rightHandle;
 
+        BaseTarretFunction tarretFunction;
+
         /// <summary>バイクのブレーキのあそびと同じ意味 </summary>
         public float m_commandPlay = 0.1f;
 
         public TarretCommand tarretCommanfState = TarretCommand.Idle;
+
+        private void Start()
+        {
+            tarretFunction = GetComponent<BaseTarretFunction>();
+        }
 
         public void JudgeTarretCommandState()
         {
@@ -53,6 +60,7 @@ namespace Managers
         void ChangeTarretCommandIdle()
         {
             tarretCommanfState = TarretCommand.Idle;
+            tarretFunction.SetVerticalRotateSpeed(leftHandle.transform, rightHandle.transform);
         }
 
         void ChangeTarretCommandHorizontalRotate()

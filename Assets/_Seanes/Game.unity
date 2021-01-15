@@ -1601,7 +1601,7 @@ MonoBehaviour:
   handleRotateLimit: 20
   handleSensitivity: 3
   player: {fileID: 922982714}
-  playersArmLength: 0.6
+  playersArmLength: 0.7
 --- !u!114 &1316524902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2712,7 +2712,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 655678642612b3241a7d2c610f123ae5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_rotateSpeed: 30
+  m_horizontalRotateSpeed: 100
+  m_verticalRotateSpeed: 20
 --- !u!114 &919132149343322594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2729,8 +2730,8 @@ MonoBehaviour:
   muzzleFlameJointPos: {fileID: 70038617}
   m_leftHandlePos: {fileID: 1841437301840685145}
   m_rightHandlePos: {fileID: 1079742494}
-  maxMuzzleFlameJointRotate: 120
-  minMuzzleFlameJointRotate: 50
+  maxMuzzleFlameJointRotate: 0.5
+  minMuzzleFlameJointRotate: 0.35
 --- !u!114 &919132149343322595
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3533,10 +3534,10 @@ MonoBehaviour:
   m_grabPoints: []
   m_rotateTarget: {fileID: 7062794110715566447}
   m_handle: {fileID: 3845748130167228451}
-  handleRotateLimit: 22
+  handleRotateLimit: 20
   handleSensitivity: 3
   player: {fileID: 922982714}
-  playersArmLength: 0.6
+  playersArmLength: 0.7
 --- !u!1 &7221308159930745568
 GameObject:
   m_ObjectHideFlags: 0
