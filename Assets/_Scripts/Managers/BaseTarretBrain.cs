@@ -58,23 +58,23 @@ namespace Managers
 
         }
 
-        void ChangeTarretCommandIdle()
+        public void ChangeTarretCommandIdle()
         {
             tarretCommanfState = TarretCommand.Idle;
             tarretFunction.SetVerticalRotateSpeed(leftHandle.transform, rightHandle.transform);
         }
 
-        void ChangeTarretCommandHorizontalRotate()
+        public void ChangeTarretCommandHorizontalRotate()
         {
             tarretCommanfState = TarretCommand.HorizontalRotate;
         }
 
-        void ChangeTarretCommandVerticalRotate()
+        public void ChangeTarretCommandVerticalRotate()
         {
             tarretCommanfState = TarretCommand.VerticalRotate;
         }
 
-        void ChangeTarretCommandAttack()
+        public void ChangeTarretCommandAttack()
         {
             tarretCommanfState = TarretCommand.Attack;
         }

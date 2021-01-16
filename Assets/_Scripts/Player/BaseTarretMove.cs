@@ -20,16 +20,18 @@ namespace Players
 
         BaseTarretRotateFunction baseTarretControl;
         BaseTarretBrain baseTarretBrain;
+        TarretAttack tarretAttack;
 
         private void Start()
         {
             baseTarretControl = GetComponent<BaseTarretRotateFunction>();
             baseTarretBrain = GetComponent<BaseTarretBrain>();
+            tarretAttack = GetComponent<TarretAttack>();
         }
 
         void FixedUpdate()
         {
-            baseTarretBrain.JudgeTarretCommandState();
+            
             if (baseTarretBrain.tarretCommanfState == TarretCommand.HorizontalRotate)
             {
                 HorizontalRotate();
@@ -38,11 +40,15 @@ namespace Players
             {
                 VerticalRotate();
             }
+            else if (baseTarretBrain.tarretCommanfState == TarretCommand.Attack)
+            {
+                tarretAttack.BeginAttack();
+            }
             else //baseTarretControl.tarretCommanfStateがIdleのステートの場合
             {
 
             }
-
+            baseTarretBrain.JudgeTarretCommandState();
         }
 
         void HorizontalRotate()

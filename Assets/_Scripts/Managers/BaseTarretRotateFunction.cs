@@ -12,7 +12,7 @@ namespace Managers
     public class BaseTarretRotateFunction : MonoBehaviour
     {
         [SerializeField] float m_horizontalRotateSpeed = 100.0f;
-        [SerializeField] float m_verticalRotateSpeed = 50.0f;
+        [SerializeField] float m_verticalRotateSpeed = 20.0f;
 
 
         public float SetHorizontalRotateSpeed(Transform leftController, Transform rightController)

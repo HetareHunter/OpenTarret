@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Managers;
 
 namespace Players
 {
@@ -12,7 +13,6 @@ namespace Players
         OVRInput.Controller currentController;
 
         ReturnPosition returnPosition = new ReturnPosition();
-        [SerializeField] Transform m_rotateTarget;
         [SerializeField] Transform m_handle;
         public float handleRotateLimit = 20.0f;
         float m_preHandleToPlayerDis;
@@ -25,6 +25,8 @@ namespace Players
         /// これ以上離れると自動的に手を放す
         /// </summary>
         [SerializeField] float playersArmLength = 0.7f;
+
+        [SerializeField] BaseTarretBrain baseTarretBrain;
 
         /// <summary>
         /// ハンドルがどれほど回転した状態になっているかの割合
@@ -69,7 +71,7 @@ namespace Players
                 // implement
                 if (currentController == OVRInput.Controller.RTouch)
                 {
-
+                    baseTarretBrain.ChangeTarretCommandAttack();
                 }
             }
 
