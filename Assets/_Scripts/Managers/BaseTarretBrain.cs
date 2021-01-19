@@ -27,7 +27,7 @@ namespace Managers
         /// <summary>バイクのブレーキのあそびと同じ意味 </summary>
         public float m_commandPlay = 0.1f;
 
-        public TarretCommand tarretCommanfState = TarretCommand.Idle;
+        public TarretCommand tarretCommandState = TarretCommand.Idle;
 
         private void Start()
         {
@@ -60,23 +60,23 @@ namespace Managers
 
         public void ChangeTarretCommandIdle()
         {
-            tarretCommanfState = TarretCommand.Idle;
+            tarretCommandState = TarretCommand.Idle;
             tarretFunction.SetVerticalRotateSpeed(leftHandle.transform, rightHandle.transform);
         }
 
         public void ChangeTarretCommandHorizontalRotate()
         {
-            tarretCommanfState = TarretCommand.HorizontalRotate;
+            tarretCommandState = TarretCommand.HorizontalRotate;
         }
 
         public void ChangeTarretCommandVerticalRotate()
         {
-            tarretCommanfState = TarretCommand.VerticalRotate;
+            tarretCommandState = TarretCommand.VerticalRotate;
         }
 
         public void ChangeTarretCommandAttack()
         {
-            tarretCommanfState = TarretCommand.Attack;
+            tarretCommandState = TarretCommand.Attack;
         }
     }
 }

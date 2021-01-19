@@ -32,15 +32,15 @@ namespace Players
         void FixedUpdate()
         {
             
-            if (baseTarretBrain.tarretCommanfState == TarretCommand.HorizontalRotate)
+            if (baseTarretBrain.tarretCommandState == TarretCommand.HorizontalRotate)
             {
                 HorizontalRotate();
             }
-            else if (baseTarretBrain.tarretCommanfState == TarretCommand.VerticalRotate)
+            else if (baseTarretBrain.tarretCommandState == TarretCommand.VerticalRotate)
             {
                 VerticalRotate();
             }
-            else if (baseTarretBrain.tarretCommanfState == TarretCommand.Attack)
+            else if (baseTarretBrain.tarretCommandState == TarretCommand.Attack)
             {
                 tarretAttack.BeginAttack();
             }

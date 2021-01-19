@@ -23,16 +23,14 @@ public class TarretAttack : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        //Rayの作成　　　　　　　↓Rayを飛ばす原点　　　↓Rayを飛ばす方向
-        m_ray = new Ray(rayOfOrigin.transform.position, rayDirection * rayDistance);
+        m_ray = new Ray(rayOfOrigin.transform.position, rayOfOrigin.transform.forward * rayDistance + rayOfOrigin.transform.position );
         //Rayの可視化    ↓Rayの原点　　　　↓Rayの方向　　　　　　　　　↓Rayの色
-        Debug.DrawLine(m_ray.origin, m_ray.origin + m_ray.direction * rayDistance, Color.red);
-
+        Debug.DrawLine(m_ray.origin, m_ray.direction * rayDistance, Color.red);
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
             LaunchFireEffect();
-            
+
         }
     }
     void LaunchFireEffect()
@@ -40,7 +38,7 @@ public class TarretAttack : MonoBehaviour
         //onFire = true;
         Instantiate(muzzleExlodeEffect, muzzleExplodeEffectInsPosi.transform);
         //insImpact = Instantiate(impactObj, muzzleExplodeEffectInsPosi.transform);
-        
+
     }
 
     public void BeginAttack()
@@ -62,7 +60,7 @@ public class TarretAttack : MonoBehaviour
 
     void LaunchRay()
     {
-        
+
         if (Physics.Raycast(m_ray, out m_rayHit, rayDistance))
         {
             //Rayが当たったオブジェクトのtagがPlayerだったら
