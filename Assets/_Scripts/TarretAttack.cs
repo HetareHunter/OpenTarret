@@ -21,13 +21,13 @@ public class TarretAttack : MonoBehaviour
     [SerializeField] float razerExistTime = 0.5f;
     [SerializeField] float wasteHeatExistTime = 2.0f;
     [SerializeField] float shockWaveExistTime = 1.0f;
-    [SerializeField] Vector3 maxShockWaveSize;
-    [SerializeField] int shockWaveInsValue = 1;
-    [SerializeField] float shockWaveInsInterval = 0.1f;
+    //[SerializeField] Vector3 maxShockWaveSize;
+    //[SerializeField] int shockWaveInsValue = 1;
+    //[SerializeField] float shockWaveInsInterval = 0.1f;
 
     GameObject m_razer;
     GameObject m_wasteHeat;
-    GameObject[] m_shockWaves;
+    GameObject m_shockWave;
 
     [SerializeField] Gradient razerAfterColor;
     Ray m_ray;
@@ -123,31 +123,34 @@ public class TarretAttack : MonoBehaviour
 
     void ShockWaveManager()
     {
-        m_shockWaves = new GameObject[shockWaveInsValue];
-
-        m_shockWaves[0] = Instantiate(m_shockWaveEffect, m_shockWaveEffectInsPosi.transform.position,
+        m_shockWave = Instantiate(m_shockWaveEffect, m_shockWaveEffectInsPosi.transform.position,
             m_shockWaveEffectInsPosi.transform.rotation);
-        m_shockWaves[0].transform.DOScale(maxShockWaveSize, shockWaveExistTime).SetEase(Ease.Linear);
-        Destroy(m_shockWaves[0], shockWaveExistTime);
 
-        if (shockWaveInsValue >= 2)
-        {
-            int i = 1;
-            DOVirtual.DelayedCall(shockWaveInsInterval, () =>
-            {
-                m_shockWaves[i] = Instantiate(m_shockWaveEffect, m_shockWaveEffectInsPosi.transform.position,
-            m_shockWaveEffectInsPosi.transform.rotation);
-                m_shockWaves[i].transform.DOScale(maxShockWaveSize, shockWaveExistTime).SetEase(Ease.Linear);
-                Destroy(m_shockWaves[i], shockWaveExistTime);
-                i++;
-            }).SetLoops(shockWaveInsValue - 1);
-        }
+        Material shockWaveMT = m_shockWave.gameObject.GetComponent<Material>();
 
 
+        Destroy(m_shockWave, shockWaveExistTime);
 
 
+        //m_shockWaves = new GameObject[shockWaveInsValue];
 
+        //m_shockWaves[0] = Instantiate(m_shockWaveEffect, m_shockWaveEffectInsPosi.transform.position,
+        //    m_shockWaveEffectInsPosi.transform.rotation);
+        //m_shockWaves[0].transform.DOScale(maxShockWaveSize, shockWaveExistTime).SetEase(Ease.Linear);
+        //Destroy(m_shockWaves[0], shockWaveExistTime);
 
+        //if (shockWaveInsValue >= 2)
+        //{
+        //    int i = 1;
+        //    DOVirtual.DelayedCall(shockWaveInsInterval, () =>
+        //    {
+        //        m_shockWaves[i] = Instantiate(m_shockWaveEffect, m_shockWaveEffectInsPosi.transform.position,
+        //    m_shockWaveEffectInsPosi.transform.rotation);
+        //        m_shockWaves[i].transform.DOScale(maxShockWaveSize, shockWaveExistTime).SetEase(Ease.Linear);
+        //        Destroy(m_shockWaves[i], shockWaveExistTime);
+        //        i++;
+        //    }).SetLoops(shockWaveInsValue - 1);
+        //}
     }
 
 
