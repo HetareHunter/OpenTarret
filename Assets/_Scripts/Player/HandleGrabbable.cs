@@ -71,7 +71,7 @@ namespace Players
                 // implement
                 if (currentController == OVRInput.Controller.RTouch)
                 {
-                    baseTarretBrain.ChangeTarretCommandAttack();
+                    baseTarretBrain.ChangeTarretState(TarretCommand.Attack);
                 }
             }
 

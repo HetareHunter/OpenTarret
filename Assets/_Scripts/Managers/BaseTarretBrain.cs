@@ -23,6 +23,7 @@ namespace Managers
         public HandleGrabbable rightHandle;
 
         BaseTarretRotateFunction tarretFunction;
+        TarretAttack tarretAttack;
 
         /// <summary>バイクのブレーキのあそびと同じ意味 </summary>
         public float m_commandPlay = 0.1f;
@@ -32,51 +33,61 @@ namespace Managers
         private void Start()
         {
             tarretFunction = GetComponent<BaseTarretRotateFunction>();
+            tarretAttack = GetComponent<TarretAttack>();
         }
 
         public void JudgeTarretCommandState()
         {
-            if (!leftHandle.isGrabbed || !rightHandle.isGrabbed) ChangeTarretCommandIdle();
+            if (!leftHandle.isGrabbed || !rightHandle.isGrabbed) ChangeTarretState(TarretCommand.Idle);
 
             if (Mathf.Abs(leftHandle.HandleRotatePer) > m_commandPlay && Mathf.Abs(rightHandle.HandleRotatePer) > m_commandPlay)
             {
                 if (leftHandle.HandleRotatePer > m_commandPlay && rightHandle.HandleRotatePer < -m_commandPlay ||
                     leftHandle.HandleRotatePer < -m_commandPlay && rightHandle.HandleRotatePer > m_commandPlay)
                 {
-                    ChangeTarretCommandHorizontalRotate();
+                    ChangeTarretState(TarretCommand.HorizontalRotate);
                 }
                 else if (leftHandle.HandleRotatePer > m_commandPlay && rightHandle.HandleRotatePer > m_commandPlay ||
                     leftHandle.HandleRotatePer < -m_commandPlay && rightHandle.HandleRotatePer < -m_commandPlay)
                 {
-                    ChangeTarretCommandVerticalRotate();
+                    ChangeTarretState(TarretCommand.VerticalRotate);
                 }
             }
             else
             {
-                ChangeTarretCommandIdle();
+                ChangeTarretState(TarretCommand.Idle);
             }
 
         }
 
-        public void ChangeTarretCommandIdle()
+        /// <summary>
+        /// Tarretのステート変化を行う関数をここにまとめている
+        /// </summary>
+        /// <param name="next"></param>
+        public void ChangeTarretState(TarretCommand next)
         {
-            tarretCommandState = TarretCommand.Idle;
-            tarretFunction.SetVerticalRotateSpeed(leftHandle.transform, rightHandle.transform);
-        }
+            //以前の状態を保持
+            var prev = tarretCommandState;
+            //次の状態に変更する
+            tarretCommandState = next;
+            // ログを出す
+            Debug.Log($"ChangeState {prev} -> {next}");
 
-        public void ChangeTarretCommandHorizontalRotate()
-        {
-            tarretCommandState = TarretCommand.HorizontalRotate;
-        }
-
-        public void ChangeTarretCommandVerticalRotate()
-        {
-            tarretCommandState = TarretCommand.VerticalRotate;
-        }
-
-        public void ChangeTarretCommandAttack()
-        {
-            tarretCommandState = TarretCommand.Attack;
+            switch (tarretCommandState)
+            {
+                case TarretCommand.Idle:
+                    tarretFunction.SetVerticalRotateSpeed(leftHandle.transform, rightHandle.transform);
+                    break;
+                case TarretCommand.HorizontalRotate:
+                    break;
+                case TarretCommand.VerticalRotate:
+                    break;
+                case TarretCommand.Attack:
+                    tarretAttack.BeginAttack();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

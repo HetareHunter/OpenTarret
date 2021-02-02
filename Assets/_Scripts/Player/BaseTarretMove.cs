@@ -42,7 +42,6 @@ namespace Players
             }
             else if (baseTarretBrain.tarretCommandState == TarretCommand.Attack)
             {
-                tarretAttack.BeginAttack();
             }
             else //baseTarretControl.tarretCommanfStateがIdleのステートの場合
             {

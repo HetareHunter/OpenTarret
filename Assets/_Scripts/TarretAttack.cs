@@ -6,6 +6,7 @@ using DG.Tweening;
 
 public class TarretAttack : MonoBehaviour
 {
+    [SerializeField] float fireInterval = 2.0f;
     //[SerializeField] Vector3 rayDirection;
     [SerializeField] float rayDistance = 1;
     [SerializeField] GameObject rayOfOrigin;
@@ -154,7 +155,9 @@ public class TarretAttack : MonoBehaviour
     }
 
 
-
+    /// <summary>
+    /// 攻撃したとき、TarretCommandステートがAttackになったときに一度だけ呼ばれるメソッド。
+    /// </summary>
     public void BeginAttack()
     {
         FireEffectManager();
@@ -165,12 +168,12 @@ public class TarretAttack : MonoBehaviour
 
     void StayAttack()
     {
-        EndAttack();
+        Invoke("EndAttack", fireInterval);
     }
 
     void EndAttack()
     {
-        baseTarretBrain.ChangeTarretCommandIdle();
+        baseTarretBrain.ChangeTarretState(TarretCommand.Idle);
     }
 
 
