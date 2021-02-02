@@ -6422,12 +6422,12 @@ MonoBehaviour:
   m_snapOrientation: 1
   m_snapOffset: {fileID: 0}
   m_grabPoints: []
-  m_handle: {fileID: 2474234912503998142}
   handleRotateLimit: 20
+  m_handle: {fileID: 2474234912503998142}
   handleSensitivity: 3
   player: {fileID: 922982714}
   playersArmLength: 0.7
-  baseTarretBrain: {fileID: 449676436726112949}
+  tarret: {fileID: 449676436726112946}
 --- !u!114 &1316524902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17359,6 +17359,7 @@ MonoBehaviour:
   razerExistTime: 0.2
   wasteHeatExistTime: 2
   shockWaveExistTime: 0.5
+  attackable: 1
   razerAfterColor:
     serializedVersion: 2
     key0: {r: 0.8937789, g: 0.9622999, b: 0.9716981, a: 0}
@@ -18204,12 +18205,12 @@ MonoBehaviour:
   m_snapOrientation: 1
   m_snapOffset: {fileID: 0}
   m_grabPoints: []
-  m_handle: {fileID: 4690713779369545315}
   handleRotateLimit: 20
+  m_handle: {fileID: 4690713779369545315}
   handleSensitivity: 3
   player: {fileID: 922982714}
   playersArmLength: 0.7
-  baseTarretBrain: {fileID: 449676436726112949}
+  tarret: {fileID: 449676436726112946}
 --- !u!137 &7119208971157555172
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0

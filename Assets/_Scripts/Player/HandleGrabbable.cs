@@ -12,11 +12,11 @@ namespace Players
     {
         OVRInput.Controller currentController;
 
-        ReturnPosition returnPosition = new ReturnPosition();
-        [SerializeField] Transform m_handle;
         public float handleRotateLimit = 20.0f;
         float m_preHandleToPlayerDis;
         float rotateAngle;
+
+        [SerializeField] Transform m_handle;
         /// <summary> ハンドルの感度 </summary>
         [SerializeField] float handleSensitivity = 2.0f;
 
@@ -26,35 +26,14 @@ namespace Players
         /// </summary>
         [SerializeField] float playersArmLength = 0.7f;
 
-        [SerializeField] BaseTarretBrain baseTarretBrain;
-
-        /// <summary>
-        /// ハンドルがどれほど回転した状態になっているかの割合
-        /// </summary>
-        public float HandleRotatePer
-        {
-            get
-            {
-                if (m_handle.transform.localEulerAngles.x >= 180)
-                {
-                    return (m_handle.transform.localEulerAngles.x - 360) / handleRotateLimit;
-                }
-                else
-                {
-                    return m_handle.transform.localEulerAngles.x / handleRotateLimit;
-                }
-            }
-        }
-
-        public void GrabBegin(OVRInput.Controller controller)
-        {
-            currentController = controller;
-        }
-
+        ReturnPosition returnPosition = new ReturnPosition();
+        [SerializeField] GameObject tarret;
+        BaseTarretBrain baseTarretBrain;
 
         protected override void Start()
         {
             returnPosition = GetComponent<ReturnPosition>();
+            baseTarretBrain = tarret.GetComponent<BaseTarretBrain>();
         }
         void FixedUpdate()
         {
@@ -92,6 +71,29 @@ namespace Players
 
             }
 
+        }
+
+        /// <summary>
+        /// ハンドルがどれほど回転した状態になっているかの割合
+        /// </summary>
+        public float HandleRotatePer
+        {
+            get
+            {
+                if (m_handle.transform.localEulerAngles.x >= 180)
+                {
+                    return (m_handle.transform.localEulerAngles.x - 360) / handleRotateLimit;
+                }
+                else
+                {
+                    return m_handle.transform.localEulerAngles.x / handleRotateLimit;
+                }
+            }
+        }
+
+        public void GrabBegin(OVRInput.Controller controller)
+        {
+            currentController = controller;
         }
 
         void RotateHandle()

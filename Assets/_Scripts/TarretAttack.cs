@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using Managers;
-using DG.Tweening;
+using UniRx;
 
 public class TarretAttack : MonoBehaviour
 {
@@ -25,6 +26,8 @@ public class TarretAttack : MonoBehaviour
     //[SerializeField] Vector3 maxShockWaveSize;
     //[SerializeField] int shockWaveInsValue = 1;
     //[SerializeField] float shockWaveInsInterval = 0.1f;
+
+    public bool attackable = true;
 
     GameObject m_razer;
     GameObject m_wasteHeat;
@@ -75,18 +78,21 @@ public class TarretAttack : MonoBehaviour
 
     void FadeFire(LineRenderer razerRenderer)
     {
-        float alphaValue = 255f;
-        DOTween.To(
-            () => alphaValue,
-            (x) =>
-            {
-                alphaValue = x;
-                razerAfterColor.SetKeys
-                (razerAfterColor.colorKeys, new GradientAlphaKey[] { new GradientAlphaKey(alphaValue, 0.0f), new GradientAlphaKey(alphaValue, 1.0f) });
-            },
-            0,
-            razerExistTime)
-            .OnComplete(() => EndCall());
+        Debug.Log("終わり!");
+
+        Destroy(m_razer,razerExistTime);
+        //float alphaValue = 255f;
+        //DOTween.To(
+        //    () => alphaValue,
+        //    (x) =>
+        //    {
+        //        alphaValue = x;
+        //        razerAfterColor.SetKeys
+        //        (razerAfterColor.colorKeys, new GradientAlphaKey[] { new GradientAlphaKey(alphaValue, 0.0f), new GradientAlphaKey(alphaValue, 1.0f) });
+        //    },
+        //    0,
+        //    razerExistTime)
+        //    .OnComplete(() => EndCall());
 
         //razerRenderer.colorGradient.DOGradientColor(razerAfterColor, razerExistTime)
         //    .OnComplete(() => EndCall());
@@ -104,13 +110,6 @@ public class TarretAttack : MonoBehaviour
     }
 
     //ここまでレーザーのライン部分のスクリプト
-
-    void EndCall()
-    {
-        Debug.Log("終わり!");
-
-        Destroy(m_razer);
-    }
 
     /// <summary>
     /// 廃熱エフェクトの実体化から消滅までの管理をするメソッド
@@ -164,16 +163,22 @@ public class TarretAttack : MonoBehaviour
         WasteHeatEffectManager();
         ShockWaveManager();
         StayAttack();
+
+        attackable = false;
     }
 
     void StayAttack()
     {
-        Invoke("EndAttack", fireInterval);
+        Observable.Timer(TimeSpan.FromSeconds(fireInterval)).Subscribe(_ =>
+        {
+            EndAttack();
+        }).AddTo(this);
     }
 
     void EndAttack()
     {
-        baseTarretBrain.ChangeTarretState(TarretCommand.Idle);
+        //baseTarretBrain.ChangeTarretState(TarretCommand.Idle);
+        attackable = true;
     }
 
 
@@ -181,12 +186,16 @@ public class TarretAttack : MonoBehaviour
 
     private void Update()
     {
+        
         if (Input.GetKeyDown("space"))
         {
-            FireEffectManager();
-            WasteHeatEffectManager();
-            ShockWaveManager();
+            if (baseTarretBrain.tarretCommandState != TarretCommand.Attack)
+            {
+                baseTarretBrain.ChangeTarretState(TarretCommand.Attack);
+                BeginAttack();
+            }
         }
+        
     }
 #endif
 }

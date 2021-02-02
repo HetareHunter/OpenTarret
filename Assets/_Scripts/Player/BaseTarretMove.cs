@@ -31,23 +31,46 @@ namespace Players
 
         void FixedUpdate()
         {
-            
-            if (baseTarretBrain.tarretCommandState == TarretCommand.HorizontalRotate)
-            {
-                HorizontalRotate();
-            }
-            else if (baseTarretBrain.tarretCommandState == TarretCommand.VerticalRotate)
-            {
-                VerticalRotate();
-            }
-            else if (baseTarretBrain.tarretCommandState == TarretCommand.Attack)
-            {
-            }
-            else //baseTarretControl.tarretCommanfStateがIdleのステートの場合
-            {
 
+            //if (baseTarretBrain.tarretCommandState == TarretCommand.HorizontalRotate)
+            //{
+            //    HorizontalRotate();
+            //}
+            //else if (baseTarretBrain.tarretCommandState == TarretCommand.VerticalRotate)
+            //{
+            //    VerticalRotate();
+            //}
+            //else if (baseTarretBrain.tarretCommandState == TarretCommand.Attack)
+            //{
+            //}
+            //else //baseTarretControl.tarretCommanfStateがIdleのステートの場合
+            //{
+
+            //}
+            //baseTarretBrain.JudgeTarretCommandState();
+            MoveManager();
+        }
+
+        void MoveManager()
+        {
+            switch (baseTarretBrain.tarretCommandState)
+            {
+                case TarretCommand.Idle:
+                    baseTarretBrain.JudgeTarretCommandState();
+                    break;
+                case TarretCommand.HorizontalRotate:
+                    HorizontalRotate();
+                    baseTarretBrain.JudgeTarretCommandState();
+                    break;
+                case TarretCommand.VerticalRotate:
+                    VerticalRotate();
+                    baseTarretBrain.JudgeTarretCommandState();
+                    break;
+                case TarretCommand.Attack:
+                    break;
+                default:
+                    break;
             }
-            baseTarretBrain.JudgeTarretCommandState();
         }
 
         void HorizontalRotate()

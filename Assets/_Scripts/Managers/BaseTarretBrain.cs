@@ -36,10 +36,11 @@ namespace Managers
             tarretAttack = GetComponent<TarretAttack>();
         }
 
+        /// <summary>
+        /// タレットのコントローラの傾きでTarretCommandのstateを変化させる
+        /// </summary>
         public void JudgeTarretCommandState()
         {
-            if (!leftHandle.isGrabbed || !rightHandle.isGrabbed) ChangeTarretState(TarretCommand.Idle);
-
             if (Mathf.Abs(leftHandle.HandleRotatePer) > m_commandPlay && Mathf.Abs(rightHandle.HandleRotatePer) > m_commandPlay)
             {
                 if (leftHandle.HandleRotatePer > m_commandPlay && rightHandle.HandleRotatePer < -m_commandPlay ||
@@ -55,7 +56,7 @@ namespace Managers
             }
             else
             {
-                ChangeTarretState(TarretCommand.Idle);
+                //ChangeTarretState(TarretCommand.Idle);
             }
 
         }
@@ -83,7 +84,8 @@ namespace Managers
                 case TarretCommand.VerticalRotate:
                     break;
                 case TarretCommand.Attack:
-                    tarretAttack.BeginAttack();
+                    if(tarretAttack.attackable) tarretAttack.BeginAttack();
+                    ChangeTarretState(TarretCommand.Idle);
                     break;
                 default:
                     break;
