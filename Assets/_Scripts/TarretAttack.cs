@@ -34,9 +34,14 @@ public class TarretAttack : MonoBehaviour
     GameObject m_wasteHeat;
     GameObject m_shockWave;
 
+    [SerializeField] Transform muzzle;
+    float muzzleRadius;
+    GameObject nearEnemy;
+
+
     [SerializeField] Gradient razerAfterColor;
     Ray m_ray;
-    RaycastHit m_rayHit;
+    RaycastHit[] m_rayHits;
     public bool Killable = false;
 
     BaseTarretBrain baseTarretBrain;
@@ -44,32 +49,29 @@ public class TarretAttack : MonoBehaviour
     private void Start()
     {
         baseTarretBrain = GetComponent<BaseTarretBrain>();
+        //　弾の半径を取得
+        muzzleRadius = muzzle.GetComponent<SphereCollider>().radius;
     }
 
     void FixedUpdate()
     {
         //KillEnemyFromRazer();
-        
+        Debug.DrawLine(muzzle.position, muzzle.position + muzzle.transform.forward * rayDistance);
     }
 
     void KillEnemyFromRazer()
     {
-        m_ray = new Ray(rayOfOrigin.transform.position, rayOfOrigin.transform.forward * rayDistance + rayOfOrigin.transform.position);
-        
-        if (Physics.Raycast(m_ray, out m_rayHit, rayDistance))
+        //　飛ばす位置と飛ばす方向を設定
+        Ray ray = new Ray(muzzle.transform.position, muzzle.transform.forward);
+        //　当たったコライダを入れておく変数
+        RaycastHit[] hits;
+        //　Sphereの形でレイを飛ばしEnemyレイヤーのものをhitsに入れる
+        hits = Physics.SphereCastAll(ray, muzzleRadius, rayDistance, LayerMask.GetMask("Enemy"));
+
+        foreach (var hit in hits)
         {
-            
-            //Rayが当たったオブジェクトのtagがEnemyだったら
-            if (m_rayHit.collider.tag == "Enemy")
-            {
-                Debug.Log("RayがEnemyに当たった");
-                m_rayHit.collider.gameObject.GetComponent<EnemyDeath>().OnDead();
-            }
+            Destroy(hit.collider.gameObject);
         }
-        else
-        {
-        }
-        Debug.DrawLine(transform.position, m_rayHit.collider.gameObject.transform.position);
     }
 
     //レーザーのライン部分のスクリプト
