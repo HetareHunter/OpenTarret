@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using Managers;
 using UniRx;
+using UniRx.Triggers;
 
 public class TarretAttack : MonoBehaviour
 {
@@ -36,6 +37,7 @@ public class TarretAttack : MonoBehaviour
     [SerializeField] Gradient razerAfterColor;
     Ray m_ray;
     RaycastHit m_rayHit;
+    public bool Killable = false;
 
     BaseTarretBrain baseTarretBrain;
 
@@ -46,28 +48,31 @@ public class TarretAttack : MonoBehaviour
 
     void FixedUpdate()
     {
-        m_ray = new Ray(rayOfOrigin.transform.position, rayOfOrigin.transform.forward * rayDistance + rayOfOrigin.transform.position);
+        //KillEnemyFromRazer();
+        
+    }
 
+    void KillEnemyFromRazer()
+    {
+        m_ray = new Ray(rayOfOrigin.transform.position, rayOfOrigin.transform.forward * rayDistance + rayOfOrigin.transform.position);
+        
         if (Physics.Raycast(m_ray, out m_rayHit, rayDistance))
         {
-            //Rayが当たったオブジェクトのtagがPlayerだったら
+            
+            //Rayが当たったオブジェクトのtagがEnemyだったら
             if (m_rayHit.collider.tag == "Enemy")
             {
                 Debug.Log("RayがEnemyに当たった");
                 m_rayHit.collider.gameObject.GetComponent<EnemyDeath>().OnDead();
             }
-
-            Debug.DrawLine(m_ray.origin, m_rayHit.point, Color.red);
         }
         else
         {
-            Debug.DrawLine(m_ray.origin, m_ray.direction * rayDistance, Color.red);
         }
-
+        Debug.DrawLine(transform.position, m_rayHit.collider.gameObject.transform.position);
     }
 
     //レーザーのライン部分のスクリプト
-
     void FireEffectManager()
     {
         m_razer = Instantiate(m_razerEffect, m_razerEffectInsPosi.transform.position, m_razerEffectInsPosi.transform.rotation);
@@ -162,9 +167,15 @@ public class TarretAttack : MonoBehaviour
         FireEffectManager();
         WasteHeatEffectManager();
         ShockWaveManager();
-        StayAttack();
-
+        this.UpdateAsObservable()
+            .Take(TimeSpan.FromSeconds(0.5f))
+            .Subscribe(_ => {
+                KillEnemyFromRazer();
+            });
+        
         attackable = false;
+
+        StayAttack();
     }
 
     void StayAttack()
@@ -177,7 +188,6 @@ public class TarretAttack : MonoBehaviour
 
     void EndAttack()
     {
-        //baseTarretBrain.ChangeTarretState(TarretCommand.Idle);
         attackable = true;
     }
 
@@ -192,7 +202,6 @@ public class TarretAttack : MonoBehaviour
             if (baseTarretBrain.tarretCommandState != TarretCommand.Attack)
             {
                 baseTarretBrain.ChangeTarretState(TarretCommand.Attack);
-                BeginAttack();
             }
         }
         

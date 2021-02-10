@@ -22,6 +22,9 @@ namespace Players
         BaseTarretBrain baseTarretBrain;
         TarretAttack tarretAttack;
 
+        [SerializeField] float debugHorizontalRotate = 0.5f;
+        [SerializeField] float debugVerticalRotate = 0.1f;
+
         private void Start()
         {
             baseTarretControl = GetComponent<BaseTarretRotateFunction>();
@@ -93,7 +96,7 @@ namespace Players
                 }
 
             }
-            else if(muzzleFlameJointPos.transform.localRotation.x < minMuzzleFlameJointRotate)
+            else if (muzzleFlameJointPos.transform.localRotation.x < minMuzzleFlameJointRotate)
             {
                 if (baseTarretBrain.leftHandle.HandleRotatePer > 0.0f)
                 {
@@ -107,5 +110,39 @@ namespace Players
                     .SetVerticalRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform));
             }
         }
+#if UNITY_EDITOR
+        void Update()
+        {
+            float dx = Input.GetAxis("Horizontal");
+            float dy = Input.GetAxis("Vertical");
+
+            DebugHorizontalRotate(dx);
+            DebugVerticalRotate(dy);
+
+        }
+
+        void DebugHorizontalRotate(float dx)
+        {
+            rootPos.transform.Rotate(new Vector3(0, 90, 0) * dx * Time.deltaTime);
+        }
+
+        void DebugVerticalRotate(float dy)
+        {
+            if (muzzleFlameJointPos.transform.localRotation.x > maxMuzzleFlameJointRotate)
+            {
+                muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * dy * debugVerticalRotate * Time.deltaTime);
+
+            }
+            else if (muzzleFlameJointPos.transform.localRotation.x < minMuzzleFlameJointRotate)
+            {
+                muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * dy * debugVerticalRotate * Time.deltaTime);
+            }
+            else
+            {
+                muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * dy * debugVerticalRotate * Time.deltaTime);
+            }
+        }
+#endif
     }
+
 }
