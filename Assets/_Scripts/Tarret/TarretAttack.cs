@@ -34,23 +34,32 @@ public class TarretAttack : MonoBehaviour
     GameObject m_wasteHeat;
     GameObject m_shockWave;
 
+    [SerializeField] float explosionPower;
+    [SerializeField] float explosionRadius;
+    [SerializeField] float explosionUpwardsModifier;
+
     [SerializeField] Transform muzzle;
     float muzzleRadius;
-    GameObject nearEnemy;
 
 
-    [SerializeField] Gradient razerAfterColor;
-    Ray m_ray;
-    RaycastHit[] m_rayHits;
+    //[SerializeField] Gradient razerAfterColor;
     public bool Killable = false;
+    [SerializeField] float untilKillTime = 0.5f;
 
     BaseTarretBrain baseTarretBrain;
+
+    [SerializeField] GameObject magazine;
+    MagazineRotate magazineRotate;
+    [SerializeField] float untilRotateMagazine = 0.3f;
+
+    [SerializeField] GameObject explodeobj;
 
     private void Start()
     {
         baseTarretBrain = GetComponent<BaseTarretBrain>();
         //　弾の半径を取得
         muzzleRadius = muzzle.GetComponent<SphereCollider>().radius;
+        magazineRotate = magazine.GetComponent<MagazineRotate>();
     }
 
     void FixedUpdate()
@@ -70,7 +79,12 @@ public class TarretAttack : MonoBehaviour
 
         foreach (var hit in hits)
         {
-            Destroy(hit.collider.gameObject);
+            
+            explosionForce(hit.point);
+            EnemyDeath enemyDeath = hit.collider.gameObject.GetComponent<EnemyDeath>();
+            enemyDeath.death = true;
+            //hit.collider.enabled = false;
+            //Destroy(hit.collider.gameObject);
         }
     }
 
@@ -87,33 +101,7 @@ public class TarretAttack : MonoBehaviour
     {
         Debug.Log("終わり!");
 
-        Destroy(m_razer,razerExistTime);
-        //float alphaValue = 255f;
-        //DOTween.To(
-        //    () => alphaValue,
-        //    (x) =>
-        //    {
-        //        alphaValue = x;
-        //        razerAfterColor.SetKeys
-        //        (razerAfterColor.colorKeys, new GradientAlphaKey[] { new GradientAlphaKey(alphaValue, 0.0f), new GradientAlphaKey(alphaValue, 1.0f) });
-        //    },
-        //    0,
-        //    razerExistTime)
-        //    .OnComplete(() => EndCall());
-
-        //razerRenderer.colorGradient.DOGradientColor(razerAfterColor, razerExistTime)
-        //    .OnComplete(() => EndCall());
-
-        //razerRenderer=DOTween.To(
-        //    () => razerRenderer.colorGradient.SetKeys(razerAfterColor.colorKeys,razerAfterColor.alphaKeys) ,
-        //    razerRenderer.colorGradient,
-        //    razerAfterColor,
-        //    razerExistTime)
-        //    .SetEase(Ease.Linear);
-
-        //DOTween.To(() => razerRenderer.colorGradient.alphaKeys[1].alpha, (x) => razerRenderer.colorGradient.alphaKeys[1].alpha = x, 0, razerExistTime)
-        //    .SetEase(Ease.Linear)
-        //    .OnComplete(() => { Debug.Log("razerRenderer.colorGradient.alphaKeys[0].alpha : " + razerRenderer.colorGradient.alphaKeys[0].alpha); EndCall(); });
+        Destroy(m_razer, razerExistTime);
     }
 
     //ここまでレーザーのライン部分のスクリプト
@@ -137,28 +125,13 @@ public class TarretAttack : MonoBehaviour
 
 
         Destroy(m_shockWave, shockWaveExistTime);
-
-
-        //m_shockWaves = new GameObject[shockWaveInsValue];
-
-        //m_shockWaves[0] = Instantiate(m_shockWaveEffect, m_shockWaveEffectInsPosi.transform.position,
-        //    m_shockWaveEffectInsPosi.transform.rotation);
-        //m_shockWaves[0].transform.DOScale(maxShockWaveSize, shockWaveExistTime).SetEase(Ease.Linear);
-        //Destroy(m_shockWaves[0], shockWaveExistTime);
-
-        //if (shockWaveInsValue >= 2)
-        //{
-        //    int i = 1;
-        //    DOVirtual.DelayedCall(shockWaveInsInterval, () =>
-        //    {
-        //        m_shockWaves[i] = Instantiate(m_shockWaveEffect, m_shockWaveEffectInsPosi.transform.position,
-        //    m_shockWaveEffectInsPosi.transform.rotation);
-        //        m_shockWaves[i].transform.DOScale(maxShockWaveSize, shockWaveExistTime).SetEase(Ease.Linear);
-        //        Destroy(m_shockWaves[i], shockWaveExistTime);
-        //        i++;
-        //    }).SetLoops(shockWaveInsValue - 1);
-        //}
     }
+
+    void explosionForce(Vector3 hitPosi)
+    {
+        Instantiate(explodeobj, hitPosi, Quaternion.identity);
+    }
+
 
 
     /// <summary>
@@ -170,11 +143,14 @@ public class TarretAttack : MonoBehaviour
         WasteHeatEffectManager();
         ShockWaveManager();
         this.UpdateAsObservable()
-            .Take(TimeSpan.FromSeconds(0.5f))
-            .Subscribe(_ => {
+            .Take(TimeSpan.FromSeconds(untilKillTime))
+            .Subscribe(_ =>
+            {
                 KillEnemyFromRazer();
             });
-        
+        Observable.Timer(TimeSpan.FromSeconds(untilRotateMagazine))
+            .Subscribe(_ => magazineRotate.RotateMagazine());
+
         attackable = false;
 
         StayAttack();
@@ -182,13 +158,13 @@ public class TarretAttack : MonoBehaviour
 
     void StayAttack()
     {
-        Observable.Timer(TimeSpan.FromSeconds(fireInterval)).Subscribe(_ =>
-        {
-            EndAttack();
-        }).AddTo(this);
+        //Observable.Timer(TimeSpan.FromSeconds(fireInterval)).Subscribe(_ =>
+        //{
+        //    EndAttack();
+        //}).AddTo(this);
     }
 
-    void EndAttack()
+    public void EndAttack()
     {
         attackable = true;
     }
@@ -198,7 +174,7 @@ public class TarretAttack : MonoBehaviour
 
     private void Update()
     {
-        
+
         if (Input.GetKeyDown("space"))
         {
             if (baseTarretBrain.tarretCommandState != TarretCommand.Attack)
@@ -206,7 +182,7 @@ public class TarretAttack : MonoBehaviour
                 baseTarretBrain.ChangeTarretState(TarretCommand.Attack);
             }
         }
-        
+
     }
 #endif
 }

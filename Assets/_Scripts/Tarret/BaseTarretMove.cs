@@ -130,12 +130,17 @@ namespace Players
         {
             if (muzzleFlameJointPos.transform.localRotation.x > maxMuzzleFlameJointRotate)
             {
-                muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * dy * debugVerticalRotate * Time.deltaTime);
-
+                if (dy < 0)
+                {
+                    muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * dy * debugVerticalRotate * Time.deltaTime);
+                }
             }
             else if (muzzleFlameJointPos.transform.localRotation.x < minMuzzleFlameJointRotate)
             {
-                muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * dy * debugVerticalRotate * Time.deltaTime);
+                if (dy > 0)
+                {
+                    muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * dy * debugVerticalRotate * Time.deltaTime);
+                }
             }
             else
             {

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class EnemyDeath : MonoBehaviour
 {
-    bool death = false;
+    public bool death = false;
+    [SerializeField] float deathTime = 0.5f;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +17,7 @@ public class EnemyDeath : MonoBehaviour
     {
         if (death)
         {
-            Destroy(gameObject);
+            Destroy(gameObject, deathTime);
         }
     }
 
