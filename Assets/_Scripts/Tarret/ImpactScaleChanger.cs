@@ -5,8 +5,9 @@ using DG.Tweening;
 
 public class ImpactScaleChanger : MonoBehaviour
 {
+    [SerializeField] TarretData tarretData;
     [SerializeField] Vector3 m_endSize;
-    [SerializeField] float m_time;
+    //[SerializeField] float m_time;
 
     private void Start()
     {
@@ -14,7 +15,7 @@ public class ImpactScaleChanger : MonoBehaviour
     }
     public void ChangeScale()
     {
-        transform.DOScale(m_endSize, m_time)
+        transform.DOScale(m_endSize, tarretData.shockWaveExistTime)
             .SetEase(Ease.Linear);
     }
 }

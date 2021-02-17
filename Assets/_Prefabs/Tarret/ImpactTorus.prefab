@@ -13176,5 +13176,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4098e2b3bc2b64b47bebec21758efd29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tarretData: {fileID: 11400000, guid: b32e40e76f528d94db97700dc4fd3dbd, type: 2}
   m_endSize: {x: 10, y: 10, z: 10}
-  m_time: 0.2

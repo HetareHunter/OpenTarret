@@ -4,12 +4,11 @@ using System;
 using UnityEngine;
 using Managers;
 using UniRx;
-using UniRx.Triggers;
 
 public class TarretAttack : MonoBehaviour
 {
-    [SerializeField] float fireInterval = 2.0f;
-    //[SerializeField] Vector3 rayDirection;
+    [SerializeField] TarretData tarretData;
+
     [SerializeField] float rayDistance = 1;
     [SerializeField] GameObject rayOfOrigin;
 
@@ -23,10 +22,6 @@ public class TarretAttack : MonoBehaviour
 
     [SerializeField] float razerExistTime = 0.5f;
     [SerializeField] float wasteHeatExistTime = 2.0f;
-    [SerializeField] float shockWaveExistTime = 1.0f;
-    //[SerializeField] Vector3 maxShockWaveSize;
-    //[SerializeField] int shockWaveInsValue = 1;
-    //[SerializeField] float shockWaveInsInterval = 0.1f;
 
     public bool attackable = true;
 
@@ -34,17 +29,10 @@ public class TarretAttack : MonoBehaviour
     GameObject m_wasteHeat;
     GameObject m_shockWave;
 
-    [SerializeField] float explosionPower;
-    [SerializeField] float explosionRadius;
-    [SerializeField] float explosionUpwardsModifier;
 
     [SerializeField] Transform muzzle;
     float muzzleRadius;
 
-
-    //[SerializeField] Gradient razerAfterColor;
-    public bool Killable = false;
-    [SerializeField] float untilKillTime = 0.5f;
 
     BaseTarretBrain baseTarretBrain;
 
@@ -64,7 +52,6 @@ public class TarretAttack : MonoBehaviour
 
     void FixedUpdate()
     {
-        //KillEnemyFromRazer();
         Debug.DrawLine(muzzle.position, muzzle.position + muzzle.transform.forward * rayDistance);
     }
 
@@ -121,10 +108,7 @@ public class TarretAttack : MonoBehaviour
         m_shockWave = Instantiate(m_shockWaveEffect, m_shockWaveEffectInsPosi.transform.position,
             m_shockWaveEffectInsPosi.transform.rotation);
 
-        Material shockWaveMT = m_shockWave.gameObject.GetComponent<Material>();
-
-
-        Destroy(m_shockWave, shockWaveExistTime);
+        Destroy(m_shockWave, tarretData.shockWaveExistTime);
     }
 
     void explosionForce(Vector3 hitPosi)
@@ -142,12 +126,7 @@ public class TarretAttack : MonoBehaviour
         FireEffectManager();
         WasteHeatEffectManager();
         ShockWaveManager();
-        this.UpdateAsObservable()
-            .Take(TimeSpan.FromSeconds(untilKillTime))
-            .Subscribe(_ =>
-            {
-                KillEnemyFromRazer();
-            });
+        KillEnemyFromRazer();
         Observable.Timer(TimeSpan.FromSeconds(untilRotateMagazine))
             .Subscribe(_ => magazineRotate.RotateMagazine());
 

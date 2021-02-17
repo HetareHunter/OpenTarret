@@ -8463,7 +8463,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-139954
+  m_Name: pb_Mesh-1994
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -20238,7 +20238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bca83c3b620dd38459feff0ed60e8909, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireInterval: 2
+  tarretData: {fileID: 11400000, guid: b32e40e76f528d94db97700dc4fd3dbd, type: 2}
   rayDistance: 100
   rayOfOrigin: {fileID: 971206262}
   m_razerEffect: {fileID: 7492395220001495539, guid: abc0dabcdec6f4f4fb7c214b3ec64502,
@@ -20252,14 +20252,8 @@ MonoBehaviour:
   m_shockWaveEffectInsPosi: {fileID: 1303502020}
   razerExistTime: 0.2
   wasteHeatExistTime: 2
-  shockWaveExistTime: 0.5
   attackable: 1
-  explosionPower: 5
-  explosionRadius: 1
-  explosionUpwardsModifier: 0
   muzzle: {fileID: 1123937453}
-  Killable: 0
-  untilKillTime: 0.5
   magazine: {fileID: 4361260312286322027}
   untilRotateMagazine: 0.3
   explodeobj: {fileID: 4232023163730643856, guid: 31f732c4996897144aefea7cd54d212c,
