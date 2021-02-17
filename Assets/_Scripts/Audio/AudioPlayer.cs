@@ -5,15 +5,17 @@ using UnityEngine;
 public class AudioPlayer : MonoBehaviour
 {
     [SerializeField] AudioClip[] audios;
+    AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void AudioPlay()
     {
-        
+        int rand = Random.Range(0, audios.Length);
+        //audioSource.clip = audios[rand];
+        audioSource.PlayOneShot(audios[rand]);
     }
 }

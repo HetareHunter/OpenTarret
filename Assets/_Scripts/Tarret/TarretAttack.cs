@@ -30,9 +30,9 @@ public class TarretAttack : MonoBehaviour
     GameObject m_shockWave;
 
 
-    [SerializeField] Transform muzzle;
+    [SerializeField] GameObject muzzle;
     float muzzleRadius;
-
+    AudioPlayer muzzleAudio;
 
     BaseTarretBrain baseTarretBrain;
 
@@ -47,12 +47,13 @@ public class TarretAttack : MonoBehaviour
         baseTarretBrain = GetComponent<BaseTarretBrain>();
         //　弾の半径を取得
         muzzleRadius = muzzle.GetComponent<SphereCollider>().radius;
+        muzzleAudio = muzzle.GetComponent<AudioPlayer>();
         magazineRotate = magazine.GetComponent<MagazineRotate>();
     }
 
     void FixedUpdate()
     {
-        Debug.DrawLine(muzzle.position, muzzle.position + muzzle.transform.forward * rayDistance);
+        Debug.DrawLine(muzzle.transform.position, muzzle.transform.position + muzzle.transform.forward * rayDistance);
     }
 
     void KillEnemyFromRazer()
@@ -78,6 +79,7 @@ public class TarretAttack : MonoBehaviour
     //レーザーのライン部分のスクリプト
     void FireEffectManager()
     {
+        
         m_razer = Instantiate(m_razerEffect, m_razerEffectInsPosi.transform.position, m_razerEffectInsPosi.transform.rotation);
         LineRenderer razerLineRenderer = m_razer.transform.GetChild(2).gameObject.GetComponent<LineRenderer>();
         FadeFire(razerLineRenderer);
@@ -123,6 +125,7 @@ public class TarretAttack : MonoBehaviour
     /// </summary>
     public void BeginAttack()
     {
+        muzzleAudio.AudioPlay();
         FireEffectManager();
         WasteHeatEffectManager();
         ShockWaveManager();
