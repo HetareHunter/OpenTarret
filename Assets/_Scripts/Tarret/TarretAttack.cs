@@ -15,6 +15,7 @@ public class TarretAttack : MonoBehaviour
     [SerializeField] GameObject m_razerEffect;
     [SerializeField] GameObject m_wasteHeatEffect;
     [SerializeField] GameObject m_shockWaveEffect;
+    [SerializeField] GameObject m_hitExplodeEffect;
 
     [SerializeField] GameObject m_razerEffectInsPosi;
     [SerializeField] GameObject m_wasteHeatEffectInsPosi;
@@ -69,6 +70,7 @@ public class TarretAttack : MonoBehaviour
         {
             
             explosionForce(hit.point);
+            Instantiate(m_hitExplodeEffect, hit.point,Quaternion.identity);
             EnemyDeath enemyDeath = hit.collider.gameObject.GetComponent<EnemyDeath>();
             enemyDeath.death = true;
             //hit.collider.enabled = false;
