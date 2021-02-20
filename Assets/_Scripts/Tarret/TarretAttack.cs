@@ -43,6 +43,12 @@ public class TarretAttack : MonoBehaviour
 
     [SerializeField] GameObject explodeobj;
 
+    [SerializeField] GameObject sight;
+    SightChanger sightChanger;
+
+    //　当たったコライダを入れておく変数
+    RaycastHit[] m_hits;
+
     private void Start()
     {
         baseTarretBrain = GetComponent<BaseTarretBrain>();
@@ -50,23 +56,50 @@ public class TarretAttack : MonoBehaviour
         muzzleRadius = muzzle.GetComponent<SphereCollider>().radius;
         muzzleAudio = muzzle.GetComponent<AudioPlayer>();
         magazineRotate = magazine.GetComponent<MagazineRotate>();
+        sightChanger = sight.GetComponent<SightChanger>();
     }
 
     void FixedUpdate()
     {
+        RaySearchObject();
         Debug.DrawLine(muzzle.transform.position, muzzle.transform.position + muzzle.transform.forward * rayDistance);
+    }
+
+    void RaySearchObject()
+    {
+        //　飛ばす位置と飛ばす方向を設定
+        Ray ray = new Ray(muzzle.transform.position, muzzle.transform.forward);
+        
+        //　Sphereの形でレイを飛ばしEnemyレイヤーのものをhitsに入れる
+        m_hits = Physics.SphereCastAll(ray, muzzleRadius, rayDistance, LayerMask.GetMask("Enemy"));
+        if (m_hits.Length > 0)
+        {
+            sightChanger.ChangeRedTex();
+        }
+        else
+        {
+            sightChanger.ChangeBaseTex();
+        }
     }
 
     void KillEnemyFromRazer()
     {
-        //　飛ばす位置と飛ばす方向を設定
-        Ray ray = new Ray(muzzle.transform.position, muzzle.transform.forward);
-        //　当たったコライダを入れておく変数
-        RaycastHit[] hits;
-        //　Sphereの形でレイを飛ばしEnemyレイヤーのものをhitsに入れる
-        hits = Physics.SphereCastAll(ray, muzzleRadius, rayDistance, LayerMask.GetMask("Enemy"));
+        ////　飛ばす位置と飛ばす方向を設定
+        //Ray ray = new Ray(muzzle.transform.position, muzzle.transform.forward);
+        ////　当たったコライダを入れておく変数
+        //RaycastHit[] hits;
+        ////　Sphereの形でレイを飛ばしEnemyレイヤーのものをhitsに入れる
+        //hits = Physics.SphereCastAll(ray, muzzleRadius, rayDistance, LayerMask.GetMask("Enemy"));
+        //if (m_hits.Length > 0)
+        //{
+        //    sightChanger.ChangeRedTex();
+        //}
+        //else
+        //{
+        //    sightChanger.ChangeBaseTex();
+        //}
 
-        foreach (var hit in hits)
+        foreach (var hit in m_hits)
         {
             
             explosionForce(hit.point);

@@ -11,7 +11,7 @@ namespace Managers
         HorizontalRotate,
         VerticalRotate,
         Attack,
-
+        Rotate,
     }
 
     /// <summary>
@@ -19,7 +19,9 @@ namespace Managers
     /// </summary>
     public class BaseTarretBrain : MonoBehaviour
     {
+        ///<summary>Tarretのhandleを握ったときに情報が格納される変数</summary>
         public HandleGrabbable leftHandle;
+        ///<summary>Tarretのhandleを握ったときに情報が格納される変数</summary>
         public HandleGrabbable rightHandle;
 
         BaseTarretRotateFunction tarretFunction;
@@ -39,7 +41,7 @@ namespace Managers
         /// <summary>
         /// タレットのコントローラの傾きでTarretCommandのstateを変化させる
         /// </summary>
-        public void JudgeTarretCommandState()
+        public void OldJudgeRotateTarret()
         {
             if (Mathf.Abs(leftHandle.HandleRotatePer) > m_commandPlay && Mathf.Abs(rightHandle.HandleRotatePer) > m_commandPlay)
             {
@@ -59,6 +61,18 @@ namespace Managers
                 //ChangeTarretState(TarretCommand.Idle);
             }
 
+        }
+
+        public void JudgeRotateTarret()
+        {
+            //両手ともタレットのハンドルを握っているとき
+            if (leftHandle.isGrabbed && rightHandle.isGrabbed)
+            {
+                if (!(tarretCommandState == TarretCommand.Rotate))
+                {
+                    ChangeTarretState(TarretCommand.Rotate);
+                }
+            }
         }
 
         /// <summary>
@@ -86,6 +100,10 @@ namespace Managers
                 case TarretCommand.Attack:
                     if(tarretAttack.attackable) tarretAttack.BeginAttack();
                     ChangeTarretState(TarretCommand.Idle);
+                    break;
+
+                case TarretCommand.Rotate:
+
                     break;
                 default:
                     break;

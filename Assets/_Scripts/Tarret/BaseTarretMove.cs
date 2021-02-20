@@ -34,23 +34,6 @@ namespace Players
 
         void FixedUpdate()
         {
-
-            //if (baseTarretBrain.tarretCommandState == TarretCommand.HorizontalRotate)
-            //{
-            //    HorizontalRotate();
-            //}
-            //else if (baseTarretBrain.tarretCommandState == TarretCommand.VerticalRotate)
-            //{
-            //    VerticalRotate();
-            //}
-            //else if (baseTarretBrain.tarretCommandState == TarretCommand.Attack)
-            //{
-            //}
-            //else //baseTarretControl.tarretCommanfStateがIdleのステートの場合
-            //{
-
-            //}
-            //baseTarretBrain.JudgeTarretCommandState();
             MoveManager();
         }
 
@@ -59,15 +42,21 @@ namespace Players
             switch (baseTarretBrain.tarretCommandState)
             {
                 case TarretCommand.Idle:
-                    baseTarretBrain.JudgeTarretCommandState();
+                    baseTarretBrain.OldJudgeRotateTarret();
+
+                    baseTarretBrain.JudgeRotateTarret();
                     break;
                 case TarretCommand.HorizontalRotate:
                     HorizontalRotate();
-                    baseTarretBrain.JudgeTarretCommandState();
+                    baseTarretBrain.OldJudgeRotateTarret();
+
+                    baseTarretBrain.JudgeRotateTarret();
                     break;
                 case TarretCommand.VerticalRotate:
                     VerticalRotate();
-                    baseTarretBrain.JudgeTarretCommandState();
+                    baseTarretBrain.OldJudgeRotateTarret();
+
+                    baseTarretBrain.JudgeRotateTarret();
                     break;
                 case TarretCommand.Attack:
                     break;
@@ -110,6 +99,7 @@ namespace Players
                     .SetVerticalRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform));
             }
         }
+        #region
 #if UNITY_EDITOR
         void Update()
         {
@@ -148,6 +138,7 @@ namespace Players
             }
         }
 #endif
+        #endregion
     }
 
 }

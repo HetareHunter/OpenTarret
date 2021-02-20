@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class RotateArrowMark : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] GameObject leftHand;
+    [SerializeField] GameObject rightHand;
+
+    /// <summary>
+    /// 両手の間の位置を返すプロパティ
+    /// </summary>
+    public Vector3 CenterOfHands
     {
-        
+        get
+        {
+            return Vector3.Lerp(leftHand.transform.localPosition, rightHand.transform.localPosition, 0.5f);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    void RotateArrow()
     {
-        
+
     }
 }
