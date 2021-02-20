@@ -25,7 +25,7 @@ namespace Managers
         public HandleGrabbable rightHandle;
 
         BaseTarretRotateFunction tarretFunction;
-        TarretAttack tarretAttack;
+        BaseTarretAttack tarretAttack;
 
         /// <summary>バイクのブレーキのあそびと同じ意味 </summary>
         public float m_commandPlay = 0.1f;
@@ -35,7 +35,7 @@ namespace Managers
         private void Start()
         {
             tarretFunction = GetComponent<BaseTarretRotateFunction>();
-            tarretAttack = GetComponent<TarretAttack>();
+            tarretAttack = GetComponent<BaseTarretAttack>();
         }
 
         /// <summary>

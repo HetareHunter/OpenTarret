@@ -20,7 +20,7 @@ namespace Players
 
         BaseTarretRotateFunction baseTarretControl;
         BaseTarretBrain baseTarretBrain;
-        TarretAttack tarretAttack;
+        BaseTarretAttack tarretAttack;
 
         [SerializeField] float debugHorizontalRotate = 0.5f;
         [SerializeField] float debugVerticalRotate = 0.1f;
@@ -29,7 +29,7 @@ namespace Players
         {
             baseTarretControl = GetComponent<BaseTarretRotateFunction>();
             baseTarretBrain = GetComponent<BaseTarretBrain>();
-            tarretAttack = GetComponent<TarretAttack>();
+            tarretAttack = GetComponent<BaseTarretAttack>();
         }
 
         void FixedUpdate()

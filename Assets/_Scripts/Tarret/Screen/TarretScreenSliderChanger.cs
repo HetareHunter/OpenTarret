@@ -8,6 +8,8 @@ public class TarretScreenSliderChanger : MonoBehaviour
     Slider slider;
     [SerializeField] GameObject fillBase;
     [SerializeField] GameObject fillRed;
+    Image fillBaseImg;
+    Image fillRedImg;
     RectTransform fillBaseRect;
     RectTransform fillRedRect;
 
@@ -15,26 +17,24 @@ public class TarretScreenSliderChanger : MonoBehaviour
     void Start()
     {
         slider = GetComponent<Slider>();
-        fillBaseRect = GetComponent<RectTransform>();
-        fillRedRect = GetComponent<RectTransform>();
+        fillBaseRect = fillBase.GetComponent<RectTransform>();
+        fillRedRect = fillRed.GetComponent<RectTransform>();
+        fillBaseImg = fillBase.GetComponent<Image>();
+        fillRedImg = fillRed.GetComponent<Image>();
+        slider.fillRect = fillBaseRect;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     public void ChangeSliderFillRed()
     {
-        fillRed.SetActive(true);
+        fillRedImg.enabled = true;
         slider.fillRect = fillRedRect;
-        fillBase.SetActive(false);
+        fillBaseImg.enabled = false;
     }
 
     public void ChangeSliderFillBase()
     {
-        fillBase.SetActive(true);
+        fillBaseImg.enabled = true;
         slider.fillRect = fillBaseRect;
-        fillRed.SetActive(false);
+        fillRedImg.enabled = false;
     }
 }

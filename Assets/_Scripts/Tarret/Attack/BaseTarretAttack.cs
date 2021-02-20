@@ -5,7 +5,7 @@ using UnityEngine;
 using Managers;
 using UniRx;
 
-public class TarretAttack : MonoBehaviour
+public class BaseTarretAttack : MonoBehaviour
 {
     [SerializeField] TarretData tarretData;
 
@@ -45,8 +45,11 @@ public class TarretAttack : MonoBehaviour
 
     [SerializeField] GameObject sight;
     SightChanger sightChanger;
-    [SerializeField] GameObject sightSlider;
-    TarretScreenSliderChanger tarretScreenSliderChanger;
+    [SerializeField] GameObject sightLeftSlider;
+    [SerializeField] GameObject sightRightSlider;
+    TarretScreenSliderChanger tarretScreenLeftSliderChanger;
+    TarretScreenSliderChanger tarretScreenRightSliderChanger;
+    AttackIntervalCounter attackInterval;
 
     //　当たったコライダを入れておく変数
     RaycastHit[] m_hits;
@@ -59,7 +62,9 @@ public class TarretAttack : MonoBehaviour
         muzzleAudio = muzzle.GetComponent<AudioPlayer>();
         magazineRotate = magazine.GetComponent<MagazineRotate>();
         sightChanger = sight.GetComponent<SightChanger>();
-        tarretScreenSliderChanger = sightSlider.GetComponent<TarretScreenSliderChanger>();
+        tarretScreenLeftSliderChanger = sightLeftSlider.GetComponent<TarretScreenSliderChanger>();
+        tarretScreenRightSliderChanger = sightRightSlider.GetComponent<TarretScreenSliderChanger>();
+        attackInterval = GetComponent<AttackIntervalCounter>();
     }
 
     void FixedUpdate()
@@ -78,12 +83,14 @@ public class TarretAttack : MonoBehaviour
         if (m_hits.Length > 0)
         {
             sightChanger.ChangeRedTex();
-            tarretScreenSliderChanger.ChangeSliderFillRed();
+            tarretScreenLeftSliderChanger.ChangeSliderFillRed();
+            tarretScreenRightSliderChanger.ChangeSliderFillRed();
         }
         else
         {
             sightChanger.ChangeBaseTex();
-            tarretScreenSliderChanger.ChangeSliderFillBase();
+            tarretScreenLeftSliderChanger.ChangeSliderFillBase();
+            tarretScreenRightSliderChanger.ChangeSliderFillBase();
         }
     }
 
@@ -174,16 +181,12 @@ public class TarretAttack : MonoBehaviour
             .Subscribe(_ => magazineRotate.RotateMagazine());
 
         attackable = false;
-
+        attackInterval.countStart = true;
         StayAttack();
     }
 
     void StayAttack()
     {
-        //Observable.Timer(TimeSpan.FromSeconds(fireInterval)).Subscribe(_ =>
-        //{
-        //    EndAttack();
-        //}).AddTo(this);
     }
 
     public void EndAttack()
