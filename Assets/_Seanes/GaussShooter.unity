@@ -6743,6 +6743,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 548a40efc092c6f408cc4d1691b171cc, type: 3}
+--- !u!1 &776679598 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4279676523834211365, guid: fe01085f6f33b4542ad2948a6cba63b6,
+    type: 3}
+  m_PrefabInstance: {fileID: 499155713}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &797794910
 GameObject:
   m_ObjectHideFlags: 0
@@ -8423,7 +8429,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1316524899}
   m_LocalRotation: {x: -0.000000029802322, y: -0, z: -0, w: -1}
-  m_LocalPosition: {x: -1.5155, y: 1.0369582, z: -0.017622449}
+  m_LocalPosition: {x: 0.004099965, y: 1.0507, z: -0.017622449}
   m_LocalScale: {x: 0.02047224, y: 0.21502447, z: 0.05725048}
   m_Children: []
   m_Father: {fileID: 0}
@@ -8502,7 +8508,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1316524899}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -20893,7 +20899,7 @@ MonoBehaviour:
   muzzleFlameJointPos: {fileID: 3185249524978087676}
   m_leftHandlePos: {fileID: 8838843817545228087}
   m_rightHandlePos: {fileID: 8992619533171000389}
-  m_arrowMark: {fileID: 0}
+  m_arrowMark: {fileID: 776679598}
   maxMuzzleFlameJointRotate: 0.3
   minMuzzleFlameJointRotate: -0.2
   debugHorizontalRotate: 0.8
@@ -22002,7 +22008,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7062794110715566446}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -22085,7 +22091,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7062794110715566446}
   m_LocalRotation: {x: -0.000000029802322, y: -0, z: -0, w: -1}
-  m_LocalPosition: {x: -1.6165999, y: 1.0369582, z: -0.017622449}
+  m_LocalPosition: {x: -0.097, y: 1.0507, z: -0.017622449}
   m_LocalScale: {x: 0.020472242, y: 0.21502447, z: 0.057250477}
   m_Children: []
   m_Father: {fileID: 0}
