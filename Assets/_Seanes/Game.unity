@@ -5128,6 +5128,7 @@ GameObject:
   - component: {fileID: 210691638}
   - component: {fileID: 210691637}
   - component: {fileID: 210691636}
+  - component: {fileID: 210691639}
   m_Layer: 8
   m_Name: Sight
   m_TagString: Untagged
@@ -5210,6 +5211,21 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 210691634}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &210691639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210691634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d611b0d4dd0d594c8938782c0d0f0ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sightMaterial: {fileID: 2100000, guid: 37920f6f4167dd44d93901089c8cecd2, type: 2}
+  baseSightTex: {fileID: 2800000, guid: b2efd3764e4434a489bb95a5b3102ed9, type: 3}
+  RedSightTex: {fileID: 2800000, guid: 2e37c8a4abc5c454fabd951102d86635, type: 3}
 --- !u!1 &247178018
 GameObject:
   m_ObjectHideFlags: 0
@@ -7097,7 +7113,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1123937455
 MeshRenderer:
@@ -19713,6 +19729,7 @@ MonoBehaviour:
   untilRotateMagazine: 0.3
   explodeobj: {fileID: 4232023163730643856, guid: 31f732c4996897144aefea7cd54d212c,
     type: 3}
+  sight: {fileID: 210691634}
 --- !u!1 &665794924282389620
 GameObject:
   m_ObjectHideFlags: 0

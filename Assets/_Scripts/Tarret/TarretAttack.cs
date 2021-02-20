@@ -45,6 +45,8 @@ public class TarretAttack : MonoBehaviour
 
     [SerializeField] GameObject sight;
     SightChanger sightChanger;
+    [SerializeField] GameObject sightSlider;
+    TarretScreenSliderChanger tarretScreenSliderChanger;
 
     //　当たったコライダを入れておく変数
     RaycastHit[] m_hits;
@@ -57,6 +59,7 @@ public class TarretAttack : MonoBehaviour
         muzzleAudio = muzzle.GetComponent<AudioPlayer>();
         magazineRotate = magazine.GetComponent<MagazineRotate>();
         sightChanger = sight.GetComponent<SightChanger>();
+        tarretScreenSliderChanger = sightSlider.GetComponent<TarretScreenSliderChanger>();
     }
 
     void FixedUpdate()
@@ -75,10 +78,12 @@ public class TarretAttack : MonoBehaviour
         if (m_hits.Length > 0)
         {
             sightChanger.ChangeRedTex();
+            tarretScreenSliderChanger.ChangeSliderFillRed();
         }
         else
         {
             sightChanger.ChangeBaseTex();
+            tarretScreenSliderChanger.ChangeSliderFillBase();
         }
     }
 
