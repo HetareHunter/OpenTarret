@@ -14,13 +14,13 @@ namespace Players
         [SerializeField] GameObject muzzleFlameJointPos;
         [SerializeField] GameObject m_leftHandlePos;
         [SerializeField] GameObject m_rightHandlePos;
+        [SerializeField] GameObject m_arrowMark;
 
         [SerializeField] float maxMuzzleFlameJointRotate = 0.5f;
         [SerializeField] float minMuzzleFlameJointRotate = 0.3f;
 
         BaseTarretRotateFunction baseTarretControl;
         BaseTarretBrain baseTarretBrain;
-        BaseTarretAttack tarretAttack;
 
         [SerializeField] float debugHorizontalRotate = 0.5f;
         [SerializeField] float debugVerticalRotate = 0.1f;
@@ -29,7 +29,6 @@ namespace Players
         {
             baseTarretControl = GetComponent<BaseTarretRotateFunction>();
             baseTarretBrain = GetComponent<BaseTarretBrain>();
-            tarretAttack = GetComponent<BaseTarretAttack>();
         }
 
         void FixedUpdate()
@@ -60,6 +59,11 @@ namespace Players
                     break;
                 case TarretCommand.Attack:
                     break;
+
+                case TarretCommand.Rotate:
+                    HorizontalRotate();
+                    //VerticalRotate();
+                    break;
                 default:
                     break;
             }
@@ -67,8 +71,9 @@ namespace Players
 
         void HorizontalRotate()
         {
-            rootPos.transform.Rotate(new Vector3(0, 90, 0) * Time.deltaTime * baseTarretControl
-                    .SetHorizontalRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform));
+            //rootPos.transform.Rotate(new Vector3(0, 90, 0) * Time.deltaTime * baseTarretControl
+            //        .SetHorizontalRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform));
+            rootPos.transform.Rotate(new Vector3(0, 90, 0) * Time.deltaTime * m_arrowMark.transform.localRotation.y);
         }
 
         void VerticalRotate()
