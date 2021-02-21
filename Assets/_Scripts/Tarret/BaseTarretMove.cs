@@ -16,18 +16,18 @@ namespace Players
         [SerializeField] GameObject m_rightHandlePos;
         [SerializeField] GameObject m_arrowMark;
 
-        [SerializeField] float maxMuzzleFlameJointRotate = 0.5f;
-        [SerializeField] float minMuzzleFlameJointRotate = 0.3f;
+        [SerializeField] float maxMuzzleFlameJointRotate = 0.3f;
+        [SerializeField] float minMuzzleFlameJointRotate = -0.2f;
 
-        BaseTarretRotateFunction baseTarretControl;
+        //BaseTarretRotateFunction baseTarretControl;
         BaseTarretBrain baseTarretBrain;
 
-        [SerializeField] float debugHorizontalRotate = 0.5f;
-        [SerializeField] float debugVerticalRotate = 0.1f;
+        [SerializeField] float debugHorizontalRotate = 0.8f;
+        [SerializeField] float debugVerticalRotate = 0.3f;
 
         private void Start()
         {
-            baseTarretControl = GetComponent<BaseTarretRotateFunction>();
+            //baseTarretControl = GetComponent<BaseTarretRotateFunction>();
             baseTarretBrain = GetComponent<BaseTarretBrain>();
         }
 
@@ -62,7 +62,7 @@ namespace Players
 
                 case TarretCommand.Rotate:
                     HorizontalRotate();
-                    //VerticalRotate();
+                    VerticalRotate();
                     break;
                 default:
                     break;
@@ -78,30 +78,44 @@ namespace Players
 
         void VerticalRotate()
         {
-            Debug.Log("muzzleFlameJointPos localRotation.x " + muzzleFlameJointPos.transform.localRotation.x);
+            //Debug.Log("muzzleFlameJointPos localRotation.x " + muzzleFlameJointPos.transform.localRotation.x);
             if (muzzleFlameJointPos.transform.localRotation.x > maxMuzzleFlameJointRotate)
             {
+                if (m_arrowMark.transform.localRotation.x < 0)
+                {
+                    muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * Time.deltaTime
+                        * m_arrowMark.transform.localRotation.x);
+                }
+                
                 //Debug.Log("leftHandle.HandleRotatePer:" + baseTarretBrain.leftHandle.HandleRotatePer);
                 //Debug.Log("rightHandle.HandleRotatePer:" + baseTarretBrain.rightHandle.HandleRotatePer);
-                if (baseTarretBrain.leftHandle.HandleRotatePer < 0.0f) //回転の限界値を超えるときは逆回転の操作しか受け付けない
-                {
-                    muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * Time.deltaTime * baseTarretControl
-                .SetVerticalRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform));
-                }
+                //if (baseTarretBrain.leftHandle.HandleRotatePer < 0.0f) //回転の限界値を超えるときは逆回転の操作しか受け付けない
+                //{
+                //    muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * Time.deltaTime * baseTarretControl
+                //.SetVerticalRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform));
+
+                //}
 
             }
             else if (muzzleFlameJointPos.transform.localRotation.x < minMuzzleFlameJointRotate)
             {
-                if (baseTarretBrain.leftHandle.HandleRotatePer > 0.0f)
+                if (m_arrowMark.transform.localRotation.x > 0)
                 {
-                    muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * Time.deltaTime * baseTarretControl
-                    .SetVerticalRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform));
+                    muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * Time.deltaTime
+                        * m_arrowMark.transform.localRotation.x);
                 }
+                //if (baseTarretBrain.leftHandle.HandleRotatePer > 0.0f)
+                //{
+                //    muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * Time.deltaTime * baseTarretControl
+                //    .SetVerticalRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform));
+                //}
             }
             else
             {
-                muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * Time.deltaTime * baseTarretControl
-                    .SetVerticalRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform));
+                muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * Time.deltaTime
+                        * m_arrowMark.transform.localRotation.x);
+                //muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * Time.deltaTime * baseTarretControl
+                //    .SetVerticalRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform));
             }
         }
         #region
