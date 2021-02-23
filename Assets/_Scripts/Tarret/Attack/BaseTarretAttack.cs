@@ -97,20 +97,6 @@ public class BaseTarretAttack : MonoBehaviour
 
     void KillEnemyFromRazer()
     {
-        ////　飛ばす位置と飛ばす方向を設定
-        //Ray ray = new Ray(muzzle.transform.position, muzzle.transform.forward);
-        ////　当たったコライダを入れておく変数
-        //RaycastHit[] hits;
-        ////　Sphereの形でレイを飛ばしEnemyレイヤーのものをhitsに入れる
-        //hits = Physics.SphereCastAll(ray, muzzleRadius, rayDistance, LayerMask.GetMask("Enemy"));
-        //if (m_hits.Length > 0)
-        //{
-        //    sightChanger.ChangeRedTex();
-        //}
-        //else
-        //{
-        //    sightChanger.ChangeBaseTex();
-        //}
 
         foreach (var hit in m_hits)
         {

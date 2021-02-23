@@ -4,25 +4,17 @@ using UnityEngine;
 
 public class EnemyDeath : MonoBehaviour
 {
-    //public bool death = false;
     [SerializeField] float deathTime = 0.5f;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //if (death)
-        //{
-        //    Destroy(gameObject, deathTime);
-        //}
-    }
+    [SerializeField] int addScore = 100;
 
     public void OnDead()
     {
+        AddScore();
         Destroy(gameObject, deathTime);
+    }
+
+    void AddScore()
+    {
+        ScoreManager.Instance.AddScore(addScore);
     }
 }
