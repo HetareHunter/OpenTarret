@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyDeath : MonoBehaviour
 {
-    public bool death = false;
+    //public bool death = false;
     [SerializeField] float deathTime = 0.5f;
     // Start is called before the first frame update
     void Start()
@@ -15,14 +15,14 @@ public class EnemyDeath : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (death)
-        {
-            Destroy(gameObject, deathTime);
-        }
+        //if (death)
+        //{
+        //    Destroy(gameObject, deathTime);
+        //}
     }
 
     public void OnDead()
     {
-        death = true;
+        Destroy(gameObject, deathTime);
     }
 }

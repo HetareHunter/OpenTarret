@@ -8,6 +8,7 @@ using UniRx;
 public class BaseTarretAttack : MonoBehaviour
 {
     [SerializeField] TarretData tarretData;
+    [SerializeField] GameObject muzzleFrameJoint;
 
     [SerializeField] float rayDistance = 1;
     [SerializeField] GameObject rayOfOrigin;
@@ -77,7 +78,7 @@ public class BaseTarretAttack : MonoBehaviour
     {
         //　飛ばす位置と飛ばす方向を設定
         Ray ray = new Ray(muzzle.transform.position, muzzle.transform.forward);
-        
+
         //　Sphereの形でレイを飛ばしEnemyレイヤーのものをhitsに入れる
         m_hits = Physics.SphereCastAll(ray, muzzleRadius, rayDistance, LayerMask.GetMask("Enemy"));
         if (m_hits.Length > 0)
@@ -113,11 +114,11 @@ public class BaseTarretAttack : MonoBehaviour
 
         foreach (var hit in m_hits)
         {
-            
+
             explosionForce(hit.point);
             Instantiate(m_hitExplodeEffect, hit.point,Quaternion.identity);
             EnemyDeath enemyDeath = hit.collider.gameObject.GetComponent<EnemyDeath>();
-            enemyDeath.death = true;
+            enemyDeath.OnDead();
             //hit.collider.enabled = false;
             //Destroy(hit.collider.gameObject);
         }
@@ -126,14 +127,14 @@ public class BaseTarretAttack : MonoBehaviour
     //レーザーのライン部分のスクリプト
     void FireEffectManager()
     {
-        
+
         m_razer = Instantiate(m_razerEffect, m_razerEffectInsPosi.transform.position, m_razerEffectInsPosi.transform.rotation);
-        LineRenderer razerLineRenderer = m_razer.transform.GetChild(2).gameObject.GetComponent<LineRenderer>();
-        FadeFire(razerLineRenderer);
+        //LineRenderer razerLineRenderer = m_razer.transform.GetChild(2).gameObject.GetComponent<LineRenderer>();
+        FadeFire();
 
     }
 
-    void FadeFire(LineRenderer razerRenderer)
+    void FadeFire()
     {
         Debug.Log("終わり!");
 
@@ -162,7 +163,9 @@ public class BaseTarretAttack : MonoBehaviour
 
     void explosionForce(Vector3 hitPosi)
     {
-        Instantiate(explodeobj, hitPosi, Quaternion.identity);
+        GameObject explode = Instantiate(explodeobj, hitPosi , Quaternion.identity);
+        BeamPower beamPower = explode.GetComponent<BeamPower>();
+        beamPower.Movement(muzzleFrameJoint.transform.forward);
     }
 
 

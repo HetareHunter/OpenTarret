@@ -8,15 +8,19 @@ public class DetonatorSound : DetonatorComponent {
 	public AudioClip[] nearSounds;
 	public AudioClip[] farSounds;
 	
-	public float distanceThreshold = 50f; //threshold in m between playing nearSound and farSound
-	public float minVolume = .4f;
-	public float maxVolume = 1f;
+	public float distanceThreshold = 50.0f; //threshold in m between playing nearSound and farSound
+	public float minVolume = 0.4f;
+	public float maxVolume = 1.0f;
 	public float rolloffFactor = 0.5f;
 	
 	private AudioSource _soundComponent;
 	private bool _delayedExplosionStarted = false;
 	private float _explodeDelay;
-	
+
+	//void Awake()
+	//{
+	//	Init();
+	//}
 	override public void Init()
 	{
 		_soundComponent = (AudioSource)gameObject.AddComponent <AudioSource>();
@@ -31,7 +35,7 @@ public class DetonatorSound : DetonatorComponent {
 		if (_delayedExplosionStarted)
 		{
 			_explodeDelay = (_explodeDelay - Time.deltaTime);
-			if (_explodeDelay <= 0f)
+			if (_explodeDelay <= 0.0f)
 			{
 				Explode();
 			}
@@ -47,13 +51,13 @@ public class DetonatorSound : DetonatorComponent {
 		{
 			_explodeDelay = explodeDelayMin + (Random.value * (explodeDelayMax - explodeDelayMin));
 		}		
-		if (_explodeDelay <= 0) 
+		if (_explodeDelay <= 0.0f) 
 		{
-	//		_soundComponent.minVolume = minVolume;
-	//		_soundComponent.maxVolume = maxVolume;
-	//		_soundComponent.rolloffFactor = rolloffFactor;
-			
-			if (Vector3.Distance(Camera.main.transform.position, this.transform.position) < distanceThreshold)
+            _soundComponent.volume = minVolume;
+            //_soundComponent.maxVolume = maxVolume;
+            //		_soundComponent.rolloffFactor = rolloffFactor;
+
+            if (Vector3.Distance(Camera.main.transform.position, this.transform.position) < distanceThreshold)
 			{
 				_idx = (int)(Random.value * nearSounds.Length);
 				_soundComponent.PlayOneShot(nearSounds[_idx]);
@@ -64,7 +68,7 @@ public class DetonatorSound : DetonatorComponent {
 				_soundComponent.PlayOneShot(farSounds[_idx]);
 			}	
 			_delayedExplosionStarted = false;
-			_explodeDelay = 0f;			
+			_explodeDelay = 0.0f;			
 		}
 		else
 		{

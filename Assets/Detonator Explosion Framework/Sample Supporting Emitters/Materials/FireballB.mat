@@ -4,9 +4,8 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
   m_Name: FireballB
   m_Shader: {fileID: 200, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: 
@@ -27,7 +26,7 @@ Material:
     - _InvFade: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _TintColor: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 0.25490198}
+    - _TintColor: {r: 1, g: 0.7884892, b: 0.471223, a: 0.25490198}
 --- !u!1002 &2100001
 EditorExtensionImpl:
   serializedVersion: 6
