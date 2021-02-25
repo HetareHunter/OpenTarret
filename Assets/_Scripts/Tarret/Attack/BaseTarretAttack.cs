@@ -154,6 +154,7 @@ public class BaseTarretAttack : MonoBehaviour
         beamPower.Movement(muzzleFrameJoint.transform.forward);
     }
 
+    
 
 
     /// <summary>

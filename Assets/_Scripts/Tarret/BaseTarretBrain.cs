@@ -98,7 +98,12 @@ namespace Managers
                 case TarretCommand.VerticalRotate:
                     break;
                 case TarretCommand.Attack:
-                    if(tarretAttack.attackable) tarretAttack.BeginAttack();
+                    if (tarretAttack.attackable)
+                    {
+                        tarretAttack.BeginAttack();
+                        leftHandle.AttackVibe();
+                        rightHandle.AttackVibe();
+                    }
                     ChangeTarretState(TarretCommand.Idle);
                     break;
 

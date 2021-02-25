@@ -10,6 +10,7 @@ namespace Players
     /// </summary>
     public class HandleGrabbable : OVRGrabbable, IGrabbable
     {
+        [SerializeField] TarretData tarretData;
         OVRInput.Controller currentController;
 
         public float handleRotateLimit = 20.0f;
@@ -30,6 +31,13 @@ namespace Players
         [SerializeField] GameObject tarret;
         BaseTarretBrain baseTarretBrain;
 
+        /// <summary>
+        /// 触れた時の振動の大きさ
+        /// </summary>
+        [SerializeField] float touchFrequeency = 0.3f;
+        [SerializeField] float touchAmplitude = 0.3f;
+        [SerializeField] float touchVibeDuration = 0.2f;
+
         protected override void Start()
         {
             returnPosition = GetComponent<ReturnPosition>();
@@ -43,6 +51,7 @@ namespace Players
                 ResetRotateHandle();
                 m_preHandleToPlayerDis = 0;
                 m_allowOffhandGrab = true;
+                currentController = OVRInput.Controller.None;
             }
 
             if (isGrabbed && OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, currentController))
@@ -63,7 +72,6 @@ namespace Players
                 }
                 else
                 {
-                    returnPosition.Released();
                     ResetRotateHandle();
                     m_preHandleToPlayerDis = 0;
                     m_allowOffhandGrab = false;
@@ -132,6 +140,26 @@ namespace Players
             rotateAngle = 0;
             //m_handle.rotation = Quaternion.AngleAxis(rotateAngle, Vector3.right);
             m_handle.rotation = new Quaternion(0, 0, 0, 0);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.tag == "LHand")
+            {
+                VibrationExtension.Instance.VibrateController(
+                    touchVibeDuration, touchFrequeency, touchAmplitude, OVRInput.Controller.LTouch);
+            }
+            else if (other.tag == "RHand")
+            {
+                VibrationExtension.Instance.VibrateController(
+                    touchVibeDuration, touchFrequeency, touchAmplitude, OVRInput.Controller.RTouch);
+            }
+        }
+
+        public void AttackVibe()
+        {
+            VibrationExtension.Instance.VibrateController(
+                        tarretData.attackVibeDuration, tarretData.attackVibeFrequency, tarretData.attackVibeAmplitude, currentController);
         }
     }
 }
