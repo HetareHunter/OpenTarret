@@ -8,8 +8,9 @@ using TMPro;
 
 public class ScoreManager : SingletonMonoBehaviour<ScoreManager>
 {
-    int m_score = 0;
-    int m_addScore = 0;
+    public int m_score = 0;
+    public int m_addScore = 0;
+    int highScore = 0;
 
     bool changeScoreStanby = false;
 
@@ -18,11 +19,18 @@ public class ScoreManager : SingletonMonoBehaviour<ScoreManager>
 
     [SerializeField] float animationTime = 1.0f;
     [SerializeField] TextMeshProUGUI scoreText;
+    [SerializeField] TextMeshProUGUI highScoreText;
     [SerializeField] PlayerData playerData;
 
     private void Update()
     {
         scoreText.text = "Score:" + m_score;
+        if (m_score > highScore)
+        {
+            highScore = m_score;
+            highScoreText.text = "HighScore:" + highScore;
+        }
+        
         if (changeScoreStanby)
         {
             StanbyCountUp();
@@ -60,5 +68,11 @@ public class ScoreManager : SingletonMonoBehaviour<ScoreManager>
             num => m_score = num,
             m_addScore,
             animationTime);
+    }
+
+    public void ResetScore()
+    {
+        m_addScore = 0;
+        m_score = 0;
     }
 }

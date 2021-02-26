@@ -19,7 +19,7 @@ TagManager:
   - Screen
   - rayzer
   - Enemy
-  - 
+  - GameManage
   - 
   - 
   - 
@@ -41,6 +41,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: GameManage
+    uniqueID: 2982349955
+    locked: 0
   - name: Screen
     uniqueID: 2005013769
     locked: 0

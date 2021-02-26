@@ -55,7 +55,8 @@ public class BaseTarretAttack : MonoBehaviour
     AttackIntervalCounter attackInterval;
 
     //　当たったコライダを入れておく変数
-    RaycastHit[] m_hits;
+    RaycastHit[] m_hitsEnemy;
+    RaycastHit m_hitGameStart;
 
     private void Start()
     {
@@ -82,8 +83,10 @@ public class BaseTarretAttack : MonoBehaviour
         Ray ray = new Ray(muzzle.transform.position, muzzle.transform.forward);
 
         //　Sphereの形でレイを飛ばしEnemyレイヤーのものをhitsに入れる
-        m_hits = Physics.SphereCastAll(ray, muzzleRadius, rayDistance, LayerMask.GetMask("Enemy"));
-        if (m_hits.Length > 0)
+        m_hitsEnemy = Physics.SphereCastAll(ray, muzzleRadius, rayDistance, LayerMask.GetMask("Enemy","GameManage"));
+        //m_hitGameStart = Physics.Raycast(ray, 50.0f,LayerMask.GetMask("GameManage"));
+
+        if (m_hitsEnemy.Length > 0)
         {
             if (screenColorRed == false)
             {
@@ -107,10 +110,14 @@ public class BaseTarretAttack : MonoBehaviour
 
     void KillEnemyFromRazer()
     {
-
-        foreach (var hit in m_hits)
+        foreach (var hit in m_hitsEnemy)
         {
-
+            if (hit.transform.gameObject.layer == 11)//layerがGameManageだったとき
+            {
+                hit.transform.GetComponent<GameStart>().StartGame();
+                Instantiate(m_hitExplodeEffect, hit.point, Quaternion.identity);
+                continue;
+            }
             explosionForce(hit.point);
             Instantiate(m_hitExplodeEffect, hit.point,Quaternion.identity);
             EnemyDeath enemyDeath = hit.collider.gameObject.GetComponent<EnemyDeath>();
