@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6758053323517938763}
   - component: {fileID: 5396057554036512838}
   - component: {fileID: 7591546076101116571}
-  - component: {fileID: -8255334920517955988}
   - component: {fileID: -8610413331504381114}
   - component: {fileID: 2096093203035533328}
   - component: {fileID: -5889224240456910562}
@@ -73,60 +72,22 @@ MonoBehaviour:
   destroyTime: 7
   useWorldSpace: 0
   direction: {x: 0, y: 0, z: 0}
-  fireballAMaterial: {fileID: 2100000, guid: 3049dffabc5225d40b27675901977fdd, type: 2}
-  fireballBMaterial: {fileID: 2100000, guid: 02a46fb295082ed488cab61782ddc01f, type: 2}
-  smokeAMaterial: {fileID: 2100000, guid: f892253ab15f74115b6d10bd736b2e29, type: 2}
-  smokeBMaterial: {fileID: 2100000, guid: 36aa334bd0865ca459c9b3dfbbaf7198, type: 2}
-  shockwaveMaterial: {fileID: 2100000, guid: 21588279b895eef48a0448f7f2519813, type: 2}
-  sparksMaterial: {fileID: 2100000, guid: 35c8aea4fddc3f842bd829a8fd3d7e1c, type: 2}
-  glowMaterial: {fileID: 2100000, guid: b4d8055067ce04d4c98367d69c10b358, type: 2}
+  fireballAMaterial: {fileID: 0}
+  fireballBMaterial: {fileID: 0}
+  smokeAMaterial: {fileID: 0}
+  smokeBMaterial: {fileID: 0}
+  shockwaveMaterial: {fileID: 0}
+  sparksMaterial: {fileID: 0}
+  glowMaterial: {fileID: 0}
   heatwaveMaterial: {fileID: 0}
-  autoCreateFireball: 1
-  autoCreateSparks: 1
-  autoCreateShockwave: 1
-  autoCreateSmoke: 1
-  autoCreateGlow: 1
-  autoCreateLight: 1
+  autoCreateFireball: 0
+  autoCreateSparks: 0
+  autoCreateShockwave: 0
+  autoCreateSmoke: 0
+  autoCreateGlow: 0
+  autoCreateLight: 0
   autoCreateForce: 1
   autoCreateHeatwave: 0
---- !u!114 &-8255334920517955988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4232023163730643856}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7134859da924a14b9de2f13721402b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  on: 1
-  detonatorControlled: 1
-  startSize: 1
-  size: 1
-  explodeDelayMin: 0
-  explodeDelayMax: 0
-  startDuration: 2
-  duration: 2
-  timeScale: 1
-  startDetail: 1
-  detail: 1
-  startColor: {r: 1, g: 1, b: 1, a: 1}
-  color: {r: 1, g: 1, b: 1, a: 1}
-  startLocalPosition: {x: 0, y: 0, z: 0}
-  localPosition: {x: 0, y: 0, z: 0}
-  startForce: {x: 0, y: 0, z: 0}
-  force: {x: 0, y: 0, z: 0}
-  startVelocity: {x: 0, y: 0, z: 0}
-  velocity: {x: 0, y: 0, z: 0}
-  detailThreshold: 0
-  sprayObject: {fileID: 6657965651189499761, guid: 00f704d375ba8654ea4c89a980ddf9e8,
-    type: 3}
-  count: 10
-  startingRadius: 0
-  minScale: 1
-  maxScale: 1
 --- !u!114 &-8610413331504381114
 MonoBehaviour:
   m_ObjectHideFlags: 0

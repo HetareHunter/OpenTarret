@@ -91,7 +91,7 @@ namespace Managers
             switch (tarretCommandState)
             {
                 case TarretCommand.Idle:
-                    tarretFunction.SetVerticalRotateSpeed(leftHandle.transform, rightHandle.transform);
+                    //tarretFunction.SetVerticalRotateSpeed(leftHandle.transform, rightHandle.transform);
                     break;
                 case TarretCommand.HorizontalRotate:
                     break;

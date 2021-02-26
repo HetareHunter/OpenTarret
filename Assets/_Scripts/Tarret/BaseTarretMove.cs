@@ -41,19 +41,19 @@ namespace Players
             switch (baseTarretBrain.tarretCommandState)
             {
                 case TarretCommand.Idle:
-                    baseTarretBrain.OldJudgeRotateTarret();
+                    //baseTarretBrain.OldJudgeRotateTarret();
 
                     baseTarretBrain.JudgeRotateTarret();
                     break;
                 case TarretCommand.HorizontalRotate:
                     HorizontalRotate();
-                    baseTarretBrain.OldJudgeRotateTarret();
+                    //baseTarretBrain.OldJudgeRotateTarret();
 
                     baseTarretBrain.JudgeRotateTarret();
                     break;
                 case TarretCommand.VerticalRotate:
                     VerticalRotate();
-                    baseTarretBrain.OldJudgeRotateTarret();
+                    //baseTarretBrain.OldJudgeRotateTarret();
 
                     baseTarretBrain.JudgeRotateTarret();
                     break;

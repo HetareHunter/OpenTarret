@@ -15,5 +15,5 @@ MonoBehaviour:
   shockWaveExistTime: 0.2
   untilRotateMagazine: 0.5
   attackVibeDuration: 1.3
-  attackVibeFrequency: 0.8
+  attackVibeFrequency: 0.5
   attackVibeAmplitude: 1

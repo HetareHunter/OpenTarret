@@ -50,6 +50,8 @@ public class BaseTarretAttack : MonoBehaviour
     [SerializeField] GameObject sightRightSlider;
     TarretScreenSliderChanger tarretScreenLeftSliderChanger;
     TarretScreenSliderChanger tarretScreenRightSliderChanger;
+    bool screenColorRed = false;
+
     AttackIntervalCounter attackInterval;
 
     //　当たったコライダを入れておく変数
@@ -71,7 +73,7 @@ public class BaseTarretAttack : MonoBehaviour
     void FixedUpdate()
     {
         RaySearchObject();
-        Debug.DrawLine(muzzle.transform.position, muzzle.transform.position + muzzle.transform.forward * rayDistance);
+        //Debug.DrawLine(muzzle.transform.position, muzzle.transform.position + muzzle.transform.forward * rayDistance);
     }
 
     void RaySearchObject()
@@ -83,15 +85,23 @@ public class BaseTarretAttack : MonoBehaviour
         m_hits = Physics.SphereCastAll(ray, muzzleRadius, rayDistance, LayerMask.GetMask("Enemy"));
         if (m_hits.Length > 0)
         {
-            sightChanger.ChangeRedTex();
-            tarretScreenLeftSliderChanger.ChangeSliderFillRed();
-            tarretScreenRightSliderChanger.ChangeSliderFillRed();
+            if (screenColorRed == false)
+            {
+                sightChanger.ChangeRedTex();
+                tarretScreenLeftSliderChanger.ChangeSliderFillRed();
+                tarretScreenRightSliderChanger.ChangeSliderFillRed();
+                screenColorRed = true;
+            }
         }
         else
         {
-            sightChanger.ChangeBaseTex();
-            tarretScreenLeftSliderChanger.ChangeSliderFillBase();
-            tarretScreenRightSliderChanger.ChangeSliderFillBase();
+            if (screenColorRed == true)
+            {
+                sightChanger.ChangeBaseTex();
+                tarretScreenLeftSliderChanger.ChangeSliderFillBase();
+                tarretScreenRightSliderChanger.ChangeSliderFillBase();
+                screenColorRed = false;
+            }
         }
     }
 
@@ -122,7 +132,7 @@ public class BaseTarretAttack : MonoBehaviour
 
     void FadeFire()
     {
-        Debug.Log("終わり!");
+        //Debug.Log("終わり!");
 
         Destroy(m_razer, razerExistTime);
     }
