@@ -5,6 +5,7 @@ using UnityEngine;
 public class RotateArrowMark : MonoBehaviour
 {
     [SerializeField] GameObject anglePoint;
+    [SerializeField, Range(0, 1)] float rotateSpeed = 0.5f;
 
     private void FixedUpdate()
     {
@@ -14,6 +15,6 @@ public class RotateArrowMark : MonoBehaviour
     void RotateArrow()
     {
         Quaternion targetRotation = Quaternion.LookRotation(anglePoint.transform.position - transform.position);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed);
     }
 }
