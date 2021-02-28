@@ -209,7 +209,7 @@ public class BaseTarretAttack : MonoBehaviour
 
         if (Input.GetKeyDown("space"))
         {
-            if (baseTarretBrain.tarretCommandState != TarretCommand.Attack)
+            if (BaseTarretBrain.tarretCommandState != TarretCommand.Attack)
             {
                 baseTarretBrain.ChangeTarretState(TarretCommand.Attack);
             }

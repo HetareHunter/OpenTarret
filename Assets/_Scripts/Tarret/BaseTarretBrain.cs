@@ -30,7 +30,7 @@ namespace Managers
         /// <summary>バイクのブレーキのあそびと同じ意味 </summary>
         public float m_commandPlay = 0.1f;
 
-        public TarretCommand tarretCommandState = TarretCommand.Idle;
+        public static TarretCommand tarretCommandState = TarretCommand.Idle;
 
         private void Start()
         {

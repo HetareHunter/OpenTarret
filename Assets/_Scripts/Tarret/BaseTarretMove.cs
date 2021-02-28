@@ -38,7 +38,7 @@ namespace Players
 
         void MoveManager()
         {
-            switch (baseTarretBrain.tarretCommandState)
+            switch (BaseTarretBrain.tarretCommandState)
             {
                 case TarretCommand.Idle:
                     //baseTarretBrain.OldJudgeRotateTarret();

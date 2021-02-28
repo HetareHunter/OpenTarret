@@ -48,7 +48,6 @@ namespace Players
             if (!isGrabbed)
             {
                 returnPosition.Released();
-                ResetRotateHandle();
                 m_preHandleToPlayerDis = 0;
                 m_allowOffhandGrab = true;
                 currentController = OVRInput.Controller.None;
@@ -77,6 +76,15 @@ namespace Players
                     m_allowOffhandGrab = false;
                 }
 
+            }
+
+
+            if(OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger, currentController))
+            {
+                ResetRotateHandle();
+                m_preHandleToPlayerDis = 0;
+                m_allowOffhandGrab = true;
+                currentController = OVRInput.Controller.None;
             }
 
         }
