@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7492395219806615308}
   - component: {fileID: 7492395219806615306}
   - component: {fileID: 7492395219806615309}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RazerSteam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4763,7 +4763,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7492395220001495536}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Rayzer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4798,7 +4798,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7492395221210678731}
   - component: {fileID: 7492395221210678728}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Line
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4927,7 +4927,7 @@ GameObject:
   - component: {fileID: 7492395221438142275}
   - component: {fileID: 7492395221438142273}
   - component: {fileID: 7492395221438142272}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RazerLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9681,7 +9681,7 @@ GameObject:
   - component: {fileID: 7492395221469252196}
   - component: {fileID: 7492395221469252199}
   - component: {fileID: 7492395221469252198}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RayzerParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

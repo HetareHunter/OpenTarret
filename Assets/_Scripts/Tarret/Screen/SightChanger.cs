@@ -1,12 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SightChanger : MonoBehaviour
 {
-    [SerializeField] Material sightMaterial;
-    [SerializeField] Texture baseSightTex;
-    [SerializeField] Texture RedSightTex;
+    Image m_sightTex;
+    [SerializeField] Sprite baseSightTex;
+    [SerializeField] Sprite RedSightTex;
+
+    private void Start()
+    {
+        m_sightTex = GetComponent<Image>();
+    }
 
     //public void ChangeTexture()
     //{
@@ -22,19 +28,19 @@ public class SightChanger : MonoBehaviour
 
     public void ChangeBaseTex()
     {
-        sightMaterial.SetTexture("_BaseMap", baseSightTex);
+        m_sightTex.sprite = baseSightTex;
     }
 
     public void ChangeRedTex()
     {
-        sightMaterial.SetTexture("_BaseMap", RedSightTex);
+        m_sightTex.sprite = RedSightTex;
     }
 
     /// <summary>
     /// アプリケーション終了時に呼び出され、マテリアルのテクスチャを初期状態に戻す
     /// </summary>
-    private void OnApplicationQuit()
-    {
-        sightMaterial.SetTexture("_BaseMap", baseSightTex);
-    }
+    //private void OnApplicationQuit()
+    //{
+    //    sightTex.SetTexture("_BaseMap", baseSightTex);
+    //}
 }

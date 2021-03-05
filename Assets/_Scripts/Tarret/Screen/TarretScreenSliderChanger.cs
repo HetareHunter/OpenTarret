@@ -17,10 +17,13 @@ public class TarretScreenSliderChanger : MonoBehaviour
     void Start()
     {
         slider = GetComponent<Slider>();
+
         fillBaseRect = fillBase.GetComponent<RectTransform>();
         fillRedRect = fillRed.GetComponent<RectTransform>();
+
         fillBaseImg = fillBase.GetComponent<Image>();
         fillRedImg = fillRed.GetComponent<Image>();
+
         slider.fillRect = fillBaseRect;
     }
 
