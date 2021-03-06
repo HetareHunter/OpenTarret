@@ -14,6 +14,8 @@ public class BaseTarretAttack : MonoBehaviour
     [SerializeField] GameObject rayOfOrigin;
 
     [SerializeField] GameObject m_razerEffect;
+    //[SerializeField] GameObject m_razerSteamEffect;
+
     [SerializeField] GameObject m_wasteHeatEffect;
     [SerializeField] GameObject m_shockWaveEffect;
     [SerializeField] GameObject m_hitExplodeEffect;
@@ -23,6 +25,8 @@ public class BaseTarretAttack : MonoBehaviour
     [SerializeField] GameObject m_shockWaveEffectInsPosi;
 
     [SerializeField] float razerExistTime = 0.5f;
+    //[SerializeField] float razerSteamExistTime = 0.5f;
+
     [SerializeField] float wasteHeatExistTime = 2.0f;
 
     public bool attackable = true;
@@ -85,7 +89,7 @@ public class BaseTarretAttack : MonoBehaviour
         Ray ray = new Ray(muzzle.transform.position, muzzle.transform.forward);
 
         //　Sphereの形でレイを飛ばしEnemyレイヤーのものをhitsに入れる
-        m_hitsEnemy = Physics.SphereCastAll(ray, muzzleRadius, rayDistance.z, LayerMask.GetMask("Enemy","GameManage"));
+        m_hitsEnemy = Physics.SphereCastAll(ray, muzzleRadius, rayDistance.z, LayerMask.GetMask("Enemy", "GameManage"));
         //m_hitGameStart = Physics.Raycast(ray, 50.0f,LayerMask.GetMask("GameManage"));
 
         if (m_hitsEnemy.Length > 0)
@@ -110,7 +114,7 @@ public class BaseTarretAttack : MonoBehaviour
                 screenColorRed = false;
             }
 
-            rayHitFirstPosi = muzzle.transform.TransformPoint(rayDistance*10);
+            rayHitFirstPosi = muzzle.transform.TransformPoint(rayDistance * 10);
         }
     }
 
@@ -125,7 +129,7 @@ public class BaseTarretAttack : MonoBehaviour
                 continue;
             }
             explosionForce(hit.point);
-            Instantiate(m_hitExplodeEffect, hit.point,Quaternion.identity);
+            Instantiate(m_hitExplodeEffect, hit.point, Quaternion.identity);
             EnemyDeath enemyDeath = hit.collider.gameObject.GetComponent<EnemyDeath>();
             enemyDeath.OnDead();
             //hit.collider.enabled = false;
@@ -137,17 +141,30 @@ public class BaseTarretAttack : MonoBehaviour
     void FireEffectManager()
     {
 
-        m_razer = Instantiate(m_razerEffect, m_razerEffectInsPosi.transform.position, m_razerEffectInsPosi.transform.rotation);
+        //m_razer = Instantiate(m_razerEffect, m_razerEffectInsPosi.transform.position, m_razerEffectInsPosi.transform.rotation);
         //LineRenderer razerLineRenderer = m_razer.transform.GetChild(2).gameObject.GetComponent<LineRenderer>();
-        FadeFire();
+        m_razerEffect.transform.position = m_razerEffectInsPosi.transform.position;
+        m_razerEffect.transform.rotation = m_razerEffectInsPosi.transform.rotation;
+        m_razerEffect.SetActive(true);
+        //m_razerSteamEffect.SetActive(true);
+        Invoke("FadeFire", razerExistTime);
+        //Invoke("FadeFireLight", razerSteamExistTime);
+
+        //FadeFire();
     }
 
     void FadeFire()
     {
         //Debug.Log("終わり!");
 
-        Destroy(m_razer, razerExistTime);
+        //Destroy(m_razer, razerExistTime);
+        m_razerEffect.SetActive(false);
     }
+    //void FadeFireLight()
+    //{
+    //    m_razerSteamEffect.SetActive(false);
+    //}
+
 
     //ここまでレーザーのライン部分のスクリプト
 
@@ -171,12 +188,12 @@ public class BaseTarretAttack : MonoBehaviour
 
     void explosionForce(Vector3 hitPosi)
     {
-        GameObject explode = Instantiate(explodeobj, hitPosi , Quaternion.identity);
+        GameObject explode = Instantiate(explodeobj, hitPosi, Quaternion.identity);
         BeamPower beamPower = explode.GetComponent<BeamPower>();
         beamPower.Movement(muzzleFrameJoint.transform.forward);
     }
 
-    
+
 
 
     /// <summary>
