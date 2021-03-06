@@ -53,7 +53,7 @@ public class ScoreManager : SingletonMonoBehaviour<ScoreManager>
         m_addScore += addScore;
         ResetStanbyCount();
         changeScoreStanby = true;
-        Debug.Log("addScore:" + addScore);
+        //Debug.Log("addScore:" + addScore);
     }
 
     void ResetStanbyCount()

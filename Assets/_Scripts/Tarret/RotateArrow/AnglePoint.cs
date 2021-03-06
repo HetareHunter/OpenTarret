@@ -34,7 +34,7 @@ public class AnglePoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("CenterOfHands:" + CenterOfHands);
+        //Debug.Log("CenterOfHands:" + CenterOfHands);
         MoveAnglePoint();
     }
 

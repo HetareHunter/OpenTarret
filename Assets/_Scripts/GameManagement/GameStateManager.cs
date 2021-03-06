@@ -29,11 +29,11 @@ public class GameStateManager : SingletonMonoBehaviour<GameStateManager>
     public void ChangeGameState(GameState next)
     {
         //以前の状態を保持
-        var prev = gameState;
+        //var prev = gameState;
         //次の状態に変更する
         gameState = next;
         // ログを出す
-        Debug.Log($"ChangeState {prev} -> {next}");
+        //Debug.Log($"ChangeState {prev} -> {next}");
 
         switch (gameState)
         {
