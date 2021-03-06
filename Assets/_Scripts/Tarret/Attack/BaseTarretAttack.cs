@@ -10,7 +10,7 @@ public class BaseTarretAttack : MonoBehaviour
     [SerializeField] TarretData tarretData;
     [SerializeField] GameObject muzzleFrameJoint;
 
-    [SerializeField] float rayDistance = 1;
+    [SerializeField] Vector3 rayDistance;
     [SerializeField] GameObject rayOfOrigin;
 
     [SerializeField] GameObject m_razerEffect;
@@ -58,6 +58,8 @@ public class BaseTarretAttack : MonoBehaviour
     RaycastHit[] m_hitsEnemy;
     RaycastHit m_hitGameStart;
 
+    public Vector3 rayHitFirstPosi;
+
     private void Start()
     {
         baseTarretBrain = GetComponent<BaseTarretBrain>();
@@ -83,28 +85,32 @@ public class BaseTarretAttack : MonoBehaviour
         Ray ray = new Ray(muzzle.transform.position, muzzle.transform.forward);
 
         //　Sphereの形でレイを飛ばしEnemyレイヤーのものをhitsに入れる
-        m_hitsEnemy = Physics.SphereCastAll(ray, muzzleRadius, rayDistance, LayerMask.GetMask("Enemy","GameManage"));
+        m_hitsEnemy = Physics.SphereCastAll(ray, muzzleRadius, rayDistance.z, LayerMask.GetMask("Enemy","GameManage"));
         //m_hitGameStart = Physics.Raycast(ray, 50.0f,LayerMask.GetMask("GameManage"));
 
         if (m_hitsEnemy.Length > 0)
         {
             if (screenColorRed == false)
             {
-                sightChanger.ChangeRedTex();
+                sightChanger.ChangeRed();
                 tarretScreenLeftSliderChanger.ChangeSliderFillRed();
                 tarretScreenRightSliderChanger.ChangeSliderFillRed();
                 screenColorRed = true;
             }
+
+            rayHitFirstPosi = m_hitsEnemy[0].point;
         }
         else
         {
             if (screenColorRed == true)
             {
-                sightChanger.ChangeBaseTex();
+                sightChanger.ChangeBase();
                 tarretScreenLeftSliderChanger.ChangeSliderFillBase();
                 tarretScreenRightSliderChanger.ChangeSliderFillBase();
                 screenColorRed = false;
             }
+
+            rayHitFirstPosi = muzzle.transform.TransformPoint(rayDistance*10);
         }
     }
 
@@ -134,7 +140,6 @@ public class BaseTarretAttack : MonoBehaviour
         m_razer = Instantiate(m_razerEffect, m_razerEffectInsPosi.transform.position, m_razerEffectInsPosi.transform.rotation);
         //LineRenderer razerLineRenderer = m_razer.transform.GetChild(2).gameObject.GetComponent<LineRenderer>();
         FadeFire();
-
     }
 
     void FadeFire()

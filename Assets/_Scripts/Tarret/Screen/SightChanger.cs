@@ -7,7 +7,9 @@ public class SightChanger : MonoBehaviour
 {
     Image m_sightTex;
     [SerializeField] Sprite baseSightTex;
-    [SerializeField] Sprite RedSightTex;
+    [SerializeField] Sprite redSightTex;
+    [SerializeField] Material baseSigjtMT;
+    [SerializeField] Material redSigjtMT;
 
     private void Start()
     {
@@ -26,14 +28,16 @@ public class SightChanger : MonoBehaviour
     //    }
     //}
 
-    public void ChangeBaseTex()
+    public void ChangeBase()
     {
         m_sightTex.sprite = baseSightTex;
+        m_sightTex.material = baseSigjtMT;
     }
 
-    public void ChangeRedTex()
+    public void ChangeRed()
     {
-        m_sightTex.sprite = RedSightTex;
+        m_sightTex.sprite = redSightTex;
+        m_sightTex.material = redSigjtMT;
     }
 
     /// <summary>
