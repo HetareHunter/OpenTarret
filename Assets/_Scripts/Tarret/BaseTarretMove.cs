@@ -63,6 +63,7 @@ namespace Players
                 case TarretCommand.Rotate:
                     HorizontalRotate();
                     VerticalRotate();
+                    baseTarretBrain.JudgeRotateTarret();
                     break;
                 default:
                     break;

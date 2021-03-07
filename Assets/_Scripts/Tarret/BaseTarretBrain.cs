@@ -68,10 +68,15 @@ namespace Managers
             //両手ともタレットのハンドルを握っているとき
             if (leftHandle.isGrabbed && rightHandle.isGrabbed)
             {
-                if (!(tarretCommandState == TarretCommand.Rotate))
-                {
-                    ChangeTarretState(TarretCommand.Rotate);
-                }
+                //if (!(tarretCommandState == TarretCommand.Rotate))
+                //{
+                //    ChangeTarretState(TarretCommand.Rotate);
+                //}
+                ChangeTarretState(TarretCommand.Rotate);
+            }
+            else
+            {
+                ChangeTarretState(TarretCommand.Idle);
             }
         }
 
