@@ -45,7 +45,31 @@ namespace Players
         }
         void FixedUpdate()
         {
-            if (!isGrabbed)
+            if (isGrabbed)
+            {
+                if(OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, currentController))
+                {
+                    if (currentController == OVRInput.Controller.RTouch)
+                    {
+                        baseTarretBrain.ChangeTarretState(TarretCommand.Attack);
+                    }
+                }
+
+                if(OVRInput.Get(OVRInput.Button.PrimaryHandTrigger, currentController))
+                {
+                    if (IsGrabbable())
+                    {
+                        RotateHandle();
+                    }
+                    else
+                    {
+                        ResetRotateHandle();
+                        m_preHandleToPlayerDis = 0;
+                        m_allowOffhandGrab = false;
+                    }
+                }
+            }
+            else
             {
                 returnPosition.Released();
                 m_preHandleToPlayerDis = 0;
@@ -53,38 +77,13 @@ namespace Players
                 currentController = OVRInput.Controller.None;
             }
 
-            if (isGrabbed && OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, currentController))
-            {
-                // implement
-                if (currentController == OVRInput.Controller.RTouch)
-                {
-                    baseTarretBrain.ChangeTarretState(TarretCommand.Attack);
-                }
-            }
-
-
-            if (isGrabbed && OVRInput.Get(OVRInput.Button.PrimaryHandTrigger, currentController))
-            {
-                if (IsGrabbable())
-                {
-                    RotateHandle();
-                }
-                else
-                {
-                    ResetRotateHandle();
-                    m_preHandleToPlayerDis = 0;
-                    m_allowOffhandGrab = false;
-                }
-
-            }
-
-
             if(OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger, currentController))
             {
                 ResetRotateHandle();
                 m_preHandleToPlayerDis = 0;
                 m_allowOffhandGrab = true;
                 currentController = OVRInput.Controller.None;
+                baseTarretBrain.ChangeTarretState(TarretCommand.Idle);
             }
 
         }

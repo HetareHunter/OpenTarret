@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Managers;
 
 public class AnglePoint : MonoBehaviour
 {
@@ -35,7 +36,11 @@ public class AnglePoint : MonoBehaviour
     void Update()
     {
         //Debug.Log("CenterOfHands:" + CenterOfHands);
-        MoveAnglePoint();
+        if (BaseTarretBrain.tarretCommandState == TarretCommand.Rotate)
+        {
+            MoveAnglePoint();
+        }
+       
     }
 
     void MoveAnglePoint()

@@ -82,11 +82,11 @@ namespace Managers
         public void ChangeTarretState(TarretCommand next)
         {
             //以前の状態を保持
-            //var prev = tarretCommandState;
+            var prev = tarretCommandState;
             //次の状態に変更する
             tarretCommandState = next;
             // ログを出す
-            //Debug.Log($"ChangeState {prev} -> {next}");
+            Debug.Log($"ChangeState {prev} -> {next}");
 
             switch (tarretCommandState)
             {
