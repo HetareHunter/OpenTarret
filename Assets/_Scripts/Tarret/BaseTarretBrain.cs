@@ -24,7 +24,7 @@ namespace Managers
         ///<summary>Tarretのhandleを握ったときに情報が格納される変数</summary>
         public HandleGrabbable rightHandle;
 
-        BaseTarretRotateFunction tarretFunction;
+        //BaseTarretRotateFunction tarretFunction;
         BaseTarretAttack tarretAttack;
 
         /// <summary>バイクのブレーキのあそびと同じ意味 </summary>
@@ -34,34 +34,34 @@ namespace Managers
 
         private void Start()
         {
-            tarretFunction = GetComponent<BaseTarretRotateFunction>();
+            //tarretFunction = GetComponent<BaseTarretRotateFunction>();
             tarretAttack = GetComponent<BaseTarretAttack>();
         }
 
         /// <summary>
         /// タレットのコントローラの傾きでTarretCommandのstateを変化させる
         /// </summary>
-        public void OldJudgeRotateTarret()
-        {
-            if (Mathf.Abs(leftHandle.HandleRotatePer) > m_commandPlay && Mathf.Abs(rightHandle.HandleRotatePer) > m_commandPlay)
-            {
-                if (leftHandle.HandleRotatePer > m_commandPlay && rightHandle.HandleRotatePer < -m_commandPlay ||
-                    leftHandle.HandleRotatePer < -m_commandPlay && rightHandle.HandleRotatePer > m_commandPlay)
-                {
-                    ChangeTarretState(TarretCommand.HorizontalRotate);
-                }
-                else if (leftHandle.HandleRotatePer > m_commandPlay && rightHandle.HandleRotatePer > m_commandPlay ||
-                    leftHandle.HandleRotatePer < -m_commandPlay && rightHandle.HandleRotatePer < -m_commandPlay)
-                {
-                    ChangeTarretState(TarretCommand.VerticalRotate);
-                }
-            }
-            else
-            {
-                //ChangeTarretState(TarretCommand.Idle);
-            }
+        //public void OldJudgeRotateTarret()
+        //{
+        //    if (Mathf.Abs(leftHandle.HandleRotatePer) > m_commandPlay && Mathf.Abs(rightHandle.HandleRotatePer) > m_commandPlay)
+        //    {
+        //        if (leftHandle.HandleRotatePer > m_commandPlay && rightHandle.HandleRotatePer < -m_commandPlay ||
+        //            leftHandle.HandleRotatePer < -m_commandPlay && rightHandle.HandleRotatePer > m_commandPlay)
+        //        {
+        //            ChangeTarretState(TarretCommand.HorizontalRotate);
+        //        }
+        //        else if (leftHandle.HandleRotatePer > m_commandPlay && rightHandle.HandleRotatePer > m_commandPlay ||
+        //            leftHandle.HandleRotatePer < -m_commandPlay && rightHandle.HandleRotatePer < -m_commandPlay)
+        //        {
+        //            ChangeTarretState(TarretCommand.VerticalRotate);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        //ChangeTarretState(TarretCommand.Idle);
+        //    }
 
-        }
+        //}
 
         public void JudgeRotateTarret()
         {
@@ -87,21 +87,21 @@ namespace Managers
         public void ChangeTarretState(TarretCommand next)
         {
             //以前の状態を保持
-            var prev = tarretCommandState;
+            //var prev = tarretCommandState;
             //次の状態に変更する
             tarretCommandState = next;
-            // ログを出す
-            Debug.Log($"ChangeState {prev} -> {next}");
+            //// ログを出す
+            //Debug.Log($"ChangeState {prev} -> {next}");
 
             switch (tarretCommandState)
             {
                 case TarretCommand.Idle:
                     //tarretFunction.SetVerticalRotateSpeed(leftHandle.transform, rightHandle.transform);
                     break;
-                case TarretCommand.HorizontalRotate:
-                    break;
-                case TarretCommand.VerticalRotate:
-                    break;
+                //case TarretCommand.HorizontalRotate:
+                //    break;
+                //case TarretCommand.VerticalRotate:
+                //    break;
                 case TarretCommand.Attack:
                     if (tarretAttack.attackable)
                     {

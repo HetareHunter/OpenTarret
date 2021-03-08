@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6657965651189499756}
   - component: {fileID: 6657965651189499759}
   m_Layer: 10
-  m_Name: Enemy
+  m_Name: Enemy_Yellow
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -56,7 +56,7 @@ MeshRenderer:
   m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
+  m_ReflectionProbeUsage: 3
   m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0

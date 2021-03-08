@@ -45,20 +45,20 @@ namespace Players
 
                     baseTarretBrain.JudgeRotateTarret();
                     break;
-                case TarretCommand.HorizontalRotate:
-                    HorizontalRotate();
-                    //baseTarretBrain.OldJudgeRotateTarret();
+                //case TarretCommand.HorizontalRotate:
+                //    HorizontalRotate();
+                //    //baseTarretBrain.OldJudgeRotateTarret();
 
-                    baseTarretBrain.JudgeRotateTarret();
-                    break;
-                case TarretCommand.VerticalRotate:
-                    VerticalRotate();
-                    //baseTarretBrain.OldJudgeRotateTarret();
+                //    baseTarretBrain.JudgeRotateTarret();
+                //    break;
+                //case TarretCommand.VerticalRotate:
+                //    VerticalRotate();
+                //    //baseTarretBrain.OldJudgeRotateTarret();
 
-                    baseTarretBrain.JudgeRotateTarret();
-                    break;
-                case TarretCommand.Attack:
-                    break;
+                //    baseTarretBrain.JudgeRotateTarret();
+                //    break;
+                //case TarretCommand.Attack:
+                //    break;
 
                 case TarretCommand.Rotate:
                     HorizontalRotate();

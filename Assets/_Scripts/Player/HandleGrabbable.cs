@@ -47,7 +47,7 @@ namespace Players
         {
             if (isGrabbed)
             {
-                if(OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, currentController))
+                if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, currentController))
                 {
                     if (currentController == OVRInput.Controller.RTouch)
                     {
@@ -55,7 +55,7 @@ namespace Players
                     }
                 }
 
-                if(OVRInput.Get(OVRInput.Button.PrimaryHandTrigger, currentController))
+                if (OVRInput.Get(OVRInput.Button.PrimaryHandTrigger, currentController))
                 {
                     if (IsGrabbable())
                     {
@@ -68,6 +68,15 @@ namespace Players
                         m_allowOffhandGrab = false;
                     }
                 }
+
+                if (OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger, currentController))
+                {
+                    ResetRotateHandle();
+                    m_preHandleToPlayerDis = 0;
+                    m_allowOffhandGrab = true;
+                    currentController = OVRInput.Controller.None;
+                    baseTarretBrain.ChangeTarretState(TarretCommand.Idle);
+                }
             }
             else
             {
@@ -77,14 +86,7 @@ namespace Players
                 currentController = OVRInput.Controller.None;
             }
 
-            if(OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger, currentController))
-            {
-                ResetRotateHandle();
-                m_preHandleToPlayerDis = 0;
-                m_allowOffhandGrab = true;
-                currentController = OVRInput.Controller.None;
-                baseTarretBrain.ChangeTarretState(TarretCommand.Idle);
-            }
+            
 
         }
 
@@ -151,12 +153,12 @@ namespace Players
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.tag == "LHand")
+            if (other.tag == "LHand" && !isGrabbed)
             {
                 VibrationExtension.Instance.VibrateController(
                     touchVibeDuration, touchFrequeency, touchAmplitude, OVRInput.Controller.LTouch);
             }
-            else if (other.tag == "RHand")
+            else if (other.tag == "RHand" && !isGrabbed)
             {
                 VibrationExtension.Instance.VibrateController(
                     touchVibeDuration, touchFrequeency, touchAmplitude, OVRInput.Controller.RTouch);
