@@ -99,7 +99,7 @@ LightmapSettings:
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 112000000, guid: 5abdbf5e2fd9ab64589d654c1491b5bd,
     type: 2}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -3022,7 +3022,6 @@ MonoBehaviour:
   m_handle: {fileID: 2474234912503998142}
   handleSensitivity: 3
   player: {fileID: 922982714}
-  playersArmLength: 0.7
   tarret: {fileID: 449676436726112946}
   touchFrequeency: 0.4
   touchAmplitude: 0.2
@@ -6272,7 +6271,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7062794110715566446}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -6383,7 +6382,6 @@ MonoBehaviour:
   m_handle: {fileID: 4690713779369545315}
   handleSensitivity: 3
   player: {fileID: 922982714}
-  playersArmLength: 0.7
   tarret: {fileID: 449676436726112946}
   touchFrequeency: 0.4
   touchAmplitude: 0.2

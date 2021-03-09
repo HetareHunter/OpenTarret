@@ -25,7 +25,7 @@ namespace Players
         /// <summary>
         /// これ以上離れると自動的に手を放す
         /// </summary>
-        [SerializeField] float playersArmLength = 0.7f;
+        //[SerializeField] float playersArmLength = 0.7f;
 
         ReturnPosition returnPosition = new ReturnPosition();
         [SerializeField] GameObject tarret;
@@ -37,6 +37,7 @@ namespace Players
         [SerializeField] float touchFrequeency = 0.3f;
         [SerializeField] float touchAmplitude = 0.3f;
         [SerializeField] float touchVibeDuration = 0.2f;
+
 
         protected override void Start()
         {
@@ -57,36 +58,39 @@ namespace Players
 
                 if (OVRInput.Get(OVRInput.Button.PrimaryHandTrigger, currentController))
                 {
-                    if (IsGrabbable())
-                    {
-                        RotateHandle();
-                    }
-                    else
-                    {
-                        ResetRotateHandle();
-                        m_preHandleToPlayerDis = 0;
-                        m_allowOffhandGrab = false;
-                    }
+                    RotateHandle();
+                    //if (IsGrabbable())
+                    //{
+                    //    RotateHandle();
+                    //}
+                    //else
+                    //{
+                    //    ResetRotateHandle();
+                    //    m_preHandleToPlayerDis = 0;
+                    //    m_allowOffhandGrab = false;
+                    //}
                 }
 
-                if (OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger, currentController))
-                {
-                    ResetRotateHandle();
-                    m_preHandleToPlayerDis = 0;
-                    m_allowOffhandGrab = true;
-                    currentController = OVRInput.Controller.None;
-                    baseTarretBrain.ChangeTarretState(TarretCommand.Idle);
-                }
+
             }
             else
             {
+                ResetRotateHandle();
                 returnPosition.Released();
                 m_preHandleToPlayerDis = 0;
                 m_allowOffhandGrab = true;
                 currentController = OVRInput.Controller.None;
+                baseTarretBrain.ChangeTarretState(TarretCommand.Idle);
             }
 
-            
+            //if (OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger, currentController))
+            //{
+            //    ResetRotateHandle();
+            //    m_preHandleToPlayerDis = 0;
+            //    m_allowOffhandGrab = true;
+            //    currentController = OVRInput.Controller.None;
+            //    baseTarretBrain.ChangeTarretState(TarretCommand.Idle);
+            //}
 
         }
 
@@ -139,10 +143,10 @@ namespace Players
         /// 毎フレーム判定し、コライダーがタレットのハンドルから一定の距離以上離れたら手を放す
         /// </summary>
         /// <returns></returns>
-        bool IsGrabbable()
-        {
-            return Vector3.Distance(transform.position, player.transform.position) < playersArmLength;
-        }
+        //bool IsGrabbable()
+        //{
+        //    return Vector3.Distance(transform.position, player.transform.position) < playersArmLength;
+        //}
 
         void ResetRotateHandle()
         {
