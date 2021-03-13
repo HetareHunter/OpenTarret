@@ -3,28 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// スキャンしていくオブジェクトに付ける。板状のもの
+/// スキャン対象のオブジェクトに付ける。
 /// </summary>
 public class ScanEffect : MonoBehaviour
 {
-    BoxCollider boxCollider;
-
-    [SerializeField] GameObject scanParticle;
-
-    [SerializeField] float effectLifeTime = 2.0f;
-
+    Material material;
+    float minposi;
+    [SerializeField] float limitScanLine = 1.0f;
+    public bool scanTrigger = false;
     // Start is called before the first frame update
     void Start()
     {
-        boxCollider = GetComponent<BoxCollider>();
+        material = GetComponent<Renderer>().material;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void Update()
     {
-        foreach (var point in collision.contacts)
+        RunScanLine();
+        material.SetFloat("_ScanLinePosi", minposi);
+    }
+
+    void RunScanLine()
+    {
+        if (scanTrigger)
         {
-            GameObject effect = Instantiate(scanParticle, point.point, Quaternion.identity);
-            Destroy(effect, effectLifeTime);
+            minposi += Time.deltaTime;
+            if (minposi > limitScanLine)
+            {
+                minposi = 0;
+                scanTrigger = false;
+            }
+        }
+        else
+        {
+            minposi = 0;
         }
     }
 }
