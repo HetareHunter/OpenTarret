@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class AttackIntervalCounter : MonoBehaviour
 {
-    float attackIntervalTime = 1.4f;
+    public float attackIntervalTime = 1.4f;
     [SerializeField] GameObject screenLeftSliderObj;
     [SerializeField] GameObject screenRightSliderObj;
     Slider screenLeftSlider;

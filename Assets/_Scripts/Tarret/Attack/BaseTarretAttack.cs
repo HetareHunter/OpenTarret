@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using Managers;
 using UniRx;
+using DG.Tweening;
 
 public class BaseTarretAttack : MonoBehaviour
 {
@@ -31,10 +32,11 @@ public class BaseTarretAttack : MonoBehaviour
 
     public bool attackable = true;
 
-    GameObject m_razer;
     GameObject m_wasteHeat;
     GameObject m_shockWave;
 
+    [SerializeField] AnimationCurve razerFadeAnim;
+    LineRenderer razerLineRenderer;
 
     [SerializeField] GameObject muzzle;
     float muzzleRadius;
@@ -75,6 +77,7 @@ public class BaseTarretAttack : MonoBehaviour
         tarretScreenLeftSliderChanger = sightLeftSlider.GetComponent<TarretScreenSliderChanger>();
         tarretScreenRightSliderChanger = sightRightSlider.GetComponent<TarretScreenSliderChanger>();
         attackInterval = GetComponent<AttackIntervalCounter>();
+        razerLineRenderer = m_razerEffect.transform.GetChild(0).GetComponent<LineRenderer>();
     }
 
     void FixedUpdate()
@@ -140,12 +143,27 @@ public class BaseTarretAttack : MonoBehaviour
     //レーザーのライン部分のスクリプト
     void FireEffectManager()
     {
-
+        //razerLineRenderer = m_razerEffect.transform.GetChild(0).GetComponent<LineRenderer>();
         //m_razer = Instantiate(m_razerEffect, m_razerEffectInsPosi.transform.position, m_razerEffectInsPosi.transform.rotation);
         //LineRenderer razerLineRenderer = m_razer.transform.GetChild(2).gameObject.GetComponent<LineRenderer>();
+        
+
         m_razerEffect.transform.position = m_razerEffectInsPosi.transform.position;
         m_razerEffect.transform.rotation = m_razerEffectInsPosi.transform.rotation;
         m_razerEffect.SetActive(true);
+        razerLineRenderer.startWidth = 1.3f;
+        razerLineRenderer.endWidth = 1.3f;
+        DOTween.To(
+            () => razerLineRenderer.startWidth,
+            (x) => razerLineRenderer.startWidth = x,
+            0,
+            0.5f).SetEase(Ease.InQuad);
+        DOTween.To(
+            () => razerLineRenderer.endWidth,
+            (x) => razerLineRenderer.endWidth = x,
+            0,
+            0.5f).SetEase(Ease.InQuad);
+        
         //m_razerSteamEffect.SetActive(true);
         Invoke("FadeFire", razerExistTime);
         //Invoke("FadeFireLight", razerSteamExistTime);
@@ -155,7 +173,8 @@ public class BaseTarretAttack : MonoBehaviour
 
     void FadeFire()
     {
-        //Debug.Log("終わり!");
+        //razerLineRenderer.startWidth = 1.0f;
+        //razerLineRenderer.endWidth = 1.0f;
 
         //Destroy(m_razer, razerExistTime);
         m_razerEffect.SetActive(false);

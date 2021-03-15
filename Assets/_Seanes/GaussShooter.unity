@@ -141,7 +141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &21452185
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2492,7 +2492,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1005429751
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5133,6 +5133,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7492395221210678728, guid: a32ce0928569102429c4c524d43a4cb7,
+        type: 3}
+      propertyPath: m_Parameters.widthMultiplier
+      value: 1.3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a32ce0928569102429c4c524d43a4cb7, type: 3}
 --- !u!4 &1841171389 stripped
@@ -5796,6 +5801,12 @@ MonoBehaviour:
   razerExistTime: 0.5
   wasteHeatExistTime: 2
   attackable: 1
+  razerFadeAnim:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   muzzle: {fileID: 1123937452}
   magazine: {fileID: 4361260312286322027}
   untilRotateMagazine: 0.3
@@ -5817,6 +5828,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe74132e8bbb92b449654ff95599176e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackIntervalTime: 1.4
   screenLeftSliderObj: {fileID: 1764161610}
   screenRightSliderObj: {fileID: 1151951048}
   countStart: 0
