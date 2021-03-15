@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7821953369641103587}
   - component: {fileID: 7821953369641103613}
   - component: {fileID: 7821953369641103612}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: FrameSteamLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4765,7 +4765,7 @@ GameObject:
   - component: {fileID: 7821953370842309857}
   - component: {fileID: 7821953370842309859}
   - component: {fileID: 7821953370842309858}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: FrameSteamRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9517,7 +9517,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8581692388937943733}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: WasteHeat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
