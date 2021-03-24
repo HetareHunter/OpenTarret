@@ -19,7 +19,9 @@ public class BaseTarretAttack : MonoBehaviour
 
     [SerializeField] GameObject m_wasteHeatEffect;
     [SerializeField] GameObject m_shockWaveEffect;
-    [SerializeField] GameObject m_hitExplodeEffect;
+    [SerializeField] GameObject[] m_hitExplodeEffects;
+    int hitExplodeIndex = 0;
+    [SerializeField] float explodeExistTime = 3.0f;
 
     [SerializeField] GameObject m_razerEffectInsPosi;
     [SerializeField] GameObject m_wasteHeatEffectInsPosi;
@@ -128,25 +130,34 @@ public class BaseTarretAttack : MonoBehaviour
             if (hit.transform.gameObject.layer == 11)//layerがGameManageだったとき
             {
                 hit.transform.GetComponent<GameStart>().StartGame();
-                Instantiate(m_hitExplodeEffect, hit.point, Quaternion.identity);
-                continue;
+                //Instantiate(m_hitExplodeEffects[hitExplodeIndex], hit.point, Quaternion.identity);
+                m_hitExplodeEffects[hitExplodeIndex].transform.position = hit.point;
+                m_hitExplodeEffects[hitExplodeIndex].SetActive(true);
+                hitExplodeIndex++;
             }
-            explosionForce(hit.point);
-            Instantiate(m_hitExplodeEffect, hit.point, Quaternion.identity);
-            EnemyDeath enemyDeath = hit.collider.gameObject.GetComponent<EnemyDeath>();
-            enemyDeath.OnDead();
-            //hit.collider.enabled = false;
-            //Destroy(hit.collider.gameObject);
+            else
+            {
+                explosionForce(hit.point);
+                //Instantiate(m_hitExplodeEffects[hitExplodeIndex], hit.point, Quaternion.identity);
+                m_hitExplodeEffects[hitExplodeIndex].transform.position = hit.point;
+                m_hitExplodeEffects[hitExplodeIndex].SetActive(true);
+                hitExplodeIndex++;
+                EnemyDeath enemyDeath = hit.collider.gameObject.GetComponent<EnemyDeath>();
+                enemyDeath.OnDead();
+                //hit.collider.enabled = false;
+                //Destroy(hit.collider.gameObject);
+            }
+
+            if (hitExplodeIndex >= m_hitExplodeEffects.Length)
+            {
+                hitExplodeIndex = 0;
+            }
         }
     }
 
     //レーザーのライン部分のスクリプト
     void FireEffectManager()
     {
-        //razerLineRenderer = m_razerEffect.transform.GetChild(0).GetComponent<LineRenderer>();
-        //m_razer = Instantiate(m_razerEffect, m_razerEffectInsPosi.transform.position, m_razerEffectInsPosi.transform.rotation);
-        //LineRenderer razerLineRenderer = m_razer.transform.GetChild(2).gameObject.GetComponent<LineRenderer>();
-        
 
         m_razerEffect.transform.position = m_razerEffectInsPosi.transform.position;
         m_razerEffect.transform.rotation = m_razerEffectInsPosi.transform.rotation;
@@ -173,17 +184,8 @@ public class BaseTarretAttack : MonoBehaviour
 
     void FadeFire()
     {
-        //razerLineRenderer.startWidth = 1.0f;
-        //razerLineRenderer.endWidth = 1.0f;
-
-        //Destroy(m_razer, razerExistTime);
         m_razerEffect.SetActive(false);
     }
-    //void FadeFireLight()
-    //{
-    //    m_razerSteamEffect.SetActive(false);
-    //}
-
 
     //ここまでレーザーのライン部分のスクリプト
 
@@ -211,8 +213,6 @@ public class BaseTarretAttack : MonoBehaviour
         BeamPower beamPower = explode.GetComponent<BeamPower>();
         beamPower.Movement(muzzleFrameJoint.transform.forward);
     }
-
-
 
 
     /// <summary>

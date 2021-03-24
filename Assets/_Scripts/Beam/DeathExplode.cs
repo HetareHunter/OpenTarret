@@ -5,8 +5,14 @@ using UnityEngine;
 public class DeathExplode : MonoBehaviour
 {
     [SerializeField] float deathTime = 3.0f;
-    private void Awake()
+    private void OnEnable()
     {
-        Destroy(gameObject, deathTime);
+        //Destroy(gameObject, deathTime);
+        Invoke("FadeExplode", deathTime);
+    }
+
+    void FadeExplode()
+    {
+        gameObject.SetActive(false);
     }
 }
