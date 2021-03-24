@@ -25,10 +25,18 @@ namespace Players
         [SerializeField] float debugHorizontalRotate = 0.8f;
         [SerializeField] float debugVerticalRotate = 0.3f;
 
+        [SerializeField] float rotateSpeed = 1.0f;
+
+        [SerializeField] bool editRotateMode = false;
+
         private void Start()
         {
             //baseTarretControl = GetComponent<BaseTarretRotateFunction>();
             baseTarretBrain = GetComponent<BaseTarretBrain>();
+            if (editRotateMode)
+            {
+                rotateSpeed = 10.0f;
+            }
         }
 
         void FixedUpdate()
@@ -44,6 +52,11 @@ namespace Players
                     //baseTarretBrain.OldJudgeRotateTarret();
 
                     baseTarretBrain.JudgeRotateTarret();
+                    if (editRotateMode)
+                    {
+                        HorizontalRotate();
+                        VerticalRotate();
+                    }
                     break;
                 //case TarretCommand.HorizontalRotate:
                 //    HorizontalRotate();
@@ -74,7 +87,7 @@ namespace Players
         {
             //rootPos.transform.Rotate(new Vector3(0, 90, 0) * Time.deltaTime * baseTarretControl
             //        .SetHorizontalRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform));
-            rootPos.transform.Rotate(new Vector3(0, 90, 0) * Time.deltaTime * m_arrowMark.transform.localRotation.y);
+            rootPos.transform.Rotate(new Vector3(0, 90, 0) * rotateSpeed * Time.deltaTime * m_arrowMark.transform.localRotation.y);
         }
 
         void VerticalRotate()
@@ -84,10 +97,10 @@ namespace Players
             {
                 if (m_arrowMark.transform.localRotation.x < 0)
                 {
-                    muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * Time.deltaTime
+                    muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * rotateSpeed * Time.deltaTime
                         * m_arrowMark.transform.localRotation.x);
                 }
-                
+
                 //Debug.Log("leftHandle.HandleRotatePer:" + baseTarretBrain.leftHandle.HandleRotatePer);
                 //Debug.Log("rightHandle.HandleRotatePer:" + baseTarretBrain.rightHandle.HandleRotatePer);
                 //if (baseTarretBrain.leftHandle.HandleRotatePer < 0.0f) //回転の限界値を超えるときは逆回転の操作しか受け付けない
@@ -102,7 +115,7 @@ namespace Players
             {
                 if (m_arrowMark.transform.localRotation.x > 0)
                 {
-                    muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * Time.deltaTime
+                    muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * rotateSpeed * Time.deltaTime
                         * m_arrowMark.transform.localRotation.x);
                 }
                 //if (baseTarretBrain.leftHandle.HandleRotatePer > 0.0f)
@@ -113,7 +126,7 @@ namespace Players
             }
             else
             {
-                muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * Time.deltaTime
+                muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * rotateSpeed * Time.deltaTime
                         * m_arrowMark.transform.localRotation.x);
                 //muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * Time.deltaTime * baseTarretControl
                 //    .SetVerticalRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform));
@@ -123,11 +136,15 @@ namespace Players
 #if UNITY_EDITOR
         void Update()
         {
-            float dx = Input.GetAxis("Horizontal");
-            float dy = Input.GetAxis("Vertical");
+            if (!editRotateMode)
+            {
+                float dx = Input.GetAxis("Horizontal");
+                float dy = Input.GetAxis("Vertical");
 
-            DebugHorizontalRotate(dx);
-            DebugVerticalRotate(dy);
+                DebugHorizontalRotate(dx);
+                DebugVerticalRotate(dy);
+
+            }
 
         }
 

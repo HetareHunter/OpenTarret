@@ -50,7 +50,7 @@ namespace Players
             {
                 if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, currentController))
                 {
-                    if (currentController == OVRInput.Controller.RTouch)
+                    if (transform.tag == "RHundle")
                     {
                         baseTarretBrain.ChangeTarretState(TarretCommand.Attack);
                     }
