@@ -21,6 +21,11 @@ namespace Players
         /// <summary> ハンドルの感度 </summary>
         [SerializeField] float handleSensitivity = 2.0f;
 
+        [SerializeField] GameObject leftHandMesh;
+        [SerializeField] GameObject rightHandMesh;
+        [SerializeField] GameObject gripPosi;
+
+
         [SerializeField] GameObject player;
         /// <summary>
         /// これ以上離れると自動的に手を放す
@@ -37,6 +42,7 @@ namespace Players
         [SerializeField] float touchFrequeency = 0.3f;
         [SerializeField] float touchAmplitude = 0.3f;
         [SerializeField] float touchVibeDuration = 0.2f;
+
 
 
         protected override void Start()
@@ -56,42 +62,50 @@ namespace Players
                     }
                 }
 
-                if (OVRInput.Get(OVRInput.Button.PrimaryHandTrigger, currentController))
+
+                if (currentController == OVRInput.Controller.LTouch)
                 {
-                    RotateHandle();
-                    //if (IsGrabbable())
-                    //{
-                    //    RotateHandle();
-                    //}
-                    //else
-                    //{
-                    //    ResetRotateHandle();
-                    //    m_preHandleToPlayerDis = 0;
-                    //    m_allowOffhandGrab = false;
-                    //}
+                    leftHandMesh.transform.position = gripPosi.transform.position;
                 }
+                else if (currentController == OVRInput.Controller.RTouch)
+                {
+                    rightHandMesh.transform.position = gripPosi.transform.position;
+                }
+                //if (OVRInput.Get(OVRInput.Button.PrimaryHandTrigger, currentController))
+                //{
+                    
+                //    //RotateHandle();
+                //    //if (IsGrabbable())
+                //    //{
+                //    //    RotateHandle();
+                //    //}
+                //    //else
+                //    //{
+                //    //    ResetRotateHandle();
+                //    //    m_preHandleToPlayerDis = 0;
+                //    //    m_allowOffhandGrab = false;
+                //    //}
+                //}
 
 
             }
             else
             {
-                ResetRotateHandle();
+                //ResetRotateHandle();
                 returnPosition.Released();
                 m_preHandleToPlayerDis = 0;
                 m_allowOffhandGrab = true;
+                if (currentController == OVRInput.Controller.LTouch)
+                {
+                    leftHandMesh.transform.localPosition = Vector3.zero;
+                }
+                else if (currentController == OVRInput.Controller.RTouch)
+                {
+                    rightHandMesh.transform.localPosition = Vector3.zero;
+                }
                 currentController = OVRInput.Controller.None;
                 baseTarretBrain.ChangeTarretState(TarretCommand.Idle);
             }
-
-            //if (OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger, currentController))
-            //{
-            //    ResetRotateHandle();
-            //    m_preHandleToPlayerDis = 0;
-            //    m_allowOffhandGrab = true;
-            //    currentController = OVRInput.Controller.None;
-            //    baseTarretBrain.ChangeTarretState(TarretCommand.Idle);
-            //}
-
         }
 
         /// <summary>
