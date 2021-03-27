@@ -1,9 +1,10 @@
 fileFormatVersion: 2
-guid: e983e6216ea4c1e4ea1ad2c8ec977326
+guid: eae1c95f44a69b94daed6f8baafcb6d5
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - tarretAttackData: {fileID: 11400000, guid: b32e40e76f528d94db97700dc4fd3dbd, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

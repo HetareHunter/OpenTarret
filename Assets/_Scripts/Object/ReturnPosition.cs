@@ -11,7 +11,7 @@ namespace Players
         //Rigidbody m_rb;
         [SerializeField] Transform returningPosition;
         Vector3 startRotation;
-        [SerializeField] float returnSpeed = 1.0f;
+        //[SerializeField] float returnSpeed = 1.0f;
 
         // Start is called before the first frame update
         void Start()

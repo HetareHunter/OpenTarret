@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class DeathExplode : MonoBehaviour
 {
-    [SerializeField] float deathTime = 3.0f;
+    float deathTime = 3.0f;
+    [SerializeField] TarretAttackData tarretAttackData;
+    private void Start()
+    {
+        deathTime = tarretAttackData.explodeExistTime;
+    }
     private void OnEnable()
     {
         //Destroy(gameObject, deathTime);

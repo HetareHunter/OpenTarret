@@ -8,36 +8,28 @@ using DG.Tweening;
 
 public class BaseTarretAttack : MonoBehaviour
 {
-    [SerializeField] TarretData tarretData;
+    [SerializeField] TarretAttackData tarretAttackData;
+    AttackIntervalCounter attackInterval;
+
     [SerializeField] GameObject muzzleFrameJoint;
 
     [SerializeField] Vector3 rayDistance;
     [SerializeField] GameObject rayOfOrigin;
 
     [SerializeField] GameObject m_razerEffect;
-    //[SerializeField] GameObject m_razerSteamEffect;
-
-    [SerializeField] GameObject m_wasteHeatEffect;
+    [SerializeField] GameObject[] m_wasteHeatEffects;
+    int wasteHeatIndex = 0;
     [SerializeField] GameObject m_shockWaveEffect;
     [SerializeField] GameObject[] m_hitExplodeEffects;
     int hitExplodeIndex = 0;
-    [SerializeField] float explodeExistTime = 3.0f;
 
     [SerializeField] GameObject m_razerEffectInsPosi;
     [SerializeField] GameObject m_wasteHeatEffectInsPosi;
     [SerializeField] GameObject m_shockWaveEffectInsPosi;
 
-    [SerializeField] float razerExistTime = 0.5f;
-    //[SerializeField] float razerSteamExistTime = 0.5f;
-
-    [SerializeField] float wasteHeatExistTime = 2.0f;
-
+    /// <summary> 攻撃可能かどうか判定する </summary>
     public bool attackable = true;
 
-    GameObject m_wasteHeat;
-    GameObject m_shockWave;
-
-    [SerializeField] AnimationCurve razerFadeAnim;
     LineRenderer razerLineRenderer;
 
     [SerializeField] GameObject muzzle;
@@ -52,6 +44,7 @@ public class BaseTarretAttack : MonoBehaviour
 
     [SerializeField] GameObject explodeobj;
 
+    /// <summary> スクリーンに投影する照準についての変数 </summary>
     [SerializeField] GameObject sight;
     SightChanger sightChanger;
     [SerializeField] GameObject sightLeftSlider;
@@ -60,19 +53,17 @@ public class BaseTarretAttack : MonoBehaviour
     TarretScreenSliderChanger tarretScreenRightSliderChanger;
     bool screenColorRed = false;
 
-    AttackIntervalCounter attackInterval;
+    
 
     //　当たったコライダを入れておく変数
     RaycastHit[] m_hitsEnemy;
-    RaycastHit m_hitGameStart;
-
-    public Vector3 rayHitFirstPosi;
 
     private void Start()
     {
         baseTarretBrain = GetComponent<BaseTarretBrain>();
         //　弾の半径を取得
         muzzleRadius = muzzle.GetComponent<SphereCollider>().radius;
+
         muzzleAudio = muzzle.GetComponent<AudioPlayer>();
         magazineRotate = magazine.GetComponent<MagazineRotate>();
         sightChanger = sight.GetComponent<SightChanger>();
@@ -88,17 +79,20 @@ public class BaseTarretAttack : MonoBehaviour
         //Debug.DrawLine(muzzle.transform.position, muzzle.transform.position + muzzle.transform.forward * rayDistance);
     }
 
+    /// <summary>
+    /// レイを飛ばして当たったオブジェクトが何なのかを判定する関数
+    /// </summary>
     void RaySearchObject()
     {
         //　飛ばす位置と飛ばす方向を設定
         Ray ray = new Ray(muzzle.transform.position, muzzle.transform.forward);
 
-        //　Sphereの形でレイを飛ばしEnemyレイヤーのものをhitsに入れる
+        //　Sphereの形でレイを飛ばしEnemy、GameManagerレイヤーのオブジェクトをm_hitsEnemyに入れる
         m_hitsEnemy = Physics.SphereCastAll(ray, muzzleRadius, rayDistance.z, LayerMask.GetMask("Enemy", "GameManage"));
-        //m_hitGameStart = Physics.Raycast(ray, 50.0f,LayerMask.GetMask("GameManage"));
 
         if (m_hitsEnemy.Length > 0)
         {
+            //スクリーンのUI表示の色替え
             if (screenColorRed == false)
             {
                 sightChanger.ChangeRed();
@@ -106,11 +100,10 @@ public class BaseTarretAttack : MonoBehaviour
                 tarretScreenRightSliderChanger.ChangeSliderFillRed();
                 screenColorRed = true;
             }
-
-            rayHitFirstPosi = m_hitsEnemy[0].point;
         }
         else
         {
+            //スクリーンのUI表示の色替え
             if (screenColorRed == true)
             {
                 sightChanger.ChangeBase();
@@ -118,34 +111,33 @@ public class BaseTarretAttack : MonoBehaviour
                 tarretScreenRightSliderChanger.ChangeSliderFillBase();
                 screenColorRed = false;
             }
-
-            rayHitFirstPosi = muzzle.transform.TransformPoint(rayDistance * 10);
         }
     }
 
+    /// <summary>
+    /// 攻撃したときの具体的な処理、現在タグで区別している
+    /// </summary>
     void KillEnemyFromRazer()
     {
         foreach (var hit in m_hitsEnemy)
         {
-            if (hit.transform.gameObject.layer == 11)//layerがGameManageだったとき
+            if (hit.transform.gameObject.tag == "GameStart")//タグがGameStartだったとき
             {
                 hit.transform.GetComponent<GameStart>().StartGame();
-                //Instantiate(m_hitExplodeEffects[hitExplodeIndex], hit.point, Quaternion.identity);
+                //爆発エフェクトの再生
                 m_hitExplodeEffects[hitExplodeIndex].transform.position = hit.point;
                 m_hitExplodeEffects[hitExplodeIndex].SetActive(true);
                 hitExplodeIndex++;
             }
             else
             {
-                explosionForce(hit.point);
-                //Instantiate(m_hitExplodeEffects[hitExplodeIndex], hit.point, Quaternion.identity);
+                ExplosionForce(hit.point);
+                //爆発エフェクトの再生
                 m_hitExplodeEffects[hitExplodeIndex].transform.position = hit.point;
                 m_hitExplodeEffects[hitExplodeIndex].SetActive(true);
                 hitExplodeIndex++;
                 EnemyDeath enemyDeath = hit.collider.gameObject.GetComponent<EnemyDeath>();
                 enemyDeath.OnDead();
-                //hit.collider.enabled = false;
-                //Destroy(hit.collider.gameObject);
             }
 
             if (hitExplodeIndex >= m_hitExplodeEffects.Length)
@@ -155,15 +147,17 @@ public class BaseTarretAttack : MonoBehaviour
         }
     }
 
-    //レーザーのライン部分のスクリプト
+    /// <summary>
+    /// レーザーのライン部分のスクリプト、存在しているものを移動して、、徐々に消えていくようにしている
+    /// </summary>
     void FireEffectManager()
     {
-
         m_razerEffect.transform.position = m_razerEffectInsPosi.transform.position;
         m_razerEffect.transform.rotation = m_razerEffectInsPosi.transform.rotation;
         m_razerEffect.SetActive(true);
-        razerLineRenderer.startWidth = 1.3f;
-        razerLineRenderer.endWidth = 1.3f;
+
+        razerLineRenderer.startWidth = tarretAttackData.razerWidth;
+        razerLineRenderer.endWidth = tarretAttackData.razerWidth;
         DOTween.To(
             () => razerLineRenderer.startWidth,
             (x) => razerLineRenderer.startWidth = x,
@@ -174,12 +168,8 @@ public class BaseTarretAttack : MonoBehaviour
             (x) => razerLineRenderer.endWidth = x,
             0,
             0.5f).SetEase(Ease.InQuad);
-        
-        //m_razerSteamEffect.SetActive(true);
-        Invoke("FadeFire", razerExistTime);
-        //Invoke("FadeFireLight", razerSteamExistTime);
 
-        //FadeFire();
+        Invoke("FadeFire", tarretAttackData.razerExistTime);
     }
 
     void FadeFire()
@@ -194,20 +184,33 @@ public class BaseTarretAttack : MonoBehaviour
     /// </summary>
     void WasteHeatEffectManager()
     {
-        m_wasteHeat = Instantiate(m_wasteHeatEffect, m_wasteHeatEffectInsPosi.transform.position,
-            m_wasteHeatEffectInsPosi.transform.rotation, m_wasteHeatEffectInsPosi.transform);
-        Destroy(m_wasteHeat, wasteHeatExistTime);
+        m_wasteHeatEffects[wasteHeatIndex].SetActive(true);
+        wasteHeatIndex++;
+        if (wasteHeatIndex >= m_wasteHeatEffects.Length)
+        {
+            wasteHeatIndex = 0;
+        }
     }
 
+    /// <summary>
+    /// 衝撃波を徐々に大きくしていき、一定時間で消滅する
+    /// </summary>
     void ShockWaveManager()
     {
-        m_shockWave = Instantiate(m_shockWaveEffect, m_shockWaveEffectInsPosi.transform.position,
-            m_shockWaveEffectInsPosi.transform.rotation);
+        //m_shockWave = Instantiate(m_shockWaveEffect, m_shockWaveEffectInsPosi.transform.position,
+        //    m_shockWaveEffectInsPosi.transform.rotation);
+        m_shockWaveEffect.transform.position = m_shockWaveEffectInsPosi.transform.position;
+        m_shockWaveEffect.transform.rotation = m_shockWaveEffectInsPosi.transform.rotation;
+        m_shockWaveEffect.SetActive(true);
 
-        Destroy(m_shockWave, tarretData.shockWaveExistTime);
+        //Destroy(m_shockWave, tarretAttackData.shockWaveExistTime);
     }
 
-    void explosionForce(Vector3 hitPosi)
+    /// <summary>
+    /// 攻撃が当たった時の吹き飛ばす力。オブジェクトを物理的に高速でぶつけている
+    /// </summary>
+    /// <param name="hitPosi"></param>
+    void ExplosionForce(Vector3 hitPosi)
     {
         GameObject explode = Instantiate(explodeobj, hitPosi, Quaternion.identity);
         BeamPower beamPower = explode.GetComponent<BeamPower>();
@@ -230,7 +233,6 @@ public class BaseTarretAttack : MonoBehaviour
 
         attackable = false;
         attackInterval.countStart = true;
-        StayAttack();
     }
 
     void StayAttack()

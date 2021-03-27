@@ -30,17 +30,22 @@ namespace Managers
         /// <summary>バイクのブレーキのあそびと同じ意味 </summary>
         public float m_commandPlay = 0.1f;
 
+        AnglePoint anglePoint;
+        [SerializeField] GameObject tarretAnglePoint;
+        bool anglePointPlayOneShot = false;
+
         public static TarretCommand tarretCommandState = TarretCommand.Idle;
 
         private void Start()
         {
             //tarretFunction = GetComponent<BaseTarretRotateFunction>();
             tarretAttack = GetComponent<BaseTarretAttack>();
+            anglePoint = tarretAnglePoint.GetComponent<AnglePoint>();
         }
 
-        /// <summary>
-        /// タレットのコントローラの傾きでTarretCommandのstateを変化させる
-        /// </summary>
+        ///// 
+        ///// タレットのコントローラの傾きでTarretCommandのstateを変化させる
+        ///// 
         //public void OldJudgeRotateTarret()
         //{
         //    if (Mathf.Abs(leftHandle.HandleRotatePer) > m_commandPlay && Mathf.Abs(rightHandle.HandleRotatePer) > m_commandPlay)
@@ -63,20 +68,24 @@ namespace Managers
 
         //}
 
+        /// <summary>
+        /// タレットが回転するかどうかを判定する
+        /// </summary>
         public void JudgeRotateTarret()
         {
             //両手ともタレットのハンドルを握っているとき
             if (leftHandle.isGrabbed && rightHandle.isGrabbed)
             {
-                //if (!(tarretCommandState == TarretCommand.Rotate))
-                //{
-                //    ChangeTarretState(TarretCommand.Rotate);
-                //}
                 ChangeTarretState(TarretCommand.Rotate);
+                if (anglePointPlayOneShot)
+                {
+                    anglePoint.BeginGrabHandle();
+                    anglePointPlayOneShot = false;
+                }
             }
             else
             {
-                ChangeTarretState(TarretCommand.Idle);
+                anglePointPlayOneShot = true;
             }
         }
 
@@ -87,11 +96,11 @@ namespace Managers
         public void ChangeTarretState(TarretCommand next)
         {
             //以前の状態を保持
-            //var prev = tarretCommandState;
+            var prev = tarretCommandState;
             //次の状態に変更する
             tarretCommandState = next;
             //// ログを出す
-            //Debug.Log($"ChangeState {prev} -> {next}");
+            Debug.Log($"ChangeState {prev} -> {next}");
 
             switch (tarretCommandState)
             {
@@ -113,7 +122,7 @@ namespace Managers
                     break;
 
                 case TarretCommand.Rotate:
-
+                    
                     break;
                 default:
                     break;

@@ -10,7 +10,7 @@ namespace Players
     /// </summary>
     public class HandleGrabbable : OVRGrabbable, IGrabbable
     {
-        [SerializeField] TarretData tarretData;
+        [SerializeField] TarretAttackData tarretData;
         OVRInput.Controller currentController;
 
         public float handleRotateLimit = 20.0f;
@@ -43,6 +43,7 @@ namespace Players
         [SerializeField] float touchAmplitude = 0.3f;
         [SerializeField] float touchVibeDuration = 0.2f;
 
+        bool handleGrabEndOnePlay = false;
 
 
         protected override void Start()
@@ -73,7 +74,7 @@ namespace Players
                 }
                 //if (OVRInput.Get(OVRInput.Button.PrimaryHandTrigger, currentController))
                 //{
-                    
+
                 //    //RotateHandle();
                 //    //if (IsGrabbable())
                 //    //{
@@ -86,25 +87,32 @@ namespace Players
                 //    //    m_allowOffhandGrab = false;
                 //    //}
                 //}
-
+                handleGrabEndOnePlay = true;
 
             }
             else
             {
-                //ResetRotateHandle();
                 returnPosition.Released();
-                m_preHandleToPlayerDis = 0;
-                m_allowOffhandGrab = true;
-                if (currentController == OVRInput.Controller.LTouch)
+                if (handleGrabEndOnePlay)
                 {
-                    leftHandMesh.transform.localPosition = Vector3.zero;
+                    //ResetRotateHandle();
+                    
+                    m_preHandleToPlayerDis = 0;
+                    m_allowOffhandGrab = true;
+                    if (currentController == OVRInput.Controller.LTouch)
+                    {
+                        leftHandMesh.transform.localPosition = Vector3.zero;
+                    }
+                    else if (currentController == OVRInput.Controller.RTouch)
+                    {
+                        rightHandMesh.transform.localPosition = Vector3.zero;
+                    }
+                    currentController = OVRInput.Controller.None;
+                    baseTarretBrain.ChangeTarretState(TarretCommand.Idle);
+
+                    handleGrabEndOnePlay = false;
                 }
-                else if (currentController == OVRInput.Controller.RTouch)
-                {
-                    rightHandMesh.transform.localPosition = Vector3.zero;
-                }
-                currentController = OVRInput.Controller.None;
-                baseTarretBrain.ChangeTarretState(TarretCommand.Idle);
+                
             }
         }
 

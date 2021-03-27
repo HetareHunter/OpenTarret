@@ -44,20 +44,17 @@ namespace Players
             MoveManager();
         }
 
+        /// <summary>
+        /// tarretの動きを実行する命令を飛ばす関数
+        /// </summary>
         void MoveManager()
         {
             switch (BaseTarretBrain.tarretCommandState)
             {
                 case TarretCommand.Idle:
-                    //baseTarretBrain.OldJudgeRotateTarret();
-
                     baseTarretBrain.JudgeRotateTarret();
-                    if (editRotateMode)
-                    {
-                        HorizontalRotate();
-                        VerticalRotate();
-                    }
                     break;
+
                 //case TarretCommand.HorizontalRotate:
                 //    HorizontalRotate();
                 //    //baseTarretBrain.OldJudgeRotateTarret();
@@ -76,20 +73,24 @@ namespace Players
                 case TarretCommand.Rotate:
                     HorizontalRotate();
                     VerticalRotate();
-                    baseTarretBrain.JudgeRotateTarret();
                     break;
+
                 default:
                     break;
             }
         }
 
+        /// <summary>
+        /// 横回転を制御する関数
+        /// </summary>
         void HorizontalRotate()
         {
-            //rootPos.transform.Rotate(new Vector3(0, 90, 0) * Time.deltaTime * baseTarretControl
-            //        .SetHorizontalRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform));
             rootPos.transform.Rotate(new Vector3(0, 90, 0) * rotateSpeed * Time.deltaTime * m_arrowMark.transform.localRotation.y);
         }
 
+        /// <summary>
+        /// 縦回転を制御する関数
+        /// </summary>
         void VerticalRotate()
         {
             //Debug.Log("muzzleFlameJointPos localRotation.x " + muzzleFlameJointPos.transform.localRotation.x);
@@ -100,16 +101,6 @@ namespace Players
                     muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * rotateSpeed * Time.deltaTime
                         * m_arrowMark.transform.localRotation.x);
                 }
-
-                //Debug.Log("leftHandle.HandleRotatePer:" + baseTarretBrain.leftHandle.HandleRotatePer);
-                //Debug.Log("rightHandle.HandleRotatePer:" + baseTarretBrain.rightHandle.HandleRotatePer);
-                //if (baseTarretBrain.leftHandle.HandleRotatePer < 0.0f) //回転の限界値を超えるときは逆回転の操作しか受け付けない
-                //{
-                //    muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * Time.deltaTime * baseTarretControl
-                //.SetVerticalRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform));
-
-                //}
-
             }
             else if (muzzleFlameJointPos.transform.localRotation.x < minMuzzleFlameJointRotate)
             {
@@ -118,18 +109,11 @@ namespace Players
                     muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * rotateSpeed * Time.deltaTime
                         * m_arrowMark.transform.localRotation.x);
                 }
-                //if (baseTarretBrain.leftHandle.HandleRotatePer > 0.0f)
-                //{
-                //    muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * Time.deltaTime * baseTarretControl
-                //    .SetVerticalRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform));
-                //}
             }
             else
             {
                 muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * rotateSpeed * Time.deltaTime
                         * m_arrowMark.transform.localRotation.x);
-                //muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * Time.deltaTime * baseTarretControl
-                //    .SetVerticalRotateSpeed(m_leftHandlePos.transform, m_rightHandlePos.transform));
             }
         }
         #region
