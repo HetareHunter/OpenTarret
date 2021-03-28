@@ -22,6 +22,8 @@ public class BaseTarretAttack : MonoBehaviour
     [SerializeField] GameObject m_shockWaveEffect;
     [SerializeField] GameObject[] m_hitExplodeEffects;
     int hitExplodeIndex = 0;
+    [SerializeField] GameObject[] explodeForces;
+    int explodeForceIndex = 0;
 
     [SerializeField] GameObject m_razerEffectInsPosi;
     [SerializeField] GameObject m_wasteHeatEffectInsPosi;
@@ -42,7 +44,7 @@ public class BaseTarretAttack : MonoBehaviour
     MagazineRotate magazineRotate;
     [SerializeField] float untilRotateMagazine = 0.3f;
 
-    [SerializeField] GameObject explodeobj;
+    
 
     /// <summary> スクリーンに投影する照準についての変数 </summary>
     [SerializeField] GameObject sight;
@@ -212,9 +214,18 @@ public class BaseTarretAttack : MonoBehaviour
     /// <param name="hitPosi"></param>
     void ExplosionForce(Vector3 hitPosi)
     {
-        GameObject explode = Instantiate(explodeobj, hitPosi, Quaternion.identity);
-        BeamPower beamPower = explode.GetComponent<BeamPower>();
-        beamPower.Movement(muzzleFrameJoint.transform.forward);
+        //GameObject explode = Instantiate(explodeForces, hitPosi, Quaternion.identity);
+        //BeamPower beamPower = explode.GetComponent<BeamPower>();
+        explodeForces[explodeForceIndex].transform.position = hitPosi;
+        explodeForces[explodeForceIndex].transform.rotation = muzzle.transform.rotation;
+        explodeForces[explodeForceIndex].SetActive(true);
+
+        explodeForceIndex++;
+        if (explodeForceIndex >= explodeForces.Length)
+        {
+            explodeForceIndex = 0;
+        }
+        //beamPower.Movement(muzzleFrameJoint.transform.forward);
     }
 
 

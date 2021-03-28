@@ -9,6 +9,7 @@ TagManager:
   - RHand
   - LHundle
   - RHundle
+  - GameStart
   layers:
   - Default
   - TransparentFX

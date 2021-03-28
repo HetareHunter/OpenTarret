@@ -6,14 +6,22 @@ public class BeamPower : MonoBehaviour
 {
     [SerializeField] float power;
     Rigidbody m_rb;
+    [SerializeField] TarretAttackData tarretAttackData;
+    float deathTime;
 
-    /// <summary>
-    /// 物理的に与える力
-    /// </summary>
-    /// <param name="direction"></param>
-    public void Movement(Vector3 direction)
+    private void Awake()
     {
         m_rb = GetComponent<Rigidbody>();
-        m_rb.AddForce(direction * power);
+        deathTime = tarretAttackData.explodeExistTime;
+    }
+    private void OnEnable()
+    {
+        m_rb.AddForce(transform.forward * power);
+        Invoke("DeathBeamPower", deathTime);
+    }
+
+    void DeathBeamPower()
+    {
+        gameObject.SetActive(false);
     }
 }
