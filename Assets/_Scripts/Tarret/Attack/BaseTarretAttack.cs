@@ -9,55 +9,61 @@ using DG.Tweening;
 public class BaseTarretAttack : MonoBehaviour
 {
     [SerializeField] TarretAttackData tarretAttackData;
+
     AttackIntervalCounter attackInterval;
+    BaseTarretBrain baseTarretBrain;
+    LineRenderer razerLineRenderer;
+    AudioPlayer muzzleAudio;
+    MagazineRotate magazineRotate;
+    SightChanger sightChanger;
+    TarretScreenSliderChanger tarretScreenLeftSliderChanger;
+    TarretScreenSliderChanger tarretScreenRightSliderChanger;
 
-    [SerializeField] GameObject muzzleFrameJoint;
-
+    /// <summary>レイキャストの長さ </summary>
     [SerializeField] Vector3 rayDistance;
+    /// <summary>レイの原点。ここから伸びていく </summary>
     [SerializeField] GameObject rayOfOrigin;
 
+    //------------------ここから撃った時のエフェクト関連の変数-------------------
+    /// <summary>ビーム本体のエフェクト </summary>
     [SerializeField] GameObject m_razerEffect;
+    /// <summary>廃熱のエフェクト </summary>
     [SerializeField] GameObject[] m_wasteHeatEffects;
     int wasteHeatIndex = 0;
+    /// <summary>衝撃波のエフェクト </summary>
     [SerializeField] GameObject m_shockWaveEffect;
+    /// <summary>爆発のエフェクト </summary>
     [SerializeField] GameObject[] m_hitExplodeEffects;
     int hitExplodeIndex = 0;
+    /// <summary>衝撃の物理的な力 </summary>
     [SerializeField] GameObject[] explodeForces;
     int explodeForceIndex = 0;
 
+    /// <summary>ビームの生成位置 </summary>
     [SerializeField] GameObject m_razerEffectInsPosi;
+    /// <summary>廃熱エフェクトの生成位置 </summary>
     [SerializeField] GameObject m_wasteHeatEffectInsPosi;
+    /// <summary>衝撃波の生成位置 </summary>
     [SerializeField] GameObject m_shockWaveEffectInsPosi;
 
-    /// <summary> 攻撃可能かどうか判定する </summary>
-    public bool attackable = true;
+    //-----------------エフェクト関連ここまで---------------------
 
-    LineRenderer razerLineRenderer;
+    /// <summary> 攻撃可能かどうか判定する </summary>
+    public bool Attackable { get; set; }
 
     [SerializeField] GameObject muzzle;
     float muzzleRadius;
-    AudioPlayer muzzleAudio;
-
-    BaseTarretBrain baseTarretBrain;
-
     [SerializeField] GameObject magazine;
-    MagazineRotate magazineRotate;
+    /// <summary>マガジンが回転するまでの時間 </summary>
     [SerializeField] float untilRotateMagazine = 0.3f;
-
-    
 
     /// <summary> スクリーンに投影する照準についての変数 </summary>
     [SerializeField] GameObject sight;
-    SightChanger sightChanger;
     [SerializeField] GameObject sightLeftSlider;
     [SerializeField] GameObject sightRightSlider;
-    TarretScreenSliderChanger tarretScreenLeftSliderChanger;
-    TarretScreenSliderChanger tarretScreenRightSliderChanger;
     bool screenColorRed = false;
 
-    
-
-    //　当たったコライダを入れておく変数
+    /// <summary> 当たったオブジェクトの情報を入れておく変数 </summary>
     RaycastHit[] m_hitsEnemy;
 
     private void Start()
@@ -133,6 +139,7 @@ public class BaseTarretAttack : MonoBehaviour
             }
             else
             {
+                //爆発したときの力となるオブジェクトの生成
                 ExplosionForce(hit.point);
                 //爆発エフェクトの再生
                 m_hitExplodeEffects[hitExplodeIndex].transform.position = hit.point;
@@ -179,8 +186,6 @@ public class BaseTarretAttack : MonoBehaviour
         m_razerEffect.SetActive(false);
     }
 
-    //ここまでレーザーのライン部分のスクリプト
-
     /// <summary>
     /// 廃熱エフェクトの実体化から消滅までの管理をするメソッド
     /// </summary>
@@ -199,13 +204,9 @@ public class BaseTarretAttack : MonoBehaviour
     /// </summary>
     void ShockWaveManager()
     {
-        //m_shockWave = Instantiate(m_shockWaveEffect, m_shockWaveEffectInsPosi.transform.position,
-        //    m_shockWaveEffectInsPosi.transform.rotation);
         m_shockWaveEffect.transform.position = m_shockWaveEffectInsPosi.transform.position;
         m_shockWaveEffect.transform.rotation = m_shockWaveEffectInsPosi.transform.rotation;
         m_shockWaveEffect.SetActive(true);
-
-        //Destroy(m_shockWave, tarretAttackData.shockWaveExistTime);
     }
 
     /// <summary>
@@ -214,8 +215,6 @@ public class BaseTarretAttack : MonoBehaviour
     /// <param name="hitPosi"></param>
     void ExplosionForce(Vector3 hitPosi)
     {
-        //GameObject explode = Instantiate(explodeForces, hitPosi, Quaternion.identity);
-        //BeamPower beamPower = explode.GetComponent<BeamPower>();
         explodeForces[explodeForceIndex].transform.position = hitPosi;
         explodeForces[explodeForceIndex].transform.rotation = muzzle.transform.rotation;
         explodeForces[explodeForceIndex].SetActive(true);
@@ -225,7 +224,6 @@ public class BaseTarretAttack : MonoBehaviour
         {
             explodeForceIndex = 0;
         }
-        //beamPower.Movement(muzzleFrameJoint.transform.forward);
     }
 
 
@@ -242,7 +240,7 @@ public class BaseTarretAttack : MonoBehaviour
         Observable.Timer(TimeSpan.FromSeconds(untilRotateMagazine))
             .Subscribe(_ => magazineRotate.RotateMagazine());
 
-        attackable = false;
+        Attackable = false;
         attackInterval.countStart = true;
     }
 
@@ -252,7 +250,7 @@ public class BaseTarretAttack : MonoBehaviour
 
     public void EndAttack()
     {
-        attackable = true;
+        Attackable = true;
     }
 
 

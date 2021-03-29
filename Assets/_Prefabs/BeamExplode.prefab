@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 5396057554036512838}
   - component: {fileID: 2096093203035533328}
   - component: {fileID: -5889224240456910562}
-  - component: {fileID: 1220409754}
   - component: {fileID: 1220409758}
+  - component: {fileID: 1220409754}
   m_Layer: 0
   m_Name: BeamExplode
   m_TagString: Untagged
@@ -78,6 +78,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   power: 10000
   tarretAttackData: {fileID: 11400000, guid: b32e40e76f528d94db97700dc4fd3dbd, type: 2}
+--- !u!114 &1220409758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4232023163730643856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b87a4c25d2d8aa2448f006d1464ba27b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nearSounds:
+  - {fileID: 8300000, guid: 1792989a5a33779428d2dbe9a9430605, type: 3}
+  - {fileID: 8300000, guid: 395ebd3d6fca1ec40a6b3c7415c1edb7, type: 3}
+  farSounds:
+  - {fileID: 8300000, guid: 8f03951fee9bec9478d1ec979ba44677, type: 3}
+  - {fileID: 8300000, guid: 33cd429e81395944088573e40e271f18, type: 3}
+  audioVolume: 0.2
+  soundDistanceThreshold: 30
 --- !u!82 &1220409754
 AudioSource:
   m_ObjectHideFlags: 0
@@ -174,22 +194,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1220409758
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4232023163730643856}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b87a4c25d2d8aa2448f006d1464ba27b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nearSounds:
-  - {fileID: 8300000, guid: 1792989a5a33779428d2dbe9a9430605, type: 3}
-  - {fileID: 8300000, guid: 395ebd3d6fca1ec40a6b3c7415c1edb7, type: 3}
-  farSounds:
-  - {fileID: 8300000, guid: 8f03951fee9bec9478d1ec979ba44677, type: 3}
-  - {fileID: 8300000, guid: 33cd429e81395944088573e40e271f18, type: 3}
-  soundDistanceThreshold: 50
