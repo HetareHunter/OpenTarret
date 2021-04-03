@@ -7,7 +7,7 @@ public class DeathWasteHeat : MonoBehaviour
     float deathTime = 1.3f;
     [SerializeField] TarretAttackData tarretAttackData;
 
-    private void Start()
+    private void Awake()
     {
         deathTime = tarretAttackData.wasteHeatExistTime;
     }

@@ -18,17 +18,28 @@ public class ScoreManager : SingletonMonoBehaviour<ScoreManager>
     float stanbyNowTime = 0.0f;
 
     [SerializeField] float animationTime = 1.0f;
-    [SerializeField] TextMeshProUGUI scoreText;
-    [SerializeField] TextMeshProUGUI highScoreText;
+    [SerializeField] TextMeshProUGUI[] scoreTexts;
+    float scoretTextIndex = 0;
+    [SerializeField] TextMeshProUGUI[] highScoreTexts;
+    float highScoretTextIndex = 0;
     [SerializeField] PlayerData playerData;
+
+
 
     private void Update()
     {
-        scoreText.text = "Score:" + m_score;
+        foreach (var scoreText in scoreTexts)
+        {
+            scoreText.text = "Score:" + m_score;
+        }
+        
         if (m_score > highScore)
         {
             highScore = m_score;
-            highScoreText.text = "HighScore:" + highScore;
+            foreach (var highScoreText in highScoreTexts)
+            {
+                highScoreText.text = "HighScore:" + highScore;
+            }
         }
         
         if (changeScoreStanby)

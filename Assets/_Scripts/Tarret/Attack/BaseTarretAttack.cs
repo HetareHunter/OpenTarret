@@ -49,7 +49,7 @@ public class BaseTarretAttack : MonoBehaviour
     //-----------------エフェクト関連ここまで---------------------
 
     /// <summary> 攻撃可能かどうか判定する </summary>
-    public bool Attackable { get; set; }
+    [NonSerialized] public bool attackable = true;
 
     [SerializeField] GameObject muzzle;
     float muzzleRadius;
@@ -84,7 +84,7 @@ public class BaseTarretAttack : MonoBehaviour
     void FixedUpdate()
     {
         RaySearchObject();
-        //Debug.DrawLine(muzzle.transform.position, muzzle.transform.position + muzzle.transform.forward * rayDistance);
+        //Debug.DrawLine(muzzle.transform.position, muzzle.transform.forward * rayDistance.z);
     }
 
     /// <summary>
@@ -240,7 +240,7 @@ public class BaseTarretAttack : MonoBehaviour
         Observable.Timer(TimeSpan.FromSeconds(untilRotateMagazine))
             .Subscribe(_ => magazineRotate.RotateMagazine());
 
-        Attackable = false;
+        attackable = false;
         attackInterval.countStart = true;
     }
 
@@ -250,7 +250,7 @@ public class BaseTarretAttack : MonoBehaviour
 
     public void EndAttack()
     {
-        Attackable = true;
+        attackable = true;
     }
 
 
