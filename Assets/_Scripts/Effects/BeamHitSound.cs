@@ -25,7 +25,7 @@ public class BeamHitSound : MonoBehaviour
     {
         //自分の位置とメインカメラの距離を計算
         float distance = Vector3.Distance(transform.position, Camera.main.transform.position);
-        Debug.Log(distance);
+        //Debug.Log(distance);
         if (distance <= soundDistanceThreshold)
         {
             audioSource.PlayOneShot(nearSounds[nearSoundNum], audioVolume);

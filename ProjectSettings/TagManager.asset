@@ -10,6 +10,7 @@ TagManager:
   - LHundle
   - RHundle
   - GameStart
+  - Explodable
   layers:
   - Default
   - TransparentFX

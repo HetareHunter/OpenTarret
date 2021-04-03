@@ -18,6 +18,7 @@ public class BaseTarretAttack : MonoBehaviour
     SightChanger sightChanger;
     TarretScreenSliderChanger tarretScreenLeftSliderChanger;
     TarretScreenSliderChanger tarretScreenRightSliderChanger;
+    MeshExploder meshExploder;
 
     /// <summary>レイキャストの長さ </summary>
     [SerializeField] Vector3 rayDistance;
@@ -79,6 +80,7 @@ public class BaseTarretAttack : MonoBehaviour
         tarretScreenRightSliderChanger = sightRightSlider.GetComponent<TarretScreenSliderChanger>();
         attackInterval = GetComponent<AttackIntervalCounter>();
         razerLineRenderer = m_razerEffect.transform.GetChild(0).GetComponent<LineRenderer>();
+        meshExploder = GetComponent<MeshExploder>();
     }
 
     void FixedUpdate()
@@ -129,7 +131,7 @@ public class BaseTarretAttack : MonoBehaviour
     {
         foreach (var hit in m_hitsEnemy)
         {
-            if (hit.transform.gameObject.tag == "GameStart")//タグがGameStartだったとき
+            if (hit.transform.CompareTag("GameStart"))//タグがGameStartだったとき
             {
                 hit.transform.GetComponent<GameStart>().StartGame();
                 //爆発エフェクトの再生
@@ -139,6 +141,7 @@ public class BaseTarretAttack : MonoBehaviour
             }
             else
             {
+                meshExploder.Explode(hit.transform);
                 //爆発したときの力となるオブジェクトの生成
                 ExplosionForce(hit.point);
                 //爆発エフェクトの再生
