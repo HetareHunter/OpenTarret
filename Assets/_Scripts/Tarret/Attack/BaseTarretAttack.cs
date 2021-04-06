@@ -35,6 +35,7 @@ public class BaseTarretAttack : MonoBehaviour
     [SerializeField] GameObject m_shockWaveEffect;
     /// <summary>爆発のエフェクト </summary>
     [SerializeField] GameObject[] m_hitExplodeEffects;
+
     int hitExplodeIndex = 0;
     /// <summary>衝撃の物理的な力 </summary>
     [SerializeField] GameObject[] explodeForces;
@@ -141,7 +142,7 @@ public class BaseTarretAttack : MonoBehaviour
             }
             else
             {
-                meshExploder.Explode(hit.transform);
+                //meshExploder.Explode(hit.transform);
                 //爆発したときの力となるオブジェクトの生成
                 ExplosionForce(hit.point);
                 //爆発エフェクトの再生
