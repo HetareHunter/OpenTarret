@@ -12,6 +12,7 @@ namespace Managers
         VerticalRotate,
         Attack,
         Rotate,
+        Break,
     }
 
     /// <summary>
@@ -24,13 +25,9 @@ namespace Managers
         ///<summary>Tarretのhandleを握ったときに情報が格納される変数</summary>
         public HandleGrabbable rightHandle;
 
-        //BaseTarretRotateFunction tarretFunction;
         BaseTarretAttack tarretAttack;
-
-        /// <summary>バイクのブレーキのあそびと同じ意味 </summary>
-        public float m_commandPlay = 0.1f;
-
         AnglePoint anglePoint;
+
         [SerializeField] GameObject tarretAnglePoint;
         bool anglePointPlayOneShot = false;
 
@@ -38,7 +35,6 @@ namespace Managers
 
         private void Start()
         {
-            //tarretFunction = GetComponent<BaseTarretRotateFunction>();
             tarretAttack = GetComponent<BaseTarretAttack>();
             anglePoint = tarretAnglePoint.GetComponent<AnglePoint>();
         }
@@ -122,8 +118,11 @@ namespace Managers
                     break;
 
                 case TarretCommand.Rotate:
-                    
                     break;
+
+                case TarretCommand.Break:
+                    break;
+
                 default:
                     break;
             }

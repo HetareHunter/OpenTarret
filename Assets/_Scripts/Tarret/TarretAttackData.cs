@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "_Scripts/Create TarretData")]
+[CreateAssetMenu(menuName = "_Scripts/Create TarretAttackData")]
 
 public class TarretAttackData : ScriptableObject
 {

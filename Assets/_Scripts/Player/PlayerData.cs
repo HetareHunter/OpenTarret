@@ -7,4 +7,5 @@ using UnityEngine;
 public class PlayerData : ScriptableObject
 {
     public int gameScore = 0;
+    public int playerHP = 100;
 }

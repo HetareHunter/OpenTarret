@@ -11,6 +11,7 @@ TagManager:
   - RHundle
   - GameStart
   - Explodable
+  - Tarret
   layers:
   - Default
   - TransparentFX

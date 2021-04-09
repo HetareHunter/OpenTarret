@@ -75,6 +75,9 @@ namespace Players
                     VerticalRotate();
                     break;
 
+                case TarretCommand.Break:
+                    break;
+
                 default:
                     break;
             }
