@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4434068584201321923}
   - component: {fileID: 1265639214449538922}
   - component: {fileID: 4650505142624363265}
-  m_Layer: 10
+  m_Layer: 16
   m_Name: DroneBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}

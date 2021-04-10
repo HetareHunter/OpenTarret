@@ -6,6 +6,6 @@ using UnityEngine;
 
 public class TarretVitalData : ScriptableObject
 {
-    public float TarretHP = 100.0f;
-    public float TarretSield = 100.0f;
+    public float TarretMaxHP = 100.0f;
+    public float TarretMaxSield = 100.0f;
 }

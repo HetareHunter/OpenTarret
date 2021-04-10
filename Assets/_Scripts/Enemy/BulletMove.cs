@@ -5,13 +5,14 @@ using UnityEngine;
 public class BulletMove : MonoBehaviour
 {
     [SerializeField] float speed = 1.0f;
-    [SerializeField] int damage = 10;
+    public int power = 10;
     Rigidbody m_rb;
-    // Start is called before the first frame update
-    //void Start()
-    //{
 
-    //}
+    private void Awake()
+    {
+        
+    }
+
 
     private void OnEnable()
     {
@@ -21,12 +22,7 @@ public class BulletMove : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.CompareTag("Tarret"))
-        {
-            other.transform.parent.GetComponent<TarretVitalManager>().TarretDamage(damage);
-            
-        }
-
+        
         gameObject.SetActive(false);
     }
 }
