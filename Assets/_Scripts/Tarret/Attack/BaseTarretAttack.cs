@@ -132,17 +132,8 @@ public class BaseTarretAttack : MonoBehaviour
     {
         foreach (var hit in m_hitsEnemy)
         {
-            if (hit.transform.CompareTag("GameStart"))//タグがGameStartだったとき
+            if (hit.transform.CompareTag("Enemy"))//タグがGameStartだったとき
             {
-                hit.transform.GetComponent<GameStart>().StartGame();
-                //爆発エフェクトの再生
-                m_hitExplodeEffects[hitExplodeIndex].transform.position = hit.point;
-                m_hitExplodeEffects[hitExplodeIndex].SetActive(true);
-                hitExplodeIndex++;
-            }
-            else
-            {
-                //meshExploder.Explode(hit.transform);
                 //爆発したときの力となるオブジェクトの生成
                 ExplosionForce(hit.point);
                 //爆発エフェクトの再生

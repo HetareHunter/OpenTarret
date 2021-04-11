@@ -19,6 +19,7 @@ public class GameStateManager : SingletonMonoBehaviour<GameStateManager>
     GameObject insEnemies;
     [SerializeField] GameObject enemiesInsPosi;
     GameTimer timer;
+    [SerializeField] GameObject gameStartUI;
 
     private void Start()
     {
@@ -49,6 +50,7 @@ public class GameStateManager : SingletonMonoBehaviour<GameStateManager>
                 break;
             case GameState.End:
                 insEnemies.transform.GetComponent<EnemiesDeathTime>().EnemiesDeath();
+                gameStartUI.SetActive(true);
                 
                 break;
             default:
