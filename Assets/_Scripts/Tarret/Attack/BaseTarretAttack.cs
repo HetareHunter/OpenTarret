@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using System.Threading.Tasks;
 using Managers;
 using UniRx;
 using DG.Tweening;
@@ -232,6 +233,8 @@ public class BaseTarretAttack : MonoBehaviour
         WasteHeatEffectManager();
         ShockWaveManager();
         KillEnemyFromRazer();
+        //await Task.Delay((int)(untilRotateMagazine*1000));
+        //magazineRotate.RotateMagazine();
         Observable.Timer(TimeSpan.FromSeconds(untilRotateMagazine))
             .Subscribe(_ => magazineRotate.RotateMagazine());
 

@@ -1,7 +1,10 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using System;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
+using Cysharp.Threading.Tasks;
 
 public class TarretVitalManager : MonoBehaviour
 {
@@ -15,18 +18,63 @@ public class TarretVitalManager : MonoBehaviour
 
     [SerializeField] Slider sieldHPSlider;
     float sieldHP;
+    [SerializeField] float recoveryTime = 1.0f;
+    float currentRecoveryTime = 0;
+    [SerializeField] float sieldRecoverySpeed = 2.0f;
 
     public bool onSield = true;
+    Sequence sieldRecoverySequence;
+    Tweener sieldRecoveryTweener;
+
+    /// <summary>攻撃を受けているときtrueになる </summary>
+    bool onAttacked = false; 
+    //CancellationTokenSource cancellationToken;
 
     // Start is called before the first frame update
     void Start()
     {
         tarretHP = TarretVitalData.TarretMaxHP;
         sieldHP = TarretVitalData.TarretMaxSield;
+
+        //cancellationToken = new CancellationTokenSource();
+        //SieldRecovery(cancellationToken.Token).Forget();
+        //sieldRecoverySequence
+        //    .OnStart(() =>
+        //    {
+        //        onSield = true;
+        //        Debug.Log("シールドオン！");
+        //    }
+        //    )
+        //    .Append(
+        //    sieldRecoveryTweener = DOTween.To(
+        //    () => sieldHP,
+        //    (x) => sieldHP = x,
+        //    TarretVitalData.TarretMaxSield,
+        //    sieldRecoverySpeed)
+        //    .SetEase(Ease.Linear)
+        //    );
+    }
+
+    private void Update()
+    {
+        sieldHPSlider.value = sieldHP / TarretVitalData.TarretMaxSield;
+        if (onAttacked)
+        {
+            currentRecoveryTime += Time.deltaTime;
+            if (currentRecoveryTime > recoveryTime)
+            {
+                currentRecoveryTime = 0;
+                onAttacked = false;
+                SieldRecovery();
+                //onSield = true;
+            }
+        }
     }
 
     public void TarretDamage(int damage)
     {
+        onAttacked = true;
+        currentRecoveryTime = 0;
         tarretHP -= (damage * tarretDamageCoefficient);
         tarretHPSlider.value = tarretHP / TarretVitalData.TarretMaxHP;
         Debug.Log("TarretVitalData.TarretHP : " + tarretHP);
@@ -34,12 +82,37 @@ public class TarretVitalManager : MonoBehaviour
 
     public void SieldDamage(int damage)
     {
+        onAttacked = true;
+        currentRecoveryTime = 0;
+        //sieldRecoveryTweener.Kill();
+        sieldRecoverySequence.Kill();
         sieldHP -= (damage * sieldDamageCoefficient);
-        sieldHPSlider.value = sieldHP / TarretVitalData.TarretMaxSield;
+        
         if (sieldHP <= 0)
         {
             onSield = false;
         }
+
+    }
+
+    void SieldRecovery()
+    {
+
+        sieldRecoverySequence=DOTween.Sequence()
+            .OnStart(()=> 
+            {
+                onSield = true;
+                Debug.Log("シールドオン！");
+            }
+            )
+            .Append(
+            sieldRecoveryTweener = DOTween.To(
+            () => sieldHP,
+            (x) => sieldHP = x,
+            TarretVitalData.TarretMaxSield,
+            sieldRecoverySpeed)
+            .SetEase(Ease.Linear)
+            );
     }
 
     private void OnTriggerEnter(Collider other)
