@@ -101,7 +101,7 @@ public class TarretVitalManager : MonoBehaviour
             .OnStart(() =>
             {
                 onSield = true;
-                Debug.Log("シールドオン！");
+                //Debug.Log("シールドオン！");
             }
             )
             .Append(
