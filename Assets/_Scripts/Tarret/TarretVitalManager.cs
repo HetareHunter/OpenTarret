@@ -24,10 +24,9 @@ public class TarretVitalManager : MonoBehaviour
 
     public bool onSield = true;
     Sequence sieldRecoverySequence;
-    Tweener sieldRecoveryTweener;
 
     /// <summary>攻撃を受けているときtrueになる </summary>
-    bool onAttacked = false; 
+    bool onAttacked = false;
     //CancellationTokenSource cancellationToken;
 
     // Start is called before the first frame update
@@ -71,7 +70,7 @@ public class TarretVitalManager : MonoBehaviour
         }
     }
 
-    public void TarretDamage(int damage)
+    public void TarretDamage(float damage)
     {
         onAttacked = true;
         currentRecoveryTime = 0;
@@ -80,14 +79,14 @@ public class TarretVitalManager : MonoBehaviour
         Debug.Log("TarretVitalData.TarretHP : " + tarretHP);
     }
 
-    public void SieldDamage(int damage)
+    public void SieldDamage(float damage)
     {
         onAttacked = true;
         currentRecoveryTime = 0;
         //sieldRecoveryTweener.Kill();
         sieldRecoverySequence.Kill();
         sieldHP -= (damage * sieldDamageCoefficient);
-        
+
         if (sieldHP <= 0)
         {
             onSield = false;
@@ -98,15 +97,15 @@ public class TarretVitalManager : MonoBehaviour
     void SieldRecovery()
     {
 
-        sieldRecoverySequence=DOTween.Sequence()
-            .OnStart(()=> 
+        sieldRecoverySequence = DOTween.Sequence()
+            .OnStart(() =>
             {
                 onSield = true;
                 Debug.Log("シールドオン！");
             }
             )
             .Append(
-            sieldRecoveryTweener = DOTween.To(
+            DOTween.To(
             () => sieldHP,
             (x) => sieldHP = x,
             TarretVitalData.TarretMaxSield,
@@ -122,7 +121,7 @@ public class TarretVitalManager : MonoBehaviour
         // レイヤー名がEnemyBullet以外の時は何も行わない
         if (layerName != "EnemyBullet") return;
 
-        int damage = other.transform.GetComponent<BulletMove>().power;
+        float damage = other.transform.GetComponent<BulletMove>().power;
         if (onSield)
         {
             SieldDamage(damage);

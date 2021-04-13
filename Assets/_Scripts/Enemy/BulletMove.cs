@@ -5,24 +5,30 @@ using UnityEngine;
 public class BulletMove : MonoBehaviour
 {
     [SerializeField] float speed = 1.0f;
-    public int power = 10;
+    [SerializeField] float activeTime = 3.0f;
+    public float power = 10;
     Rigidbody m_rb;
-
-    private void Awake()
-    {
-        
-    }
 
 
     private void OnEnable()
     {
         m_rb = GetComponent<Rigidbody>();
-        m_rb.velocity = transform.forward*speed;
+    }
+
+    public void Fire()
+    {
+        m_rb.velocity = transform.forward * speed;
+        Invoke("NotActive", activeTime);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        
+        NotActive();
+    }
+
+    void NotActive()
+    {
         gameObject.SetActive(false);
     }
+
 }
