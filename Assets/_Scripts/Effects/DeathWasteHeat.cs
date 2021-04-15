@@ -14,7 +14,7 @@ public class DeathWasteHeat : MonoBehaviour
     private void OnEnable()
     {
         //Destroy(gameObject, deathTime);
-        Invoke("FadeWasteHeat", deathTime);
+        //Invoke("FadeWasteHeat", deathTime);
     }
 
     void FadeWasteHeat()

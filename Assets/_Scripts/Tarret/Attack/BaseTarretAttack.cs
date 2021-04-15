@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Managers;
 using UniRx;
 using DG.Tweening;
+using Cysharp.Threading.Tasks;
 
 public class BaseTarretAttack : MonoBehaviour
 {
@@ -19,7 +20,6 @@ public class BaseTarretAttack : MonoBehaviour
     SightChanger sightChanger;
     TarretScreenSliderChanger tarretScreenLeftSliderChanger;
     TarretScreenSliderChanger tarretScreenRightSliderChanger;
-    MeshExploder meshExploder;
 
     /// <summary>レイキャストの長さ </summary>
     [SerializeField] Vector3 rayDistance;
@@ -31,6 +31,8 @@ public class BaseTarretAttack : MonoBehaviour
     [SerializeField] GameObject m_razerEffect;
     /// <summary>廃熱のエフェクト </summary>
     [SerializeField] GameObject[] m_wasteHeatEffects;
+    //[SerializeField] GameObject[] m_wasteHeatRight;
+    //[SerializeField] GameObject[] m_wasteHeatLeft;
     int wasteHeatIndex = 0;
     /// <summary>衝撃波のエフェクト </summary>
     [SerializeField] GameObject m_shockWaveEffect;
@@ -82,7 +84,6 @@ public class BaseTarretAttack : MonoBehaviour
         tarretScreenRightSliderChanger = sightRightSlider.GetComponent<TarretScreenSliderChanger>();
         attackInterval = GetComponent<AttackIntervalCounter>();
         razerLineRenderer = m_razerEffect.transform.GetChild(0).GetComponent<LineRenderer>();
-        meshExploder = GetComponent<MeshExploder>();
     }
 
     void FixedUpdate()
@@ -155,7 +156,7 @@ public class BaseTarretAttack : MonoBehaviour
     /// <summary>
     /// レーザーのライン部分のスクリプト、存在しているものを移動して、、徐々に消えていくようにしている
     /// </summary>
-    void FireEffectManager()
+    void InstanceFireEffect()
     {
         m_razerEffect.transform.position = m_razerEffectInsPosi.transform.position;
         m_razerEffect.transform.rotation = m_razerEffectInsPosi.transform.rotation;
@@ -174,7 +175,6 @@ public class BaseTarretAttack : MonoBehaviour
             0,
             0.5f).SetEase(Ease.InQuad);
 
-        Invoke("FadeFire", tarretAttackData.razerExistTime);
     }
 
     void FadeFire()
@@ -185,7 +185,7 @@ public class BaseTarretAttack : MonoBehaviour
     /// <summary>
     /// 廃熱エフェクトの実体化から消滅までの管理をするメソッド
     /// </summary>
-    void WasteHeatEffectManager()
+    void InstanceWasteHeatEffect()
     {
         m_wasteHeatEffects[wasteHeatIndex].SetActive(true);
         wasteHeatIndex++;
@@ -222,6 +222,12 @@ public class BaseTarretAttack : MonoBehaviour
         }
     }
 
+    void EffectFadeTask()
+    {
+        FadeFire();
+        magazineRotate.RotateMagazine();
+    }
+
 
     /// <summary>
     /// 攻撃したとき、TarretCommandステートがAttackになったときに一度だけ呼ばれるメソッド。
@@ -229,14 +235,12 @@ public class BaseTarretAttack : MonoBehaviour
     public void BeginAttack()
     {
         muzzleAudio.AudioPlay();
-        FireEffectManager();
-        WasteHeatEffectManager();
+        InstanceFireEffect();
+        InstanceWasteHeatEffect();
         ShockWaveManager();
         KillEnemyFromRazer();
-        //await Task.Delay((int)(untilRotateMagazine*1000));
-        //magazineRotate.RotateMagazine();
-        Observable.Timer(TimeSpan.FromSeconds(untilRotateMagazine))
-            .Subscribe(_ => magazineRotate.RotateMagazine());
+        //Observable.Timer(TimeSpan.FromSeconds(untilRotateMagazine))
+        //    .Subscribe(_ => );
 
         attackable = false;
         attackInterval.countStart = true;
@@ -248,6 +252,7 @@ public class BaseTarretAttack : MonoBehaviour
 
     public void EndAttack()
     {
+        EffectFadeTask();
         attackable = true;
     }
 

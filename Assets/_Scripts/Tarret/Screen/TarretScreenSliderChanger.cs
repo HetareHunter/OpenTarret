@@ -7,11 +7,13 @@ public class TarretScreenSliderChanger : MonoBehaviour
 {
     Slider slider;
     [SerializeField] GameObject fillBase;
-    [SerializeField] GameObject fillRed;
+    //[SerializeField] GameObject fillRed;
     Image fillBaseImg;
-    Image fillRedImg;
+    //Image fillRedImg;
     RectTransform fillBaseRect;
-    RectTransform fillRedRect;
+    //RectTransform fillRedRect;
+    [SerializeField] Color blue;
+    [SerializeField] Color red;
 
     // Start is called before the first frame update
     void Start()
@@ -19,25 +21,27 @@ public class TarretScreenSliderChanger : MonoBehaviour
         slider = GetComponent<Slider>();
 
         fillBaseRect = fillBase.GetComponent<RectTransform>();
-        fillRedRect = fillRed.GetComponent<RectTransform>();
+        //fillRedRect = fillRed.GetComponent<RectTransform>();
 
         fillBaseImg = fillBase.GetComponent<Image>();
-        fillRedImg = fillRed.GetComponent<Image>();
+        //fillRedImg = fillRed.GetComponent<Image>();
 
         slider.fillRect = fillBaseRect;
     }
 
     public void ChangeSliderFillRed()
     {
-        fillRedImg.enabled = true;
-        slider.fillRect = fillRedRect;
-        fillBaseImg.enabled = false;
+        //fillRedImg.enabled = true;
+        //slider.fillRect = fillRedRect;
+        fillBaseImg.color = red;
+        //fillBaseImg.enabled = false;
     }
 
     public void ChangeSliderFillBase()
     {
-        fillBaseImg.enabled = true;
-        slider.fillRect = fillBaseRect;
-        fillRedImg.enabled = false;
+        //fillBaseImg.enabled = true;
+        //slider.fillRect = fillBaseRect;
+        fillBaseImg.color = blue;
+        //fillRedImg.enabled = false;
     }
 }
