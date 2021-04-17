@@ -6,7 +6,8 @@ using Managers;
 namespace Players
 {
     /// <summary>
-    /// 実際にハンドルを握ることができるコライダー部分に付ける
+    /// 実際にハンドルを握ることができるコライダー部分にコンポーネントを付ける
+    /// 手についているクラスが処理を考えるのではなく握ったオブジェクトが処理を行う方向で組み立てる
     /// </summary>
     public class HandleGrabbable : OVRGrabbable, IGrabbable
     {
@@ -14,36 +15,34 @@ namespace Players
         OVRInput.Controller currentController;
 
         public float handleRotateLimit = 20.0f;
-        float m_preHandleToPlayerDis;
-        float rotateAngle;
+        //float m_preHandleToPlayerDis;
+        //float rotateAngle;
 
         [SerializeField] Transform m_handle;
         /// <summary> ハンドルの感度 </summary>
-        [SerializeField] float handleSensitivity = 2.0f;
+        //[SerializeField] float handleSensitivity = 2.0f;
 
         [SerializeField] GameObject leftHandMesh;
         [SerializeField] GameObject rightHandMesh;
         [SerializeField] GameObject gripPosi;
 
-
         [SerializeField] GameObject player;
-        /// <summary>
-        /// これ以上離れると自動的に手を放す
-        /// </summary>
-        //[SerializeField] float playersArmLength = 0.7f;
 
         ReturnPosition returnPosition = new ReturnPosition();
         [SerializeField] GameObject tarret;
         BaseTarretBrain baseTarretBrain;
 
-        /// <summary>
-        /// 触れた時の振動の大きさ
-        /// </summary>
+        /// <summary> 触れた時の振動の大きさ </summary>
         [SerializeField] float touchFrequeency = 0.3f;
+        /// <summary> 触れた時の振動の周波数 </summary>
         [SerializeField] float touchAmplitude = 0.3f;
+        /// <summary> 触れた時の振動の時間 </summary>
         [SerializeField] float touchVibeDuration = 0.2f;
 
-        bool handleGrabEndOnePlay = false;
+        /// <summary>
+        /// 手でつかんだ瞬間のフラグ
+        /// </summary>
+        bool handleGrabMoment = false;
 
 
         protected override void Start()
@@ -52,6 +51,14 @@ namespace Players
             baseTarretBrain = tarret.GetComponent<BaseTarretBrain>();
         }
         void FixedUpdate()
+        {
+            GrabMethod();
+        }
+
+        /// <summary>
+        /// 握っているときの処理
+        /// </summary>
+        private void GrabMethod()
         {
             if (isGrabbed)
             {
@@ -72,32 +79,14 @@ namespace Players
                 {
                     rightHandMesh.transform.position = gripPosi.transform.position;
                 }
-                //if (OVRInput.Get(OVRInput.Button.PrimaryHandTrigger, currentController))
-                //{
 
-                //    //RotateHandle();
-                //    //if (IsGrabbable())
-                //    //{
-                //    //    RotateHandle();
-                //    //}
-                //    //else
-                //    //{
-                //    //    ResetRotateHandle();
-                //    //    m_preHandleToPlayerDis = 0;
-                //    //    m_allowOffhandGrab = false;
-                //    //}
-                //}
-                handleGrabEndOnePlay = true;
-
+                handleGrabMoment = true;
             }
             else
             {
                 returnPosition.Released();
-                if (handleGrabEndOnePlay)
+                if (handleGrabMoment)
                 {
-                    //ResetRotateHandle();
-                    
-                    m_preHandleToPlayerDis = 0;
                     m_allowOffhandGrab = true;
                     if (currentController == OVRInput.Controller.LTouch)
                     {
@@ -110,55 +99,55 @@ namespace Players
                     currentController = OVRInput.Controller.None;
                     baseTarretBrain.ChangeTarretState(TarretCommand.Idle);
 
-                    handleGrabEndOnePlay = false;
+                    handleGrabMoment = false;
                 }
-                
+
             }
         }
 
         /// <summary>
         /// ハンドルがどれほど回転した状態になっているかの割合
         /// </summary>
-        public float HandleRotatePer
-        {
-            get
-            {
-                if (m_handle.transform.localEulerAngles.x >= 180)
-                {
-                    return (m_handle.transform.localEulerAngles.x - 360) / handleRotateLimit;
-                }
-                else
-                {
-                    return m_handle.transform.localEulerAngles.x / handleRotateLimit;
-                }
-            }
-        }
+        //public float HandleRotatePer
+        //{
+        //    get
+        //    {
+        //        if (m_handle.transform.localEulerAngles.x >= 180)
+        //        {
+        //            return (m_handle.transform.localEulerAngles.x - 360) / handleRotateLimit;
+        //        }
+        //        else
+        //        {
+        //            return m_handle.transform.localEulerAngles.x / handleRotateLimit;
+        //        }
+        //    }
+        //}
 
         public void GrabBegin(OVRInput.Controller controller)
         {
             currentController = controller;
         }
 
-        void RotateHandle()
-        {
-            float handleMoveDistance = MeasurementGrabToPlayer() / Time.deltaTime * handleSensitivity;
-            //Debug.Log("handleMoveDistance : " + handleMoveDistance);
-            rotateAngle += handleMoveDistance;
-            rotateAngle = Mathf.Clamp(rotateAngle, -handleRotateLimit, handleRotateLimit);
-            m_handle.localRotation = Quaternion.AngleAxis(rotateAngle, Vector3.right);
-        }
+        //void RotateHandle()
+        //{
+        //    float handleMoveDistance = MeasurementGrabToPlayer() / Time.deltaTime * handleSensitivity;
+        //    //Debug.Log("handleMoveDistance : " + handleMoveDistance);
+        //    rotateAngle += handleMoveDistance;
+        //    rotateAngle = Mathf.Clamp(rotateAngle, -handleRotateLimit, handleRotateLimit);
+        //    m_handle.localRotation = Quaternion.AngleAxis(rotateAngle, Vector3.right);
+        //}
 
         /// <summary>
         /// コライダーのプレイヤーとの距離に応じてハンドルが回るようにする
         /// </summary>
-        float MeasurementGrabToPlayer()
-        {
-            float handleToPlayerDis = Vector3.Distance(transform.position, player.transform.position);
-            float preHandleToPlayerDis = m_preHandleToPlayerDis;
-            m_preHandleToPlayerDis = handleToPlayerDis;
+        //float MeasurementGrabToPlayer()
+        //{
+        //    float handleToPlayerDis = Vector3.Distance(transform.position, player.transform.position);
+        //    float preHandleToPlayerDis = m_preHandleToPlayerDis;
+        //    m_preHandleToPlayerDis = handleToPlayerDis;
 
-            return preHandleToPlayerDis - handleToPlayerDis;
-        }
+        //    return preHandleToPlayerDis - handleToPlayerDis;
+        //}
 
         /// <summary>
         /// プレイヤーはハンドルをつかめるかどうかの判定
@@ -170,12 +159,12 @@ namespace Players
         //    return Vector3.Distance(transform.position, player.transform.position) < playersArmLength;
         //}
 
-        void ResetRotateHandle()
-        {
-            rotateAngle = 0;
-            //m_handle.rotation = Quaternion.AngleAxis(rotateAngle, Vector3.right);
-            m_handle.rotation = new Quaternion(0, 0, 0, 0);
-        }
+        //void ResetRotateHandle()
+        //{
+        //    rotateAngle = 0;
+        //    //m_handle.rotation = Quaternion.AngleAxis(rotateAngle, Vector3.right);
+        //    m_handle.rotation = new Quaternion(0, 0, 0, 0);
+        //}
 
         private void OnTriggerEnter(Collider other)
         {
