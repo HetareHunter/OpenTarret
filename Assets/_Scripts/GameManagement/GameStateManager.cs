@@ -13,18 +13,20 @@ public enum GameState
 public class GameStateManager : SingletonMonoBehaviour<GameStateManager>
 {
     public GameState gameState = GameState.Idle;
-    [SerializeField] GameObject gameStartButton;
-    Vector3 gameStartButtonPosi;
+    //[SerializeField] GameObject gameStartButton;
+    //Vector3 gameStartButtonPosi;
     [SerializeField] GameObject Enemies;
     GameObject insEnemies;
     [SerializeField] GameObject enemiesInsPosi;
-    GameTimer timer;
+    //GameTimer timer;
     [SerializeField] GameObject gameStartUI;
+    GameStart gameStart;
 
     private void Start()
     {
-        timer = transform.GetComponent<GameTimer>();
-        gameStartButtonPosi = gameStartButton.transform.position;
+        //timer = transform.GetComponent<GameTimer>();
+        //gameStartButtonPosi = gameStartButton.transform.position;
+        gameStart = gameStartUI.GetComponent<GameStart>();
     }
 
     public void ChangeGameState(GameState next)
@@ -39,7 +41,7 @@ public class GameStateManager : SingletonMonoBehaviour<GameStateManager>
         switch (gameState)
         {
             case GameState.Idle:
-                Instantiate(gameStartButton, gameStartButtonPosi, Quaternion.identity);
+                //Instantiate(gameStartButton, gameStartButtonPosi, Quaternion.identity);
                 break;
             case GameState.Start:
                 ScoreManager.Instance.ResetScore();
@@ -50,8 +52,8 @@ public class GameStateManager : SingletonMonoBehaviour<GameStateManager>
                 break;
             case GameState.End:
                 insEnemies.transform.GetComponent<EnemiesDeathTime>().EnemiesDeath();
-                gameStartUI.SetActive(true);
-                
+                gameStart.ActiveCollider(true);
+                gameStart.ChangeAnim();
                 break;
             default:
                 break;

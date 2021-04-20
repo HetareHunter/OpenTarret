@@ -10229,6 +10229,25 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8594560243221024247}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &982458116
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982458110}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c79353ce6fa1ba34ea80d3a2259e2207, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &985397193
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12104,8 +12123,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameState: 0
-  gameStartButton: {fileID: 9071685324205581979, guid: 58567beec9e64a440a94f32d18d7d9ea,
-    type: 3}
   Enemies: {fileID: 2265958573657430278, guid: 16c9ea2c9b36dae488df0e335dc52efb, type: 3}
   enemiesInsPosi: {fileID: 304408352}
   gameStartUI: {fileID: 982458110}

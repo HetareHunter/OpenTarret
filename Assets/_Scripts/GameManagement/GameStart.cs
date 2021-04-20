@@ -6,7 +6,7 @@ using TMPro;
 
 public class GameStart : MonoBehaviour
 {
-    BoxCollider collider;
+    [HideInInspector] public BoxCollider collider;
 
     public bool onLeftHand = false;
     public bool onRightHand = false;
@@ -28,9 +28,12 @@ public class GameStart : MonoBehaviour
     [SerializeField] Image startUIImage;
     [SerializeField] TextMeshProUGUI countText;
 
+    Animator gameStartUIAnim;
+
     private void Start()
     {
         collider = GetComponent<BoxCollider>();
+        gameStartUIAnim = GetComponent<Animator>();
         startTimeCount = gameStartCount;
     }
 
@@ -79,7 +82,7 @@ public class GameStart : MonoBehaviour
             VibrationExtension.Instance.VibrateStop(OVRInput.Controller.LTouch);
             OVRInput.SetControllerVibration(0, 0, OVRInput.Controller.LTouch);
         }
-        
+
     }
 
     void OnHandJudge()
@@ -108,8 +111,9 @@ public class GameStart : MonoBehaviour
             //GameStateManager.Instance.ChangeGameState(GameState.Start); //ゲーム開始
             onRightHand = false;
             onLeftHand = false;
-            collider.enabled = false;
+            ActiveCollider(false);
             onStart = true;
+            ChangeAnim();
         }
     }
 
@@ -132,7 +136,7 @@ public class GameStart : MonoBehaviour
                 onStart = false;
             }
         }
-        
+
     }
 
     void LoadTouchImage()
@@ -145,5 +149,15 @@ public class GameStart : MonoBehaviour
     {
         //毎秒のイメージの変化
         startUIImage.fillAmount = startCountTime / 1.0f;
+    }
+
+    public void ActiveCollider(bool swicth)
+    {
+        collider.enabled = swicth;
+    }
+
+    public void ChangeAnim()
+    {
+        gameStartUIAnim.SetTrigger("StateChange");
     }
 }
