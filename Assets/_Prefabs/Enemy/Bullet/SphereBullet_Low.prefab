@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 3240606244484177701}
   - component: {fileID: 1970089133421056128}
   - component: {fileID: 4374084755809608778}
-  - component: {fileID: 3184822625754486086}
   - component: {fileID: 1944081334615798654}
   - component: {fileID: 5633860332185469369}
+  - component: {fileID: 2789467404317464475}
   m_Layer: 16
   m_Name: SphereBullet_Low
   m_TagString: Untagged
@@ -29,8 +29,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2860668229403280799}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.4550772, y: 3.4226656, z: 6.44868}
-  m_LocalScale: {x: 0.089156576, y: 0.089156576, z: 0.089156576}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.089156576, y: 0.089156576, z: 0.35999078}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -82,19 +82,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &3184822625754486086
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2860668229403280799}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &1944081334615798654
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -126,3 +113,17 @@ MonoBehaviour:
   speed: 15
   activeTime: 3
   power: 1
+--- !u!136 &2789467404317464475
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2860668229403280799}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1
+  m_Height: 4.618828
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0.540686}

@@ -9,11 +9,15 @@ public class BulletMove : MonoBehaviour
     public float power = 10;
     Rigidbody m_rb;
 
-
-    private void OnEnable()
+    private void Awake()
     {
         m_rb = GetComponent<Rigidbody>();
     }
+
+    //private void OnEnable()
+    //{
+
+    //}
 
     public void Fire()
     {
@@ -26,8 +30,14 @@ public class BulletMove : MonoBehaviour
         NotActive();
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        NotActive();
+    }
+
     void NotActive()
     {
+        m_rb.angularVelocity = Vector3.zero;
         gameObject.SetActive(false);
     }
 

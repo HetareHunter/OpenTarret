@@ -8,9 +8,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/_Seanes/GaussShooter.unity
     guid: 1971fb6a083f6954786cb67f12927aa5
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Seanes/GaussShooterTriHog.unity
     guid: 9eac373bfc3aff640a8f700fceb510e5
+  - enabled: 1
+    path: Assets/_Seanes/GaussShooterTriFixTarret.unity
+    guid: 29858d24f834c7d44a091314c4a4833a
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 478112eb5266545448378edcb4d96abe,
       type: 2}
