@@ -15,12 +15,7 @@ namespace Players
         OVRInput.Controller currentController;
 
         public float handleRotateLimit = 20.0f;
-        //float m_preHandleToPlayerDis;
-        //float rotateAngle;
 
-        [SerializeField] Transform m_handle;
-        /// <summary> ハンドルの感度 </summary>
-        //[SerializeField] float handleSensitivity = 2.0f;
 
         [SerializeField] GameObject leftHandMesh;
         [SerializeField] GameObject rightHandMesh;
@@ -105,66 +100,12 @@ namespace Players
             }
         }
 
-        /// <summary>
-        /// ハンドルがどれほど回転した状態になっているかの割合
-        /// </summary>
-        //public float HandleRotatePer
-        //{
-        //    get
-        //    {
-        //        if (m_handle.transform.localEulerAngles.x >= 180)
-        //        {
-        //            return (m_handle.transform.localEulerAngles.x - 360) / handleRotateLimit;
-        //        }
-        //        else
-        //        {
-        //            return m_handle.transform.localEulerAngles.x / handleRotateLimit;
-        //        }
-        //    }
-        //}
 
         public void GrabBegin(OVRInput.Controller controller)
         {
             currentController = controller;
         }
 
-        //void RotateHandle()
-        //{
-        //    float handleMoveDistance = MeasurementGrabToPlayer() / Time.deltaTime * handleSensitivity;
-        //    //Debug.Log("handleMoveDistance : " + handleMoveDistance);
-        //    rotateAngle += handleMoveDistance;
-        //    rotateAngle = Mathf.Clamp(rotateAngle, -handleRotateLimit, handleRotateLimit);
-        //    m_handle.localRotation = Quaternion.AngleAxis(rotateAngle, Vector3.right);
-        //}
-
-        /// <summary>
-        /// コライダーのプレイヤーとの距離に応じてハンドルが回るようにする
-        /// </summary>
-        //float MeasurementGrabToPlayer()
-        //{
-        //    float handleToPlayerDis = Vector3.Distance(transform.position, player.transform.position);
-        //    float preHandleToPlayerDis = m_preHandleToPlayerDis;
-        //    m_preHandleToPlayerDis = handleToPlayerDis;
-
-        //    return preHandleToPlayerDis - handleToPlayerDis;
-        //}
-
-        /// <summary>
-        /// プレイヤーはハンドルをつかめるかどうかの判定
-        /// 毎フレーム判定し、コライダーがタレットのハンドルから一定の距離以上離れたら手を放す
-        /// </summary>
-        /// <returns></returns>
-        //bool IsGrabbable()
-        //{
-        //    return Vector3.Distance(transform.position, player.transform.position) < playersArmLength;
-        //}
-
-        //void ResetRotateHandle()
-        //{
-        //    rotateAngle = 0;
-        //    //m_handle.rotation = Quaternion.AngleAxis(rotateAngle, Vector3.right);
-        //    m_handle.rotation = new Quaternion(0, 0, 0, 0);
-        //}
 
         private void OnTriggerEnter(Collider other)
         {

@@ -3704,12 +3704,12 @@ GameObject:
   - component: {fileID: 319725821}
   - component: {fileID: 319725820}
   m_Layer: 5
-  m_Name: TarretScreenCanvas (1)
+  m_Name: ScoreCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &319725819
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12720,7 +12720,6 @@ MonoBehaviour:
   m_grabPoints: []
   tarretData: {fileID: 11400000, guid: b32e40e76f528d94db97700dc4fd3dbd, type: 2}
   handleRotateLimit: 20
-  m_handle: {fileID: 2474234912503998142}
   leftHandMesh: {fileID: 451164355}
   rightHandMesh: {fileID: 1219213921}
   gripPosi: {fileID: 2080329545}
@@ -20692,7 +20691,6 @@ MonoBehaviour:
   m_grabPoints: []
   tarretData: {fileID: 11400000, guid: b32e40e76f528d94db97700dc4fd3dbd, type: 2}
   handleRotateLimit: 20
-  m_handle: {fileID: 4690713779369545315}
   leftHandMesh: {fileID: 451164355}
   rightHandMesh: {fileID: 1219213921}
   gripPosi: {fileID: 1670547148}
@@ -21058,6 +21056,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: StartGame_screen
+      objectReference: {fileID: 0}
+    - target: {fileID: 8594560243767944677, guid: f5c9a9a97cca6114f8a3cc08bd3d5366,
+        type: 3}
+      propertyPath: touchAmplitude
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8594560243767944677, guid: f5c9a9a97cca6114f8a3cc08bd3d5366,
+        type: 3}
+      propertyPath: touchFrequeency
+      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5c9a9a97cca6114f8a3cc08bd3d5366, type: 3}

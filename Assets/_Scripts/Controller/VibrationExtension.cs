@@ -7,9 +7,42 @@ using UnityEngine;
 /// </summary>
 public class VibrationExtension : SingletonMonoBehaviour<VibrationExtension>
 {
+
+    Coroutine leftViveCoroutine;
+    Coroutine rightViveCoroutine;
     public void VibrateController(float duration, float frequency, float amplitude, OVRInput.Controller controller)
     {
-        StartCoroutine(VibrateForSeconds(duration, frequency, amplitude, controller));
+
+        if (controller == OVRInput.Controller.LTouch)
+        {
+            leftViveCoroutine = StartCoroutine(VibrateForSeconds(duration, frequency, amplitude, controller));
+        }
+        else if (controller == OVRInput.Controller.RTouch)
+        {
+            rightViveCoroutine = StartCoroutine(VibrateForSeconds(duration, frequency, amplitude, controller));
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    public void VibrateStop(OVRInput.Controller controller)
+    {
+        if (controller == OVRInput.Controller.LTouch)
+        {
+            StopCoroutine(leftViveCoroutine);
+            leftViveCoroutine = null;
+        }
+        else if (controller == OVRInput.Controller.RTouch)
+        {
+            StopCoroutine(rightViveCoroutine);
+            rightViveCoroutine = null;
+        }
+        else
+        {
+            return;
+        }
     }
 
     IEnumerator VibrateForSeconds(float duration, float frequency, float amplitude, OVRInput.Controller controller)
@@ -17,10 +50,20 @@ public class VibrationExtension : SingletonMonoBehaviour<VibrationExtension>
         // 振動開始
         OVRInput.SetControllerVibration(frequency, amplitude, controller);
 
-        // 振動間隔分待つ
+        
         yield return new WaitForSeconds(duration);
 
         // 振動終了
         OVRInput.SetControllerVibration(0, 0, controller);
+    }
+
+    /// <summary>
+    /// ただ振動を止めたいとき
+    /// </summary>
+    /// <param name="controller"></param>
+    /// <returns></returns>
+    IEnumerator VibeStop(OVRInput.Controller controller)
+    {
+        yield break;
     }
 }
