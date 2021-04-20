@@ -2,55 +2,65 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameStart : MonoBehaviour
 {
-    [SerializeField] float deathTime = 4.0f;
-    //[SerializeField] GameObject gameStartButton;
+    BoxCollider collider;
 
     public bool onLeftHand = false;
     public bool onRightHand = false;
     public bool onHand = false;
+    bool onStart = false;
 
     /// <summary> 触れた時の振動の大きさ </summary>
     [SerializeField] float touchFrequeency = 0.3f;
     /// <summary> 触れた時の振動の周波数 </summary>
     [SerializeField] float touchAmplitude = 0.3f;
 
-    float time = 0;
-    [SerializeField] float startGameTime = 2.0f;
+    float touchTime = 0;
+    [SerializeField] float touchLimitTime = 2.0f;
+    [SerializeField] Image TouchCountImage;
 
-    [SerializeField] Image LoadUIImage;
+    float startCountTime = 1.0f;
+    [SerializeField] int gameStartCount = 3;
+    int startTimeCount;
+    [SerializeField] Image startUIImage;
+    [SerializeField] TextMeshProUGUI countText;
+
+    private void Start()
+    {
+        collider = GetComponent<BoxCollider>();
+        startTimeCount = gameStartCount;
+    }
 
     private void Update()
     {
         OnHandJudge();
         if (onHand)
         {
-            LoadImage();
-            TimeCount();
+            LoadTouchImage();
+            TouchTimeCount();
+        }
+
+        if (onStart)
+        {
+            StartTimeCount();
         }
     }
 
-    //public void StartGame()
-    //{
-    //    GameStateManager.Instance.ChangeGameState(GameState.Start);
-    //    this.GetComponent<Rigidbody>().AddForce(new Vector3(0, 10, 1000));
-    //    GetComponent<BoxCollider>().enabled = false;
-    //    Destroy(gameStartButton, deathTime);
-    //}
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("RHand"))
         {
             onRightHand = true;
-            VibrationExtension.Instance.VibrateController(startGameTime, touchFrequeency, touchAmplitude, OVRInput.Controller.RTouch);
+            VibrationExtension.Instance.VibrateController(touchLimitTime, touchFrequeency, touchAmplitude, OVRInput.Controller.RTouch);
         }
         else if (other.gameObject.CompareTag("LHand"))
         {
             onLeftHand = true;
-            VibrationExtension.Instance.VibrateController(startGameTime, touchFrequeency, touchAmplitude, OVRInput.Controller.LTouch);
+            VibrationExtension.Instance.VibrateController(touchLimitTime, touchFrequeency, touchAmplitude, OVRInput.Controller.LTouch);
         }
     }
 
@@ -81,27 +91,59 @@ public class GameStart : MonoBehaviour
         else
         {
             onHand = false;
-            time = 0; //時間の初期化
-            LoadImage(); //UIの初期化
+            touchTime = 0; //時間の初期化
+            LoadTouchImage(); //UIの初期化
         }
     }
 
-    void TimeCount()
+    /// <summary>
+    /// タッチパネルに触れてからゲーム開始確定までの時間をカウントする
+    /// </summary>
+    void TouchTimeCount()
     {
-        time += Time.deltaTime;
-        if (time > startGameTime)
+        touchTime += Time.deltaTime;
+        if (touchTime > touchLimitTime)
         {
-            time = 0;
-            GameStateManager.Instance.ChangeGameState(GameState.Start); //ゲーム開始
+            touchTime = 0;
+            //GameStateManager.Instance.ChangeGameState(GameState.Start); //ゲーム開始
             onRightHand = false;
             onLeftHand = false;
-            gameObject.SetActive(false);
+            collider.enabled = false;
+            onStart = true;
         }
     }
 
-    void LoadImage()
+    void StartTimeCount()
+    {
+        startCountTime -= Time.deltaTime;
+        LoadCountImage();
+
+        if (startCountTime < 0)
+        {
+            startCountTime = 1;
+            gameStartCount--;
+            countText.text = gameStartCount.ToString();
+
+            if (gameStartCount <= 0)
+            {
+                GameStateManager.Instance.ChangeGameState(GameState.Start);
+                gameStartCount = startTimeCount;
+                countText.text = gameStartCount.ToString();
+                onStart = false;
+            }
+        }
+        
+    }
+
+    void LoadTouchImage()
     {
         //ロード画面の画像が丸になっていくことでロード時間の可視化をする
-        LoadUIImage.fillAmount = time / startGameTime;
+        TouchCountImage.fillAmount = touchTime / touchLimitTime;
+    }
+
+    void LoadCountImage()
+    {
+        //毎秒のイメージの変化
+        startUIImage.fillAmount = startCountTime / 1.0f;
     }
 }
