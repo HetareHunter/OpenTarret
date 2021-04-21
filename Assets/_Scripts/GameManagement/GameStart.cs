@@ -6,8 +6,6 @@ using TMPro;
 
 public class GameStart : MonoBehaviour
 {
-    [HideInInspector] public BoxCollider collider;
-
     public bool onLeftHand = false;
     public bool onRightHand = false;
     public bool onHand = false;
@@ -32,7 +30,6 @@ public class GameStart : MonoBehaviour
 
     private void Start()
     {
-        collider = GetComponent<BoxCollider>();
         gameStartUIAnim = GetComponent<Animator>();
         startTimeCount = gameStartCount;
     }
@@ -153,7 +150,7 @@ public class GameStart : MonoBehaviour
 
     public void ActiveCollider(bool swicth)
     {
-        collider.enabled = swicth;
+        GetComponent<BoxCollider>().enabled = swicth;
     }
 
     public void ChangeAnim()
