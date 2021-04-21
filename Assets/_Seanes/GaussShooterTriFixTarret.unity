@@ -9366,9 +9366,9 @@ MonoBehaviour:
   onHand: 0
   touchFrequeency: 0.2
   touchAmplitude: 0.2
-  touchLimitTime: 2
+  toStartLimitTime: 2
   TouchCountImage: {fileID: 1466185879}
-  gameStartCount: 3
+  toPlayTimeCountNum: 3
   startUIImage:
   - {fileID: 8594560242645763585}
   - {fileID: 1262157183}
@@ -13452,8 +13452,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7eda1522f20501449ec4c9cc32f412d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameTime: 5
-  idleTime: 3
+  gameTime: 30
+  idleTime: 4
   timeText: {fileID: 1621407879}
 --- !u!1 &1151951048
 GameObject:

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public enum GameState
 {
+    None,
     Idle,
     Start,
     Play,
@@ -12,7 +13,7 @@ public enum GameState
 }
 public class GameStateManager : SingletonMonoBehaviour<GameStateManager>
 {
-    public GameState gameState = GameState.Idle;
+    public GameState gameState = GameState.None;
     //[SerializeField] GameObject gameStartButton;
     //Vector3 gameStartButtonPosi;
     [SerializeField] GameObject Enemies;
@@ -20,13 +21,14 @@ public class GameStateManager : SingletonMonoBehaviour<GameStateManager>
     [SerializeField] GameObject enemiesInsPosi;
     //GameTimer timer;
     [SerializeField] GameObject gameStartUI;
-    GameStart gameStart;
+    GameStartManager gameStart;
 
     private void Start()
     {
         //timer = transform.GetComponent<GameTimer>();
         //gameStartButtonPosi = gameStartButton.transform.position;
-        gameStart = gameStartUI.GetComponent<GameStart>();
+        gameStart = gameStartUI.GetComponent<GameStartManager>();
+        ChangeGameState(GameState.Idle);
     }
 
     public void ChangeGameState(GameState next)
@@ -40,20 +42,22 @@ public class GameStateManager : SingletonMonoBehaviour<GameStateManager>
 
         switch (gameState)
         {
+            case GameState.None:
+                break;
             case GameState.Idle:
-                //Instantiate(gameStartButton, gameStartButtonPosi, Quaternion.identity);
+                gameStart.ResetScreen();
                 break;
             case GameState.Start:
                 ScoreManager.Instance.ResetScore();
-                insEnemies = Instantiate(Enemies, enemiesInsPosi.transform.position, Quaternion.identity);
-                ChangeGameState(GameState.Play);
                 break;
             case GameState.Play:
+                insEnemies = Instantiate(Enemies, enemiesInsPosi.transform.position, Quaternion.identity);
                 break;
             case GameState.End:
                 insEnemies.transform.GetComponent<EnemiesDeathTime>().EnemiesDeath();
                 gameStart.ActiveCollider(true);
                 gameStart.ChangeAnim();
+                gameStart.WriteScreenText("Finish!");
                 break;
             default:
                 break;

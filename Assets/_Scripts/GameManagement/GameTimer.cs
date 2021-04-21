@@ -9,9 +9,9 @@ public class GameTimer : MonoBehaviour
     /// <summary>
     /// ゲーム時間単位は秒
     /// </summary>
-    [SerializeField] float gameTime = 120.0f;
+    [SerializeField] float gameTime = 30.0f;
     float playNowTime = 0;
-    [SerializeField] float idleTime = 3.0f;
+    [SerializeField] float idleTime = 4.0f;
     float idleNowTime = 0;
     [SerializeField] TextMeshProUGUI timeText;
     private void Start()
