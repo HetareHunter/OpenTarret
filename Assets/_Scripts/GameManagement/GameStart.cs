@@ -23,8 +23,8 @@ public class GameStart : MonoBehaviour
     float startCountTime = 1.0f;
     [SerializeField] int gameStartCount = 3;
     int startTimeCount;
-    [SerializeField] Image startUIImage;
-    [SerializeField] TextMeshProUGUI countText;
+    [SerializeField] Image[] startUIImage;
+    [SerializeField] TextMeshProUGUI[] countText;
 
     Animator gameStartUIAnim;
 
@@ -123,16 +123,26 @@ public class GameStart : MonoBehaviour
         {
             startCountTime = 1;
             gameStartCount--;
-            countText.text = gameStartCount.ToString();
+            for (int i = 0; i < countText.Length; i++)
+            {
+                countText[i].text = gameStartCount.ToString();
+            }
+            
 
             if (gameStartCount <= 0)
             {
                 GameStateManager.Instance.ChangeGameState(GameState.Start);
                 gameStartCount = startTimeCount;
-                countText.text = gameStartCount.ToString();
+                for (int i = 0; i < countText.Length; i++)
+                {
+                    countText[i].text = "Start!";
+                }
+                
                 onStart = false;
             }
         }
+        
+        
 
     }
 
@@ -145,7 +155,10 @@ public class GameStart : MonoBehaviour
     void LoadCountImage()
     {
         //毎秒のイメージの変化
-        startUIImage.fillAmount = startCountTime / 1.0f;
+        for (int i = 0; i < startUIImage.Length; i++)
+        {
+            startUIImage[i].fillAmount = startCountTime / 1.0f;
+        }
     }
 
     public void ActiveCollider(bool swicth)
