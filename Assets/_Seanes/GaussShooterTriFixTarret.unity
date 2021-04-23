@@ -21757,7 +21757,7 @@ MonoBehaviour:
   sieldHPSlider: {fileID: 408742075}
   recoveryTime: 2
   sieldRecoverySpeed: 3
-  onSield: 1
+  sieldState: 0
 --- !u!114 &449676436726112949
 MonoBehaviour:
   m_ObjectHideFlags: 0
