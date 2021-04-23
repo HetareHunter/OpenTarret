@@ -23,11 +23,13 @@ public class GameStateManager : SingletonMonoBehaviour<GameStateManager>
     [SerializeField] GameObject gameStartUI;
     GameStartManager gameStart;
 
+
     private void Start()
     {
         //timer = transform.GetComponent<GameTimer>();
         //gameStartButtonPosi = gameStartButton.transform.position;
         gameStart = gameStartUI.GetComponent<GameStartManager>();
+
         ChangeGameState(GameState.Idle);
     }
 

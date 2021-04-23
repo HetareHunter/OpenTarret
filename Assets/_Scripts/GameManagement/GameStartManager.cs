@@ -11,9 +11,13 @@ using TMPro;
 /// </summary>
 public class GameStartManager : MonoBehaviour
 {
-    [HideInInspector] public bool onLeftHand = false;
-    [HideInInspector] public bool onRightHand = false;
-    [HideInInspector] public bool onHand = false;
+    bool onLeftHand = false;
+    bool onRightHand = false;
+    bool onHand = false;
+
+    /// <summary>
+    /// ゲームのスタートが確定するフラグ
+    /// </summary>
     bool onStart = false;
 
     /// <summary> 触れた時の振動の大きさ </summary>
@@ -29,6 +33,7 @@ public class GameStartManager : MonoBehaviour
     /// 1秒固定、1秒ごとにUIのカウントを３，２，１と変化させたいので変数を二つ用意した
     /// </summary>
     float toPlayTime = 1.0f;
+
     /// <summary>
     /// 一秒を何回カウントするか
     /// </summary>
@@ -40,10 +45,14 @@ public class GameStartManager : MonoBehaviour
 
     Animator gameStartUIAnim;
 
+    [SerializeField] GameObject changeColorObj;
+    ColorManager colorManager;
+
     private void Start()
     {
         gameStartUIAnim = GetComponent<Animator>();
         beginingToPlayTimeCountNum = toPlayTimeCountNum;
+        colorManager = changeColorObj.GetComponent<ColorManager>();
     }
 
     private void Update()
@@ -123,6 +132,7 @@ public class GameStartManager : MonoBehaviour
             onLeftHand = false;
             ActiveCollider(false);
             onStart = true;
+            colorManager.ToChangeColor();
             ChangeAnim();
         }
     }
@@ -145,6 +155,7 @@ public class GameStartManager : MonoBehaviour
             if (toPlayTimeCountNum <= 0)
             {
                 GameStateManager.Instance.ChangeGameState(GameState.Play);
+                colorManager.ToStartColor();
                 toPlayTimeCountNum = beginingToPlayTimeCountNum;
                 for (int i = 0; i < countText.Length; i++)
                 {
