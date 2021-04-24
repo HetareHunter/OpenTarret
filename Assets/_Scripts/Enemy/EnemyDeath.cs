@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
+using UniRx;
 
 public class EnemyDeath : MonoBehaviour
 {
@@ -8,19 +10,27 @@ public class EnemyDeath : MonoBehaviour
     [SerializeField] int addScore = 100;
     [SerializeField] GameObject[] muzzle;
 
+    private void Update()
+    {
+        
+    }
     public void OnDead()
     {
+        SpawnerManager.Instance.ChangeEnemyNum(-1); //敵のカウントを1減らす
         AddScore();
         BulletDead();
         Destroy(gameObject, deathTime);
-        
+
+        //Observable.Timer(TimeSpan.FromSeconds(deathTime))
+        //    .Subscribe(_ => gameObject.SetActive(false))
+        //    .AddTo(this);
     }
 
-    void BulletDead()
+    public void BulletDead()
     {
         foreach (var item in muzzle)
         {
-            item.GetComponent<EnemyBulletManager>().onDead();
+            item.GetComponent<EnemyBulletManager>().OnDead();
         }
     }
 

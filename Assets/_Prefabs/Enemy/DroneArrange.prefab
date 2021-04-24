@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 720750361}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.2700005, y: -0.458, z: 3}
+  m_LocalPosition: {x: 1.2700005, y: -0.458, z: 4.37}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 956148899057445990}
@@ -73,7 +73,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1693218874}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.252, y: -0.458, z: 3}
+  m_LocalPosition: {x: -1.252, y: -0.458, z: 4.37}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 956148899057445990}
@@ -112,7 +112,7 @@ GameObject:
   - component: {fileID: 1130000522491089154}
   - component: {fileID: 9216857648404036095}
   m_Layer: 10
-  m_Name: Drone
+  m_Name: DroneArrange
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

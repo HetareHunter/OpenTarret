@@ -54,13 +54,13 @@ public class EnemyBulletManager : MonoBehaviour
         }
     }
 
-    public void onDead()
+    public void OnDead()
     {
         deathEnemy = true;
         foreach (var item in bullets)
         {
             Destroy(item, 5.0f);
-            item.SetActive(true);
+            //item.SetActive(true);
         }
         bulletMove = null;
         bullets = null;
