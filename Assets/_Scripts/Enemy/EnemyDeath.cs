@@ -30,6 +30,7 @@ public class EnemyDeath : MonoBehaviour
     {
         foreach (var item in muzzle)
         {
+            if (item == null) continue;
             item.GetComponent<EnemyBulletManager>().OnDead();
         }
     }

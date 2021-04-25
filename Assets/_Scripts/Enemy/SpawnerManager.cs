@@ -144,6 +144,7 @@ public class SpawnerManager : SingletonMonoBehaviour<SpawnerManager>
     {
         foreach (var item in enemies)
         {
+            if (item == null) continue;
             item.GetComponent<EnemyDeath>().BulletDead();
             Destroy(item);
         }
