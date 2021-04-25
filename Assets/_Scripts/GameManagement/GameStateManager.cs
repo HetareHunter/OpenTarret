@@ -22,6 +22,7 @@ public class GameStateManager : SingletonMonoBehaviour<GameStateManager>
     //GameTimer timer;
     [SerializeField] GameObject gameStartUI;
     GameStartManager gameStart;
+    GameTimer gameTimer;
 
 
     private void Start()
@@ -29,6 +30,7 @@ public class GameStateManager : SingletonMonoBehaviour<GameStateManager>
         //timer = transform.GetComponent<GameTimer>();
         //gameStartButtonPosi = gameStartButton.transform.position;
         gameStart = gameStartUI.GetComponent<GameStartManager>();
+        gameTimer = GetComponent<GameTimer>();
 
         ChangeGameState(GameState.Idle);
     }
@@ -55,10 +57,12 @@ public class GameStateManager : SingletonMonoBehaviour<GameStateManager>
             case GameState.Play:
                 //insEnemies = Instantiate(Enemies, enemiesInsPosi.transform.position, Quaternion.identity);
                 SpawnerManager.Instance.SpawnStart();
+                gameTimer.CountStart();
                 break;
             case GameState.End:
                 //insEnemies.transform.GetComponent<EnemiesDeathTime>().EnemiesDeath();
                 SpawnerManager.Instance.SpawnEnd();
+                gameTimer.CountEnd();
                 gameStart.ActiveCollider(true);
                 gameStart.ChangeAnim();
                 gameStart.WriteScreenText("Finish!");
@@ -67,6 +71,34 @@ public class GameStateManager : SingletonMonoBehaviour<GameStateManager>
                 break;
         }
     }
+#if UNITY_EDITOR
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            switch (gameState)
+            {
+                case GameState.None:
+                    break;
+                case GameState.Idle:
+                    ChangeGameState(GameState.Start);
+                    break;
+                case GameState.Start:
+                    ChangeGameState(GameState.Play);
+                    break;
+                case GameState.Play:
+                    ChangeGameState(GameState.End);
+                    break;
+                case GameState.End:
+                    ChangeGameState(GameState.Idle);
+                    break;
+                default:
+                    break;
+            }
+        }
+        
+    }
 
-    
+#endif
+
 }

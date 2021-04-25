@@ -76,7 +76,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec8d3c17db730664ab12ef43b9d0b91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  power: 10000
+  power: 0
   tarretAttackData: {fileID: 11400000, guid: b32e40e76f528d94db97700dc4fd3dbd, type: 2}
 --- !u!114 &1220409758
 MonoBehaviour:

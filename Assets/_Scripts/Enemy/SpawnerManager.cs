@@ -10,6 +10,7 @@ public class SpawnerManager : SingletonMonoBehaviour<SpawnerManager>
     List<GameObject> spawners = new List<GameObject>();
     List<GameObject> enemies = new List<GameObject>();
     [SerializeField] GameObject drone;
+    public GameObject enemyTarget;
     /// <summary> ゲーム上にいる敵の数をカウントする変数</summary>
     public int enemyNum = 0;
     [SerializeField] int maxEnemyNum = 3;

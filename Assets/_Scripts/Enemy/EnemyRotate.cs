@@ -9,7 +9,7 @@ public class EnemyRotate : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        target = GameObject.Find("TarretCollider");
+        target = SpawnerManager.Instance.enemyTarget;
     }
 
     // Update is called once per frame

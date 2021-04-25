@@ -14,6 +14,8 @@ public class GameTimer : MonoBehaviour
     [SerializeField] float idleTime = 4.0f;
     float idleNowTime = 0;
     [SerializeField] TextMeshProUGUI timeText;
+    bool timeStart = false;
+    bool gameEnd = false;
     private void Start()
     {
         playNowTime = gameTime;
@@ -21,34 +23,32 @@ public class GameTimer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (count)
-        //{
-        //    PlayTimeCounter();
-        //}
-        switch (GameStateManager.Instance.gameState)
+        if (timeStart)
         {
-            case GameState.Idle:
-                break;
-            case GameState.Start:
-                break;
-            case GameState.Play:
-                PlayTimeCounter();
-                break;
-            case GameState.End:
-                IdleTimeCounter();
-                break;
-            default:
-                break;
+            PlayTimeCounter();
+        }
+        else if (gameEnd)
+        {
+            IdleTimeCounter();
         }
     }
 
+    public void CountStart()
+    {
+        timeStart = true;
+    }
+
+    public void CountEnd()
+    {
+        timeStart = false;
+        gameEnd = true;
+    }
     void PlayTimeCounter()
     {
         playNowTime -= Time.deltaTime;
 
         if (playNowTime <= 0)
         {
-            //count = false;
             GameStateManager.Instance.ChangeGameState(GameState.End);
             playNowTime = gameTime;
         }
@@ -61,6 +61,7 @@ public class GameTimer : MonoBehaviour
         if (idleNowTime >= idleTime)
         {
             GameStateManager.Instance.ChangeGameState(GameState.Idle);
+            gameEnd = false;
             idleNowTime = 0;
         }
     }
