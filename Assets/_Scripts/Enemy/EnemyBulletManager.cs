@@ -44,7 +44,7 @@ public class EnemyBulletManager : MonoBehaviour
             bullets[bulletIndex].transform.rotation = transform.rotation;
             bulletMove[bulletIndex].Fire();
             //bulletRotate = bulletInsPosi.transform.rotation;
-            
+
             bullets[bulletIndex].SetActive(true);
             bulletIndex++;
             if (bulletIndex >= bullets.Count)
@@ -59,6 +59,7 @@ public class EnemyBulletManager : MonoBehaviour
         deathEnemy = true;
         foreach (var item in bullets)
         {
+            if (item == null) continue;
             Destroy(item, 5.0f);
             //item.SetActive(true);
         }

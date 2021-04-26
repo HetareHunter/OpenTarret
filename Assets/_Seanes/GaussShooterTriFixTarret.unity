@@ -13533,8 +13533,8 @@ MonoBehaviour:
   drone: {fileID: 956148899057545286, guid: fec8535d8d81e034e8291dc13218b1f6, type: 3}
   enemyTarget: {fileID: 394649606}
   enemyNum: 0
-  maxEnemyNum: 3
-  spawnTime: 5
+  maxEnemyNum: 4
+  spawnTime: 3
   onSpawn: 0
 --- !u!1001 &1105994656
 PrefabInstance:

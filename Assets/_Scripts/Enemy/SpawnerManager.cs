@@ -118,6 +118,10 @@ public class SpawnerManager : SingletonMonoBehaviour<SpawnerManager>
         int index = Random.Range(0, spawners.Count); //どこに敵を生成するかの乱数
         enemies.Add(Instantiate(drone, spawners[index].transform.position, Quaternion.identity)); //敵を生成する
         spawners.RemoveAt(index); //敵が1度出現したスポナーは消す
+        if (spawners.Count <= 1)
+        {
+            ResetSpawner();
+        }
         ChangeEnemyNum(1); //敵の数が増える
         nowTime = 0;
         onSpawnTimePassed = false;
