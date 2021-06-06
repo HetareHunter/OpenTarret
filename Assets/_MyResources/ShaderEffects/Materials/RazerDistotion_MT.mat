@@ -85,7 +85,7 @@ Material:
     - Vector1_50717D3D: 5
     - Vector1_5B2C7D7F: 1
     - Vector1_917B71F4: -1
-    - Vector1_9A3AF233: 1
+    - Vector1_9A3AF233: 0.85
     - Vector1_B232F448: 1
     - Vector1_DBAE315: 0.27
     - Vector1_EB45AAA8: 0.66
@@ -130,6 +130,7 @@ Material:
     - _UseUIAlphaClip: 0
     - _WorkflowMode: 1
     - _ZWrite: 0
+    - _alpha: 1
     m_Colors:
     - Vector2_1BFFB2DC: {r: -0.05, g: 0.05, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 0}

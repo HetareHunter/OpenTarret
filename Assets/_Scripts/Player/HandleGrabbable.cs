@@ -65,7 +65,6 @@ namespace Players
                     }
                 }
 
-
                 if (currentController == OVRInput.Controller.LTouch)
                 {
                     leftHandMesh.transform.position = gripPosi.transform.position;
