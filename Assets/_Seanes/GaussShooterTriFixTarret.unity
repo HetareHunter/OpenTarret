@@ -9566,7 +9566,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 846502548}
   m_LocalRotation: {x: 0.15582189, y: -0.68972427, z: 0.15582189, w: 0.68972427}
-  m_LocalPosition: {x: 0, y: 0, z: -0.679}
+  m_LocalPosition: {x: 0, y: 0, z: 1.521}
   m_LocalScale: {x: 0.0023028445, y: 0.002302844, z: 0.0023028443}
   m_Children:
   - {fileID: 2109997081}
@@ -9622,7 +9622,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!223 &846502552
 Canvas:
   m_ObjectHideFlags: 0
@@ -16736,6 +16736,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2037080, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
+      propertyPath: m_TargetEye
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2037080, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
       propertyPath: m_ClearFlags
       value: 4
       objectReference: {fileID: 0}
@@ -23135,7 +23139,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 449676436726112946}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 2.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 394649607}
