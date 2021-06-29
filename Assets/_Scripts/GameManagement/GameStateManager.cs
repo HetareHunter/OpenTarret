@@ -59,17 +59,13 @@ public class GameStateManager : SingletonMonoBehaviour<GameStateManager>
                 ScoreManager.Instance.ResetScore();
                 break;
             case GameState.Play:
-                //insEnemies = Instantiate(Enemies, enemiesInsPosi.transform.position, Quaternion.identity);
                 SpawnerManager.Instance.SpawnStart();
                 gameTimer.CountStart();
                 break;
             case GameState.End:
-                //insEnemies.transform.GetComponent<EnemiesDeathTime>().EnemiesDeath();
                 SpawnerManager.Instance.SpawnEnd();
                 gameTimer.CountEnd();
-                gameStart.ActiveCollider(true);
-                gameStart.ChangeAnim();
-                gameStart.WriteScreenText("Finish!");
+                gameStart.GameEnd();
                 break;
             default:
                 break;

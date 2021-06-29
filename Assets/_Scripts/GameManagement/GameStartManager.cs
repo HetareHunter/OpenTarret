@@ -229,4 +229,11 @@ public class GameStartManager : MonoBehaviour
             return false;
         }
     }
+
+    public void GameEnd()
+    {
+        ActiveCollider(true);
+        ChangeAnim();
+        WriteScreenText("Finish!");
+    }
 }

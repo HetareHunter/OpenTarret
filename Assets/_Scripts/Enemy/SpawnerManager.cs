@@ -149,9 +149,12 @@ public class SpawnerManager : SingletonMonoBehaviour<SpawnerManager>
         foreach (var item in enemies)
         {
             if (item == null) continue;
-            var enemyDeath = item.GetComponent<DroneDeath>();
-            if (enemyDeath == null) break;
-            item.GetComponent<DroneDeath>().BulletDead();
+            var enemyDeath = item.GetComponent<IEnemyDeath>();
+            if (enemyDeath != null)
+            {
+                item.GetComponent<DroneDeath>().BulletDead();
+            }
+            
             Destroy(item);
         }
         enemies.Clear();
