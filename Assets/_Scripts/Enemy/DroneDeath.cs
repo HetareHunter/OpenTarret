@@ -1,29 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System;
 using UnityEngine;
-using UniRx;
 
-public class EnemyDeath : MonoBehaviour
+public class DroneDeath : MonoBehaviour, IEnemyDeath
 {
     [SerializeField] float deathTime = 0.5f;
     [SerializeField] int addScore = 100;
     [SerializeField] GameObject[] muzzle;
 
-    private void Update()
-    {
-        
-    }
     public void OnDead()
     {
         SpawnerManager.Instance.ChangeEnemyNum(-1); //敵のカウントを1減らす
         AddScore();
-        BulletDead();
+        //BulletDead();
         Destroy(gameObject, deathTime);
-
-        //Observable.Timer(TimeSpan.FromSeconds(deathTime))
-        //    .Subscribe(_ => gameObject.SetActive(false))
-        //    .AddTo(this);
     }
 
     public void BulletDead()
@@ -35,7 +25,7 @@ public class EnemyDeath : MonoBehaviour
         }
     }
 
-    void AddScore()
+    public void AddScore()
     {
         ScoreManager.Instance.AddScore(addScore);
     }

@@ -142,7 +142,7 @@ public class BaseTarretAttack : MonoBehaviour
                 m_hitExplodeEffects[hitExplodeIndex].transform.position = hit.point;
                 m_hitExplodeEffects[hitExplodeIndex].SetActive(true);
                 hitExplodeIndex++;
-                EnemyDeath enemyDeath = hit.collider.gameObject.GetComponent<EnemyDeath>();
+                IEnemyDeath enemyDeath = hit.collider.gameObject.GetComponent<IEnemyDeath>();
                 enemyDeath.OnDead();
             }
 

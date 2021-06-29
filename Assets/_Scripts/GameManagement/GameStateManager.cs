@@ -49,7 +49,11 @@ public class GameStateManager : SingletonMonoBehaviour<GameStateManager>
             case GameState.None:
                 break;
             case GameState.Idle:
-                gameStart.ResetScreen();
+                if (gameStart.ExistUIText())
+                {
+                    gameStart.ResetScreen();
+                }
+                
                 break;
             case GameState.Start:
                 ScoreManager.Instance.ResetScore();

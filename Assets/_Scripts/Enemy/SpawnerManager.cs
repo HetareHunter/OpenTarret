@@ -9,7 +9,7 @@ public class SpawnerManager : SingletonMonoBehaviour<SpawnerManager>
 {
     List<GameObject> spawners = new List<GameObject>();
     List<GameObject> enemies = new List<GameObject>();
-    [SerializeField] GameObject drone;
+    [SerializeField] GameObject enemy;
     public GameObject enemyTarget;
     /// <summary> ゲーム上にいる敵の数をカウントする変数</summary>
     public int enemyNum = 0;
@@ -116,7 +116,7 @@ public class SpawnerManager : SingletonMonoBehaviour<SpawnerManager>
     void EnemySpawn()
     {
         int index = Random.Range(0, spawners.Count); //どこに敵を生成するかの乱数
-        enemies.Add(Instantiate(drone, spawners[index].transform.position, Quaternion.identity)); //敵を生成する
+        enemies.Add(Instantiate(enemy, spawners[index].transform.position, Quaternion.identity)); //敵を生成する
         spawners.RemoveAt(index); //敵が1度出現したスポナーは消す
         if (spawners.Count <= 1)
         {
@@ -149,7 +149,9 @@ public class SpawnerManager : SingletonMonoBehaviour<SpawnerManager>
         foreach (var item in enemies)
         {
             if (item == null) continue;
-            item.GetComponent<EnemyDeath>().BulletDead();
+            var enemyDeath = item.GetComponent<DroneDeath>();
+            if (enemyDeath == null) break;
+            item.GetComponent<DroneDeath>().BulletDead();
             Destroy(item);
         }
         enemies.Clear();

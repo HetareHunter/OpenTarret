@@ -148,6 +148,7 @@ public class GameStartManager : MonoBehaviour
             toPlayTimeCountNum--;
             for (int i = 0; i < countText.Length; i++)
             {
+                if (!ExistUIText()) continue;
                 countText[i].text = toPlayTimeCountNum.ToString();
             }
             
@@ -176,6 +177,8 @@ public class GameStartManager : MonoBehaviour
 
     public void WriteScreenText(string input)
     {
+        if (!ExistUIText()) return;
+
         for (int i = 0; i < countText.Length; i++)
         {
             countText[i].text = input;
@@ -190,6 +193,7 @@ public class GameStartManager : MonoBehaviour
 
     void LoadCountImage()
     {
+        if (!ExistUIText()) return;
         //毎秒のイメージの変化
         for (int i = 0; i < startUIImage.Length; i++)
         {
@@ -205,5 +209,24 @@ public class GameStartManager : MonoBehaviour
     public void ChangeAnim()
     {
         gameStartUIAnim.SetTrigger("StateChange");
+    }
+
+    public bool ExistUIText()
+    {
+        if (countText.Length >0)
+        {
+            if (countText[0] == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        else
+        {
+            return false;
+        }
     }
 }
