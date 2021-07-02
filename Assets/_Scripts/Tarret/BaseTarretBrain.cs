@@ -8,8 +8,8 @@ namespace Managers
     public enum TarretCommand
     {
         Idle,
-        HorizontalRotate,
-        VerticalRotate,
+        //HorizontalRotate,
+        //VerticalRotate,
         Attack,
         Rotate,
         Break,

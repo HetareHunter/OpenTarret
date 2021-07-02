@@ -6,7 +6,7 @@ using Managers;
 namespace Players
 {
     /// <summary>
-    /// 実際にタレットを動かすクラス
+    /// タレットの仰角、底の回転を処理するクラス
     /// </summary>
     public class BaseTarretMove : MonoBehaviour
     {
@@ -19,7 +19,6 @@ namespace Players
         [SerializeField] float maxMuzzleFlameJointRotate = 0.3f;
         [SerializeField] float minMuzzleFlameJointRotate = -0.2f;
 
-        //BaseTarretRotateFunction baseTarretControl;
         BaseTarretBrain baseTarretBrain;
 
         [SerializeField] float debugHorizontalRotate = 0.8f;
@@ -31,7 +30,6 @@ namespace Players
 
         private void Start()
         {
-            //baseTarretControl = GetComponent<BaseTarretRotateFunction>();
             baseTarretBrain = GetComponent<BaseTarretBrain>();
             if (editRotateMode)
             {
@@ -137,7 +135,7 @@ namespace Players
 
         void DebugHorizontalRotate(float dx)
         {
-            rootPos.transform.Rotate(new Vector3(0, 90, 0) * dx * Time.deltaTime);
+            rootPos.transform.Rotate(new Vector3(0, 90, 0) * dx * debugHorizontalRotate * Time.deltaTime);
         }
 
         void DebugVerticalRotate(float dy)

@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
-using System.Threading.Tasks;
 using Managers;
-using UniRx;
 using DG.Tweening;
-using Cysharp.Threading.Tasks;
 
+/// <summary>
+/// タレットの攻撃関係の処理をまとめているクラス
+/// 機能が集中しすぎてきたため機能を分散すること
+/// </summary>
 public class BaseTarretAttack : MonoBehaviour
 {
     [SerializeField] TarretAttackData tarretAttackData;
@@ -18,8 +19,8 @@ public class BaseTarretAttack : MonoBehaviour
     AudioPlayer muzzleAudio;
     MagazineRotate magazineRotate;
     SightChanger sightChanger;
-    TarretScreenSliderChanger tarretScreenLeftSliderChanger;
-    TarretScreenSliderChanger tarretScreenRightSliderChanger;
+    IChangeSightColor changeSightCoror;
+
 
     /// <summary>レイキャストの長さ </summary>
     [SerializeField] Vector3 rayDistance;
@@ -31,8 +32,6 @@ public class BaseTarretAttack : MonoBehaviour
     [SerializeField] GameObject m_razerEffect;
     /// <summary>廃熱のエフェクト </summary>
     [SerializeField] GameObject[] m_wasteHeatEffects;
-    //[SerializeField] GameObject[] m_wasteHeatRight;
-    //[SerializeField] GameObject[] m_wasteHeatLeft;
     int wasteHeatIndex = 0;
     /// <summary>衝撃波のエフェクト </summary>
     [SerializeField] GameObject m_shockWaveEffect;
@@ -59,13 +58,9 @@ public class BaseTarretAttack : MonoBehaviour
     [SerializeField] GameObject muzzle;
     float muzzleRadius;
     [SerializeField] GameObject magazine;
-    /// <summary>マガジンが回転するまでの時間 </summary>
-    [SerializeField] float untilRotateMagazine = 0.3f;
 
     /// <summary> スクリーンに投影する照準についての変数 </summary>
     [SerializeField] GameObject sight;
-    [SerializeField] GameObject sightLeftSlider;
-    [SerializeField] GameObject sightRightSlider;
     bool screenColorRed = false;
 
     /// <summary> 当たったオブジェクトの情報を入れておく変数 </summary>
@@ -80,8 +75,7 @@ public class BaseTarretAttack : MonoBehaviour
         muzzleAudio = muzzle.GetComponent<AudioPlayer>();
         magazineRotate = magazine.GetComponent<MagazineRotate>();
         sightChanger = sight.GetComponent<SightChanger>();
-        tarretScreenLeftSliderChanger = sightLeftSlider.GetComponent<TarretScreenSliderChanger>();
-        tarretScreenRightSliderChanger = sightRightSlider.GetComponent<TarretScreenSliderChanger>();
+        changeSightCoror =sight.GetComponent<IChangeSightColor>();
         attackInterval = GetComponent<AttackIntervalCounter>();
         razerLineRenderer = m_razerEffect.transform.GetChild(0).GetComponent<LineRenderer>();
     }
@@ -89,7 +83,6 @@ public class BaseTarretAttack : MonoBehaviour
     void FixedUpdate()
     {
         RaySearchObject();
-        //Debug.DrawLine(muzzle.transform.position, muzzle.transform.forward * rayDistance.z);
     }
 
     /// <summary>
@@ -109,8 +102,7 @@ public class BaseTarretAttack : MonoBehaviour
             if (screenColorRed == false)
             {
                 sightChanger.ChangeRed();
-                tarretScreenLeftSliderChanger.ChangeSliderFillRed();
-                tarretScreenRightSliderChanger.ChangeSliderFillRed();
+                changeSightCoror.ChangeSliderFillRed();
                 screenColorRed = true;
             }
         }
@@ -120,8 +112,7 @@ public class BaseTarretAttack : MonoBehaviour
             if (screenColorRed == true)
             {
                 sightChanger.ChangeBase();
-                tarretScreenLeftSliderChanger.ChangeSliderFillBase();
-                tarretScreenRightSliderChanger.ChangeSliderFillBase();
+                changeSightCoror.ChangeSliderFillBase();
                 screenColorRed = false;
             }
         }
@@ -239,16 +230,11 @@ public class BaseTarretAttack : MonoBehaviour
         InstanceWasteHeatEffect();
         ShockWaveManager();
         KillEnemyFromRazer();
-        //Observable.Timer(TimeSpan.FromSeconds(untilRotateMagazine))
-        //    .Subscribe(_ => );
 
         attackable = false;
         attackInterval.countStart = true;
     }
 
-    void StayAttack()
-    {
-    }
 
     public void EndAttack()
     {

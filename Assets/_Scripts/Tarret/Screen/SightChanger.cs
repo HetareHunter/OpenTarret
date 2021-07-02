@@ -15,19 +15,6 @@ public class SightChanger : MonoBehaviour
     {
         m_sightTex = GetComponent<Image>();
     }
-
-    //public void ChangeTexture()
-    //{
-    //    if (sightMaterial.mainTexture == baseSightTex)
-    //    {
-    //        sightMaterial.SetTexture("_BaseMap", RedSightTex);
-    //    }
-    //    else
-    //    {
-    //        sightMaterial.SetTexture("_BaseMap", baseSightTex);
-    //    }
-    //}
-
     public void ChangeBase()
     {
         m_sightTex.sprite = baseSightTex;
@@ -39,12 +26,4 @@ public class SightChanger : MonoBehaviour
         m_sightTex.sprite = redSightTex;
         m_sightTex.material = redSigjtMT;
     }
-
-    /// <summary>
-    /// アプリケーション終了時に呼び出され、マテリアルのテクスチャを初期状態に戻す
-    /// </summary>
-    //private void OnApplicationQuit()
-    //{
-    //    sightTex.SetTexture("_BaseMap", baseSightTex);
-    //}
 }
