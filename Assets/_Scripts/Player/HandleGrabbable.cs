@@ -26,6 +26,8 @@ namespace Players
         ReturnPosition returnPosition = new ReturnPosition();
         [SerializeField] GameObject tarret;
         BaseTarretBrain baseTarretBrain;
+        [SerializeField] GameObject anglePointobj;
+        AnglePoint anglePoint;
 
         /// <summary> 触れた時の振動の大きさ </summary>
         [SerializeField] float touchFrequeency = 0.3f;
@@ -44,6 +46,7 @@ namespace Players
         {
             returnPosition = GetComponent<ReturnPosition>();
             baseTarretBrain = tarret.GetComponent<BaseTarretBrain>();
+            anglePoint = anglePointobj.GetComponent<AnglePoint>();
         }
         void FixedUpdate()
         {
@@ -79,7 +82,7 @@ namespace Players
             else
             {
                 returnPosition.Released();
-                if (handleGrabMoment)
+                if (handleGrabMoment)//手を離した瞬間の処理
                 {
                     m_allowOffhandGrab = true;
                     if (currentController == OVRInput.Controller.LTouch)
@@ -92,6 +95,7 @@ namespace Players
                     }
                     currentController = OVRInput.Controller.None;
                     baseTarretBrain.ChangeTarretState(TarretCommand.Idle);
+                    anglePoint.isAdjust = false;
 
                     handleGrabMoment = false;
                 }

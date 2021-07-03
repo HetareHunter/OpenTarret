@@ -1,7 +1,8 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Managers;
+using UniRx;
 
 /// <summary>
 /// tarretの向きを変える矢印の向きを変えるスクリプト
@@ -16,6 +17,11 @@ public class AnglePoint : MonoBehaviour
     float adjustHorizontalPosi;
 
     Vector3 adjustPosi;
+    /// <summary>
+    /// センターポジションの調整処理を呼び出すディレイ時間、単位はミリ秒
+    /// </summary>
+    [SerializeField] float delayAdjustTime = 100.0f;
+    public bool isAdjust = false;
 
     /// <summary>
     /// 両手の間の位置を返すプロパティ
@@ -39,7 +45,7 @@ public class AnglePoint : MonoBehaviour
     void Update()
     {
         //Debug.Log("CenterOfHands:" + CenterOfHands);
-        if (BaseTarretBrain.tarretCommandState == TarretCommand.Rotate)
+        if (BaseTarretBrain.tarretCommandState == TarretCommand.Rotate && isAdjust)
         {
             MoveAnglePoint();
         }
@@ -58,6 +64,13 @@ public class AnglePoint : MonoBehaviour
 
     public void BeginGrabHandle()
     {
-        adjustPosi = originAnglePoint.transform.localPosition - CenterOfHands;
+        Observable.Return(Unit.Default)
+            .Delay(TimeSpan.FromMilliseconds(delayAdjustTime))
+            .Subscribe(_ =>
+           {
+               adjustPosi = originAnglePoint.transform.localPosition - CenterOfHands;
+               isAdjust = true;
+           });
+
     }
 }
