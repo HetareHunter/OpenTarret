@@ -49,21 +49,10 @@ public class VibrationExtension : SingletonMonoBehaviour<VibrationExtension>
     {
         // 振動開始
         OVRInput.SetControllerVibration(frequency, amplitude, controller);
-
         
         yield return new WaitForSeconds(duration);
 
         // 振動終了
         OVRInput.SetControllerVibration(0, 0, controller);
-    }
-
-    /// <summary>
-    /// ただ振動を止めたいとき
-    /// </summary>
-    /// <param name="controller"></param>
-    /// <returns></returns>
-    IEnumerator VibeStop(OVRInput.Controller controller)
-    {
-        yield break;
     }
 }
