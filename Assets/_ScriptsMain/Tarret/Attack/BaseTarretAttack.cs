@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using DG.Tweening;
+using Zenject;
 
 namespace Tarret
 {
@@ -20,7 +21,8 @@ namespace Tarret
         AudioPlayer muzzleAudio;
         MagazineRotate magazineRotate;
         SightChanger sightChanger;
-        IChangeSightColor changeSightCoror;
+        [Inject]
+        private IChangeSightColor changeSightCoror;
 
 
         /// <summary>レイキャストの長さ </summary>
@@ -76,7 +78,7 @@ namespace Tarret
             muzzleAudio = muzzle.GetComponent<AudioPlayer>();
             magazineRotate = magazine.GetComponent<MagazineRotate>();
             sightChanger = sight.GetComponent<SightChanger>();
-            changeSightCoror = sight.GetComponent<IChangeSightColor>();
+            //changeSightCoror = sight.GetComponent<IChangeSightColor>();
             attackInterval = GetComponent<AttackIntervalCounter>();
             razerLineRenderer = m_razerEffect.transform.GetChild(0).GetComponent<LineRenderer>();
         }
@@ -126,7 +128,7 @@ namespace Tarret
         {
             foreach (var hit in m_hitsEnemy)
             {
-                if (hit.transform.CompareTag("Enemy"))//タグがGameStartだったとき
+                if (hit.transform.CompareTag("Enemy"))//タグがEnemyだったとき
                 {
                     //爆発したときの力となるオブジェクトの生成
                     ExplosionForce(hit.point);
