@@ -78,7 +78,6 @@ namespace Tarret
             muzzleAudio = muzzle.GetComponent<AudioPlayer>();
             magazineRotate = magazine.GetComponent<MagazineRotate>();
             sightChanger = sight.GetComponent<SightChanger>();
-            //changeSightCoror = sight.GetComponent<IChangeSightColor>();
             attackInterval = GetComponent<AttackIntervalCounter>();
             razerLineRenderer = m_razerEffect.transform.GetChild(0).GetComponent<LineRenderer>();
         }

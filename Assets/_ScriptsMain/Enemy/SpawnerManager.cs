@@ -5,12 +5,12 @@ using UnityEngine;
 /// <summary>
 /// 敵の沸き方を管理するクラス
 /// </summary>
-public class SpawnerManager : SingletonMonoBehaviour<SpawnerManager>
+public class SpawnerManager : MonoBehaviour,ISpawner
 {
     List<GameObject> spawners = new List<GameObject>();
     List<GameObject> enemies = new List<GameObject>();
     [SerializeField] GameObject enemy;
-    public GameObject enemyTarget;
+    //public GameObject enemyTarget;
     /// <summary> ゲーム上にいる敵の数をカウントする変数</summary>
     public int enemyNum = 0;
     [SerializeField] int maxEnemyNum = 3;
@@ -113,7 +113,7 @@ public class SpawnerManager : SingletonMonoBehaviour<SpawnerManager>
         }
     }
 
-    void EnemySpawn()
+    public void EnemySpawn()
     {
         int index = Random.Range(0, spawners.Count); //どこに敵を生成するかの乱数
         enemies.Add(Instantiate(enemy, spawners[index].transform.position, Quaternion.identity)); //敵を生成する
@@ -144,7 +144,7 @@ public class SpawnerManager : SingletonMonoBehaviour<SpawnerManager>
     /// <summary>
     /// 敵をすべて削除し、タイマー、敵のカウントを0にする
     /// </summary>
-    void ResetEnemies()
+    public void ResetEnemies()
     {
         foreach (var item in enemies)
         {

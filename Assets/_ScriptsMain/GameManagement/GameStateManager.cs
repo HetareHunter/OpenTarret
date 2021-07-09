@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public enum GameState
 {
@@ -13,6 +14,8 @@ public enum GameState
 public class GameStateManager : SingletonMonoBehaviour<GameStateManager>
 {
     public GameState gameState = GameState.None;
+    [Inject]
+    ISpawner spawner;
     [SerializeField] GameObject Enemies;
     [SerializeField] GameObject enemiesInsPosi;
     [SerializeField] GameObject gameStartUI;
@@ -50,11 +53,11 @@ public class GameStateManager : SingletonMonoBehaviour<GameStateManager>
                 ScoreManager.Instance.ResetScore();
                 break;
             case GameState.Play:
-                SpawnerManager.Instance.SpawnStart();
+                spawner.SpawnStart();
                 gameTimer.CountStart();
                 break;
             case GameState.End:
-                SpawnerManager.Instance.SpawnEnd();
+                spawner.SpawnEnd();
                 gameTimer.CountEnd();
                 gameStart.GameEnd();
                 break;

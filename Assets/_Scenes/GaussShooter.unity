@@ -3471,6 +3471,7 @@ GameObject:
   - component: {fileID: 542319063}
   - component: {fileID: 542319062}
   - component: {fileID: 542319061}
+  - component: {fileID: 542319064}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -3506,6 +3507,7 @@ MonoBehaviour:
   _scriptableObjectInstallers: []
   _monoInstallers:
   - {fileID: 542319061}
+  - {fileID: 542319064}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -3537,6 +3539,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 34
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &542319064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 542319060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c94111e0e01dbd4b9fe539356e4f4ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawner: {fileID: 583106766}
 --- !u!1001 &555542466
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3807,7 +3822,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2265958573657430278, guid: 16c9ea2c9b36dae488df0e335dc52efb, type: 3}
-  enemyTarget: {fileID: 0}
   enemyNum: 0
   maxEnemyNum: 1
   spawnTime: 0

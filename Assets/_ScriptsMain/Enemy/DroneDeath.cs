@@ -1,16 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class DroneDeath : MonoBehaviour, IEnemyDeath
 {
     [SerializeField] float deathTime = 0.5f;
     [SerializeField] int addScore = 100;
     [SerializeField] GameObject[] muzzle;
+    [Inject]
+    ISpawner spawner;
 
     public void OnDead()
     {
-        SpawnerManager.Instance.ChangeEnemyNum(-1); //敵のカウントを1減らす
+        spawner.ChangeEnemyNum(-1); //敵のカウントを1減らす
         AddScore();
         Destroy(gameObject, deathTime);
     }
