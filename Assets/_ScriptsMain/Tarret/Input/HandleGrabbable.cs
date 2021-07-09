@@ -24,10 +24,11 @@ namespace Players
 
         ReturnPosition returnPosition = new ReturnPosition();
         [SerializeField] GameObject tarret;
-        TarretStateManager baseTarretBrain;
+        TarretStateManager TarretState;
         [SerializeField] GameObject anglePointobj;
         AnglePointer anglePoint;
         HandleVibe handleVibe;
+        HandleInput handleInput;
 
         /// <summary> 触れた時の振動の大きさ </summary>
         [SerializeField] float touchFrequeency = 0.3f;
@@ -45,9 +46,10 @@ namespace Players
         protected override void Start()
         {
             returnPosition = GetComponent<ReturnPosition>();
-            baseTarretBrain = tarret.GetComponent<TarretStateManager>();
+            TarretState = tarret.GetComponent<TarretStateManager>();
             anglePoint = anglePointobj.GetComponent<AnglePointer>();
             handleVibe = GetComponent<HandleVibe>();
+            handleInput = GetComponent<HandleInput>();
         }
         void FixedUpdate()
         {
@@ -65,7 +67,7 @@ namespace Players
                 {
                     if (transform.tag == "RHundle")
                     {
-                        baseTarretBrain.ChangeTarretState(TarretCommand.Attack);
+                        TarretState.ChangeTarretState(TarretCommand.Attack);
                     }
                 }
 
@@ -95,7 +97,7 @@ namespace Players
                         rightHandMesh.transform.localPosition = Vector3.zero;
                     }
                     currentController = OVRInput.Controller.None;
-                    baseTarretBrain.ChangeTarretState(TarretCommand.Idle);
+                    TarretState.ChangeTarretState(TarretCommand.Idle);
                     anglePoint.isAdjust = false;
 
                     handleGrabMoment = false;
@@ -115,13 +117,13 @@ namespace Players
         {
             if (other.tag == "LHand" && !isGrabbed)
             {
-                VibrationExtension.Instance.VibrateController(
-                    touchVibeDuration, touchFrequeency, touchAmplitude, OVRInput.Controller.LTouch);
+                /*握ったときにcurrentControllerにどちらのコントローラかの情報が入るので、触れたときの振動処理は
+                currentCntrollerを引数に使えない*/
+                handleVibe.Vibrate(touchVibeDuration, touchFrequeency, touchAmplitude, OVRInput.Controller.LTouch);
             }
             else if (other.tag == "RHand" && !isGrabbed)
             {
-                VibrationExtension.Instance.VibrateController(
-                    touchVibeDuration, touchFrequeency, touchAmplitude, OVRInput.Controller.RTouch);
+                handleVibe.Vibrate(touchVibeDuration, touchFrequeency, touchAmplitude, OVRInput.Controller.RTouch);
             }
         }
 

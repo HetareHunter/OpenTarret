@@ -16,7 +16,7 @@ namespace Tarret
     /// <summary>
     /// タレットのステートを管理するクラス
     /// </summary>
-    public class TarretStateManager : MonoBehaviour
+    public class TarretStateManager : MonoBehaviour, ITarretState
     {
         ///<summary>Tarretのhandleを握ったときに情報が格納される変数</summary>
         public HandleGrabbable leftHandle;
