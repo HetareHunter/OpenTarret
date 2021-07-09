@@ -7,7 +7,7 @@ namespace Tarret
     /// <summary>
     /// タレットの仰角、底の回転を処理するクラス
     /// </summary>
-    public class TarretMover : MonoBehaviour
+    public class TarretRotater : MonoBehaviour
     {
         [SerializeField] GameObject rootPos;
         [SerializeField] GameObject muzzleFlameJointPos;

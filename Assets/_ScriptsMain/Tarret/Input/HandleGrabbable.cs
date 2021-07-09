@@ -27,6 +27,7 @@ namespace Players
         TarretStateManager baseTarretBrain;
         [SerializeField] GameObject anglePointobj;
         AnglePointer anglePoint;
+        HandleVibe handleVibe;
 
         /// <summary> 触れた時の振動の大きさ </summary>
         [SerializeField] float touchFrequeency = 0.3f;
@@ -46,6 +47,7 @@ namespace Players
             returnPosition = GetComponent<ReturnPosition>();
             baseTarretBrain = tarret.GetComponent<TarretStateManager>();
             anglePoint = anglePointobj.GetComponent<AnglePointer>();
+            handleVibe = GetComponent<HandleVibe>();
         }
         void FixedUpdate()
         {
@@ -125,8 +127,11 @@ namespace Players
 
         public void AttackVibe()
         {
-            VibrationExtension.Instance.VibrateController(
-                        tarretData.attackVibeDuration, tarretData.attackVibeFrequency, tarretData.attackVibeAmplitude, currentController);
+            if (handleVibe != null)
+            {
+                handleVibe.Vibrate(tarretData.attackVibeDuration, tarretData.attackVibeFrequency, 
+                    tarretData.attackVibeAmplitude, currentController);
+            }
         }
     }
 }
