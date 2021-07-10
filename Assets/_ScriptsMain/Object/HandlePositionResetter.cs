@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Players
 {
-    public class ReturnPosition : MonoBehaviour
+    public class HandlePositionResetter : MonoBehaviour
     {
         [SerializeField] Transform returningPosition;
         Vector3 startRotation;

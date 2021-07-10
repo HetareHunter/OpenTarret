@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Tarret;
+using Zenject;
 
 namespace Players
 {
@@ -14,21 +15,14 @@ namespace Players
         [SerializeField] TarretAttackData tarretData;
         OVRInput.Controller currentController;
 
-        public float handleRotateLimit = 20.0f;
-
-        [SerializeField] GameObject leftHandMesh;
-        [SerializeField] GameObject rightHandMesh;
-        [SerializeField] GameObject gripPosi;
-
-        [SerializeField] GameObject player;
-
-        ReturnPosition returnPosition = new ReturnPosition();
-        [SerializeField] GameObject tarret;
-        TarretStateManager TarretState;
+        HandlePositionResetter returnPosition = new HandlePositionResetter();
+        [Inject]
+        ITarretState TarretState;
         [SerializeField] GameObject anglePointobj;
         AnglePointer anglePoint;
         HandleVibe handleVibe;
         HandleInput handleInput;
+        HandFixer handFixer;
 
         /// <summary> 触れた時の振動の大きさ </summary>
         [SerializeField] float touchFrequeency = 0.3f;
@@ -45,11 +39,12 @@ namespace Players
 
         protected override void Start()
         {
-            returnPosition = GetComponent<ReturnPosition>();
-            TarretState = tarret.GetComponent<TarretStateManager>();
+            returnPosition = GetComponent<HandlePositionResetter>();
+            //TarretState = tarret.GetComponent<TarretStateManager>();
             anglePoint = anglePointobj.GetComponent<AnglePointer>();
             handleVibe = GetComponent<HandleVibe>();
             handleInput = GetComponent<HandleInput>();
+            handFixer = GetComponent<HandFixer>();
         }
         void FixedUpdate()
         {
@@ -65,21 +60,10 @@ namespace Players
             {
                 if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, currentController))
                 {
-                    if (transform.tag == "RHundle")
-                    {
-                        TarretState.ChangeTarretState(TarretCommand.Attack);
-                    }
+                    handleInput.Attack(currentController);
                 }
 
-                if (currentController == OVRInput.Controller.LTouch)
-                {
-                    leftHandMesh.transform.position = gripPosi.transform.position;
-                }
-                else if (currentController == OVRInput.Controller.RTouch)
-                {
-                    rightHandMesh.transform.position = gripPosi.transform.position;
-                }
-
+                handFixer.FixHand(currentController);
                 handleGrabMoment = true;
             }
             else
@@ -88,16 +72,12 @@ namespace Players
                 if (handleGrabMoment)//手を離した瞬間の処理
                 {
                     m_allowOffhandGrab = true;
-                    if (currentController == OVRInput.Controller.LTouch)
-                    {
-                        leftHandMesh.transform.localPosition = Vector3.zero;
-                    }
-                    else if (currentController == OVRInput.Controller.RTouch)
-                    {
-                        rightHandMesh.transform.localPosition = Vector3.zero;
-                    }
+
+                    handFixer.ReleseHand(currentController);
                     currentController = OVRInput.Controller.None;
+
                     TarretState.ChangeTarretState(TarretCommand.Idle);
+
                     anglePoint.isAdjust = false;
 
                     handleGrabMoment = false;

@@ -1920,7 +1920,6 @@ Transform:
   - {fileID: 518121653}
   - {fileID: 1798286509}
   - {fileID: 1548032234}
-  - {fileID: 1267954709}
   m_Father: {fileID: 0}
   m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6589,12 +6588,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1267954708}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -0.08, z: 0}
   m_LocalScale: {x: 5, y: 0.2, z: 2}
-  m_Children: []
-  m_Father: {fileID: 289059958}
-  m_RootOrder: 5
+  m_Children:
+  - {fileID: 970036414078793736}
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1267954710
 BoxCollider:
@@ -6835,6 +6835,8 @@ GameObject:
   - component: {fileID: 1316524902}
   - component: {fileID: 1316524901}
   - component: {fileID: 1316524907}
+  - component: {fileID: 1316524908}
+  - component: {fileID: 1316524909}
   m_Layer: 0
   m_Name: RightHandCollider
   m_TagString: RHundle
@@ -6874,12 +6876,6 @@ MonoBehaviour:
   m_snapOffset: {fileID: 0}
   m_grabPoints: []
   tarretData: {fileID: 11400000, guid: b32e40e76f528d94db97700dc4fd3dbd, type: 2}
-  handleRotateLimit: 20
-  leftHandMesh: {fileID: 451164355}
-  rightHandMesh: {fileID: 1625308100020189}
-  gripPosi: {fileID: 2080329545}
-  player: {fileID: 1476840019}
-  tarret: {fileID: 449676436726112946}
   anglePointobj: {fileID: 810249609}
   touchFrequeency: 0.4
   touchAmplitude: 0.2
@@ -6987,6 +6983,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 678bc06b4ba8fac458967e6dde005520, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1316524908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316524899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 279aff2cb3ecf2e44a24a9f5c554a637, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1316524909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316524899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90cfcf0fb67d9f74e91d5ba5354c9053, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHandMesh: {fileID: 451164355}
+  rightHandMesh: {fileID: 1625308100020189}
+  gripPosi: {fileID: 2080329545}
 --- !u!1 &1333389950
 GameObject:
   m_ObjectHideFlags: 0
@@ -11286,9 +11309,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 449676436726112946}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.39999998, z: 0}
+  m_LocalScale: {x: 0.2, y: 5, z: 0.5}
   m_Children:
   - {fileID: 4414476561167457274}
   - {fileID: 791811927729794198}
@@ -11301,8 +11324,8 @@ Transform:
   - {fileID: 5884397599182739994}
   - {fileID: 7131748015049825374}
   - {fileID: 7748163867149650226}
-  m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_Father: {fileID: 1267954709}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1052370130832108693
 GameObject:
@@ -12050,9 +12073,11 @@ GameObject:
   - component: {fileID: 7062794110715566418}
   - component: {fileID: 7062794110715566445}
   - component: {fileID: 7062794110715566416}
-  - component: {fileID: 7062794110715566417}
   - component: {fileID: 7062794110715566448}
+  - component: {fileID: 7062794110715566417}
   - component: {fileID: 7062794110715566449}
+  - component: {fileID: 7062794110715566450}
+  - component: {fileID: 7062794110715566451}
   m_Layer: 0
   m_Name: LeftHandCollider
   m_TagString: LHundle
@@ -12092,12 +12117,6 @@ MonoBehaviour:
   m_snapOffset: {fileID: 0}
   m_grabPoints: []
   tarretData: {fileID: 11400000, guid: b32e40e76f528d94db97700dc4fd3dbd, type: 2}
-  handleRotateLimit: 20
-  leftHandMesh: {fileID: 451164355}
-  rightHandMesh: {fileID: 1625308100020189}
-  gripPosi: {fileID: 1670547148}
-  player: {fileID: 1476840019}
-  tarret: {fileID: 449676436726112946}
   anglePointobj: {fileID: 810249609}
   touchFrequeency: 0.4
   touchAmplitude: 0.2
@@ -12114,6 +12133,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 678bc06b4ba8fac458967e6dde005520, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7062794110715566450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7062794110715566446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 279aff2cb3ecf2e44a24a9f5c554a637, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7062794110715566451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7062794110715566446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90cfcf0fb67d9f74e91d5ba5354c9053, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHandMesh: {fileID: 451164355}
+  rightHandMesh: {fileID: 1625308100020189}
+  gripPosi: {fileID: 1670547148}
 --- !u!137 &7119208971157555172
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0

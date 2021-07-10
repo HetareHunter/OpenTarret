@@ -8,6 +8,8 @@ public class HandleInput : MonoBehaviour
 {
     [Inject]
     ITarretState tarret;
+    [SerializeField] GameObject tarretCart;
+    [SerializeField] float cartSpeed = 1.0f;
     private void Start()
     {
     }
@@ -18,5 +20,10 @@ public class HandleInput : MonoBehaviour
         {
             tarret.ChangeTarretState(TarretCommand.Attack);
         }
+    }
+
+    public void CartMove()
+    {
+
     }
 }
