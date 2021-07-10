@@ -11172,8 +11172,8 @@ MonoBehaviour:
   m_arrowMark: {fileID: 776679598}
   maxVerticalAngle: 0.3
   minVerticalAngle: -0.2
-  maxHorizontalAngle: 0.5
-  minHorizontalAngle: -0.5
+  maxHorizontalAngle: 0.8
+  minHorizontalAngle: -0.8
   debugHorizontalRotate: 0.8
   debugVerticalRotate: 0.3
   rotateSpeed: 1
