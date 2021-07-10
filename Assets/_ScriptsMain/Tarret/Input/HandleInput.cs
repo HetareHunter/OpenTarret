@@ -14,16 +14,14 @@ public class HandleInput : MonoBehaviour
     {
     }
 
-    public void Attack(OVRInput.Controller currentController)
+    public void Attack()
     {
-        if (transform.tag == "RHundle")
-        {
-            tarret.ChangeTarretState(TarretCommand.Attack);
-        }
+        tarret.ChangeTarretState(TarretCommand.Attack);
     }
 
-    public void CartMove()
+    public void CartMove(Vector2 stick)
     {
 
+        tarretCart.transform.Translate(Vector3.right * stick.x * cartSpeed * Time.deltaTime);
     }
 }

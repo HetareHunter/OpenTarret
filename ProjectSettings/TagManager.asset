@@ -7,8 +7,6 @@ TagManager:
   - Enemy
   - LHand
   - RHand
-  - LHundle
-  - RHundle
   - GameStart
   - Explodable
   - Tarret

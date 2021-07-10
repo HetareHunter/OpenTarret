@@ -4,6 +4,12 @@ using UnityEngine;
 using Tarret;
 using Zenject;
 
+public enum HandleSide
+{
+    Left,
+    Right
+}
+
 namespace Players
 {
     /// <summary>
@@ -23,6 +29,7 @@ namespace Players
         HandleVibe handleVibe;
         HandleInput handleInput;
         HandFixer handFixer;
+        public HandleSide handle;
 
         /// <summary> 触れた時の振動の大きさ </summary>
         [SerializeField] float touchFrequeency = 0.3f;
@@ -40,7 +47,6 @@ namespace Players
         protected override void Start()
         {
             returnPosition = GetComponent<HandlePositionResetter>();
-            //TarretState = tarret.GetComponent<TarretStateManager>();
             anglePoint = anglePointobj.GetComponent<AnglePointer>();
             handleVibe = GetComponent<HandleVibe>();
             handleInput = GetComponent<HandleInput>();
@@ -58,9 +64,14 @@ namespace Players
         {
             if (isGrabbed)
             {
-                if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, currentController))
+                if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, currentController) && handle == HandleSide.Right)
                 {
-                    handleInput.Attack(currentController);
+                    handleInput.Attack();
+                }
+
+                if (handle == HandleSide.Left)
+                {
+                    handleInput.CartMove(OVRInput.Get(OVRInput.RawAxis2D.LThumbstick));
                 }
 
                 handFixer.FixHand(currentController);
@@ -111,9 +122,18 @@ namespace Players
         {
             if (handleVibe != null)
             {
-                handleVibe.Vibrate(tarretData.attackVibeDuration, tarretData.attackVibeFrequency, 
+                handleVibe.Vibrate(tarretData.attackVibeDuration, tarretData.attackVibeFrequency,
                     tarretData.attackVibeAmplitude, currentController);
             }
         }
     }
 }
+
+///// <summary>
+///// どちらのハンドルの処理かを判定する
+///// </summary>
+//public interface IGrabHandle
+//{
+//    public bool LeftHandle { get; set; }
+//    public bool RightHandle { get; set; }
+//}

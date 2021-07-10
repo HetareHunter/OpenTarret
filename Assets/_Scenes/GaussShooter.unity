@@ -220,7 +220,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &21452185
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6839,7 +6839,7 @@ GameObject:
   - component: {fileID: 1316524909}
   m_Layer: 0
   m_Name: RightHandCollider
-  m_TagString: RHundle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6877,6 +6877,7 @@ MonoBehaviour:
   m_grabPoints: []
   tarretData: {fileID: 11400000, guid: b32e40e76f528d94db97700dc4fd3dbd, type: 2}
   anglePointobj: {fileID: 810249609}
+  handle: 1
   touchFrequeency: 0.4
   touchAmplitude: 0.2
   touchVibeDuration: 0.3
@@ -6995,6 +6996,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 279aff2cb3ecf2e44a24a9f5c554a637, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tarretCart: {fileID: 1267954708}
+  cartSpeed: 1
 --- !u!114 &1316524909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11167,8 +11170,10 @@ MonoBehaviour:
   m_leftHandlePos: {fileID: 8838843817545228087}
   m_rightHandlePos: {fileID: 8992619533171000389}
   m_arrowMark: {fileID: 776679598}
-  maxMuzzleFlameJointRotate: 0.3
-  minMuzzleFlameJointRotate: -0.2
+  maxVerticalAngle: 0.3
+  minVerticalAngle: -0.2
+  maxHorizontalAngle: 0.5
+  minHorizontalAngle: -0.5
   debugHorizontalRotate: 0.8
   debugVerticalRotate: 0.3
   rotateSpeed: 1
@@ -12080,7 +12085,7 @@ GameObject:
   - component: {fileID: 7062794110715566451}
   m_Layer: 0
   m_Name: LeftHandCollider
-  m_TagString: LHundle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12118,6 +12123,7 @@ MonoBehaviour:
   m_grabPoints: []
   tarretData: {fileID: 11400000, guid: b32e40e76f528d94db97700dc4fd3dbd, type: 2}
   anglePointobj: {fileID: 810249609}
+  handle: 0
   touchFrequeency: 0.4
   touchAmplitude: 0.2
   touchVibeDuration: 0.3
@@ -12145,6 +12151,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 279aff2cb3ecf2e44a24a9f5c554a637, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tarretCart: {fileID: 1267954708}
+  cartSpeed: 2
 --- !u!114 &7062794110715566451
 MonoBehaviour:
   m_ObjectHideFlags: 0
