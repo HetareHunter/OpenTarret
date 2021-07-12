@@ -21,11 +21,11 @@ namespace Players
         [SerializeField] TarretAttackData tarretData;
         OVRInput.Controller currentController;
 
-        HandlePositionResetter returnPosition = new HandlePositionResetter();
         [Inject]
         ITarretState TarretState;
-        [SerializeField] GameObject anglePointobj;
-        AnglePointer anglePoint;
+        [SerializeField] GameObject anglePointerObj;
+        HandlePositionResetter returnPosition = new HandlePositionResetter();
+        AnglePointer anglePointer;
         HandleVibe handleVibe;
         HandleInput handleInput;
         HandFixer handFixer;
@@ -47,7 +47,7 @@ namespace Players
         protected override void Start()
         {
             returnPosition = GetComponent<HandlePositionResetter>();
-            anglePoint = anglePointobj.GetComponent<AnglePointer>();
+            anglePointer = anglePointerObj.GetComponent<AnglePointer>();
             handleVibe = GetComponent<HandleVibe>();
             handleInput = GetComponent<HandleInput>();
             handFixer = GetComponent<HandFixer>();
@@ -89,7 +89,7 @@ namespace Players
 
                     TarretState.ChangeTarretState(TarretCommand.Idle);
 
-                    anglePoint.isAdjust = false;
+                    anglePointer.isAdjust = false;
 
                     handleGrabMoment = false;
                 }
@@ -128,12 +128,3 @@ namespace Players
         }
     }
 }
-
-///// <summary>
-///// どちらのハンドルの処理かを判定する
-///// </summary>
-//public interface IGrabHandle
-//{
-//    public bool LeftHandle { get; set; }
-//    public bool RightHandle { get; set; }
-//}
