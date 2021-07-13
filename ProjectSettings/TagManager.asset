@@ -7,8 +7,6 @@ TagManager:
   - Enemy
   - LHand
   - RHand
-  - LHundle
-  - RHundle
   - GameStart
   - Explodable
   - Tarret
@@ -28,7 +26,7 @@ TagManager:
   - Tarret
   - Sight
   - WasteHeat
-  - BackStage
+  - Stage
   - EnemyBullet
   - 
   - 

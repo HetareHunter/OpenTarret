@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 4805870334855586440}
   - component: {fileID: 7229226829051007432}
   - component: {fileID: 8628758500774825406}
-  - component: {fileID: 6162849587037297957}
   - component: {fileID: 2026737944742619243}
+  - component: {fileID: 3326593656637840647}
   m_Layer: 10
   m_Name: Enemy_Blue
   m_TagString: Enemy
@@ -58,6 +58,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 3
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -82,6 +83,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &8628758500774825406
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -95,20 +97,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.0000001, y: 2, z: 1.0000002}
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &6162849587037297957
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2743875396394071723}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62ca2179c2555a24f9a20ffc18358a42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deathTime: 0.5
-  addScore: 80
 --- !u!54 &2026737944742619243
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -125,3 +113,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &3326593656637840647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2743875396394071723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cca0ff22a624174fbfed4f01d2143b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathTime: 0.5
+  addScore: 80
