@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyGenerator : MonoBehaviour, ISpawner
+public class EnemyGenerator : MonoBehaviour, ISpawnable
 {
     // Start is called before the first frame update
     void Start()
@@ -39,7 +39,7 @@ public class EnemyGenerator : MonoBehaviour, ISpawner
 }
 
 
-    public interface ISpawner
+    public interface ISpawnable
 {
     public void EnemySpawn();
     public void ResetEnemies();

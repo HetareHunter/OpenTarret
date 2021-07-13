@@ -8,12 +8,15 @@ using UnityEngine.UI;
 public class SceneMover : MonoBehaviour
 {
     [Header("一緒にシーン遷移するオブジェクト")]
-    [SerializeField] GameObject MenuUI;
+    [SerializeField] GameObject[] objects;
     // Start is called before the first frame update
     void Start()
     {
         DontDestroyOnLoad(gameObject);
-        DontDestroyOnLoad(MenuUI);
+        foreach (var item in objects)
+        {
+            DontDestroyOnLoad(item);
+        }
     }
 
     // Update is called once per frame

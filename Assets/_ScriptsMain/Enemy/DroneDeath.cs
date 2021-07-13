@@ -9,7 +9,7 @@ public class DroneDeath : MonoBehaviour, IEnemyDeath
     [SerializeField] int addScore = 100;
     [SerializeField] GameObject[] muzzle;
     [Inject]
-    ISpawner spawner;
+    ISpawnable spawner;
 
     public void OnDead()
     {

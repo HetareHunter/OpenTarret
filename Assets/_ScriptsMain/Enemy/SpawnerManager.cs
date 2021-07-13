@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// 敵の沸き方を管理するクラス
 /// </summary>
-public class SpawnerManager : MonoBehaviour,ISpawner
+public class SpawnerManager : MonoBehaviour,ISpawnable
 {
     List<GameObject> spawners = new List<GameObject>();
     List<GameObject> enemies = new List<GameObject>();

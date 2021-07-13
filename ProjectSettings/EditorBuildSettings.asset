@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/_Scenes/GaussShooter_TitleMenu.unity
+    guid: ac94b0e282c71444ead6089c53b8216a
+  - enabled: 1
     path: Assets/_Scenes/GaussShooter_Tutorial.unity
     guid: 1971fb6a083f6954786cb67f12927aa5
   - enabled: 0

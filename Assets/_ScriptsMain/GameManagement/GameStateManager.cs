@@ -15,7 +15,7 @@ public class GameStateManager : SingletonMonoBehaviour<GameStateManager>
 {
     public GameState gameState = GameState.None;
     [Inject]
-    ISpawner spawner;
+    ISpawnable spawner;
     [SerializeField] GameObject Enemies;
     [SerializeField] GameObject enemiesInsPosi;
     [SerializeField] GameObject gameStartUI;

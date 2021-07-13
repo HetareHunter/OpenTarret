@@ -7,7 +7,7 @@ public class SpwanerInstaller : MonoInstaller
     public override void InstallBindings()
     {
         Container
-            .Bind<ISpawner>() // InjectアトリビュートがついているIChangeSightColor型のフィールドに
+            .Bind<ISpawnable>() // InjectアトリビュートがついているIChangeSightColor型のフィールドに
             .To<SpawnerManager>()
             .FromComponentOn(spawner) // TarretScreenSliderChangerクラスのインスタンスを注入する
             .AsTransient();
