@@ -5,10 +5,10 @@ using UnityEngine;
 public class FinishMenuOperator : MonoBehaviour,IMenuOperatable
 {
     CanvasGroup canvasGroup;
-    [SerializeField] GameObject blueScreen;
+    [SerializeField] GameObject basePanel;
     private void Awake()
     {
-        canvasGroup = blueScreen.GetComponent<CanvasGroup>();
+        canvasGroup = basePanel.GetComponent<CanvasGroup>();
         CloseMenu();
     }
     public void CloseMenu()
