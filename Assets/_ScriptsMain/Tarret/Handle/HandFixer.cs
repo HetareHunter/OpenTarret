@@ -9,12 +9,23 @@ namespace Players
         /// <summary>
         /// hands:l_hand_worldをアタッチする
         /// </summary>
-        [SerializeField] GameObject leftHandMesh;
+        GameObject leftHandMesh;
         /// <summary>
         /// hands:r_hand_worldをアタッチする
         /// </summary>
-        [SerializeField] GameObject rightHandMesh;
+        GameObject rightHandMesh;
         [SerializeField] GameObject gripPosi;
+        private void Start()
+        {
+            if (leftHandMesh == null)
+            {
+                leftHandMesh = GameObject.Find("hands:b_l_hand");
+            }
+            if (rightHandMesh == null)
+            {
+                rightHandMesh = GameObject.Find("hands:b_r_hand");
+            }
+        }
         public void FixHand(OVRInput.Controller controller)
         {
             if (controller == OVRInput.Controller.LTouch)

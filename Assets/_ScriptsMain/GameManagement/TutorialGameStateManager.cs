@@ -11,14 +11,14 @@ public enum GameState
     Play,
     End,
 }
-public class GameStateManager : SingletonMonoBehaviour<GameStateManager>
+public class TutorialGameStateManager : MonoBehaviour ,IGameStateChangable
 {
     public GameState gameState = GameState.None;
     [Inject]
     ISpawnable spawner;
-    [SerializeField] GameObject Enemies;
-    [SerializeField] GameObject enemiesInsPosi;
     [SerializeField] GameObject gameStartUI;
+    GameObject SceneMovePanel;
+    MenuButtonSelecter MenuButtonSelecter;
     GameStartManager gameStart;
     GameTimer gameTimer;
 
@@ -26,6 +26,11 @@ public class GameStateManager : SingletonMonoBehaviour<GameStateManager>
     {
         gameStart = gameStartUI.GetComponent<GameStartManager>();
         gameTimer = GetComponent<GameTimer>();
+        if (SceneMovePanel == null)
+        {
+            SceneMovePanel = GameObject.Find("SceneMovePanel");
+        }
+        MenuButtonSelecter = SceneMovePanel.GetComponent<MenuButtonSelecter>();
 
         ChangeGameState(GameState.Idle);
     }
@@ -51,6 +56,7 @@ public class GameStateManager : SingletonMonoBehaviour<GameStateManager>
                 break;
             case GameState.Start:
                 ScoreManager.Instance.ResetScore();
+                MenuButtonSelecter.ChangeInteractive(false);
                 break;
             case GameState.Play:
                 spawner.SpawnStart();
@@ -60,11 +66,20 @@ public class GameStateManager : SingletonMonoBehaviour<GameStateManager>
                 spawner.SpawnEnd();
                 gameTimer.CountEnd();
                 gameStart.GameEnd();
+                MenuButtonSelecter.ChangeInteractive(true);
                 break;
             default:
                 break;
         }
     }
+
+    public string CurrentGameStateName()
+    {
+        return gameState.ToString();
+    }
+
+
+    #region
 #if UNITY_EDITOR
     private void Update()
     {
@@ -93,5 +108,12 @@ public class GameStateManager : SingletonMonoBehaviour<GameStateManager>
     }
 
 #endif
+    #endregion
+}
 
+
+public interface IGameStateChangable
+{
+    public void ChangeGameState(GameState next);
+    public string CurrentGameStateName();
 }

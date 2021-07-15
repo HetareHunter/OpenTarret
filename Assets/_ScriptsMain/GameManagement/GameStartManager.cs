@@ -11,6 +11,8 @@ using TMPro;
 /// </summary>
 public class GameStartManager : MonoBehaviour
 {
+    GameObject gameManager;
+    IGameStateChangable gameStateChangeable;
     bool onLeftHand = false;
     bool onRightHand = false;
     bool onHand = false;
@@ -53,6 +55,8 @@ public class GameStartManager : MonoBehaviour
         gameStartUIAnim = GetComponent<Animator>();
         beginingToPlayTimeCountNum = toPlayTimeCountNum;
         colorManager = changeColorObj.GetComponent<ColorManager>();
+        gameManager = GameObject.Find("GameManager");
+        gameStateChangeable = gameManager.GetComponent<IGameStateChangable>();
     }
 
     private void Update()
@@ -123,7 +127,7 @@ public class GameStartManager : MonoBehaviour
         if (toStartTime > toStartLimitTime)
         {
             toStartTime = 0;
-            GameStateManager.Instance.ChangeGameState(GameState.Start); //ゲーム開始
+            gameStateChangeable.ChangeGameState(GameState.Start); //ゲーム開始
             WriteScreenText(toPlayTimeCountNum.ToString());
             onRightHand = false;
             onLeftHand = false;
@@ -151,7 +155,7 @@ public class GameStartManager : MonoBehaviour
 
             if (toPlayTimeCountNum <= 0)
             {
-                GameStateManager.Instance.ChangeGameState(GameState.Play);
+                gameStateChangeable.ChangeGameState(GameState.Play);
                 colorManager.ToStartColor();
                 toPlayTimeCountNum = beginingToPlayTimeCountNum;
                 for (int i = 0; i < countText.Length; i++)

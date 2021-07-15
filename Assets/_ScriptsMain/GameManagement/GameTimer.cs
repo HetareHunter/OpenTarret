@@ -6,6 +6,7 @@ using TMPro;
 
 public class GameTimer : MonoBehaviour
 {
+    IGameStateChangable gameStateChangeable;
     /// <summary>
     /// ゲーム時間単位は秒
     /// </summary>
@@ -19,6 +20,7 @@ public class GameTimer : MonoBehaviour
     private void Start()
     {
         playNowTime = gameTime;
+        gameStateChangeable = GetComponent<IGameStateChangable>();
     }
     // Update is called once per frame
     void Update()
@@ -49,7 +51,7 @@ public class GameTimer : MonoBehaviour
 
         if (playNowTime <= 0)
         {
-            GameStateManager.Instance.ChangeGameState(GameState.End);
+            gameStateChangeable.ChangeGameState(GameState.End);
             playNowTime = gameTime;
         }
         timeText.text = "time:" + playNowTime.ToString("f2");
@@ -60,7 +62,7 @@ public class GameTimer : MonoBehaviour
         idleNowTime += Time.deltaTime;
         if (idleNowTime >= idleTime)
         {
-            GameStateManager.Instance.ChangeGameState(GameState.Idle);
+            gameStateChangeable.ChangeGameState(GameState.Idle);
             gameEnd = false;
             idleNowTime = 0;
         }
