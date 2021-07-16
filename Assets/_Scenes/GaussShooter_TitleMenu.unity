@@ -2589,8 +2589,18 @@ PrefabInstance:
       objectReference: {fileID: 5162394495485928615}
     - target: {fileID: 5162394495692049915, guid: 4d9b20912ab3dd34bbbe2c950d16f337,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeInteractiveAfterPushedButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 5162394495692049915, guid: 4d9b20912ab3dd34bbbe2c950d16f337,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
       value: ToTitle
+      objectReference: {fileID: 0}
+    - target: {fileID: 5162394495692049915, guid: 4d9b20912ab3dd34bbbe2c950d16f337,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MenuButtonSelecter, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5162394496568117465, guid: 4d9b20912ab3dd34bbbe2c950d16f337,
         type: 3}
@@ -2604,8 +2614,18 @@ PrefabInstance:
       objectReference: {fileID: 5162394495485928615}
     - target: {fileID: 5162394496568117465, guid: 4d9b20912ab3dd34bbbe2c950d16f337,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeInteractiveAfterPushedButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 5162394496568117465, guid: 4d9b20912ab3dd34bbbe2c950d16f337,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
       value: ToGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 5162394496568117465, guid: 4d9b20912ab3dd34bbbe2c950d16f337,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MenuButtonSelecter, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5162394496709887722, guid: 4d9b20912ab3dd34bbbe2c950d16f337,
         type: 3}
@@ -2614,8 +2634,18 @@ PrefabInstance:
       objectReference: {fileID: 5162394495485928615}
     - target: {fileID: 5162394496709887722, guid: 4d9b20912ab3dd34bbbe2c950d16f337,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeInteractiveAfterPushedButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 5162394496709887722, guid: 4d9b20912ab3dd34bbbe2c950d16f337,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
       value: ToTutorial
+      objectReference: {fileID: 0}
+    - target: {fileID: 5162394496709887722, guid: 4d9b20912ab3dd34bbbe2c950d16f337,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MenuButtonSelecter, Assembly-CSharp
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d9b20912ab3dd34bbbe2c950d16f337, type: 3}

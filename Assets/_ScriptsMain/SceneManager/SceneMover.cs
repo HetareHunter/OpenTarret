@@ -3,67 +3,49 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
-public class SceneMover : MonoBehaviour
+namespace MenuUI
 {
-    GameObject gameManager;
-    IGameStateChangable gameStateChangeable;
-    [SerializeField] GameObject centerEyeAnchor;
-    [SerializeField] GameObject gameFinishPanel;
-    OVRScreenFade screenFade;
-    // Start is called before the first frame update
-    void Start()
+    public class SceneMover : MonoBehaviour
     {
-        screenFade = centerEyeAnchor.GetComponent<OVRScreenFade>();
-        gameManager = GameObject.Find("GameManager");
-        if (gameManager != null)
+        GameObject gameManager;
+        IGameStateChangable gameStateChangeable;
+        [SerializeField] GameObject centerEyeAnchor;
+        OVRScreenFade screenFade;
+        // Start is called before the first frame update
+        void Start()
         {
-            gameStateChangeable = gameManager.GetComponent<IGameStateChangable>();
-        }
-    }
-
-    public void ToTutorial()
-    {
-        if (gameFinishPanel != null)
-        {
-            if (SceneManager.GetActiveScene().name == "GaussShooter_Tutorial" || SceneManager.GetActiveScene().name == "GaussShooter_Game")
+            screenFade = centerEyeAnchor.GetComponent<OVRScreenFade>();
+            gameManager = GameObject.Find("GameManager");
+            if (gameManager != null)
             {
-                gameStateChangeable.ChangeGameState(GameState.End);
-                TimeScaleChanger(1.0f);
+                gameStateChangeable = gameManager.GetComponent<IGameStateChangable>();
             }
         }
-        screenFade.SceneFadeOut("GaussShooter_Tutorial");
-    }
 
-    public void ToGame()
-    {
-        if (gameFinishPanel != null)
+        public void ToTutorial()
         {
-            if (SceneManager.GetActiveScene().name == "GaussShooter_Tutorial" || SceneManager.GetActiveScene().name == "GaussShooter_Game")
-            {
-                gameStateChangeable.ChangeGameState(GameState.End);
-                TimeScaleChanger(1.0f);
-            }
+            gameStateChangeable.ChangeGameState(GameState.End);
+            TimeScaleChanger(1.0f);
+            screenFade.SceneFadeOut("GaussShooter_Tutorial");
         }
-        screenFade.SceneFadeOut("GaussShooter_Game");
-    }
 
-    public void ToTitle()
-    {
-        if (gameFinishPanel != null)
+        public void ToGame()
         {
-            gameFinishPanel.SetActive(true);
-            if(SceneManager.GetActiveScene().name== "GaussShooter_Tutorial"|| SceneManager.GetActiveScene().name == "GaussShooter_Game")
-            {
-                gameStateChangeable.ChangeGameState(GameState.End);
-                TimeScaleChanger(1.0f);
-            }
+            gameStateChangeable.ChangeGameState(GameState.End);
+            TimeScaleChanger(1.0f);
+            screenFade.SceneFadeOut("GaussShooter_Game");
         }
-        screenFade.SceneFadeOut("GaussShooter_TitleMenu");
-    }
 
-    void TimeScaleChanger(float time)
-    {
-        Time.timeScale = time;
+        public void ToTitle()
+        {
+            gameStateChangeable.ChangeGameState(GameState.End);
+            TimeScaleChanger(1.0f);
+            screenFade.SceneFadeOut("GaussShooter_TitleMenu");
+        }
+
+        void TimeScaleChanger(float time)
+        {
+            Time.timeScale = time;
+        }
     }
 }

@@ -44,6 +44,7 @@ public class GameTimer : MonoBehaviour
     {
         timeStart = false;
         gameEnd = true;
+        ResetTimer();
     }
     void PlayTimeCounter()
     {
@@ -52,8 +53,13 @@ public class GameTimer : MonoBehaviour
         if (playNowTime <= 0)
         {
             gameStateChangeable.ChangeGameState(GameState.End);
-            playNowTime = gameTime;
         }
+        timeText.text = "time:" + playNowTime.ToString("f2");
+    }
+
+    public void ResetTimer()
+    {
+        playNowTime = gameTime;
         timeText.text = "time:" + playNowTime.ToString("f2");
     }
 

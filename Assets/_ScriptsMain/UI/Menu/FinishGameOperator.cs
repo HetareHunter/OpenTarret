@@ -2,12 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FinishGameOperator : MonoBehaviour
-{
-    TutorialGameStateManager stateManager;
 
-    public void GameEnd()
+namespace Manager
+{
+    public class FinishGameOperator : MonoBehaviour
     {
-        stateManager.ChangeGameState(GameState.End);
+        TutorialGameStateManager stateManager;
+
+        private void Start()
+        {
+            stateManager = gameObject.GetComponent<TutorialGameStateManager>();
+        }
+
+        public void GameEnd()
+        {
+            stateManager.ChangeGameState(GameState.End);
+        }
     }
 }

@@ -1,41 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class MenuButtonSelecter : MonoBehaviour
+namespace MenuUI
 {
-    CanvasGroup canvasGroup;
-    [SerializeField] GameObject gameManager;
-    
-    IGameStateChangable gameStateChangable;
-
-    private void Start()
+    /// <summary>
+    /// シーン切り替えメニューのボタンを選択できるかどうかを操作するクラス
+    /// </summary>
+    public class MenuButtonSelecter : MonoBehaviour
     {
-        canvasGroup = GetComponent<CanvasGroup>();
-        gameManager = GameObject.Find("GameManager");
-        if (gameManager != null)
+        CanvasGroup canvasGroup;
+        [SerializeField] GameObject titleButtonObj;
+        Button titleButton;
+        [SerializeField] GameObject TutorialEndButtonObj;
+        Button tutorialEndButton;
+
+        private void Start()
         {
-            gameStateChangable = gameManager.GetComponent<IGameStateChangable>();
+            canvasGroup = GetComponent<CanvasGroup>();
+            titleButton = titleButtonObj.GetComponent<Button>();
+            tutorialEndButton = TutorialEndButtonObj.GetComponent<Button>();
         }
-        
-    }
 
-    //private void OnEnable()
-    //{
-    //    if (gameStateChangable.CurrentGameStateName() == GameState.Play.ToString())
-    //    {
-    //        ChangeInteractive(false);
-    //    }
-    //}
 
-    public void ChangeInteractiveAfterPushedButton()
-    {
-        canvasGroup.interactable = false;
-    }
+        public void ChangeInteractiveAfterPushedButton()
+        {
+            canvasGroup.interactable = false;
+        }
 
-    public void ChangeInteractive(bool activate)
-    {
-        canvasGroup.interactable = activate;
-        
+        public void AllChangeInteractive(bool activate)
+        {
+            canvasGroup.interactable = activate;
+        }
+
+        public void GamePlayInteractive(bool activate)
+        {
+            titleButton.interactable = !activate;
+            tutorialEndButton.interactable = activate;
+        }
+        /// <summary>
+        /// GameStateがIdle時のUIのinteractiveの設定
+        /// </summary>
+        public void IdleInteractive()
+        {
+            titleButton.interactable = true;
+            tutorialEndButton.interactable = false;
+        }
     }
 }
