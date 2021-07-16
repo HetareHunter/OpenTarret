@@ -19,8 +19,14 @@ namespace MenuUI
         private void Start()
         {
             canvasGroup = GetComponent<CanvasGroup>();
-            titleButton = titleButtonObj.GetComponent<Button>();
-            tutorialEndButton = TutorialEndButtonObj.GetComponent<Button>();
+            if (titleButtonObj != null)
+            {
+                titleButton = titleButtonObj.GetComponent<Button>();
+            }
+            if (TutorialEndButtonObj != null)
+            {
+                tutorialEndButton = TutorialEndButtonObj.GetComponent<Button>();
+            }
         }
 
 

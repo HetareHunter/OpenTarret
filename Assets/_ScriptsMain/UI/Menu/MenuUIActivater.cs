@@ -31,7 +31,7 @@ namespace MenuUI
             }
             if (UIhelpers == null)
             {
-                UIhelpers = GameObject.Find("UIHelpers");
+                UIhelpers = GameObject.Find("MyUIHelpers");
             }
             //if (SceneManager.GetActiveScene().name == "GaussShooter_Tutorial")
             //{

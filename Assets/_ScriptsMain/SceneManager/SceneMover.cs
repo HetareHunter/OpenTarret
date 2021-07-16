@@ -24,21 +24,18 @@ namespace MenuUI
 
         public void ToTutorial()
         {
-            gameStateChangeable.ChangeGameState(GameState.End);
             TimeScaleChanger(1.0f);
             screenFade.SceneFadeOut("GaussShooter_Tutorial");
         }
 
         public void ToGame()
         {
-            gameStateChangeable.ChangeGameState(GameState.End);
             TimeScaleChanger(1.0f);
             screenFade.SceneFadeOut("GaussShooter_Game");
         }
 
         public void ToTitle()
         {
-            gameStateChangeable.ChangeGameState(GameState.End);
             TimeScaleChanger(1.0f);
             screenFade.SceneFadeOut("GaussShooter_TitleMenu");
         }
@@ -46,6 +43,14 @@ namespace MenuUI
         void TimeScaleChanger(float time)
         {
             Time.timeScale = time;
+        }
+
+        void GameStateChange()
+        {
+            if (gameStateChangeable != null)
+            {
+                gameStateChangeable.ChangeGameState(GameState.End);
+            }
         }
     }
 }
