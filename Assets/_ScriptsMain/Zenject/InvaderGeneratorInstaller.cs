@@ -1,5 +1,6 @@
 using Zenject;
 using UnityEngine;
+using Enemy;
 
 public class InvaderGeneratorInstaller : MonoInstaller
 {
