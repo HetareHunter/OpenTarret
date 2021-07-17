@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 using MenuUI;
+using Enemy;
 
 
 namespace Manager
@@ -12,6 +13,8 @@ namespace Manager
         public GameState gameState = GameState.None;
         [Inject]
         ISpawnable spawner;
+        [SerializeField] GameObject invaders;
+        InvaderMoveCommander invaderMoveCommander;
         [SerializeField] GameObject gameStartUI;
         GameObject SceneMovePanel;
         MenuButtonSelecter MenuButtonSelecter;
@@ -22,6 +25,8 @@ namespace Manager
         {
             gameStart = gameStartUI.GetComponent<GameStartManager>();
             gameTimer = GetComponent<GameTimer>();
+
+            invaderMoveCommander = invaders.GetComponent<InvaderMoveCommander>();
             if (SceneMovePanel == null)
             {
                 SceneMovePanel = GameObject.Find("SceneMovePanel");
@@ -60,6 +65,7 @@ namespace Manager
                     //gameTimer.CountStart();
                     MenuButtonSelecter.AllChangeInteractive(true);
                     MenuButtonSelecter.GamePlayInteractive(true);
+                    invaderMoveCommander.CommenceMarch();
                     break;
                 case GameState.End:
                     spawner.SpawnEnd();

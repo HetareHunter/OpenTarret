@@ -9,6 +9,8 @@ public enum MoveDirection
     Right,
 }
 
+
+
 namespace Enemy
 {
 
@@ -21,15 +23,14 @@ namespace Enemy
         public MoveDirection moveDirection = MoveDirection.Left;
         int frame = 0;
         Vector3 currentPosi;
-        bool isAlive = true;
+        public bool isActive = true;
+        public bool OnMarch = false;
         public bool onVerticalMove = false;
         /// <summary>
         /// ç°ÇÕäÓñ{8Ç…ÇµÇ∆Ç±Ç§
         /// </summary>
         [SerializeField] int limitPosi = 8;
         InvaderMoveCommander moveCommander;
-
-
 
         // Start is called before the first frame update
         void Start()
@@ -40,9 +41,8 @@ namespace Enemy
 
         void FixedUpdate()
         {
-            if (isAlive)
+            if (OnMarch)
             {
-                
                 if (IsOverLimitPosition() && !onVerticalMove)
                 {
                     moveCommander.LimitMove();
@@ -135,5 +135,9 @@ namespace Enemy
             onVerticalMove = true;
         }
 
+        public void March(bool activate)
+        {
+            OnMarch = activate;
+        }
     }
 }
