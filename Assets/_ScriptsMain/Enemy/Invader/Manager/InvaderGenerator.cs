@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
 
 namespace Enemy
 {
@@ -20,14 +19,13 @@ namespace Enemy
         /// スポーンしたときのy軸の値
         /// </summary>
         [SerializeField] float spawnHeight = 1.0f;
-        public  List<GameObject> invaders = new List<GameObject>();
-        [Inject]
-        IInvaderMoveCommandable invaderMoveCommander;
+        public List<GameObject> invaders = new List<GameObject>();
+        InvaderMoveCommander invaderMoveCommander;
 
         // Start is called before the first frame update
         void Start()
         {
-            //invaderMoveCommander = GetComponent<InvaderMoveCommander>();
+            invaderMoveCommander = GetComponent<InvaderMoveCommander>();
         }
 
         public void EnemySpawn()
@@ -50,7 +48,7 @@ namespace Enemy
             {
                 instancePosition.x = 0;
                 instancePosition.z = row;
-                var invader = Instantiate(invaderPrefab, instancePosition, Quaternion.Inverse(new Quaternion(0, 1, 0, 0)));
+                var invader = Instantiate(invaderPrefab, instancePosition, Quaternion.Inverse(new Quaternion(0, 1, 0, 0)), transform);
                 invader.transform.position = transform.InverseTransformPoint(instancePosition);
                 invaders.Add(invader);
             }
@@ -60,7 +58,7 @@ namespace Enemy
                 {
                     instancePosition.x = x;
                     instancePosition.z = row;
-                    var invader = Instantiate(invaderPrefab, instancePosition, Quaternion.Inverse(new Quaternion(0, 1, 0, 0)));
+                    var invader = Instantiate(invaderPrefab, instancePosition, Quaternion.Inverse(new Quaternion(0, 1, 0, 0)), transform);
                     invader.transform.position = transform.InverseTransformPoint(instancePosition);
                     invaders.Add(invader);
                 }
@@ -80,7 +78,7 @@ namespace Enemy
                 {
                     instancePosition.x = x;
                     instancePosition.z = row;
-                    var invader = Instantiate(invaderPrefab, instancePosition, Quaternion.Inverse(new Quaternion(0, 1, 0, 0)));
+                    var invader = Instantiate(invaderPrefab, instancePosition, Quaternion.Inverse(new Quaternion(0, 1, 0, 0)), transform);
                     invader.transform.position = transform.InverseTransformPoint(instancePosition);
                     invaders.Add(invader);
                 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Enemy
 {
-    public class InvaderMoveCommander : IInvaderMoveCommandable
+    public class InvaderMoveCommander :MonoBehaviour, IInvaderMoveCommandable
     {
         InvaderGenerator invaderGenerator;
         InvaderMover[] invaderMovers;
@@ -15,8 +15,10 @@ namespace Enemy
 
         public void SetInvaders(List<GameObject> invaders)
         {
+            invaderMovers = new InvaderMover[invaders.Count];
             for (int i = 0; i < invaders.Count; i++)
             {
+
                 invaderMovers[i] = invaders[i].GetComponent<InvaderMover>();
             }
         }

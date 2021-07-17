@@ -22,19 +22,40 @@ namespace Enemy
         int frame = 0;
         Vector3 currentPosi;
         bool isAlive = true;
-        bool onVerticalMove = false;
+        public bool onVerticalMove = false;
         /// <summary>
         /// ç°ÇÕäÓñ{8Ç…ÇµÇ∆Ç±Ç§
         /// </summary>
         [SerializeField] int limitPosi = 8;
-        [Inject]
-        IInvaderMoveCommandable invaderMoveCommandable;
+        InvaderMoveCommander moveCommander;
+
+
+
+        // Start is called before the first frame update
+        void Start()
+        {
+            currentPosi = gameObject.transform.position;
+            moveCommander = GetComponentInParent<InvaderMoveCommander>();
+        }
+
+        void FixedUpdate()
+        {
+            if (isAlive)
+            {
+                
+                if (IsOverLimitPosition() && !onVerticalMove)
+                {
+                    moveCommander.LimitMove();
+                }
+                Move();
+            }
+        }
 
         public bool IsOverLimitPosition()
         {
             if (moveDirection == MoveDirection.Right)
             {
-                if (transform.position.x <= -limitPosi)
+                if (transform.localPosition.x >= limitPosi)
                 {
                     return true;
                 }
@@ -45,7 +66,7 @@ namespace Enemy
             }
             else
             {
-                if (transform.position.x >= limitPosi)
+                if (transform.localPosition.x <= -limitPosi)
                 {
                     return true;
                 }
@@ -56,23 +77,6 @@ namespace Enemy
             }
         }
 
-        // Start is called before the first frame update
-        void Start()
-        {
-            currentPosi = gameObject.transform.position;
-        }
-
-        void FixedUpdate()
-        {
-            if (isAlive)
-            {
-                Move();
-                if (IsOverLimitPosition())
-                {
-                    invaderMoveCommandable.LimitMove();
-                }
-            }
-        }
 
         void Move()
         {
