@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 165130135}
   - component: {fileID: 165130136}
   m_Layer: 10
-  m_Name: Invader_1
+  m_Name: Invader_TestCapsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
