@@ -24,21 +24,6 @@ public class InvaderMover : MonoBehaviour
     /// </summary>
     [SerializeField] int limitPosi = 8;
 
-    //public bool IsLimitRangePosition
-    //{
-    //    get
-    //    {
-    //        if(Mathf.Abs(transform.position.x) >= limitPosi)
-    //        {
-    //            return true;
-    //        }
-    //        else
-    //        {
-    //            return false;
-    //        }
-    //    }
-    //}
-
     bool IsOverLimitPosition()
     {
         if (moveDirection == MoveDirection.Right)
@@ -71,8 +56,7 @@ public class InvaderMover : MonoBehaviour
         currentPosi = gameObject.transform.position;
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (isAlive)
         {
@@ -141,8 +125,4 @@ public class InvaderMover : MonoBehaviour
         onVerticalMove = true;
     }
 
-    //bool IsLimitRangePosition(int limitPosi)
-    //{
-    //    if()
-    //}
 }
