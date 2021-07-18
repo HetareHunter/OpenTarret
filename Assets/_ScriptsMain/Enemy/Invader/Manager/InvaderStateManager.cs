@@ -43,6 +43,7 @@ namespace Enemy
                     invaderMover.OnMarch = true;
                     break;
                 case InvaderState.Death:
+                    invaderMover.OnMarch = false;
                     break;
                 default:
                     break;

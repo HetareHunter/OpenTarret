@@ -127,17 +127,14 @@ namespace Tarret
         {
             foreach (var hit in m_hitsEnemy)
             {
-                if (hit.transform.CompareTag("Enemy"))//タグがEnemyだったとき
-                {
-                    //爆発したときの力となるオブジェクトの生成
-                    ExplosionForce(hit.point);
-                    //爆発エフェクトの再生
-                    m_hitExplodeEffects[hitExplodeIndex].transform.position = hit.point;
-                    m_hitExplodeEffects[hitExplodeIndex].SetActive(true);
-                    hitExplodeIndex++;
-                    IEnemyDeath enemyDeath = hit.collider.gameObject.GetComponent<IEnemyDeath>();
-                    enemyDeath.OnDead();
-                }
+                //爆発したときの力となるオブジェクトの生成
+                ExplosionForce(hit.point);
+                //爆発エフェクトの再生
+                m_hitExplodeEffects[hitExplodeIndex].transform.position = hit.point;
+                m_hitExplodeEffects[hitExplodeIndex].SetActive(true);
+                hitExplodeIndex++;
+                IEnemyDeath enemyDeath = hit.collider.gameObject.GetComponent<IEnemyDeath>();
+                enemyDeath.OnDead();
 
                 if (hitExplodeIndex >= m_hitExplodeEffects.Length)
                 {
