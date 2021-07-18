@@ -31,7 +31,9 @@ namespace Enemy
                 item.LimitMove();
             }
         }
-
+         /// <summary>
+         /// iŒR‚·‚é–½—ß‚ğo‚·
+         /// </summary>
         public void CommenceMarch()
         {
             if (invaderStateManager == null)
@@ -41,6 +43,21 @@ namespace Enemy
             foreach (var item in invaderStateManager)
             {
                 item.ChangeInvaderState(InvaderState.March);
+            }
+        }
+
+        /// <summary>
+        /// —§‚¿~‚Ü‚Á‚Ä‚¢‚é–½—ß‚ğo‚·
+        /// </summary>
+        public void CommenceStandby()
+        {
+            if (invaderStateManager == null)
+            {
+                return;
+            }
+            foreach (var item in invaderStateManager)
+            {
+                item.ChangeInvaderState(InvaderState.Standby);
             }
         }
     }

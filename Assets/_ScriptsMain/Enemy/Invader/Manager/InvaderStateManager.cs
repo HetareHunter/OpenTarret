@@ -48,7 +48,7 @@ namespace Enemy
             {
                 case InvaderState.Standby:
                     invaderMover.OnMarch = false;
-                    
+                    capsuleCollider.enabled = false;
                     break;
                 case InvaderState.March:
                     invaderMover.OnMarch = true;
