@@ -22,23 +22,37 @@ public class ScoreManager : SingletonMonoBehaviour<ScoreManager>
 
     private void Update()
     {
-        foreach (var scoreText in scoreTexts)
-        {
-            scoreText.text = "Score:" + m_score;
-        }
-        
-        if (m_score > highScore)
-        {
-            highScore = m_score;
-            foreach (var highScoreText in highScoreTexts)
-            {
-                highScoreText.text = "HighScore:" + highScore;
-            }
-        }
+        UpdateScore();
+        UpdateHighScore();
         
         if (changeScoreStanby)
         {
             StanbyCountUp();
+        }
+    }
+    void UpdateScore()
+    {
+        if (scoreTexts != null)
+        {
+            foreach (var scoreText in scoreTexts)
+            {
+                scoreText.text = "Score:" + m_score;
+            }
+        }
+    }
+
+    void UpdateHighScore()
+    {
+        if (m_score > highScore)
+        {
+            highScore = m_score;
+            if (highScoreTexts != null)
+            {
+                foreach (var highScoreText in highScoreTexts)
+                {
+                    highScoreText.text = "HighScore:" + highScore;
+                }
+            }
         }
     }
 
@@ -49,7 +63,7 @@ public class ScoreManager : SingletonMonoBehaviour<ScoreManager>
         {
             ResetStanbyCount();
             changeScoreStanby = false;
-            ChangeScreenText();
+            ChangeScore();
         }
     }
 
@@ -66,7 +80,7 @@ public class ScoreManager : SingletonMonoBehaviour<ScoreManager>
         stanbyNowTime = 0;
     }
 
-    public void ChangeScreenText()
+    public void ChangeScore()
     {
         DOTween.To(
             () => m_score,

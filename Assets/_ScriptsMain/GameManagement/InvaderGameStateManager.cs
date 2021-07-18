@@ -5,7 +5,6 @@ using Zenject;
 using MenuUI;
 using Enemy;
 
-
 namespace Manager
 {
     public class InvaderGameStateManager : MonoBehaviour, IGameStateChangable
@@ -20,6 +19,7 @@ namespace Manager
         MenuButtonSelecter MenuButtonSelecter;
         GameStartManager gameStart;
         GameTimer gameTimer;
+        bool isWin = false;
 
         private void Start()
         {
@@ -50,6 +50,8 @@ namespace Manager
                 case GameState.None:
                     break;
                 case GameState.Idle:
+                    isWin = false;
+                    spawner.ResetEnemies();
                     if (gameStart.ExistUIText())
                     {
                         gameStart.ResetScreen();
@@ -72,7 +74,7 @@ namespace Manager
                     //gameTimer.CountEnd();
                     gameStart.GameEnd();
                     MenuButtonSelecter.GamePlayInteractive(false);
-                    spawner.ResetEnemies();
+                    
                     break;
                 default:
                     break;
@@ -91,6 +93,23 @@ namespace Manager
         public void RebootGame()
         {
             Time.timeScale = 1;
+        }
+
+        /// <summary>
+        /// ゲームを終わらせるときに呼び出す処理。勝ちの場合、負けの場合でそれぞれ呼び出す関数を分ける
+        /// </summary>
+        /// <param name="win"></param>
+        public void FinishGame(bool win)
+        {
+            if (win == true)
+            {
+                Debug.Log("勝ち!");
+            }
+            else
+            {
+                Debug.Log("負け!");
+            }
+            ChangeGameState(GameState.End);
         }
 
 

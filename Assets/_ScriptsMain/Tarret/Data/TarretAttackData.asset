@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shockWaveExistTime: 0.2
   shockWaveExistFrame: 2
-  explodeExistTime: 0.014
+  explodeExistTime: 0.02
   explodeExistFrame: 23
   wasteHeatExistTime: 2
   wasteHeatExistFrame: 15

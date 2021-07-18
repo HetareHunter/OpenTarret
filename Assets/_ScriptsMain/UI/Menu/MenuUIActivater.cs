@@ -13,7 +13,7 @@ namespace MenuUI
         GameObject gameManager;
         TutorialGameStateManager TutorialGameStateManager;
         GameObject SceneMovePanel;
-        [SerializeField] GameObject TutorialFinishPanel;
+        [SerializeField] GameObject GameFinishPanel;
         GameObject UIhelpers;
         LineRenderer lineRenderer;
         // Start is called before the first frame update
@@ -67,13 +67,13 @@ namespace MenuUI
 
         public void ActivateTutorialFinishPanel()
         {
-            if (!TutorialFinishPanel.activeSelf)
+            if (!GameFinishPanel.activeSelf)
             {
-                TutorialFinishPanel.SetActive(true);
+                GameFinishPanel.SetActive(true);
             }
             else
             {
-                TutorialFinishPanel.SetActive(false);
+                GameFinishPanel.SetActive(false);
             }
         }
 

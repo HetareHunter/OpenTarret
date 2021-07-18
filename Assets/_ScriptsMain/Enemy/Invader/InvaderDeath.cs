@@ -23,6 +23,7 @@ namespace Enemy
             }
             
             invaderStateManager.ChangeInvaderState(InvaderState.Death);
+            
             Destroy(gameObject, deathTime);
         }
         public void AddScore()

@@ -7,6 +7,7 @@ public class BeamPower : MonoBehaviour
     [SerializeField] float power;
     Rigidbody m_rb;
     [SerializeField] TarretAttackData tarretAttackData;
+    [SerializeField] bool OncollisionDeath = false;
     float deathTime;
 
     private void Awake()
@@ -23,5 +24,13 @@ public class BeamPower : MonoBehaviour
     void DeathBeamPower()
     {
         gameObject.SetActive(false);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (OncollisionDeath)
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

@@ -16,11 +16,15 @@ namespace Enemy
         public InvaderState invaderState = InvaderState.Standby;
         InvaderMover invaderMover;
         InvaderCounter invaderCounter;
+
+        CapsuleCollider capsuleCollider;
+
         // Start is called before the first frame update
         void Start()
         {
             invaderMover = GetComponent<InvaderMover>();
             invaderCounter = GetComponentInParent<InvaderCounter>();
+            capsuleCollider = GetComponent<CapsuleCollider>();
         }
 
         public void ChangeInvaderState(InvaderState next)
@@ -28,6 +32,10 @@ namespace Enemy
             if (invaderMover == null)
             {
                 invaderMover = GetComponent<InvaderMover>();
+            }
+            if (capsuleCollider == null)
+            {
+                capsuleCollider = GetComponent<CapsuleCollider>();
             }
             //à»ëOÇÃèÛë‘Çï€éù
             //var prev = gameState;
@@ -40,12 +48,15 @@ namespace Enemy
             {
                 case InvaderState.Standby:
                     invaderMover.OnMarch = false;
+                    
                     break;
                 case InvaderState.March:
                     invaderMover.OnMarch = true;
+                    capsuleCollider.enabled = true;
                     break;
                 case InvaderState.Death:
                     invaderMover.OnMarch = false;
+                    
                     if (invaderCounter == null)
                     {
                         invaderCounter = GetComponentInParent<InvaderCounter>();
@@ -55,6 +66,11 @@ namespace Enemy
                 default:
                     break;
             }
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            capsuleCollider.enabled = false;
         }
     }
 }

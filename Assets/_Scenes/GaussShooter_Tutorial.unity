@@ -1217,7 +1217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5ff9557d72859249ba8cca2723589f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TutorialFinishPanel: {fileID: 0}
+  GameFinishPanel: {fileID: 0}
 --- !u!4 &190294730
 Transform:
   m_ObjectHideFlags: 0
@@ -10760,6 +10760,16 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 1129260311}
+    - target: {fileID: 3018435302213825636, guid: 1f49a6d706027614c950d2cd824aa998,
+        type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018435302213825637, guid: 1f49a6d706027614c950d2cd824aa998,
+        type: 3}
+      propertyPath: GameFinishPanel
+      value: 
+      objectReference: {fileID: 2998110283489612739}
     - target: {fileID: 3018435302213825638, guid: 1f49a6d706027614c950d2cd824aa998,
         type: 3}
       propertyPath: m_Pivot.x
@@ -10877,6 +10887,12 @@ PrefabInstance:
       objectReference: {fileID: 1823898970}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f49a6d706027614c950d2cd824aa998, type: 3}
+--- !u!1 &2998110283489612739 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2998110284215461142, guid: 1f49a6d706027614c950d2cd824aa998,
+    type: 3}
+  m_PrefabInstance: {fileID: 2998110283489612738}
+  m_PrefabAsset: {fileID: 0}
 --- !u!137 &3127707346807922454
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
