@@ -72,6 +72,7 @@ namespace Manager
                     //gameTimer.CountEnd();
                     gameStart.GameEnd();
                     MenuButtonSelecter.GamePlayInteractive(false);
+                    spawner.ResetEnemies();
                     break;
                 default:
                     break;

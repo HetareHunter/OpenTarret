@@ -15,15 +15,17 @@ namespace Enemy
     {
         public InvaderState invaderState = InvaderState.Standby;
         InvaderMover invaderMover;
+        InvaderCounter invaderCounter;
         // Start is called before the first frame update
         void Start()
         {
             invaderMover = GetComponent<InvaderMover>();
+            invaderCounter = GetComponentInParent<InvaderCounter>();
         }
 
         public void ChangeInvaderState(InvaderState next)
         {
-            if (invaderMover == null) 
+            if (invaderMover == null)
             {
                 invaderMover = GetComponent<InvaderMover>();
             }
@@ -44,6 +46,11 @@ namespace Enemy
                     break;
                 case InvaderState.Death:
                     invaderMover.OnMarch = false;
+                    if (invaderCounter == null)
+                    {
+                        invaderCounter = GetComponentInParent<InvaderCounter>();
+                    }
+                    invaderCounter.CountInvader(-1);
                     break;
                 default:
                     break;

@@ -21,11 +21,13 @@ namespace Enemy
         [SerializeField] float spawnHeight = 1.0f;
         public List<GameObject> invaders = new List<GameObject>();
         InvaderMoveCommander invaderMoveCommander;
+        InvaderCounter invaderCounter;
 
         // Start is called before the first frame update
         void Start()
         {
             invaderMoveCommander = GetComponent<InvaderMoveCommander>();
+            invaderCounter = GetComponent<InvaderCounter>();
         }
 
         public void EnemySpawn()
@@ -39,6 +41,7 @@ namespace Enemy
                 EnemyEvenInstantiate();
             }
             SetInvaders();
+            invaderCounter.CountInvader(invaders.Count);
         }
 
         void EnemyOddInstantiate()
@@ -91,7 +94,15 @@ namespace Enemy
 
         public void ResetEnemies()
         {
-
+            foreach (var item in invaders)
+            {
+                if (item != null)
+                {
+                    Destroy(item);
+                }
+            }
+            invaders.Clear();
+            invaderCounter.ResetInvaderCount();
         }
         public void ChangeEnemyNum(int num)
         {

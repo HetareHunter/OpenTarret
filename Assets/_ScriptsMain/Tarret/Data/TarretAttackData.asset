@@ -13,12 +13,17 @@ MonoBehaviour:
   m_Name: TarretAttackData
   m_EditorClassIdentifier: 
   shockWaveExistTime: 0.2
-  explodeExistTime: 3
+  shockWaveExistFrame: 2
+  explodeExistTime: 0.014
+  explodeExistFrame: 23
   wasteHeatExistTime: 2
+  wasteHeatExistFrame: 15
   untilRotateMagazine: 0.5
+  untilRotateMagazineFrame: 4
   wasteHeatCount: 2
   razerWidth: 1.3
   razerExistTime: 0.5
+  razerExistFrame: 4
   attackVibeDuration: 0.9
   attackVibeFrequency: 0.3
   attackVibeAmplitude: 0.7

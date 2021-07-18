@@ -7,19 +7,22 @@ namespace Enemy
     public class InvaderDeath : MonoBehaviour, IEnemyDeath
     {
         [SerializeField] float deathTime = 2.0f;
-        InvaderStateManager InvaderStateManager;
+        InvaderStateManager invaderStateManager;
+        
 
         private void Start()
         {
-            InvaderStateManager = GetComponent<InvaderStateManager>();
+            invaderStateManager = GetComponent<InvaderStateManager>();
+            
         }
         public void OnDead()
         {
-            if (InvaderStateManager == null)
+            if (invaderStateManager == null)
             {
-                InvaderStateManager = GetComponent<InvaderStateManager>();
+                invaderStateManager = GetComponent<InvaderStateManager>();
             }
-            InvaderStateManager.ChangeInvaderState(InvaderState.Death);
+            
+            invaderStateManager.ChangeInvaderState(InvaderState.Death);
             Destroy(gameObject, deathTime);
         }
         public void AddScore()
