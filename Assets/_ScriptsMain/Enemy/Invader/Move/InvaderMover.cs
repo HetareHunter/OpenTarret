@@ -9,8 +9,6 @@ public enum MoveDirection
     Right,
 }
 
-
-
 namespace Enemy
 {
 
@@ -35,7 +33,6 @@ namespace Enemy
         // Start is called before the first frame update
         void Start()
         {
-            //currentPosi = gameObject.transform.position;
             moveCommander = GetComponentInParent<InvaderMoveCommander>();
         }
 
@@ -135,7 +132,7 @@ namespace Enemy
             }
         }
 
-        public void ChangeMoveSpeed(int speed) 
+        public void ChangeMoveSpeed(int speed)
         {
             movePeriodOfFrame = speed;
         }
