@@ -71,10 +71,10 @@ namespace Manager
                     break;
                 case GameState.End:
                     spawner.SpawnEnd();
-                    //gameTimer.CountEnd();
+                    gameTimer.CountEnd();
                     gameStart.GameEnd();
                     MenuButtonSelecter.GamePlayInteractive(false);
-                    
+                    invaderMoveCommander.CommenceStandby();
                     break;
                 default:
                     break;

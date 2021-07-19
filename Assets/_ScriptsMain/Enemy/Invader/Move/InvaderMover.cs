@@ -19,7 +19,7 @@ namespace Enemy
         /// <summary>
         /// ˆÚ“®‚·‚é‚Ü‚Å‚ÌƒtƒŒ[ƒ€”
         /// </summary>
-        public int movePeriodOfFrame = 90;
+        int movePeriodOfFrame = 90;
         public MoveDirection moveDirection = MoveDirection.Left;
         int frame = 0;
         Vector3 currentPosi;
@@ -123,6 +123,11 @@ namespace Enemy
             {
                 moveDirection = MoveDirection.Right;
             }
+        }
+
+        public void ChangeMoveSpeed(int speed) 
+        {
+            movePeriodOfFrame = speed;
         }
 
         /// <summary>

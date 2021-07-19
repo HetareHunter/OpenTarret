@@ -8,6 +8,7 @@ namespace Enemy
     {
         InvaderMover[] invaderMovers;
         InvaderStateManager[] invaderStateManager;
+        public int movePeriodOfFrame = 90;
 
         public void SetInvaders(List<GameObject> invaders)
         {
@@ -60,5 +61,36 @@ namespace Enemy
                 item.ChangeInvaderState(InvaderState.Standby);
             }
         }
+
+        public void CommenceChangeSpeed(int speed)
+        {
+            if (invaderMovers == null)
+            {
+                return;
+            }
+            foreach (var item in invaderMovers)
+            {
+                item.ChangeMoveSpeed(speed);
+            }
+        }
+
+        #region
+#if UNITY_EDITOR
+        int currentSpeed;
+        private void Start()
+        {
+            currentSpeed = movePeriodOfFrame;
+        }
+        private void Update()
+        {
+            if (currentSpeed != movePeriodOfFrame)
+            {
+                currentSpeed = movePeriodOfFrame;
+                CommenceChangeSpeed(currentSpeed);
+            }
+        }
+
+#endif
+        #endregion
     }
 }

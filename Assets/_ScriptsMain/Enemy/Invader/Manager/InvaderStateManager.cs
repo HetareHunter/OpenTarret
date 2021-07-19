@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Manager;
 
 namespace Enemy
 {
@@ -16,7 +17,8 @@ namespace Enemy
         public InvaderState invaderState = InvaderState.Standby;
         InvaderMover invaderMover;
         InvaderCounter invaderCounter;
-
+        InvaderGameStateManager InvaderGameStateManager;
+        GameObject gameManager;
         CapsuleCollider capsuleCollider;
 
         // Start is called before the first frame update
@@ -24,6 +26,11 @@ namespace Enemy
         {
             invaderMover = GetComponent<InvaderMover>();
             invaderCounter = GetComponentInParent<InvaderCounter>();
+            if (gameManager == null)
+            {
+                gameManager = GameObject.Find("GameManager");
+            }
+            InvaderGameStateManager = gameManager.GetComponent<InvaderGameStateManager>();
             capsuleCollider = GetComponent<CapsuleCollider>();
         }
 
@@ -68,8 +75,13 @@ namespace Enemy
             }
         }
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnTriggerEnter(Collider other)
         {
+            if (other.transform.CompareTag("Finish"))
+            {
+                //ボーダーラインを越えてインベーダーが迫って来ているので敗北条件を満たした
+                InvaderGameStateManager.FinishGame(false);
+            }
             capsuleCollider.enabled = false;
         }
     }
