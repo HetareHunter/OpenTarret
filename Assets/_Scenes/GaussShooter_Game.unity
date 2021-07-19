@@ -2356,7 +2356,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 362803223}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -11311,6 +11311,7 @@ GameObject:
   - component: {fileID: 449676436726112950}
   - component: {fileID: 449676436726112951}
   - component: {fileID: 449676436726112952}
+  - component: {fileID: 449676436726112948}
   m_Layer: 12
   m_Name: Tarret05
   m_TagString: Untagged
@@ -11343,6 +11344,22 @@ MonoBehaviour:
   debugVerticalRotate: 0.3
   rotateSpeed: 1
   editRotateMode: 1
+--- !u!54 &449676436726112948
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 449676436726112946}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!114 &449676436726112949
 MonoBehaviour:
   m_ObjectHideFlags: 0

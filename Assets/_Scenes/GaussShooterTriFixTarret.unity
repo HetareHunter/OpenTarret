@@ -14218,7 +14218,7 @@ MonoBehaviour:
   m_snapOffset: {fileID: 0}
   m_grabPoints: []
   tarretData: {fileID: 11400000, guid: b32e40e76f528d94db97700dc4fd3dbd, type: 2}
-  anglePointerObj: {fileID: 0}
+  anglePointerObj: {fileID: 810249609}
   handle: 0
   touchFrequeency: 0.4
   touchAmplitude: 0.2
@@ -15687,7 +15687,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eae1c95f44a69b94daed6f8baafcb6d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tarretAttackData: {fileID: 11400000, guid: b32e40e76f528d94db97700dc4fd3dbd, type: 2}
 --- !u!1001 &1476873463
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20690,7 +20689,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eae1c95f44a69b94daed6f8baafcb6d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tarretAttackData: {fileID: 11400000, guid: b32e40e76f528d94db97700dc4fd3dbd, type: 2}
 --- !u!1 &2066077992
 GameObject:
   m_ObjectHideFlags: 0
@@ -23192,7 +23190,7 @@ MonoBehaviour:
   m_snapOffset: {fileID: 0}
   m_grabPoints: []
   tarretData: {fileID: 11400000, guid: b32e40e76f528d94db97700dc4fd3dbd, type: 2}
-  anglePointerObj: {fileID: 0}
+  anglePointerObj: {fileID: 810249609}
   handle: 0
   touchFrequeency: 0.4
   touchAmplitude: 0.2
