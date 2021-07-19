@@ -9,7 +9,7 @@ namespace Enemy
     {
         GameObject gameManager;
         InvaderGameStateManager InvaderGameStateManager;
-        int invaderNum = 0;
+        public int invaderNum = 0;
         // Start is called before the first frame update
         void Start()
         {

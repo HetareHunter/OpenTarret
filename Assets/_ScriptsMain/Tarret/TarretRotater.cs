@@ -30,7 +30,7 @@ namespace Tarret
         [SerializeField] float maxHorizontalAngle = 0.5f;
         [SerializeField] float minHorizontalAngle = -0.5f;
 
-        TarretStateManager baseTarretBrain;
+        TarretStateManager tarretStateManager;
 
         [SerializeField] float debugHorizontalRotate = 0.8f;
         [SerializeField] float debugVerticalRotate = 0.3f;
@@ -41,7 +41,7 @@ namespace Tarret
 
         private void Start()
         {
-            baseTarretBrain = GetComponent<TarretStateManager>();
+            tarretStateManager = GetComponent<TarretStateManager>();
         }
 
         void FixedUpdate()
@@ -54,10 +54,10 @@ namespace Tarret
         /// </summary>
         void MoveManager()
         {
-            switch (TarretStateManager.tarretCommandState)
+            switch (tarretStateManager.tarretCommandState)
             {
                 case TarretCommand.Idle:
-                    baseTarretBrain.JudgeRotateTarret();
+                    tarretStateManager.JudgeRotateTarret();
                     break;
 
                 case TarretCommand.Attack:

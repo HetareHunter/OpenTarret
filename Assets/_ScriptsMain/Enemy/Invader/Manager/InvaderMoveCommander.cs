@@ -6,18 +6,17 @@ namespace Enemy
 {
     public class InvaderMoveCommander : MonoBehaviour
     {
-        InvaderMover[] invaderMovers;
-        InvaderStateManager[] invaderStateManager;
+        List<InvaderMover> invaderMovers= new List<InvaderMover>();
+        List<InvaderStateManager> invaderStateManager=new List<InvaderStateManager>();
         public int movePeriodOfFrame = 90;
 
         public void SetInvaders(List<GameObject> invaders)
         {
-            invaderMovers = new InvaderMover[invaders.Count];
-            invaderStateManager = new InvaderStateManager[invaders.Count];
+            if (invaderMovers.Count > 0) return;
             for (int i = 0; i < invaders.Count; i++)
             {
-                invaderMovers[i] = invaders[i].GetComponent<InvaderMover>();
-                invaderStateManager[i] = invaders[i].GetComponent<InvaderStateManager>();
+                invaderMovers.Add(invaders[i].GetComponent<InvaderMover>());
+                invaderStateManager.Add(invaders[i].GetComponent<InvaderStateManager>());
             }
         }
 

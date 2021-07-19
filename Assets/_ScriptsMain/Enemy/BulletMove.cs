@@ -17,7 +17,7 @@ public class BulletMove : MonoBehaviour
     public void Fire()
     {
         m_rb.velocity = transform.forward * speed;
-        Invoke("NotActive", activeTime);
+        //Invoke("NotActive", activeTime);
     }
 
     private void OnTriggerEnter(Collider other)

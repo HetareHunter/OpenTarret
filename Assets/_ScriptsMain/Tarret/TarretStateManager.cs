@@ -25,16 +25,21 @@ namespace Tarret
 
         BaseTarretAttack tarretAttack;
         AnglePointer anglePoint;
+        TarretVitalManager tarretVitalManager;
 
         [SerializeField] GameObject tarretAnglePoint;
         bool anglePointPlayOneShot = false;
 
-        public static TarretCommand tarretCommandState = TarretCommand.Idle;
+        public TarretCommand tarretCommandState = TarretCommand.Idle;
 
         private void Start()
         {
             tarretAttack = GetComponent<BaseTarretAttack>();
             anglePoint = tarretAnglePoint.GetComponent<AnglePointer>();
+            if(GetComponent<TarretVitalManager>())
+            {
+                tarretVitalManager = GetComponent<TarretVitalManager>();
+            }
         }
 
         /// <summary>
@@ -89,6 +94,7 @@ namespace Tarret
                     break;
 
                 case TarretCommand.Break:
+                    tarretVitalManager.TarretDeath();
                     break;
 
                 default:

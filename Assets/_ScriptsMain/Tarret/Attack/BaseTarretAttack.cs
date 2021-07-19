@@ -16,7 +16,7 @@ namespace Tarret
         [SerializeField] TarretAttackData tarretAttackData;
 
         AttackIntervalCounter attackInterval;
-        TarretStateManager baseTarretBrain;
+        TarretStateManager tarretStateManager;
         LineRenderer razerLineRenderer;
         AudioPlayer muzzleAudio;
         MagazineRotate magazineRotate;
@@ -71,7 +71,7 @@ namespace Tarret
 
         private void Start()
         {
-            baseTarretBrain = GetComponent<TarretStateManager>();
+            tarretStateManager = GetComponent<TarretStateManager>();
             //　弾の半径を取得
             muzzleRadius = muzzle.GetComponent<SphereCollider>().radius;
 
@@ -249,9 +249,9 @@ namespace Tarret
 
             if (Input.GetKeyDown("space"))
             {
-                if (TarretStateManager.tarretCommandState != TarretCommand.Attack)
+                if (tarretStateManager.tarretCommandState != TarretCommand.Attack)
                 {
-                    baseTarretBrain.ChangeTarretState(TarretCommand.Attack);
+                    tarretStateManager.ChangeTarretState(TarretCommand.Attack);
                 }
             }
 

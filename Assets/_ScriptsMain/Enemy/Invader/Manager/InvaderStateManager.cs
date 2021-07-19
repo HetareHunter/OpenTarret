@@ -54,16 +54,18 @@ namespace Enemy
             switch (invaderState)
             {
                 case InvaderState.Standby:
-                    invaderMover.OnMarch = false;
+                    invaderMover.March(false);
                     capsuleCollider.enabled = false;
                     break;
                 case InvaderState.March:
-                    invaderMover.OnMarch = true;
+                    invaderMover.March(true);
                     capsuleCollider.enabled = true;
                     break;
                 case InvaderState.Death:
-                    invaderMover.OnMarch = false;
-                    
+                    //進軍をやめ、初期ステートにする
+                    invaderMover.March(false);
+                    invaderMover.moveDirection = MoveDirection.Left;
+
                     if (invaderCounter == null)
                     {
                         invaderCounter = GetComponentInParent<InvaderCounter>();

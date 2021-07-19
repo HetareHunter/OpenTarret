@@ -32,6 +32,7 @@ namespace Tarret
         [SerializeField] float sieldRecoverySpeed = 2.0f;
 
         Sequence sieldRecoverySequence;
+        TarretStateManager tarretStateManager;
 
         public SieldState sieldState;
 
@@ -44,11 +45,16 @@ namespace Tarret
         {
             tarretHP = TarretVitalData.TarretMaxHP;
             sieldHP = TarretVitalData.TarretMaxSield;
+            tarretStateManager = GetComponent<TarretStateManager>();
         }
 
         private void Update()
         {
-            CalculataTarretVital();
+            if (tarretStateManager.tarretCommandState != TarretCommand.Break)
+            {
+                CalculataTarretVital();
+            }
+            
         }
 
         private void CalculataTarretVital()
@@ -77,6 +83,7 @@ namespace Tarret
                 case SieldState.Full:
                     break;
                 case SieldState.Damaged:
+                    currentRecoveryTime = 0;
                     break;
                 case SieldState.Brake:
                     break;
@@ -98,16 +105,19 @@ namespace Tarret
             {
                 ChangeSieldState(SieldState.Damaged);
             }
-            currentRecoveryTime = 0;
+            
             tarretHP -= (damage * tarretDamageCoefficient);
             tarretHPSlider.value = tarretHP / TarretVitalData.TarretMaxHP;
+            if (tarretHP <= 0)
+            {
+                tarretStateManager.ChangeTarretState(TarretCommand.Break);
+            }
+
             Debug.Log("TarretVitalData.TarretHP : " + tarretHP);
         }
 
         public void SieldDamage(float damage)
         {
-
-            currentRecoveryTime = 0;
             sieldRecoverySequence.Kill(); //シールド回復の中断
             sieldHP -= (damage * sieldDamageCoefficient);
 
@@ -138,6 +148,14 @@ namespace Tarret
                 .SetEase(Ease.Linear)
                 .OnComplete(() => ChangeSieldState(SieldState.Full))
                 );
+        }
+
+        public void TarretDeath()
+        {
+            currentRecoveryTime = 0;
+            tarretHP = 0;
+            sieldHP = 0;
+            ChangeSieldState(SieldState.Brake);
         }
 
         private void OnTriggerEnter(Collider other)

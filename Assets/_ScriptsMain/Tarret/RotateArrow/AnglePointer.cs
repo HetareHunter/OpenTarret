@@ -19,6 +19,8 @@ public class AnglePointer : MonoBehaviour
     /// </summary>
     [SerializeField] float delayAdjustTime = 100.0f;
     public bool isAdjust = false;
+    [SerializeField] GameObject tarret;
+    TarretStateManager tarretStateManager;
 
     /// <summary>
     /// 両手の間の位置を返すプロパティ
@@ -32,11 +34,16 @@ public class AnglePointer : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        tarretStateManager = tarret.GetComponent<TarretStateManager>();
+    }
+
     // Update is called once per frame
     void Update()
     {
         //Debug.Log("CenterOfHands:" + CenterOfHands);
-        if (TarretStateManager.tarretCommandState == TarretCommand.Rotate && isAdjust)
+        if (tarretStateManager.tarretCommandState == TarretCommand.Rotate && isAdjust)
         {
             MoveAnglePoint();
         }

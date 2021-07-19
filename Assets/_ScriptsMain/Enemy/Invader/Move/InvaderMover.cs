@@ -35,8 +35,18 @@ namespace Enemy
         // Start is called before the first frame update
         void Start()
         {
-            currentPosi = gameObject.transform.position;
+            //currentPosi = gameObject.transform.position;
             moveCommander = GetComponentInParent<InvaderMoveCommander>();
+        }
+
+        private void OnEnable()
+        {
+            movePeriodOfFrame = 90;
+            frame = 0;
+            moveDirection = MoveDirection.Left;
+            isActive = true;
+            OnMarch = false;
+            onVerticalMove = false;
         }
 
         void FixedUpdate()
@@ -92,7 +102,7 @@ namespace Enemy
                 {
                     HorizontalMove();
                 }
-                currentPosi = transform.position;
+                UpdatePosition();
             }
         }
 
@@ -143,6 +153,15 @@ namespace Enemy
         public void March(bool activate)
         {
             OnMarch = activate;
+            if (activate)
+            {
+                UpdatePosition();
+            }
+        }
+
+        public void UpdatePosition()
+        {
+            currentPosi = transform.position;
         }
     }
 }
