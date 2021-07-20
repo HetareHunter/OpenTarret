@@ -5,7 +5,6 @@ using UnityEngine;
 public class BulletMove : MonoBehaviour
 {
     [SerializeField] float speed = 1.0f;
-    [SerializeField] float activeTime = 3.0f;
     public float power = 10;
     Rigidbody m_rb;
 

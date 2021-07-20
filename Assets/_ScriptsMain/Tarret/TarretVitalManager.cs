@@ -4,7 +4,6 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using Manager;
 
 public enum SieldState
 {

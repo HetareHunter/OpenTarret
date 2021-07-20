@@ -8516,11 +8516,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Invader_TestCapsule
       objectReference: {fileID: 0}
-    - target: {fileID: 6450988106547489900, guid: 1a6a1343ddd933c41ac4f7afa37d502b,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a6a1343ddd933c41ac4f7afa37d502b, type: 3}
 --- !u!4 &1057310151 stripped
@@ -9056,8 +9051,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1104472198}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.018789, y: 1.433474, z: -12.27}
-  m_LocalScale: {x: 19.485, y: 6.225, z: 1}
+  m_LocalPosition: {x: -0.018786, y: 1.4335, z: -20.36}
+  m_LocalScale: {x: 218.7581, y: 141.8802, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 28
