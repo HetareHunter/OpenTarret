@@ -9435,6 +9435,7 @@ MonoBehaviour:
   gameState: 0
   invaders: {fileID: 1810385079}
   gameStartUI: {fileID: 1024909124}
+  tarret: {fileID: 449676436726112946}
 --- !u!114 &1129260312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14427,6 +14428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 353a6b7abce14b34389c4e5d55a53b05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  invaderNum: 0
 --- !u!1001 &1818249684
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16810,6 +16812,7 @@ MonoBehaviour:
   recoveryTime: 2
   sieldRecoverySpeed: 3
   sieldState: 0
+  gameManager: {fileID: 1129260309}
 --- !u!1 &665794924282389620
 GameObject:
   m_ObjectHideFlags: 0

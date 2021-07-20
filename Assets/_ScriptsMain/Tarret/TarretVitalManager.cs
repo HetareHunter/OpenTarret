@@ -4,6 +4,7 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using Manager;
 
 public enum SieldState
 {
@@ -35,6 +36,8 @@ namespace Tarret
         TarretStateManager tarretStateManager;
 
         public SieldState sieldState;
+        IGameStateChangable gameStateChangable;
+        [SerializeField] GameObject gameManager;
 
         /// <summary>攻撃を受けているときtrueになる </summary>
         //bool onAttacked = false;
@@ -46,6 +49,7 @@ namespace Tarret
             tarretHP = TarretVitalData.TarretMaxHP;
             sieldHP = TarretVitalData.TarretMaxSield;
             tarretStateManager = GetComponent<TarretStateManager>();
+            gameStateChangable = gameManager.GetComponent<IGameStateChangable>();
         }
 
         private void Update()
@@ -150,12 +154,27 @@ namespace Tarret
                 );
         }
 
+        /// <summary>
+        /// ゲームの敗北条件
+        /// </summary>
         public void TarretDeath()
         {
             currentRecoveryTime = 0;
             tarretHP = 0;
             sieldHP = 0;
             ChangeSieldState(SieldState.Brake);
+
+            gameStateChangable.FinishGame(false);
+        }
+
+        public void ResetTarretVital()
+        {
+            tarretHP = TarretVitalData.TarretMaxHP;
+            tarretHPSlider.value = tarretHP;
+            sieldHP = TarretVitalData.TarretMaxSield;
+            sieldHPSlider.value = sieldHP;
+            currentRecoveryTime = 0;
+            ChangeSieldState(SieldState.Full);
         }
 
         private void OnTriggerEnter(Collider other)

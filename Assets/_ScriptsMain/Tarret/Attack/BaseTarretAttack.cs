@@ -22,7 +22,7 @@ namespace Tarret
         MagazineRotate magazineRotate;
         SightChanger sightChanger;
         [Inject]
-        private IChangeSightColor changeSightCoror;
+        private IChangeSightColor changeSightColor;
 
 
         /// <summary>レイキャストの長さ </summary>
@@ -104,7 +104,7 @@ namespace Tarret
                 if (screenColorRed == false)
                 {
                     sightChanger.ChangeRed();
-                    changeSightCoror.ChangeSliderFillRed();
+                    changeSightColor.ChangeSliderFillRed();
                     screenColorRed = true;
                 }
             }
@@ -114,7 +114,7 @@ namespace Tarret
                 if (screenColorRed == true)
                 {
                     sightChanger.ChangeBase();
-                    changeSightCoror.ChangeSliderFillBase();
+                    changeSightColor.ChangeSliderFillBase();
                     screenColorRed = false;
                 }
             }

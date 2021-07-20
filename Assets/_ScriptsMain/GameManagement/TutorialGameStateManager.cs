@@ -94,6 +94,10 @@ namespace Manager
             Time.timeScale = 1;
         }
 
+        public void FinishGame(bool win)
+        {
+
+        }
 
         #region
 #if UNITY_EDITOR
@@ -132,4 +136,5 @@ public interface IGameStateChangable
 {
     public void ChangeGameState(GameState next);
     public string CurrentGameStateName();
+    public void FinishGame(bool win);
 }

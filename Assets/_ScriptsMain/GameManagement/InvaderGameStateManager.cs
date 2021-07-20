@@ -4,6 +4,7 @@ using UnityEngine;
 using Zenject;
 using MenuUI;
 using Enemy;
+using Tarret;
 
 namespace Manager
 {
@@ -19,7 +20,8 @@ namespace Manager
         MenuButtonSelecter MenuButtonSelecter;
         GameStartManager gameStart;
         GameTimer gameTimer;
-        bool isWin = false;
+        [SerializeField] GameObject tarret;
+        TarretVitalManager tarretVitalManager;
 
         private void Start()
         {
@@ -32,6 +34,10 @@ namespace Manager
                 SceneMovePanel = GameObject.Find("SceneMovePanel");
             }
             MenuButtonSelecter = SceneMovePanel.GetComponent<MenuButtonSelecter>();
+            if (tarret.GetComponent<TarretVitalManager>())
+            {
+                tarretVitalManager = tarret.GetComponent<TarretVitalManager>();
+            }
 
             ChangeGameState(GameState.Idle);
         }
@@ -50,13 +56,13 @@ namespace Manager
                 case GameState.None:
                     break;
                 case GameState.Idle:
-                    isWin = false;
                     spawner.ResetEnemies();
                     if (gameStart.ExistUIText())
                     {
                         gameStart.ResetScreen();
                     }
                     MenuButtonSelecter.IdleInteractive();
+                    tarretVitalManager.ResetTarretVital();
                     break;
                 case GameState.Start:
                     ScoreManager.Instance.ResetScore();
