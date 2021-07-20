@@ -56,19 +56,19 @@ namespace Tarret
         {
             switch (tarretStateManager.tarretCommandState)
             {
-                case TarretCommand.Idle:
+                case TarretState.Idle:
                     tarretStateManager.JudgeRotateTarret();
                     break;
 
-                case TarretCommand.Attack:
+                case TarretState.Attack:
                     break;
 
-                case TarretCommand.Rotate:
+                case TarretState.Rotate:
                     HorizontalRotate();
                     VerticalRotate();
                     break;
 
-                case TarretCommand.Break:
+                case TarretState.Break:
                     break;
 
                 default:

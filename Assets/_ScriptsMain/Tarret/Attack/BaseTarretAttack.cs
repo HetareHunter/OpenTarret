@@ -249,9 +249,9 @@ namespace Tarret
 
             if (Input.GetKeyDown("space"))
             {
-                if (tarretStateManager.tarretCommandState != TarretCommand.Attack)
+                if (tarretStateManager.tarretCommandState != TarretState.Attack)
                 {
-                    tarretStateManager.ChangeTarretState(TarretCommand.Attack);
+                    tarretStateManager.ChangeTarretState(TarretState.Attack);
                 }
             }
 

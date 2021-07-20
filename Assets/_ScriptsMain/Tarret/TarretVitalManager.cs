@@ -53,7 +53,7 @@ namespace Tarret
 
         private void Update()
         {
-            if (tarretStateManager.tarretCommandState != TarretCommand.Break)
+            if (tarretStateManager.tarretCommandState != TarretState.Break)
             {
                 CalculataTarretVital();
             }
@@ -100,20 +100,13 @@ namespace Tarret
 
         public void TarretDamage(float damage)
         {
-            if (sieldHP <= 0)
-            {
-                ChangeSieldState(SieldState.Brake);
-            }
-            else
-            {
-                ChangeSieldState(SieldState.Damaged);
-            }
+            currentRecoveryTime = 0;
             
             tarretHP -= (damage * tarretDamageCoefficient);
             tarretHPSlider.value = tarretHP / TarretVitalData.TarretMaxHP;
             if (tarretHP <= 0)
             {
-                tarretStateManager.ChangeTarretState(TarretCommand.Break);
+                tarretStateManager.ChangeTarretState(TarretState.Break);
             }
 
             Debug.Log("TarretVitalData.TarretHP : " + tarretHP);

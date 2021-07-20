@@ -5,7 +5,7 @@ using Players;
 
 namespace Tarret
 {
-    public enum TarretCommand
+    public enum TarretState
     {
         Idle,
         Attack,
@@ -30,7 +30,7 @@ namespace Tarret
         [SerializeField] GameObject tarretAnglePoint;
         bool anglePointPlayOneShot = false;
 
-        public TarretCommand tarretCommandState = TarretCommand.Idle;
+        public TarretState tarretCommandState = TarretState.Idle;
 
         private void Start()
         {
@@ -50,7 +50,7 @@ namespace Tarret
             //両手ともタレットのハンドルを握っているとき
             if (leftHandle.isGrabbed && rightHandle.isGrabbed)
             {
-                ChangeTarretState(TarretCommand.Rotate);
+                ChangeTarretState(TarretState.Rotate);
                 if (anglePointPlayOneShot)
                 {
                     anglePoint.BeginGrabHandle();
@@ -67,7 +67,7 @@ namespace Tarret
         /// Tarretのステート変化を行う関数をここにまとめている
         /// </summary>
         /// <param name="next"></param>
-        public void ChangeTarretState(TarretCommand next)
+        public void ChangeTarretState(TarretState next)
         {
             //以前の状態を保持
             //var prev = tarretCommandState;
@@ -78,22 +78,22 @@ namespace Tarret
 
             switch (tarretCommandState)
             {
-                case TarretCommand.Idle:
+                case TarretState.Idle:
                     break;
-                case TarretCommand.Attack:
+                case TarretState.Attack:
                     if (tarretAttack.attackable)
                     {
                         tarretAttack.BeginAttack();
                         leftHandle.AttackVibe();
                         rightHandle.AttackVibe();
                     }
-                    ChangeTarretState(TarretCommand.Idle);
+                    ChangeTarretState(TarretState.Idle);
                     break;
 
-                case TarretCommand.Rotate:
+                case TarretState.Rotate:
                     break;
 
-                case TarretCommand.Break:
+                case TarretState.Break:
                     tarretVitalManager.TarretDeath();
                     break;
 

@@ -87,7 +87,7 @@ namespace Players
                     handFixer.ReleseHand(currentController);
                     currentController = OVRInput.Controller.None;
 
-                    TarretState.ChangeTarretState(TarretCommand.Idle);
+                    TarretState.ChangeTarretState(Tarret.TarretState.Idle);
 
                     anglePointer.isAdjust = false;
 

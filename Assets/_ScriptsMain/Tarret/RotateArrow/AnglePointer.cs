@@ -43,7 +43,7 @@ public class AnglePointer : MonoBehaviour
     void Update()
     {
         //Debug.Log("CenterOfHands:" + CenterOfHands);
-        if (tarretStateManager.tarretCommandState == TarretCommand.Rotate && isAdjust)
+        if (tarretStateManager.tarretCommandState == TarretState.Rotate && isAdjust)
         {
             MoveAnglePoint();
         }

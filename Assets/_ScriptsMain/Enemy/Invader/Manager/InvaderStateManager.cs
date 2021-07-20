@@ -36,6 +36,10 @@ namespace Enemy
 
         private void OnEnable()
         {
+            if (invaderCounter == null)
+            {
+                invaderCounter = GetComponentInParent<InvaderCounter>();
+            }
             invaderCounter.CountInvader(1);
         }
 

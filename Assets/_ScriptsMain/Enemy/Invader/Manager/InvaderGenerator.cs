@@ -29,14 +29,9 @@ namespace Enemy
         {
             invaderMoveCommander = GetComponent<InvaderMoveCommander>();
             invaderCounter = GetComponent<InvaderCounter>();
-            //for (int i = 0; i < transform.childCount; i++)
-            //{
-            //    invaders.Add(transform.GetChild(i).gameObject);
-            //}
             foreach (Transform child in transform)
             {
                 invaders.Add(child.gameObject);
-                //child.gameObject.SetActive(false);
             }
         }
 
@@ -51,7 +46,6 @@ namespace Enemy
                 EnemyEvenInstantiate();
             }
             SetInvaders();
-            //invaderCounter.CountInvader(invaders.Count);
         }
 
         void EnemyOddInstantiate()
@@ -62,12 +56,9 @@ namespace Enemy
             {
                 instancePosition.x = 0;
                 instancePosition.z = row;
-                //var invader = Instantiate(invaderPrefab, instancePosition, Quaternion.Inverse(new Quaternion(0, 1, 0, 0)), transform);
                 invaders[instanceNum].transform.localPosition = instancePosition;
                 invaders[instanceNum].transform.localRotation = resetQuaternion;
                 invaders[instanceNum].SetActive(true);
-                //invader.transform.position = transform.InverseTransformPoint(instancePosition);
-                //invaders.Add(invader);
             }
             for (float x = 1.0f; x <= m_column / 2; x *= (-1))
             {
@@ -75,12 +66,9 @@ namespace Enemy
                 {
                     instancePosition.x = x;
                     instancePosition.z = row;
-                    //var invader = Instantiate(invaderPrefab, instancePosition, Quaternion.Inverse(new Quaternion(0, 1, 0, 0)), transform);
                     invaders[instanceNum].transform.localPosition = instancePosition;
                     invaders[instanceNum].transform.localRotation = resetQuaternion;
                     invaders[instanceNum].SetActive(true);
-                    //invader.transform.position = transform.InverseTransformPoint(instancePosition);
-                    //invaders.Add(invader);
                 }
                 if (x < 0)
                 {
@@ -99,12 +87,9 @@ namespace Enemy
                 {
                     instancePosition.x = x;
                     instancePosition.z = row;
-                    //var invader = Instantiate(invaderPrefab, instancePosition, Quaternion.Inverse(new Quaternion(0, 1, 0, 0)), transform);
                     invaders[instanceNum].transform.localPosition = instancePosition;
                     invaders[instanceNum].transform.localRotation = resetQuaternion;
                     invaders[instanceNum].SetActive(true);
-                    //invader.transform.position = transform.InverseTransformPoint(instancePosition);
-                    //invaders.Add(invader);
                 }
                 if (x < 0)
                 {
@@ -122,7 +107,6 @@ namespace Enemy
                     item.SetActive(false);
                 }
             }
-            //invaders.Clear();
             invaderCounter.ResetInvaderCount();
         }
         public void ChangeEnemyNum(int num)
