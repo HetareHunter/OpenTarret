@@ -51,7 +51,7 @@ namespace Enemy
                 EnemyEvenInstantiate();
             }
             SetInvaders();
-            invaderCounter.CountInvader(invaders.Count);
+            //invaderCounter.CountInvader(invaders.Count);
         }
 
         void EnemyOddInstantiate()

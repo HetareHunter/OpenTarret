@@ -34,6 +34,11 @@ namespace Enemy
             capsuleCollider = GetComponent<CapsuleCollider>();
         }
 
+        private void OnEnable()
+        {
+            invaderCounter.CountInvader(1);
+        }
+
         public void ChangeInvaderState(InvaderState next)
         {
             if (invaderMover == null)
