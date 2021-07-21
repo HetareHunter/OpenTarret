@@ -25,6 +25,10 @@ namespace Enemy
 
         public void CountInvader(int num)
         {
+            if (invaderMoveCommander == null)
+            {
+                invaderMoveCommander = GetComponent<InvaderMoveCommander>();
+            }
             invaderMoveCommander.InvaderSpeedCalculate(invaderNum / maxInvaderNum);
             invaderNum += num;
             IsCompleteDestruction();
