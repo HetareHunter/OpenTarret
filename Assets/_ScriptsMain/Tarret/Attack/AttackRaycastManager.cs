@@ -7,12 +7,11 @@ public class AttackRaycastManager : MonoBehaviour
 {
     /// <summary>レイキャストの長さ </summary>
     [SerializeField] Vector3 maxRayDistance;
-    Vector3 rayDistance;
+    [SerializeField] GameObject defaultRazerFinishPosition;
     /// <summary>レイの原点。ここから伸びていく </summary>
     [SerializeField] GameObject rayOfOrigin;
     /// <summary> 当たったオブジェクトの情報を入れておく変数 </summary>
     List<RaycastHit> m_hitsEnemy;
-    [SerializeField] int hitsNum = 100;
     BaseTarretAttackManager BaseTarretAttacker;
     [SerializeField] GameObject muzzle;
     float muzzleRadius;
@@ -74,6 +73,14 @@ public class AttackRaycastManager : MonoBehaviour
         //m_hitsEnemy.Clear();
     }
 
+    public Vector3 FinishHitPosition()
+    {
+        if (m_hitsEnemy.Count == 0)
+        {
+            return defaultRazerFinishPosition.transform.position;
+        }
+        return m_hitsEnemy[m_hitsEnemy.Count - 1].point;
+    }
     public List<RaycastHit> SetRaycastHit()
     {
         return m_hitsEnemy;

@@ -19,8 +19,8 @@ namespace Tarret
         AudioPlayer muzzleAudio;
         MagazineRotate magazineRotate;
         SightChanger sightChanger;
-        RazerAttacker razerAttacker;
-        RazerEffecter razerEffecter;
+        RazerEffecter razerAttacker;
+        AttackEffecter razerEffecter;
         AttackRaycastManager attackRayManager;
         [Inject]
         private IChangeSightColor changeSightColor;
@@ -57,8 +57,8 @@ namespace Tarret
             magazineRotate = magazine.GetComponent<MagazineRotate>();
             sightChanger = sight.GetComponent<SightChanger>();
             attackInterval = GetComponent<AttackIntervalCounter>();
-            razerAttacker = GetComponent<RazerAttacker>();
-            razerEffecter = GetComponent<RazerEffecter>();
+            razerAttacker = GetComponent<RazerEffecter>();
+            razerEffecter = GetComponent<AttackEffecter>();
             attackRayManager = GetComponent<AttackRaycastManager>();
         }
 

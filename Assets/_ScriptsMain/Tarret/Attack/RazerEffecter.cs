@@ -1,50 +1,66 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class RazerEffecter : MonoBehaviour
 {
     [SerializeField] TarretAttackData tarretAttackData;
-
-    /// <summary>衝撃波のエフェクト </summary>
-    [SerializeField] GameObject m_shockWaveEffect;
-    /// <summary>衝撃波の生成位置 </summary>
-    [SerializeField] GameObject m_shockWaveEffectInsPosi;
-
-    /// <summary>廃熱のエフェクト </summary>
-    [SerializeField] GameObject[] m_wasteHeatEffects;
-    int wasteHeatIndex = 0;
-    /// <summary>廃熱エフェクトの生成位置 </summary>
-    [SerializeField] GameObject m_wasteHeatEffectInsPosi;
-    
+    [SerializeField] GameObject razerLineObj;
+    LineRenderer razerLineRenderer;
+    /// <summary>ビーム本体のエフェクト </summary>
+    [SerializeField] GameObject m_razerEffect;
+    /// <summary>ビームの生成位置 </summary>
+    [SerializeField] GameObject m_razerEffectInsPosi;
+    AttackRaycastManager attackRaycastManager;
+    Vector3[] razerPosition;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        razerLineRenderer = razerLineObj.GetComponent<LineRenderer>();
+        attackRaycastManager = GetComponent<AttackRaycastManager>();
+        razerPosition = new Vector3[2];
     }
 
     /// <summary>
-    /// 衝撃波を徐々に大きくしていき、一定時間で消滅する
+    /// レーザーのライン部分のスクリプト、存在しているものを移動して、、徐々に消えていくようにしている
     /// </summary>
-    public void ShockWaveManager()
+    public void InstanceFireEffect()
     {
-        m_shockWaveEffect.transform.position = m_shockWaveEffectInsPosi.transform.position;
-        m_shockWaveEffect.transform.rotation = m_shockWaveEffectInsPosi.transform.rotation;
-        m_shockWaveEffect.SetActive(true);
+        m_razerEffect.transform.position = m_razerEffectInsPosi.transform.position;
+        m_razerEffect.transform.rotation = m_razerEffectInsPosi.transform.rotation;
+        m_razerEffect.SetActive(true);
+        razerLineObj.SetActive(true);
+
+        razerPosition[0] = m_razerEffectInsPosi.transform.position;
+        razerPosition[1] = SetRazerFinishPosition();
+        razerLineRenderer.SetPositions(razerPosition);
+        razerLineRenderer.startWidth = tarretAttackData.razerWidth;
+        razerLineRenderer.endWidth = tarretAttackData.razerWidth;
+        DOTween.To(
+            () => razerLineRenderer.startWidth,
+            (x) => razerLineRenderer.startWidth = x,
+            0,
+            0.5f).SetEase(Ease.InQuad);
+        DOTween.To(
+            () => razerLineRenderer.endWidth,
+            (x) => razerLineRenderer.endWidth = x,
+            0,
+            0.5f).SetEase(Ease.InQuad);
+
     }
 
-    /// <summary>
-    /// 廃熱エフェクトの実体化から消滅までの管理をするメソッド
-    /// </summary>
-    public void InstanceWasteHeatEffect()
+
+    public void FadeFire()
     {
-        m_wasteHeatEffects[wasteHeatIndex].SetActive(true);
-        wasteHeatIndex++;
-        if (wasteHeatIndex >= m_wasteHeatEffects.Length)
-        {
-            wasteHeatIndex = 0;
-        }
+        m_razerEffect.SetActive(false);
+        razerLineObj.SetActive(false);
+    }
+
+    Vector3 SetRazerFinishPosition()
+    {
+        return attackRaycastManager.FinishHitPosition();
     }
 }
