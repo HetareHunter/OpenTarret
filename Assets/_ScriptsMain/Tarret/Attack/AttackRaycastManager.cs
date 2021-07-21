@@ -70,7 +70,6 @@ public class AttackRaycastManager : MonoBehaviour
         }
 
         BaseTarretAttacker.ScreenChangeColor(m_hitsEnemy);
-        //m_hitsEnemy.Clear();
     }
 
     public Vector3 FinishHitPosition()

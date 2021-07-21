@@ -79,7 +79,7 @@ namespace Manager
                     gameTimer.CountEnd();
                     gameStart.GameEnd();
                     MenuButtonSelecter.GamePlayInteractive(false);
-                    invaderMoveCommander.CommenceStandby();
+                    invaderMoveCommander.CommenceReset();
                     break;
                 default:
                     break;

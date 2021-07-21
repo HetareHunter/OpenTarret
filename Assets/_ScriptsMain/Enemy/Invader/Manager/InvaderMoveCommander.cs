@@ -60,6 +60,19 @@ namespace Enemy
             {
                 item.ChangeInvaderState(InvaderState.Standby);
             }
+
+        }
+
+        public void CommenceReset()
+        {
+            if (invaderStateManager == null)
+            {
+                return;
+            }
+            foreach (var item in invaderStateManager)
+            {
+                item.ChangeInvaderState(InvaderState.Reset);
+            }
         }
 
         public void CommenceChangeSpeed(int speed)

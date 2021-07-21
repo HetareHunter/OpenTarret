@@ -10,10 +10,12 @@ namespace Enemy
         Standby,
         March,
         Death,
+        Reset,
     }
 
     public class InvaderStateManager : MonoBehaviour
     {
+        Rigidbody m_rb;
         public InvaderState invaderState = InvaderState.Standby;
         InvaderMover invaderMover;
         InvaderCounter invaderCounter;
@@ -32,6 +34,7 @@ namespace Enemy
             }
             InvaderGameStateManager = gameManager.GetComponent<InvaderGameStateManager>();
             capsuleCollider = GetComponent<CapsuleCollider>();
+            m_rb = GetComponent<Rigidbody>();
         }
 
         private void OnEnable()
@@ -71,19 +74,28 @@ namespace Enemy
                     capsuleCollider.enabled = true;
                     break;
                 case InvaderState.Death:
-                    //進軍をやめ、初期ステートにする
-                    invaderMover.March(false);
-                    invaderMover.moveDirection = MoveDirection.Left;
-
                     if (invaderCounter == null)
                     {
                         invaderCounter = GetComponentInParent<InvaderCounter>();
                     }
                     invaderCounter.CountInvader(-1);
                     break;
+                case InvaderState.Reset:
+                    //初期状態にする
+                    invaderMover.March(false);
+                    capsuleCollider.enabled = false;
+                    invaderMover.moveDirection = MoveDirection.Left;
+                    StopInvader();
+                    break;
                 default:
                     break;
             }
+        }
+
+        public void StopInvader()
+        {
+            m_rb.velocity = Vector3.zero;
+            m_rb.angularVelocity = Vector3.zero;
         }
 
         private void OnTriggerEnter(Collider other)
