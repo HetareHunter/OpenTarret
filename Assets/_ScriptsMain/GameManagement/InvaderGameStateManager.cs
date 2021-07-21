@@ -76,7 +76,6 @@ namespace Manager
                     invaderMoveCommander.CommenceMarch();
                     break;
                 case GameState.End:
-                    spawner.SpawnEnd();
                     gameTimer.CountEnd();
                     gameStart.GameEnd();
                     MenuButtonSelecter.GamePlayInteractive(false);

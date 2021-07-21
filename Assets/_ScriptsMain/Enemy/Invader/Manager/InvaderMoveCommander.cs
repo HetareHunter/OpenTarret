@@ -8,7 +8,8 @@ namespace Enemy
     {
         List<InvaderMover> invaderMovers= new List<InvaderMover>();
         List<InvaderStateManager> invaderStateManager=new List<InvaderStateManager>();
-        public int movePeriodOfFrame = 90;
+        public int maxMovePeriodOfFrame = 90;
+        public int minMovePeriodOfFrame = 30;
 
         public void SetInvaders(List<GameObject> invaders)
         {
@@ -73,21 +74,26 @@ namespace Enemy
             }
         }
 
+        public void InvaderSpeedCalculate(float invaderAlivePer)
+        {
+            float speed=Mathf.Lerp(minMovePeriodOfFrame, maxMovePeriodOfFrame, invaderAlivePer);
+            CommenceChangeSpeed((int)speed);
+        }
         #region
 #if UNITY_EDITOR
-        int currentSpeed;
-        private void Start()
-        {
-            currentSpeed = movePeriodOfFrame;
-        }
-        private void Update()
-        {
-            if (currentSpeed != movePeriodOfFrame)
-            {
-                currentSpeed = movePeriodOfFrame;
-                CommenceChangeSpeed(currentSpeed);
-            }
-        }
+        //int currentSpeed;
+        //private void Start()
+        //{
+        //    currentSpeed = movePeriodOfFrame;
+        //}
+        //private void Update()
+        //{
+        //    if (currentSpeed != movePeriodOfFrame)
+        //    {
+        //        currentSpeed = movePeriodOfFrame;
+        //        CommenceChangeSpeed(currentSpeed);
+        //    }
+        //}
 
 #endif
         #endregion

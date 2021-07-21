@@ -12,7 +12,7 @@ public class EnemyBulletManager : MonoBehaviour
     int bulletIndex = 0;
 
     [SerializeField] float maxAttackInterval = 1.0f;
-    [SerializeField]float minAttackInterval = 0.1f;
+    [SerializeField] float minAttackInterval = 0.1f;
     float attackIntarval;
     float currentIntervalTime = 0;
     bool attackable = false;
@@ -22,6 +22,10 @@ public class EnemyBulletManager : MonoBehaviour
     /// 弾道にばらつきを与える際のばらつき
     /// </summary>
     [SerializeField] float maxLaunchAngle = 0.3f;
+    [SerializeField] float xAxisCoefficient = 1.0f;
+    [SerializeField] float yAxisCoefficient = 1.0f;
+    [SerializeField] float zAxisCoefficient = 1.0f;
+
     Quaternion launchAngle;
 
     BulletLaunchDelegate bulletLaunchMethod;
@@ -134,9 +138,9 @@ public class EnemyBulletManager : MonoBehaviour
         float y = Random.Range(-maxLaunchAngle, maxLaunchAngle);
         float z = Random.Range(-maxLaunchAngle, maxLaunchAngle);
         launchAngle = transform.rotation;
-        launchAngle.x += x;
-        launchAngle.y += y;
-        launchAngle.z += z;
+        launchAngle.x += x * xAxisCoefficient;
+        launchAngle.y += y * yAxisCoefficient;
+        launchAngle.z += z * zAxisCoefficient;
         //launchAngle.z = transform.rotation.z;
         return launchAngle;
     }

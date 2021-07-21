@@ -131,6 +131,9 @@ MonoBehaviour:
   minAttackInterval: 1
   deathEnemy: 0
   maxLaunchAngle: 0.1
+  xAxisCoefficient: 10
+  yAxisCoefficient: 3
+  zAxisCoefficient: 1
   isRandomAngleBullet: 1
 --- !u!1 &6450988106547489900
 GameObject:

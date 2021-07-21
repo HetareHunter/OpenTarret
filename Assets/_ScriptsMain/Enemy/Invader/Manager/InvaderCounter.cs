@@ -9,6 +9,8 @@ namespace Enemy
     {
         GameObject gameManager;
         InvaderGameStateManager InvaderGameStateManager;
+        InvaderMoveCommander invaderMoveCommander;
+        float maxInvaderNum;
         public int invaderNum = 0;
         // Start is called before the first frame update
         void Start()
@@ -18,10 +20,12 @@ namespace Enemy
                 gameManager = GameObject.Find("GameManager");
             }
             InvaderGameStateManager = gameManager.GetComponent<InvaderGameStateManager>();
+            invaderMoveCommander = GetComponent<InvaderMoveCommander>();
         }
 
         public void CountInvader(int num)
         {
+            invaderMoveCommander.InvaderSpeedCalculate(invaderNum / maxInvaderNum);
             invaderNum += num;
             IsCompleteDestruction();
         }
@@ -31,9 +35,14 @@ namespace Enemy
             return invaderNum;
         }
 
-        public void ResetInvaderCount()
+        public void InvaderCountZero()
         {
             invaderNum = 0;
+        }
+
+        public void SetMaxInvaderNum()
+        {
+            maxInvaderNum = invaderNum;
         }
 
         /// <summary>

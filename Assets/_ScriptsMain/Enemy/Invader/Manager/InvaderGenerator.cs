@@ -107,7 +107,7 @@ namespace Enemy
                     item.SetActive(false);
                 }
             }
-            invaderCounter.ResetInvaderCount();
+            invaderCounter.InvaderCountZero();
         }
         public void ChangeEnemyNum(int num)
         {
@@ -117,10 +117,11 @@ namespace Enemy
         {
             //Debug.Log("SpawnStart!");
             EnemySpawn();
+            SpawnEnd();
         }
         public void SpawnEnd()
         {
-
+            invaderCounter.SetMaxInvaderNum();
         }
 
         void SetInvaders()
