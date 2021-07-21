@@ -11,7 +11,7 @@ public class AttackIntervalCounter : MonoBehaviour
     [SerializeField] GameObject screenRightSliderObj;
     Slider screenLeftSlider;
     Slider screenRightSlider;
-    BaseTarretAttack tarretAttack;
+    BaseTarretAttackManager tarretAttack;
     public bool countStart = false;
 
     float m_time = 0;
@@ -20,7 +20,7 @@ public class AttackIntervalCounter : MonoBehaviour
     {
         screenLeftSlider = screenLeftSliderObj.GetComponent<Slider>();
         screenRightSlider = screenRightSliderObj.GetComponent<Slider>();
-        tarretAttack = GetComponent<BaseTarretAttack>();
+        tarretAttack = GetComponent<BaseTarretAttackManager>();
     }
 
     // Update is called once per frame
