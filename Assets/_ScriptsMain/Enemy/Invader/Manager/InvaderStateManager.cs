@@ -17,6 +17,7 @@ namespace Enemy
     {
         Rigidbody m_rb;
         public InvaderState invaderState = InvaderState.Standby;
+        InvaderDeath InvaderDeath;
         InvaderMover invaderMover;
         InvaderCounter invaderCounter;
         InvaderGameStateManager InvaderGameStateManager;
@@ -35,6 +36,7 @@ namespace Enemy
             InvaderGameStateManager = gameManager.GetComponent<InvaderGameStateManager>();
             capsuleCollider = GetComponent<CapsuleCollider>();
             m_rb = GetComponent<Rigidbody>();
+            InvaderDeath = GetComponent<InvaderDeath>();
         }
 
         private void OnEnable()
@@ -74,6 +76,8 @@ namespace Enemy
                     capsuleCollider.enabled = true;
                     break;
                 case InvaderState.Death:
+                    invaderMover.March(false);
+                    //capsuleCollider.enabled = false;
                     if (invaderCounter == null)
                     {
                         invaderCounter = GetComponentInParent<InvaderCounter>();
@@ -106,6 +110,16 @@ namespace Enemy
                 InvaderGameStateManager.FinishGame(false);
             }
             capsuleCollider.enabled = false;
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.CompareTag("Explodable"))
+            {
+                capsuleCollider.enabled = false;
+                InvaderDeath.OnDead();
+            }
+            
         }
     }
 }

@@ -17,7 +17,7 @@ public class BeamPower : MonoBehaviour
     }
     private void OnEnable()
     {
-        m_rb.AddForce(transform.forward * power);
+        m_rb.AddForce(transform.forward * power,ForceMode.Impulse);
         Invoke("DeathBeamPower", deathTime);
     }
 

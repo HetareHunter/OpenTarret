@@ -22,8 +22,10 @@ namespace Enemy
             {
                 invaderStateManager = GetComponent<InvaderStateManager>();
             }
-            
-            invaderStateManager.ChangeInvaderState(InvaderState.Death);
+            if (invaderStateManager.invaderState != InvaderState.Death)
+            {
+                invaderStateManager.ChangeInvaderState(InvaderState.Death);
+            }
 
             Invoke("EnemyDestroy", deathTime);
         }

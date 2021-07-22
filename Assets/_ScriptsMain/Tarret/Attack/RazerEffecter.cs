@@ -34,8 +34,8 @@ public class RazerEffecter : MonoBehaviour
         m_razerEffect.SetActive(true);
         razerLineObj.SetActive(true);
 
-        razerPosition[0] = m_razerEffectInsPosi.transform.position;
-        razerPosition[1] = SetRazerFinishPosition();
+        razerPosition[0] = attackRaycastManager.muzzle.transform.position;
+        razerPosition[1] = attackRaycastManager.FinishHitPosition();
         razerLineRenderer.SetPositions(razerPosition);
         razerLineRenderer.startWidth = tarretAttackData.razerWidth;
         razerLineRenderer.endWidth = tarretAttackData.razerWidth;
@@ -57,10 +57,5 @@ public class RazerEffecter : MonoBehaviour
     {
         m_razerEffect.SetActive(false);
         razerLineObj.SetActive(false);
-    }
-
-    Vector3 SetRazerFinishPosition()
-    {
-        return attackRaycastManager.FinishHitPosition();
     }
 }

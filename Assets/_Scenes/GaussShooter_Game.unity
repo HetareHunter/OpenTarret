@@ -8686,11 +8686,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1354211289}
     m_Modifications:
-    - target: {fileID: -5889224240456910562, guid: 31f732c4996897144aefea7cd54d212c,
-        type: 3}
-      propertyPath: OncollisionDeath
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4232023163730643856, guid: 31f732c4996897144aefea7cd54d212c,
         type: 3}
       propertyPath: m_Name
@@ -10822,7 +10817,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1281111777}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 200}
+  m_LocalPosition: {x: 0, y: 0, z: 683}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1123937453}
@@ -14946,7 +14941,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxMovePeriodOfFrame: 90
-  minMovePeriodOfFrame: 10
+  minMovePeriodOfFrame: 15
 --- !u!114 &1810385083
 MonoBehaviour:
   m_ObjectHideFlags: 0

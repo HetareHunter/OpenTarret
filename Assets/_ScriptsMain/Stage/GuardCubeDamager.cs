@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GuardCubeVitalManager : MonoBehaviour
+public class GuardCubeDamager : MonoBehaviour
 {
-    public int guardCubeHP = 4;
+    public int maxGuardCubeHP = 4;
     int currentHP;
 
     private void OnEnable()
@@ -14,7 +14,7 @@ public class GuardCubeVitalManager : MonoBehaviour
 
     public void ResetHP()
     {
-        currentHP = guardCubeHP;
+        currentHP = maxGuardCubeHP;
     }
 
     void Damaged(int damage)
@@ -27,6 +27,7 @@ public class GuardCubeVitalManager : MonoBehaviour
         Damaged(1);
         if (currentHP <= 0)
         {
+            currentHP = maxGuardCubeHP;
             gameObject.SetActive(false);
         }
     }

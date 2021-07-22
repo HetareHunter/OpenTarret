@@ -13,7 +13,8 @@ public class AttackRaycastManager : MonoBehaviour
     /// <summary> 当たったオブジェクトの情報を入れておく変数 </summary>
     List<RaycastHit> m_hitsEnemy;
     BaseTarretAttackManager BaseTarretAttacker;
-    [SerializeField] GameObject muzzle;
+    GuardCubeDamager GuardCubeDamager;
+    public GameObject muzzle;
     float muzzleRadius;
     [Header("当たるとレーザーがそのオブジェクトを貫通しないレイヤー")]
     public LayerMask noPenetrationLayer;
@@ -59,29 +60,47 @@ public class AttackRaycastManager : MonoBehaviour
         Ray ray = new Ray(muzzle.transform.position, muzzle.transform.forward);
 
         //　Sphereの形でレイを飛ばしEnemy、GameManagerレイヤーのオブジェクトをm_hitsEnemyに入れる
+        //RaycastAll系は取得したオブジェクトを一番遠いものから順に配列に格納していくので、0に近い要素数程遠いものになる
         var hits = Physics.SphereCastAll(ray, muzzleRadius, maxRayDistance.z, LayerMask.GetMask("Enemy", "Stage"));
         for (int i = 0; i < hits.Length; i++)
         {
             m_hitsEnemy.Add(hits[i]);
-            if (hits[i].collider.gameObject.layer == PeneLayerMaskNum)
-            {
-                break;
-            }
-        }
 
+        }
         BaseTarretAttacker.ScreenChangeColor(m_hitsEnemy);
     }
 
     public Vector3 FinishHitPosition()
     {
+
         if (m_hitsEnemy.Count == 0)
         {
             return defaultRazerFinishPosition.transform.position;
         }
-        return m_hitsEnemy[m_hitsEnemy.Count - 1].point;
+        m_hitsEnemy.Sort((a, b) => a.distance.CompareTo(b.distance));
+        for (int i = 0; i < m_hitsEnemy.Count; i++)
+        {
+            if (m_hitsEnemy[i].collider.gameObject.layer == PeneLayerMaskNum)
+            {
+                if (i != m_hitsEnemy.Count - 1)
+                {
+                    m_hitsEnemy.RemoveRange(i + 1, m_hitsEnemy.Count - 1 - (i + 1) + 1);
+                }
+
+                return m_hitsEnemy[i].point;
+            }
+        }
+        foreach (var item in m_hitsEnemy)
+        {
+
+        }
+        return defaultRazerFinishPosition.transform.position;
     }
+
     public List<RaycastHit> SetRaycastHit()
     {
         return m_hitsEnemy;
     }
+
+
 }

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1220409754}
   m_Layer: 0
   m_Name: BeamExplode
-  m_TagString: Untagged
+  m_TagString: Explodable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76,8 +76,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec8d3c17db730664ab12ef43b9d0b91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  power: 1000
+  power: 20
   tarretAttackData: {fileID: 11400000, guid: b32e40e76f528d94db97700dc4fd3dbd, type: 2}
+  OncollisionDeath: 1
 --- !u!114 &1220409758
 MonoBehaviour:
   m_ObjectHideFlags: 0
