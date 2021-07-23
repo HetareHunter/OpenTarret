@@ -40,7 +40,7 @@ public class AnglePointer : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         //Debug.Log("CenterOfHands:" + CenterOfHands);
         if (tarretStateManager.tarretCommandState == TarretState.Rotate && isAdjust)
