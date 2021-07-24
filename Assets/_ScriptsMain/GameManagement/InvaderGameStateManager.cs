@@ -5,6 +5,7 @@ using Zenject;
 using MenuUI;
 using Enemy;
 using Tarret;
+using UniRx;
 
 namespace Manager
 {
@@ -22,6 +23,8 @@ namespace Manager
         GameTimer gameTimer;
         [SerializeField] GameObject tarret;
         TarretVitalManager tarretVitalManager;
+        [SerializeField] GameObject guardWalls;
+        GuardWallManager guardWallManager;
 
         private void Start()
         {
@@ -38,6 +41,7 @@ namespace Manager
             {
                 tarretVitalManager = tarret.GetComponent<TarretVitalManager>();
             }
+            guardWallManager = guardWalls.GetComponent<GuardWallManager>();
 
             ChangeGameState(GameState.Idle);
         }
@@ -63,6 +67,8 @@ namespace Manager
                     }
                     MenuButtonSelecter.IdleInteractive();
                     tarretVitalManager.ResetTarretVital();
+                    guardWallManager.ResetAllGuardWalls();
+                    invaderMoveCommander.CommenceReset();
                     break;
                 case GameState.Start:
                     ScoreManager.Instance.ResetScore();
@@ -79,7 +85,8 @@ namespace Manager
                     gameTimer.CountEnd();
                     gameStart.GameEnd();
                     MenuButtonSelecter.GamePlayInteractive(false);
-                    invaderMoveCommander.CommenceReset();
+                    
+                    
                     break;
                 default:
                     break;

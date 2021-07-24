@@ -108,3 +108,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d052d1c2f016518479201c4b507da7cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxGuardCubeHP: 2
