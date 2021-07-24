@@ -51,6 +51,7 @@ namespace Manager
 
         [SerializeField] GameObject changeColorObj;
         ColorManager colorManager;
+        BoxCollider boxCollider;
 
         private void Start()
         {
@@ -59,6 +60,7 @@ namespace Manager
             colorManager = changeColorObj.GetComponent<ColorManager>();
             gameManager = GameObject.Find("GameManager");
             gameStateChangeable = gameManager.GetComponent<IGameStateChangable>();
+            boxCollider = GetComponent<BoxCollider>();
         }
 
         private void Update()
@@ -129,14 +131,7 @@ namespace Manager
             if (toStartTime > toStartLimitTime)
             {
                 toStartTime = 0;
-                gameStateChangeable.ChangeGameState(GameState.Start); //ゲーム開始
-                WriteScreenText(toPlayTimeCountNum.ToString());
-                onRightHand = false;
-                onLeftHand = false;
-                ActiveCollider(false);
-                onStart = true;
-                colorManager.ToChangeColor();
-                ChangeAnim();
+                GameStart();
             }
         }
 
@@ -201,10 +196,10 @@ namespace Manager
             }
         }
 
-        public void ActiveCollider(bool swicth)
-        {
-            GetComponent<BoxCollider>().enabled = swicth;
-        }
+        //public void ActiveCollider(bool swicth)
+        //{
+        //    GetComponent<BoxCollider>().enabled = swicth;
+        //}
 
         public void ChangeAnim()
         {
@@ -230,9 +225,21 @@ namespace Manager
             }
         }
 
+        public void GameStart()
+        {
+            gameStateChangeable.ChangeGameState(GameState.Start); //ゲーム開始
+            WriteScreenText(toPlayTimeCountNum.ToString());
+            onRightHand = false;
+            onLeftHand = false;
+            boxCollider.enabled = false;
+            onStart = true;
+            colorManager.ToChangeColor();
+            ChangeAnim();
+        }
+
         public void GameEnd()
         {
-            ActiveCollider(true);
+            boxCollider.enabled = true;
             ChangeAnim();
             WriteScreenText("Finish!");
         }

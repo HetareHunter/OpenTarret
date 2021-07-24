@@ -81,60 +81,6 @@ namespace Enemy
             }
         }
 
-        //void EnemyOddInstantiate()
-        //{
-        //    var instancePosition = new Vector3(0, spawnHeight, 0);
-        //    var instanceNum = 0;
-        //    SetInstancePosition(instancePosition, 0, instanceNum);
-        //    for (int row = 1; row <= m_row; row++, instanceNum++)
-        //    {
-
-        //        instancePosition.x = 0;
-        //        instancePosition.z = row;
-        //        invaders[instanceNum].transform.localPosition = instancePosition;
-        //        invaders[instanceNum].transform.localRotation = resetQuaternion;
-        //        invaders[instanceNum].SetActive(true);
-        //    }
-        //    for (float x = 1.0f; x <= m_column / 2; x *= (-1))
-        //    {
-        //        SetInstancePosition(instancePosition, x, instanceNum);
-        //        for (int row = 1; row <= m_row; row++, instanceNum++)
-        //        {
-        //            instancePosition.x = x;
-        //            instancePosition.z = row;
-        //            invaders[instanceNum].transform.localPosition = instancePosition;
-        //            invaders[instanceNum].transform.localRotation = resetQuaternion;
-        //            invaders[instanceNum].SetActive(true);
-        //        }
-        //        if (x < 0)
-        //        {
-        //            x--;
-        //        }
-        //    }
-        //}
-
-        //void EnemyEvenInstantiate()
-        //{
-        //    var instancePosition = new Vector3(0, spawnHeight, 0);
-        //    var instanceNum = 0;
-        //    for (float x = 0.5f; x <= (float)m_column / 2; x *= (-1))
-        //    {
-        //        SetInstancePosition(instancePosition, x, instanceNum);
-        //        for (int row = 1; row <= m_row; row++, instanceNum++)
-        //        {
-        //            instancePosition.x = x;
-        //            instancePosition.z = row;
-        //            invaders[instanceNum].transform.localPosition = instancePosition;
-        //            invaders[instanceNum].transform.localRotation = resetQuaternion;
-        //            invaders[instanceNum].SetActive(true);
-        //        }
-        //        if (x < 0)
-        //        {
-        //            x--;
-        //        }
-        //    }
-        //}
-
         void SetInstancePosition(float column)
         {
             m_instancePosition.x = column;

@@ -32,6 +32,9 @@ namespace Tarret
         [SerializeField] float sieldRecoverySpeed = 2.0f;
 
         Sequence sieldRecoverySequence;
+        /// <summary>
+        /// 現状アタッチしているタレットのステートを知りたいのでインターフェースではなくクラス型を指定する
+        /// </summary>
         TarretStateManager tarretStateManager;
 
         public SieldState sieldState;
@@ -39,8 +42,6 @@ namespace Tarret
         [SerializeField] GameObject gameManager;
 
         /// <summary>攻撃を受けているときtrueになる </summary>
-        //bool onAttacked = false;
-        //CancellationTokenSource cancellationToken;
 
         // Start is called before the first frame update
         void Start()

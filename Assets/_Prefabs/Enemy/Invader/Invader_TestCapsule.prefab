@@ -124,11 +124,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52657bda4e18ac44ea74b0381d206a51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletNum: 30
+  bulletNum: 20
   originBullet: {fileID: 7099200680217559210, guid: 06406203578dd0641a12c88b6c816576,
     type: 3}
-  maxAttackInterval: 3
-  minAttackInterval: 1
+  maxAttackInterval: 1.7
+  minAttackInterval: 0.7
   deathEnemy: 0
   maxLaunchAngle: 0.1
   xAxisCoefficient: 10
@@ -269,7 +269,7 @@ MonoBehaviour:
   isActive: 1
   OnMarch: 0
   onVerticalMove: 0
-  limitPosi: 8
+  limitPosi: 11
 --- !u!114 &1790479761224545967
 MonoBehaviour:
   m_ObjectHideFlags: 0

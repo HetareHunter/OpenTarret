@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using Zenject;
 using MenuUI;
@@ -14,6 +15,7 @@ namespace Manager
         public GameState gameState = GameState.None;
         [Inject]
         ISpawnable spawner;
+        ITarretState tarretState;
         [SerializeField] GameObject invaders;
         InvaderMoveCommander invaderMoveCommander;
         [SerializeField] GameObject gameStartUI;
@@ -26,10 +28,17 @@ namespace Manager
         [SerializeField] GameObject guardWalls;
         GuardWallManager guardWallManager;
 
+        [SerializeField] GameObject winPanel;
+        [SerializeField] GameObject losePanel;
+
+        [SerializeField] float toGameEndStateTimer = 300;
+        IDisposable gameEndObserber;
+
         private void Start()
         {
             gameStart = gameStartUI.GetComponent<GameStartManager>();
             gameTimer = GetComponent<GameTimer>();
+            tarretState = tarret.GetComponent<ITarretState>();
 
             invaderMoveCommander = invaders.GetComponent<InvaderMoveCommander>();
             if (SceneMovePanel == null)
@@ -44,6 +53,7 @@ namespace Manager
             guardWallManager = guardWalls.GetComponent<GuardWallManager>();
 
             ChangeGameState(GameState.Idle);
+
         }
 
         public void ChangeGameState(GameState next)
@@ -65,10 +75,14 @@ namespace Manager
                     {
                         gameStart.ResetScreen();
                     }
+                    tarretState.ChangeTarretState(TarretState.Idle);
                     MenuButtonSelecter.IdleInteractive();
                     tarretVitalManager.ResetTarretVital();
                     guardWallManager.ResetAllGuardWalls();
                     invaderMoveCommander.CommenceReset();
+
+                    winPanel.SetActive(false);
+                    losePanel.SetActive(false);
                     break;
                 case GameState.Start:
                     ScoreManager.Instance.ResetScore();
@@ -85,8 +99,6 @@ namespace Manager
                     gameTimer.CountEnd();
                     gameStart.GameEnd();
                     MenuButtonSelecter.GamePlayInteractive(false);
-                    
-                    
                     break;
                 default:
                     break;
@@ -113,17 +125,34 @@ namespace Manager
         /// <param name="win"></param>
         public void FinishGame(bool win)
         {
-            if (win == true)
+            if (gameEndObserber != null)
             {
-                Debug.Log("勝ち!");
+                gameEndObserber.Dispose();
             }
-            else
+            if (gameState != GameState.End)
             {
-                Debug.Log("負け!");
+                if (win == true)
+                {
+                    Debug.Log("勝ち!");
+                    winPanel.SetActive(true);
+                }
+                else
+                {
+                    Debug.Log("負け!");
+                    losePanel.SetActive(true);
+                }
+                gameEndObserber = Observable.Timer(TimeSpan.FromMilliseconds(toGameEndStateTimer))
+                    .Subscribe(_ => ChangeGameState(GameState.End)).AddTo(this);
             }
-            ChangeGameState(GameState.End);
         }
 
+        /// <summary>
+        /// UIのボタンによってゲームを強制終了する場合
+        /// </summary>
+        public void DrawGame()
+        {
+            ChangeGameState(GameState.End);
+        }
 
         #region
 #if UNITY_EDITOR

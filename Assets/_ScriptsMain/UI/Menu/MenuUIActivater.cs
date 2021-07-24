@@ -55,13 +55,13 @@ namespace MenuUI
             {
                 SceneMovePanel.SetActive(true);
                 lineRenderer.enabled = true;
-                TutorialGameStateManager.StopGame();
+                //TutorialGameStateManager.StopGame();
             }
             else
             {
                 SceneMovePanel.SetActive(false);
                 lineRenderer.enabled = false;
-                TutorialGameStateManager.RebootGame();
+                //TutorialGameStateManager.RebootGame();
             }
         }
 

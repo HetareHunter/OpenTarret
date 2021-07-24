@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Manager;
+using TMPro;
 
 namespace Enemy
 {
     public class InvaderCounter : MonoBehaviour
     {
         GameObject gameManager;
+        [SerializeField] TextMeshProUGUI enemyCountText;
         InvaderGameStateManager InvaderGameStateManager;
         InvaderMoveCommander invaderMoveCommander;
         float maxInvaderNum;
@@ -32,6 +34,11 @@ namespace Enemy
             invaderMoveCommander.InvaderSpeedCalculate(invaderNum / maxInvaderNum);
             invaderNum += num;
             IsCompleteDestruction();
+
+            if (enemyCountText != null)
+            {
+                enemyCountText.text = "Enemy : " + invaderNum.ToString();
+            }
         }
 
         public int GetInvaderNum()
@@ -42,6 +49,10 @@ namespace Enemy
         public void InvaderCountZero()
         {
             invaderNum = 0;
+            if (enemyCountText != null)
+            {
+                enemyCountText.text = "Enemy : " + invaderNum.ToString();
+            }
         }
 
         public void SetMaxInvaderNum()

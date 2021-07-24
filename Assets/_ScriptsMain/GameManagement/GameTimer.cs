@@ -12,8 +12,8 @@ public class GameTimer : MonoBehaviour
     /// </summary>
     [SerializeField] float gameTime = 30.0f;
     float playNowTime = 0;
-    [SerializeField] float idleTime = 4.0f;
-    float idleNowTime = 0;
+    [SerializeField] float toIdleStateTime = 4.0f;
+    float currentToIdleTime = 0;
     [SerializeField] TextMeshProUGUI timeText;
     bool timeStart = false;
     bool gameEnd = false;
@@ -65,12 +65,12 @@ public class GameTimer : MonoBehaviour
 
     void IdleTimeCounter()
     {
-        idleNowTime += Time.deltaTime;
-        if (idleNowTime >= idleTime)
+        currentToIdleTime += Time.deltaTime;
+        if (currentToIdleTime >= toIdleStateTime)
         {
             gameStateChangeable.ChangeGameState(GameState.Idle);
             gameEnd = false;
-            idleNowTime = 0;
+            currentToIdleTime = 0;
         }
     }
 }

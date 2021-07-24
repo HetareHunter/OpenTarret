@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 30
-  power: 20
+  power: 30
 --- !u!136 &3300973905512367288
 CapsuleCollider:
   m_ObjectHideFlags: 0
