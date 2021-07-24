@@ -19,7 +19,8 @@ namespace Enemy
         /// スポーンしたときのy軸の値
         /// </summary>
         [SerializeField] float spawnHeight = 1.0f;
-        [SerializeField] float spaceToGenerate = 0.5f;
+        [SerializeField] float spaceToGenerate_x = 1.4f;
+        [SerializeField] float spaceToGenerate_z = 1.5f;
         public List<GameObject> invaders = new List<GameObject>();
         InvaderMoveCommander invaderMoveCommander;
         InvaderCounter invaderCounter;
@@ -51,49 +52,31 @@ namespace Enemy
             m_instanceNum = 0;
             if (m_column % 2 == 1)
             {
-                //for (int row = 1; row <= m_row; row++, instanceNum++)
-                //{
-                //    instancePosition.x = 0;
-                //    instancePosition.z = row;
-                //    invaders[instanceNum].transform.localPosition = instancePosition;
-                //    invaders[instanceNum].transform.localRotation = resetQuaternion;
-                //    invaders[instanceNum].SetActive(true);
-                //}
                 SetInstancePosition(0);
-                for (float x = 1.0f; x <= m_column / 2; x *= (-1))
+                float x = spaceToGenerate_x;
+                for (float i = 1.0f; i <= m_column / 2; i *= (-1))
                 {
-                    //for (int row = 1; row <= m_row; row++, instanceNum++)
-                    //{
-                    //    instancePosition.x = x;
-                    //    instancePosition.z = row;
-                    //    invaders[instanceNum].transform.localPosition = instancePosition;
-                    //    invaders[instanceNum].transform.localRotation = resetQuaternion;
-                    //    invaders[instanceNum].SetActive(true);
-                    //}
                     SetInstancePosition(x);
-                    if (x < 0)
+                    if (i < 0)
                     {
-                        x--;
+                        x -= spaceToGenerate_x;
+                        i--;
                     }
+                    x *= (-1);
                 }
             }
             else
             {
-                for (float x = 0.5f; x <= (float)m_column / 2; x *= (-1))
+                float x = spaceToGenerate_x / 2;
+                for (float i = 0.5f; i <= (float)m_column / 2; i *= (-1))
                 {
-                    //for (int row = 1; row <= m_row; row++, instanceNum++)
-                    //{
-                    //    instancePosition.x = x;
-                    //    instancePosition.z = row;
-                    //    invaders[instanceNum].transform.localPosition = instancePosition;
-                    //    invaders[instanceNum].transform.localRotation = resetQuaternion;
-                    //    invaders[instanceNum].SetActive(true);
-                    //}
                     SetInstancePosition(x);
-                    if (x < 0)
+                    if (i < 0)
                     {
-                        x--;
+                        x -= spaceToGenerate_x;
+                        i--;
                     }
+                    x *= (-1);
                 }
             }
         }
@@ -154,14 +137,15 @@ namespace Enemy
 
         void SetInstancePosition(float column)
         {
+            m_instancePosition.x = column;
             for (int row = 1; row <= m_row; row++, m_instanceNum++)
             {
-                m_instancePosition.x = column;
-                m_instancePosition.z = row + spaceToGenerate;
+                m_instancePosition.z += spaceToGenerate_z;
                 invaders[m_instanceNum].transform.localPosition = m_instancePosition;
                 invaders[m_instanceNum].transform.localRotation = resetQuaternion;
                 invaders[m_instanceNum].SetActive(true);
             }
+            m_instancePosition.z = 0;
         }
 
         public void ResetEnemies()
