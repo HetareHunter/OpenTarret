@@ -26656,6 +26656,7 @@ MonoBehaviour:
   m_row: 5
   m_column: 11
   spawnHeight: 1.1
+  spaceToGenerate: 1
   invaders: []
 --- !u!4 &1810385081
 Transform:
