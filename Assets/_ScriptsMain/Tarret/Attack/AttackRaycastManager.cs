@@ -61,7 +61,7 @@ public class AttackRaycastManager : MonoBehaviour
 
         //　Sphereの形でレイを飛ばしEnemy、GameManagerレイヤーのオブジェクトをm_hitsEnemyに入れる
         //RaycastAll系は取得したオブジェクトを一番遠いものから順に配列に格納していくので、0に近い要素数程遠いものになる
-        var hits = Physics.SphereCastAll(ray, muzzleRadius, maxRayDistance.z, LayerMask.GetMask("Enemy", "Stage"));
+        var hits = Physics.SphereCastAll(ray, muzzleRadius, maxRayDistance.z, LayerMask.GetMask("Enemy", "Stage", "TutorialTarget"));
         for (int i = 0; i < hits.Length; i++)
         {
             m_hitsEnemy.Add(hits[i]);
@@ -90,10 +90,10 @@ public class AttackRaycastManager : MonoBehaviour
                 return m_hitsEnemy[i].point;
             }
         }
-        foreach (var item in m_hitsEnemy)
-        {
+        //foreach (var item in m_hitsEnemy)
+        //{
 
-        }
+        //}
         return defaultRazerFinishPosition.transform.position;
     }
 
