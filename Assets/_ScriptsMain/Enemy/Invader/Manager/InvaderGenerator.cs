@@ -19,10 +19,14 @@ namespace Enemy
         /// スポーンしたときのy軸の値
         /// </summary>
         [SerializeField] float spawnHeight = 1.0f;
+        [SerializeField] float spaceToGenerate = 0.5f;
         public List<GameObject> invaders = new List<GameObject>();
         InvaderMoveCommander invaderMoveCommander;
         InvaderCounter invaderCounter;
         Quaternion resetQuaternion = new Quaternion(0, 0, 0, 0);
+
+        Vector3 m_instancePosition;
+        int m_instanceNum = 0;
 
         // Start is called before the first frame update
         void Start()
@@ -37,64 +41,126 @@ namespace Enemy
 
         public void EnemySpawn()
         {
-            if (m_column % 2 == 1)
-            {
-                EnemyOddInstantiate();
-            }
-            else
-            {
-                EnemyEvenInstantiate();
-            }
+            EnemyInstantiate();
             SetInvaders();
         }
 
-        void EnemyOddInstantiate()
+        void EnemyInstantiate()
         {
-            var instancePosition = new Vector3(0, spawnHeight, 0);
-            var instanceNum = 0;
-            for (int row = 1; row <= m_row; row++, instanceNum++)
+            m_instancePosition = new Vector3(0, spawnHeight, 0);
+            m_instanceNum = 0;
+            if (m_column % 2 == 1)
             {
-                instancePosition.x = 0;
-                instancePosition.z = row;
-                invaders[instanceNum].transform.localPosition = instancePosition;
-                invaders[instanceNum].transform.localRotation = resetQuaternion;
-                invaders[instanceNum].SetActive(true);
-            }
-            for (float x = 1.0f; x <= m_column / 2; x *= (-1))
-            {
-                for (int row = 1; row <= m_row; row++, instanceNum++)
+                //for (int row = 1; row <= m_row; row++, instanceNum++)
+                //{
+                //    instancePosition.x = 0;
+                //    instancePosition.z = row;
+                //    invaders[instanceNum].transform.localPosition = instancePosition;
+                //    invaders[instanceNum].transform.localRotation = resetQuaternion;
+                //    invaders[instanceNum].SetActive(true);
+                //}
+                SetInstancePosition(0);
+                for (float x = 1.0f; x <= m_column / 2; x *= (-1))
                 {
-                    instancePosition.x = x;
-                    instancePosition.z = row;
-                    invaders[instanceNum].transform.localPosition = instancePosition;
-                    invaders[instanceNum].transform.localRotation = resetQuaternion;
-                    invaders[instanceNum].SetActive(true);
+                    //for (int row = 1; row <= m_row; row++, instanceNum++)
+                    //{
+                    //    instancePosition.x = x;
+                    //    instancePosition.z = row;
+                    //    invaders[instanceNum].transform.localPosition = instancePosition;
+                    //    invaders[instanceNum].transform.localRotation = resetQuaternion;
+                    //    invaders[instanceNum].SetActive(true);
+                    //}
+                    SetInstancePosition(x);
+                    if (x < 0)
+                    {
+                        x--;
+                    }
                 }
-                if (x < 0)
+            }
+            else
+            {
+                for (float x = 0.5f; x <= (float)m_column / 2; x *= (-1))
                 {
-                    x--;
+                    //for (int row = 1; row <= m_row; row++, instanceNum++)
+                    //{
+                    //    instancePosition.x = x;
+                    //    instancePosition.z = row;
+                    //    invaders[instanceNum].transform.localPosition = instancePosition;
+                    //    invaders[instanceNum].transform.localRotation = resetQuaternion;
+                    //    invaders[instanceNum].SetActive(true);
+                    //}
+                    SetInstancePosition(x);
+                    if (x < 0)
+                    {
+                        x--;
+                    }
                 }
             }
         }
 
-        void EnemyEvenInstantiate()
+        //void EnemyOddInstantiate()
+        //{
+        //    var instancePosition = new Vector3(0, spawnHeight, 0);
+        //    var instanceNum = 0;
+        //    SetInstancePosition(instancePosition, 0, instanceNum);
+        //    for (int row = 1; row <= m_row; row++, instanceNum++)
+        //    {
+
+        //        instancePosition.x = 0;
+        //        instancePosition.z = row;
+        //        invaders[instanceNum].transform.localPosition = instancePosition;
+        //        invaders[instanceNum].transform.localRotation = resetQuaternion;
+        //        invaders[instanceNum].SetActive(true);
+        //    }
+        //    for (float x = 1.0f; x <= m_column / 2; x *= (-1))
+        //    {
+        //        SetInstancePosition(instancePosition, x, instanceNum);
+        //        for (int row = 1; row <= m_row; row++, instanceNum++)
+        //        {
+        //            instancePosition.x = x;
+        //            instancePosition.z = row;
+        //            invaders[instanceNum].transform.localPosition = instancePosition;
+        //            invaders[instanceNum].transform.localRotation = resetQuaternion;
+        //            invaders[instanceNum].SetActive(true);
+        //        }
+        //        if (x < 0)
+        //        {
+        //            x--;
+        //        }
+        //    }
+        //}
+
+        //void EnemyEvenInstantiate()
+        //{
+        //    var instancePosition = new Vector3(0, spawnHeight, 0);
+        //    var instanceNum = 0;
+        //    for (float x = 0.5f; x <= (float)m_column / 2; x *= (-1))
+        //    {
+        //        SetInstancePosition(instancePosition, x, instanceNum);
+        //        for (int row = 1; row <= m_row; row++, instanceNum++)
+        //        {
+        //            instancePosition.x = x;
+        //            instancePosition.z = row;
+        //            invaders[instanceNum].transform.localPosition = instancePosition;
+        //            invaders[instanceNum].transform.localRotation = resetQuaternion;
+        //            invaders[instanceNum].SetActive(true);
+        //        }
+        //        if (x < 0)
+        //        {
+        //            x--;
+        //        }
+        //    }
+        //}
+
+        void SetInstancePosition(float column)
         {
-            var instancePosition = new Vector3(0, spawnHeight, 0);
-            var instanceNum = 0;
-            for (float x = 0.5f; x <= (float)m_column / 2; x *= (-1))
+            for (int row = 1; row <= m_row; row++, m_instanceNum++)
             {
-                for (int row = 1; row <= m_row; row++, instanceNum++)
-                {
-                    instancePosition.x = x;
-                    instancePosition.z = row;
-                    invaders[instanceNum].transform.localPosition = instancePosition;
-                    invaders[instanceNum].transform.localRotation = resetQuaternion;
-                    invaders[instanceNum].SetActive(true);
-                }
-                if (x < 0)
-                {
-                    x--;
-                }
+                m_instancePosition.x = column;
+                m_instancePosition.z = row + spaceToGenerate;
+                invaders[m_instanceNum].transform.localPosition = m_instancePosition;
+                invaders[m_instanceNum].transform.localRotation = resetQuaternion;
+                invaders[m_instanceNum].SetActive(true);
             }
         }
 
