@@ -23,6 +23,7 @@ namespace Enemy
         InvaderGameStateManager InvaderGameStateManager;
         GameObject gameManager;
         CapsuleCollider capsuleCollider;
+        Animator animator;
 
         // Start is called before the first frame update
         void Start()
@@ -37,6 +38,7 @@ namespace Enemy
             capsuleCollider = GetComponent<CapsuleCollider>();
             m_rb = GetComponent<Rigidbody>();
             InvaderDeath = GetComponent<InvaderDeath>();
+            animator = GetComponent<Animator>();
         }
 
         private void OnEnable()
@@ -70,13 +72,16 @@ namespace Enemy
                 case InvaderState.Standby:
                     invaderMover.March(false);
                     capsuleCollider.enabled = false;
+                    animator.SetTrigger("ToIdle");
                     break;
                 case InvaderState.March:
                     invaderMover.March(true);
                     capsuleCollider.enabled = true;
+                    animator.SetTrigger("ToWalk");
                     break;
                 case InvaderState.Death:
                     invaderMover.March(false);
+                    animator.SetTrigger("ToDie");
                     //capsuleCollider.enabled = false;
                     if (invaderCounter == null)
                     {
@@ -88,6 +93,7 @@ namespace Enemy
                     //èâä˙èÛë‘Ç…Ç∑ÇÈ
                     invaderMover.March(false);
                     capsuleCollider.enabled = false;
+                    animator.SetTrigger("ToIdle");
                     invaderMover.moveDirection = MoveDirection.Left;
                     StopInvader();
                     break;
@@ -119,7 +125,6 @@ namespace Enemy
                 capsuleCollider.enabled = false;
                 InvaderDeath.OnDead();
             }
-            
         }
     }
 }
