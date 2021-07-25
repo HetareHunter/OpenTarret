@@ -34172,10 +34172,20 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 1839181814363274778, guid: 79b2ea0df41d24b42966c35e0dcd6cf8,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 457.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1839181814363274778, guid: 79b2ea0df41d24b42966c35e0dcd6cf8,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 91.8
+      objectReference: {fileID: 0}
     - target: {fileID: 1839181814363274779, guid: 79b2ea0df41d24b42966c35e0dcd6cf8,
         type: 3}
       propertyPath: m_Text
-      value: "\u30B2\u30FC\u30E0\u3092\u7D42\u4E86\u3057\u307E\u3059\u304B\uFF1F\n"
+      value: "\u30A4\u30F3\u30D9\u30FC\u30C0\u30FC\u30B2\u30FC\u30E0\u3092\n\u7D42\u4E86\u3057\u307E\u3059\u304B\uFF1F\n"
       objectReference: {fileID: 0}
     - target: {fileID: 1839181814831464992, guid: 79b2ea0df41d24b42966c35e0dcd6cf8,
         type: 3}

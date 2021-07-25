@@ -31,7 +31,7 @@ namespace MenuUI
         public void ToGame()
         {
             TimeScaleChanger(1.0f);
-            screenFade.SceneFadeOut("GaussShooter_Game");
+            screenFade.SceneFadeOut("GaussShooter_InvaderGame");
         }
 
         public void ToTitle()

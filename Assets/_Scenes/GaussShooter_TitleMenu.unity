@@ -2602,6 +2602,36 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: MenuButtonSelecter, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 5162394495692049917, guid: 4d9b20912ab3dd34bbbe2c950d16f337,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5162394495707205549, guid: 4d9b20912ab3dd34bbbe2c950d16f337,
+        type: 3}
+      propertyPath: m_text
+      value: InvaderGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 5162394495707205549, guid: 4d9b20912ab3dd34bbbe2c950d16f337,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 21.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5162394495707205549, guid: 4d9b20912ab3dd34bbbe2c950d16f337,
+        type: 3}
+      propertyPath: m_margin.x
+      value: 4.1537933
+      objectReference: {fileID: 0}
+    - target: {fileID: 5162394495707205549, guid: 4d9b20912ab3dd34bbbe2c950d16f337,
+        type: 3}
+      propertyPath: m_margin.z
+      value: 4.5798798
+      objectReference: {fileID: 0}
+    - target: {fileID: 5162394495707205549, guid: 4d9b20912ab3dd34bbbe2c950d16f337,
+        type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5162394496568117465, guid: 4d9b20912ab3dd34bbbe2c950d16f337,
         type: 3}
       propertyPath: m_Interactable
@@ -2646,6 +2676,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: MenuButtonSelecter, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5162394496709887724, guid: 4d9b20912ab3dd34bbbe2c950d16f337,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d9b20912ab3dd34bbbe2c950d16f337, type: 3}
