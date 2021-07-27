@@ -7,10 +7,16 @@ public class BulletMove : MonoBehaviour
     [SerializeField] float speed = 1.0f;
     public float power = 10;
     Rigidbody m_rb;
+    AudioPlayer audioPlayer;
 
     private void Awake()
     {
         m_rb = GetComponent<Rigidbody>();
+        audioPlayer = GetComponent<AudioPlayer>();
+    }
+    private void OnEnable()
+    {
+        audioPlayer.AudioPlay();
     }
 
     public void Fire()
