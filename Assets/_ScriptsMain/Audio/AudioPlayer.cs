@@ -12,6 +12,14 @@ public class AudioPlayer : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
+    private void OnEnable()
+    {
+        if (audioSource == null)
+        {
+            audioSource = GetComponent<AudioSource>();
+        }
+    }
+
     public void AudioPlay()
     {
         int rand = Random.Range(0, audios.Length);

@@ -16,12 +16,13 @@ public class BulletMove : MonoBehaviour
     }
     private void OnEnable()
     {
-        audioPlayer.AudioPlay();
+        //audioPlayer.AudioPlay();
     }
 
     public void Fire()
     {
         m_rb.velocity = transform.forward * speed;
+        audioPlayer.AudioPlay();
         //Invoke("NotActive", activeTime);
     }
 
