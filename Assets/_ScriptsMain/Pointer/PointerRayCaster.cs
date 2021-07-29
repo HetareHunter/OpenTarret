@@ -7,11 +7,13 @@ public class PointerRayCaster : MonoBehaviour
     [SerializeField] GameObject line;
     [SerializeField] GameObject lineOriginPosi;
     [SerializeField] GameObject defaultLineFinishPosi;
+    [SerializeField] GameObject debugHitObg;
+    [SerializeField] bool isDebug = false;
     LineRenderer lineRenderer;
     Vector3[] linePosition;
     RaycastHit m_hit;
     [SerializeField] float maxRayDistance = 200.0f;
-    public Vector3 hitPointerObj { get; private set; }
+    public Vector3 hitPointerObj { private set; get; }
     public bool isDrawLine = true;
     // Start is called before the first frame update
     void Start()
@@ -43,8 +45,6 @@ public class PointerRayCaster : MonoBehaviour
             hitPointerObj = defaultLineFinishPosi.transform.position;
             DrawLineRenderer(defaultLineFinishPosi.transform.position);
         }
-
-        
     }
 
     void DrawLineRenderer(Vector3 finishLine)
@@ -54,9 +54,16 @@ public class PointerRayCaster : MonoBehaviour
         lineRenderer.SetPositions(linePosition);
     }
 
-    //public void OnPointer (bool draw)
-    //{
-    //    isDrawLine = draw;
-    //}
+    #region
+#if UNITY_EDITOR
+    private void Update()
+    {
+        if (isDebug)
+        {
+            debugHitObg.transform.position = m_hit.point;
+        }
+    }
 
+#endif
+    #endregion
 }

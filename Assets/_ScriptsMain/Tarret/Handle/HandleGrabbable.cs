@@ -120,7 +120,7 @@ namespace Players
 
         public void AttackVibe()
         {
-            if (handleVibe != null)
+            if (handleVibe != null && currentController != OVRInput.Controller.None)
             {
                 handleVibe.Vibrate(tarretData.attackVibeDuration, tarretData.attackVibeFrequency,
                     tarretData.attackVibeAmplitude, currentController);

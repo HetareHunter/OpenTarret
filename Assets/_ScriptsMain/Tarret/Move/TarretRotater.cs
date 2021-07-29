@@ -85,24 +85,27 @@ namespace Tarret
             {
                 if (m_arrowMark.transform.localRotation.y < 0)
                 {
-                    rootPos.transform.Rotate(new Vector3(0, 90, 0) * rotateSpeed * Time.deltaTime
-                        * m_arrowMark.transform.localRotation.y);
+                    HRotate();
                 }
             }
             else if(rootPos.transform.localRotation.y < minHorizontalAngle)
             {
                 if (m_arrowMark.transform.localRotation.y > 0)
                 {
-                    rootPos.transform.Rotate(new Vector3(0, 90, 0) * rotateSpeed * Time.deltaTime
-                        * m_arrowMark.transform.localRotation.y);
+                    HRotate();
                 }
             }
             else
             {
-                rootPos.transform.Rotate(new Vector3(0, 90, 0) * rotateSpeed * Time.deltaTime
-                        * m_arrowMark.transform.localRotation.y);
+                HRotate();
             }
             //rootPos.transform.Rotate(new Vector3(0, 90, 0) * rotateSpeed * Time.deltaTime * m_arrowMark.transform.localRotation.y);
+        }
+
+        void HRotate()
+        {
+            rootPos.transform.Rotate(new Vector3(0, 90, 0) * rotateSpeed * Time.deltaTime
+                                    * m_arrowMark.transform.localRotation.y);
         }
 
         /// <summary>
@@ -115,23 +118,26 @@ namespace Tarret
             {
                 if (m_arrowMark.transform.localRotation.x < 0)
                 {
-                    muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * rotateSpeed * Time.deltaTime
-                        * m_arrowMark.transform.localRotation.x);
+                    VRotate();
                 }
             }
             else if (muzzleFlameJointPos.transform.localRotation.x < minVerticalAngle)
             {
                 if (m_arrowMark.transform.localRotation.x > 0)
                 {
-                    muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * rotateSpeed * Time.deltaTime
-                        * m_arrowMark.transform.localRotation.x);
+                    VRotate();
                 }
             }
             else
             {
-                muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * rotateSpeed * Time.deltaTime
-                        * m_arrowMark.transform.localRotation.x);
+                VRotate();
             }
+        }
+
+        void VRotate()
+        {
+            muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * rotateSpeed * Time.deltaTime
+                                    * m_arrowMark.transform.localRotation.x);
         }
         #region
 #if UNITY_EDITOR
