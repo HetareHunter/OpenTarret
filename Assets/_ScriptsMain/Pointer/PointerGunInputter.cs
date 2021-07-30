@@ -15,7 +15,7 @@ public class PointerGunInputter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger, OVRInput.Controller.RTouch))
+        if (OVRInput.Get(OVRInput.Button.PrimaryHandTrigger, OVRInput.Controller.RTouch))
         {
             tarretStateManager.ChangeTarretState(TarretState.Rotate);
         }
@@ -26,7 +26,7 @@ public class PointerGunInputter : MonoBehaviour
         }
 
         if (OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger, OVRInput.Controller.RTouch) 
-            && tarretStateManager.tarretCommandState == TarretState.Rotate)
+            && tarretStateManager.tarretCommandState != TarretState.Idle)
         {
             tarretStateManager.ChangeTarretState(TarretState.Idle);
         }
