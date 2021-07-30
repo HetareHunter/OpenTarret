@@ -14,8 +14,6 @@ namespace Tarret
         /// タレットの縦回転をする関節
         /// </summary>
         [SerializeField] GameObject muzzleFlameJointPos;
-        //[SerializeField] GameObject m_leftHandlePos;
-        //[SerializeField] GameObject m_rightHandlePos;
         /// <summary>
         /// タレットの向きを決定する矢印
         /// </summary>
@@ -29,19 +27,12 @@ namespace Tarret
 
         TarretStateManager tarretStateManager;
 
-        //[SerializeField] float debugHorizontalRotate = 0.8f;
-        //[SerializeField] float debugVerticalRotate = 0.3f;
-
-        [SerializeField] float rotateSpeed = 1.0f;
+        [SerializeField] float rotateSpeed = 0.13f;
 
         [SerializeField] GameObject RayPointer;
         PointerRayCaster pointerRayCaster;
-        Vector3 h_direction;
-        Vector3 v_direction;
         float h_angle;
         float v_angle;
-        Quaternion horizontalAngle;
-        Quaternion verticalAngle;
 
         private void Start()
         {
@@ -91,40 +82,24 @@ namespace Tarret
             h_angle = Vector3.SignedAngle(Vector3.forward, projectVector, Vector3.up);
             Quaternion targetRotation = Quaternion.Euler(0, h_angle, 0);
 
-
-            //h_direction = pointerRayCaster.hitPointerObj - rootPos.transform.position;
-            //h_direction.y = 0;
-            //Quaternion targetRotation = Quaternion.LookRotation(h_direction);
-            if (rootPos.transform.localRotation.y > maxHorizontalAngle)
+            float rootLocalRotation_y = rootPos.transform.localRotation.y;
+            if (rootLocalRotation_y > maxHorizontalAngle || rootLocalRotation_y < minHorizontalAngle)
             {
-                if (targetRotation.y < maxHorizontalAngle)
+                if (targetRotation.y < maxHorizontalAngle && targetRotation.y > minHorizontalAngle)
                 {
-                    rootPos.transform.rotation = Quaternion.Slerp(rootPos.transform.rotation, targetRotation, rotateSpeed);
-                }
-            }
-            else if (rootPos.transform.localRotation.y < minHorizontalAngle)
-            {
-                if (targetRotation.y > minHorizontalAngle)
-                {
-                    rootPos.transform.rotation = Quaternion.Slerp(rootPos.transform.rotation, targetRotation, rotateSpeed);
+                    HRotate(targetRotation);
                 }
             }
             else
             {
-                rootPos.transform.rotation = Quaternion.Slerp(rootPos.transform.rotation, targetRotation, rotateSpeed);
+                HRotate(targetRotation);
             }
         }
 
-        //void HRotate()
-        //{
-        //    h_relativePos = pointerRayCaster.hitPointerObj - rootPos.transform.position;
-        //    h_relativePos.y=0;
-        //    Quaternion targetRotation = Quaternion.LookRotation(h_relativePos);
-        //    rootPos.transform.rotation = Quaternion.Slerp(rootPos.transform.rotation, targetRotation, rotateSpeed);
-
-        //    //rootPos.transform.Rotate(new Vector3(0, 90, 0) * rotateSpeed * Time.deltaTime
-        //    //                        * m_arrowMark.transform.rotation.y);
-        //}
+        void HRotate(Quaternion targetRotation)
+        {
+            rootPos.transform.rotation = Quaternion.Slerp(rootPos.transform.rotation, targetRotation, rotateSpeed);
+        }
 
         /// <summary>
         /// 縦回転を制御する関数見ようとするオブジェクトとmuzzleFlameとの角度を求めてから、それをQuetenion.AngleAxisで、
@@ -135,45 +110,34 @@ namespace Tarret
             Vector3 direction = pointerRayCaster.hitPointerObj - muzzleFlameJointPos.transform.position;
             Vector3 projectVector = Vector3.ProjectOnPlane(direction, Vector3.right);
             v_angle = Vector3.SignedAngle(Vector3.forward, projectVector, Vector3.right);
-            Quaternion targetRotation = Quaternion.Euler(v_angle, h_angle, 0);
-            //Debug.Log("muzzleFlameJointPos localRotation.x " + muzzleFlameJointPos.transform.localRotation.x);
-            //verticalAngle =
-            //    Quaternion.Slerp(muzzleFlameJointPos.transform.rotation, targetRotation, rotateSpeed);
-            if (muzzleFlameJointPos.transform.localRotation.x > maxVerticalAngle)
+            Quaternion targetRotation = Quaternion.Euler(v_angle, 0, 0);
+
+            float muzzleFlameJointLocalRotation_x = muzzleFlameJointPos.transform.localRotation.x;
+
+            if (muzzleFlameJointLocalRotation_x > maxVerticalAngle)
             {
                 if (targetRotation.x < maxVerticalAngle)
                 {
-                    verticalAngle =
-                Quaternion.Slerp(muzzleFlameJointPos.transform.rotation, targetRotation, rotateSpeed);
+                    VRotate(targetRotation);
                 }
             }
-            else if (muzzleFlameJointPos.transform.localRotation.x < minVerticalAngle)
+            else if (muzzleFlameJointLocalRotation_x < minVerticalAngle)
             {
                 if (targetRotation.x > minVerticalAngle)
                 {
-                    verticalAngle =
-                Quaternion.Slerp(muzzleFlameJointPos.transform.rotation, targetRotation, rotateSpeed);
+                    VRotate(targetRotation);
                 }
             }
             else
             {
-                verticalAngle =
-                Quaternion.Slerp(muzzleFlameJointPos.transform.rotation, targetRotation, rotateSpeed);
+                VRotate(targetRotation);
             }
-
-            
-            muzzleFlameJointPos.transform.rotation = verticalAngle;
         }
 
-        void VRotate()
+        void VRotate(Quaternion targetRotation)
         {
-            v_direction = pointerRayCaster.hitPointerObj - muzzleFlameJointPos.transform.position;
-            Quaternion targetRotation = Quaternion.LookRotation(v_direction);
-            muzzleFlameJointPos.transform.rotation =
-                Quaternion.Slerp(muzzleFlameJointPos.transform.rotation, targetRotation, rotateSpeed);
-
-            //muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * rotateSpeed * Time.deltaTime
-            //                        * m_arrowMark.transform.rotation.x);
+            muzzleFlameJointPos.transform.localRotation =
+                Quaternion.Slerp(muzzleFlameJointPos.transform.localRotation, targetRotation, rotateSpeed);
         }
     }
 }
