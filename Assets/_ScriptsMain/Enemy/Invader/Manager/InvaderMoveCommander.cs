@@ -6,44 +6,43 @@ namespace Enemy
 {
     public class InvaderMoveCommander : MonoBehaviour
     {
-        List<InvaderMover> invaderMovers= new List<InvaderMover>();
-        List<InvaderStateManager> invaderStateManager=new List<InvaderStateManager>();
+        List<InvaderLists> invaderLists = new List<InvaderLists>();
         public int maxMovePeriodOfFrame = 90;
         public int minMovePeriodOfFrame = 30;
 
         public void SetInvaders(List<GameObject> invaders)
         {
-            if (invaderMovers.Count > 0) return;
+            if (invaderLists.Count > 0) return;
             for (int i = 0; i < invaders.Count; i++)
             {
-                invaderMovers.Add(invaders[i].GetComponent<InvaderMover>());
-                invaderStateManager.Add(invaders[i].GetComponent<InvaderStateManager>());
+                invaderLists.Add(new InvaderLists(invaders[i].GetComponent<InvaderMover>(),
+                    invaders[i].GetComponent<InvaderStateManager>()));
             }
         }
 
         public void LimitMove()
         {
-            if (invaderMovers == null)
+            if (invaderLists == null)
             {
                 return;
             }
-            foreach (var item in invaderMovers)
+            foreach (var item in invaderLists)
             {
-                item.LimitMove();
+                item.invaderMover.LimitMove();
             }
         }
-         /// <summary>
-         /// êiåRÇ∑ÇÈñΩóﬂÇèoÇ∑
-         /// </summary>
+        /// <summary>
+        /// êiåRÇ∑ÇÈñΩóﬂÇèoÇ∑
+        /// </summary>
         public void CommenceMarch()
         {
-            if (invaderStateManager == null)
+            if (invaderLists == null)
             {
                 return;
             }
-            foreach (var item in invaderStateManager)
+            foreach (var item in invaderLists)
             {
-                item.ChangeInvaderState(InvaderState.March);
+                item.invaderStateManager.ChangeInvaderState(InvaderState.March);
             }
         }
 
@@ -52,44 +51,44 @@ namespace Enemy
         /// </summary>
         public void CommenceStandby()
         {
-            if (invaderStateManager == null)
+            if (invaderLists == null)
             {
                 return;
             }
-            foreach (var item in invaderStateManager)
+            foreach (var item in invaderLists)
             {
-                item.ChangeInvaderState(InvaderState.Standby);
+                item.invaderStateManager.ChangeInvaderState(InvaderState.Standby);
             }
 
         }
 
         public void CommenceReset()
         {
-            if (invaderStateManager == null)
+            if (invaderLists == null)
             {
                 return;
             }
-            foreach (var item in invaderStateManager)
+            foreach (var item in invaderLists)
             {
-                item.ChangeInvaderState(InvaderState.Reset);
+                item.invaderStateManager.ChangeInvaderState(InvaderState.Reset);
             }
         }
 
         public void CommenceChangeSpeed(int speed)
         {
-            if (invaderMovers == null)
+            if (invaderLists == null)
             {
                 return;
             }
-            foreach (var item in invaderMovers)
+            foreach (var item in invaderLists)
             {
-                item.ChangeMoveSpeed(speed);
+                item.invaderMover.ChangeMoveSpeed(speed);
             }
         }
 
         public void InvaderSpeedCalculate(float invaderAlivePer)
         {
-            float speed=Mathf.Lerp(minMovePeriodOfFrame, maxMovePeriodOfFrame, invaderAlivePer);
+            float speed = Mathf.Lerp(minMovePeriodOfFrame, maxMovePeriodOfFrame, invaderAlivePer);
             CommenceChangeSpeed((int)speed);
         }
         #region
@@ -110,5 +109,17 @@ namespace Enemy
 
 #endif
         #endregion
+    }
+
+    public class InvaderLists
+    {
+        public InvaderMover invaderMover;
+        public InvaderStateManager invaderStateManager;
+
+        public InvaderLists(InvaderMover invaderMover, InvaderStateManager invaderStateManager)
+        {
+            this.invaderMover = invaderMover;
+            this.invaderStateManager = invaderStateManager;
+        }
     }
 }
