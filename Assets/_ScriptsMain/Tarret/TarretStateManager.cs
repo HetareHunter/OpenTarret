@@ -35,7 +35,11 @@ namespace Tarret
         private void Start()
         {
             tarretAttack = GetComponent<BaseTarretAttackManager>();
-            anglePoint = tarretAnglePoint.GetComponent<AnglePointer>();
+            if (tarretAnglePoint != null)
+            {
+                anglePoint = tarretAnglePoint.GetComponent<AnglePointer>();
+            }
+            
             if(GetComponent<TarretVitalManager>())
             {
                 tarretVitalManager = GetComponent<TarretVitalManager>();

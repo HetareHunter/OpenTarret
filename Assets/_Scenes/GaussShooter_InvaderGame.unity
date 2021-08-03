@@ -5062,6 +5062,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3516343273388241592, guid: 886b807aa377d604d8ed24bba82517da,
         type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1129260309}
+    - target: {fileID: 3516343273388241592, guid: 886b807aa377d604d8ed24bba82517da,
+        type: 3}
       propertyPath: countText.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -12774,8 +12779,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cartSpeed: 3
-  limitMoveRangeX: 8
-  editMode: 0
+  limitMoveRangeX: 10
+  editMode: 1
 --- !u!4 &1276533953 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3478025250975259355, guid: 082d48b94d6b8f243aa3196248034b96,

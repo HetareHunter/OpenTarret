@@ -47,7 +47,11 @@ namespace Players
         protected override void Start()
         {
             returnPosition = GetComponent<HandlePositionResetter>();
-            anglePointer = anglePointerObj.GetComponent<AnglePointer>();
+            if (anglePointerObj != null)
+            {
+                anglePointer = anglePointerObj.GetComponent<AnglePointer>();
+            }
+            
             handleVibe = GetComponent<HandleVibe>();
             handleInput = GetComponent<HandleInput>();
             handFixer = GetComponent<HandFixer>();
