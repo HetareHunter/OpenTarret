@@ -271,8 +271,7 @@ MonoBehaviour:
   isActive: 1
   OnMarch: 0
   onVerticalMove: 0
-  maxLimitPosi: 10
-  minLimitPosi: -10
+  limitPosi: 10
 --- !u!114 &2150664940478861251
 MonoBehaviour:
   m_ObjectHideFlags: 0
