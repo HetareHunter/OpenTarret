@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: GroundMip_MT
-  m_Shader: {fileID: 4800000, guid: 89ae20e02f35e5545aee3fe1c8050c1e, type: 3}
+  m_Shader: {fileID: 4800000, guid: 34b6c15012d75744d8b0b726f8a58c1f, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
