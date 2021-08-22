@@ -6,18 +6,14 @@ Shader "ScanLine/ScanLine"
 	{
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
 		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
-		[ASEBegin]_BaseColor("BaseColor", Color) = (0,0,0,0)
-		_MainTexture("MainTexture", 2D) = "black" {}
-		_ColorTextureLerp("ColorTextureLerp", Range( 0 , 1)) = 0.5
-		[Normal]_NormalMap("NormalMap", 2D) = "bump" {}
-		[Toggle]_OnEmission("OnEmission", Float) = 1
-		_EmissionTexture("EmissionTexture", 2D) = "white" {}
-		_LineColor("LineColor", Color) = (0.8117647,0.7840819,0.2196074,1)
-		_TrajectoryColor("TrajectoryColor", Color) = (0.764151,0.5244433,0.2198735,1)
-		_minSmoothStep1("minSmoothStep1", Float) = -15.13
-		_ScanSpeed("ScanSpeed", Range( -400 , 400)) = 130
-		[ASEEnd]_LineRange("LineRange", Range( 0 , 400)) = 400
-		[HideInInspector] _texcoord( "", 2D ) = "white" {}
+		[ASEBegin]_BaseColor1("BaseColor", Color) = (0,0,0,0)
+		_LineColor1("LineColor", Color) = (0.8117647,0.7840819,0.2196074,1)
+		_TrajectoryColor1("TrajectoryColor", Color) = (0.764151,0.5244433,0.2198735,1)
+		_ScanSpeed1("ScanSpeed", Range( -400 , 400)) = 30
+		_minSmoothStep2("minSmoothStep1", Float) = -15
+		_LineRange1("LineRange", Range( 0 , 400)) = 400
+		[Toggle]_UseBaseColorAlpha1("UseBaseColorAlpha", Float) = 0
+		[ASEEnd][Toggle]_UseBaseColor1("UseBaseColor", Float) = 0
 
 		//_TransmissionShadow( "Transmission Shadow", Range( 0, 1 ) ) = 0.5
 		//_TransStrength( "Trans Strength", Range( 0, 50 ) ) = 1
@@ -175,7 +171,6 @@ Shader "ScanLine/ScanLine"
 			#pragma multi_compile_fog
 			#define ASE_FOG 1
 			#define _EMISSION
-			#define _NORMALMAP 1
 			#define ASE_SRP_VERSION 100500
 
 			
@@ -240,23 +235,20 @@ Shader "ScanLine/ScanLine"
 				#if defined(ASE_NEEDS_FRAG_SCREEN_POSITION)
 				float4 screenPos : TEXCOORD6;
 				#endif
-				float4 ase_texcoord7 : TEXCOORD7;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _BaseColor;
-			float4 _MainTexture_ST;
-			float4 _NormalMap_ST;
-			float4 _LineColor;
-			float4 _TrajectoryColor;
-			float4 _EmissionTexture_ST;
-			float _ColorTextureLerp;
-			float _ScanSpeed;
-			float _LineRange;
-			float _minSmoothStep1;
-			float _OnEmission;
+			float4 _LineColor1;
+			float4 _TrajectoryColor1;
+			float4 _BaseColor1;
+			float _UseBaseColor1;
+			float _ScanSpeed1;
+			float _LineRange1;
+			float _minSmoothStep2;
+			float _UseBaseColorAlpha1;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
 			#endif
@@ -277,11 +269,7 @@ Shader "ScanLine/ScanLine"
 				float _TessMaxDisp;
 			#endif
 			CBUFFER_END
-			sampler2D _MainTexture;
-			sampler2D _NormalMap;
-			float Float1;
-			sampler2D _EmissionTexture;
-
+			
 
 			
 			VertexOutput VertexFunction( VertexInput v  )
@@ -291,10 +279,7 @@ Shader "ScanLine/ScanLine"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				o.ase_texcoord7.xy = v.texcoord.xy;
 				
-				//setting value to unused interpolator channels and avoid initialization warnings
-				o.ase_texcoord7.zw = 0;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
@@ -480,33 +465,29 @@ Shader "ScanLine/ScanLine"
 	
 				WorldViewDirection = SafeNormalize( WorldViewDirection );
 
-				float2 uv_MainTexture = IN.ase_texcoord7.xy * _MainTexture_ST.xy + _MainTexture_ST.zw;
-				float4 tex2DNode51 = tex2D( _MainTexture, uv_MainTexture );
-				float4 lerpResult64 = lerp( _BaseColor , tex2DNode51 , _ColorTextureLerp);
-				
-				float2 uv_NormalMap = IN.ase_texcoord7.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
-				
-				float mulTime9 = _TimeParameters.x * _ScanSpeed;
-				float temp_output_16_0 = ( mulTime9 + WorldPosition.z );
-				float ifLocalVar48 = 0;
-				if( _ScanSpeed <= 0.0 )
-				ifLocalVar48 = temp_output_16_0;
+				float mulTime71 = _TimeParameters.x * _ScanSpeed1;
+				float temp_output_72_0 = ( mulTime71 + WorldPosition.z );
+				float ifLocalVar75 = 0;
+				if( _ScanSpeed1 <= 0.0 )
+				ifLocalVar75 = temp_output_72_0;
 				else
-				ifLocalVar48 = ( 1.0 - temp_output_16_0 );
-				float temp_output_19_0 = fmod( ifLocalVar48 , _LineRange );
-				float4 temp_cast_1 = (step( 0.0 , temp_output_19_0 )).xxxx;
-				float smoothstepResult27 = smoothstep( _minSmoothStep1 , 0.0 , temp_output_19_0);
-				float4 lerpResult35 = lerp( temp_cast_1 , _TrajectoryColor , smoothstepResult27);
-				float2 uv_EmissionTexture = IN.ase_texcoord7.xy * _EmissionTexture_ST.xy + _EmissionTexture_ST.zw;
+				ifLocalVar75 = ( 1.0 - temp_output_72_0 );
+				float temp_output_77_0 = fmod( ifLocalVar75 , _LineRange1 );
+				float4 temp_cast_0 = (step( 0.0 , temp_output_77_0 )).xxxx;
+				float smoothstepResult87 = smoothstep( _minSmoothStep2 , 0.0 , temp_output_77_0);
+				float4 lerpResult90 = lerp( temp_cast_0 , _TrajectoryColor1 , smoothstepResult87);
+				float4 temp_output_91_0 = ( ( ( step( temp_output_77_0 , -0.1 ) * step( 0.0 , temp_output_77_0 ) ) * _LineColor1 ) + lerpResult90 );
 				
-				float3 Albedo = ( lerpResult64 + float4( 0,0,0,0 ) ).rgb;
-				float3 Normal = ( UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f ) * Float1 );
-				float3 Emission = ( ( ( float4( 0,0,0,0 ) * _LineColor ) + lerpResult35 ) + (( _OnEmission )?( tex2D( _EmissionTexture, uv_EmissionTexture ) ):( float4( 0,0,0,0 ) )) ).rgb;
+				float4 temp_cast_3 = (_BaseColor1.a).xxxx;
+				
+				float3 Albedo = (( _UseBaseColor1 )?( ( _BaseColor1 + temp_output_91_0 ) ):( temp_output_91_0 )).rgb;
+				float3 Normal = float3(0, 0, 1);
+				float3 Emission = (( _UseBaseColor1 )?( ( _BaseColor1 + temp_output_91_0 ) ):( temp_output_91_0 )).rgb;
 				float3 Specular = 0.5;
 				float Metallic = 0;
 				float Smoothness = 0.5;
 				float Occlusion = 1;
-				float Alpha = 1;
+				float Alpha = (( _UseBaseColorAlpha1 )?( temp_cast_3 ):( temp_output_91_0 )).r;
 				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
 				float3 BakedGI = 0;
@@ -679,7 +660,6 @@ Shader "ScanLine/ScanLine"
 			#pragma multi_compile_fog
 			#define ASE_FOG 1
 			#define _EMISSION
-			#define _NORMALMAP 1
 			#define ASE_SRP_VERSION 100500
 
 			
@@ -693,7 +673,8 @@ Shader "ScanLine/ScanLine"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 
-			
+			#define ASE_NEEDS_FRAG_WORLD_POSITION
+
 
 			struct VertexInput
 			{
@@ -718,17 +699,14 @@ Shader "ScanLine/ScanLine"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _BaseColor;
-			float4 _MainTexture_ST;
-			float4 _NormalMap_ST;
-			float4 _LineColor;
-			float4 _TrajectoryColor;
-			float4 _EmissionTexture_ST;
-			float _ColorTextureLerp;
-			float _ScanSpeed;
-			float _LineRange;
-			float _minSmoothStep1;
-			float _OnEmission;
+			float4 _LineColor1;
+			float4 _TrajectoryColor1;
+			float4 _BaseColor1;
+			float _UseBaseColor1;
+			float _ScanSpeed1;
+			float _LineRange1;
+			float _minSmoothStep2;
+			float _UseBaseColorAlpha1;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
 			#endif
@@ -906,8 +884,21 @@ Shader "ScanLine/ScanLine"
 					#endif
 				#endif
 
+				float mulTime71 = _TimeParameters.x * _ScanSpeed1;
+				float temp_output_72_0 = ( mulTime71 + WorldPosition.z );
+				float ifLocalVar75 = 0;
+				if( _ScanSpeed1 <= 0.0 )
+				ifLocalVar75 = temp_output_72_0;
+				else
+				ifLocalVar75 = ( 1.0 - temp_output_72_0 );
+				float temp_output_77_0 = fmod( ifLocalVar75 , _LineRange1 );
+				float4 temp_cast_0 = (step( 0.0 , temp_output_77_0 )).xxxx;
+				float smoothstepResult87 = smoothstep( _minSmoothStep2 , 0.0 , temp_output_77_0);
+				float4 lerpResult90 = lerp( temp_cast_0 , _TrajectoryColor1 , smoothstepResult87);
+				float4 temp_output_91_0 = ( ( ( step( temp_output_77_0 , -0.1 ) * step( 0.0 , temp_output_77_0 ) ) * _LineColor1 ) + lerpResult90 );
+				float4 temp_cast_1 = (_BaseColor1.a).xxxx;
 				
-				float Alpha = 1;
+				float Alpha = (( _UseBaseColorAlpha1 )?( temp_cast_1 ):( temp_output_91_0 )).r;
 				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
 				#ifdef ASE_DEPTH_WRITE_ON
@@ -953,7 +944,6 @@ Shader "ScanLine/ScanLine"
 			#pragma multi_compile_fog
 			#define ASE_FOG 1
 			#define _EMISSION
-			#define _NORMALMAP 1
 			#define ASE_SRP_VERSION 100500
 
 			
@@ -967,7 +957,8 @@ Shader "ScanLine/ScanLine"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 
-			
+			#define ASE_NEEDS_FRAG_WORLD_POSITION
+
 
 			struct VertexInput
 			{
@@ -992,17 +983,14 @@ Shader "ScanLine/ScanLine"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _BaseColor;
-			float4 _MainTexture_ST;
-			float4 _NormalMap_ST;
-			float4 _LineColor;
-			float4 _TrajectoryColor;
-			float4 _EmissionTexture_ST;
-			float _ColorTextureLerp;
-			float _ScanSpeed;
-			float _LineRange;
-			float _minSmoothStep1;
-			float _OnEmission;
+			float4 _LineColor1;
+			float4 _TrajectoryColor1;
+			float4 _BaseColor1;
+			float _UseBaseColor1;
+			float _ScanSpeed1;
+			float _LineRange1;
+			float _minSmoothStep2;
+			float _UseBaseColorAlpha1;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
 			#endif
@@ -1170,8 +1158,21 @@ Shader "ScanLine/ScanLine"
 					#endif
 				#endif
 
+				float mulTime71 = _TimeParameters.x * _ScanSpeed1;
+				float temp_output_72_0 = ( mulTime71 + WorldPosition.z );
+				float ifLocalVar75 = 0;
+				if( _ScanSpeed1 <= 0.0 )
+				ifLocalVar75 = temp_output_72_0;
+				else
+				ifLocalVar75 = ( 1.0 - temp_output_72_0 );
+				float temp_output_77_0 = fmod( ifLocalVar75 , _LineRange1 );
+				float4 temp_cast_0 = (step( 0.0 , temp_output_77_0 )).xxxx;
+				float smoothstepResult87 = smoothstep( _minSmoothStep2 , 0.0 , temp_output_77_0);
+				float4 lerpResult90 = lerp( temp_cast_0 , _TrajectoryColor1 , smoothstepResult87);
+				float4 temp_output_91_0 = ( ( ( step( temp_output_77_0 , -0.1 ) * step( 0.0 , temp_output_77_0 ) ) * _LineColor1 ) + lerpResult90 );
+				float4 temp_cast_1 = (_BaseColor1.a).xxxx;
 				
-				float Alpha = 1;
+				float Alpha = (( _UseBaseColorAlpha1 )?( temp_cast_1 ):( temp_output_91_0 )).r;
 				float AlphaClipThreshold = 0.5;
 				#ifdef ASE_DEPTH_WRITE_ON
 				float DepthValue = 0;
@@ -1210,7 +1211,6 @@ Shader "ScanLine/ScanLine"
 			#pragma multi_compile_fog
 			#define ASE_FOG 1
 			#define _EMISSION
-			#define _NORMALMAP 1
 			#define ASE_SRP_VERSION 100500
 
 			
@@ -1235,7 +1235,7 @@ Shader "ScanLine/ScanLine"
 				float3 ase_normal : NORMAL;
 				float4 texcoord1 : TEXCOORD1;
 				float4 texcoord2 : TEXCOORD2;
-				float4 ase_texcoord : TEXCOORD0;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1248,23 +1248,20 @@ Shader "ScanLine/ScanLine"
 				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
 				float4 shadowCoord : TEXCOORD1;
 				#endif
-				float4 ase_texcoord2 : TEXCOORD2;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _BaseColor;
-			float4 _MainTexture_ST;
-			float4 _NormalMap_ST;
-			float4 _LineColor;
-			float4 _TrajectoryColor;
-			float4 _EmissionTexture_ST;
-			float _ColorTextureLerp;
-			float _ScanSpeed;
-			float _LineRange;
-			float _minSmoothStep1;
-			float _OnEmission;
+			float4 _LineColor1;
+			float4 _TrajectoryColor1;
+			float4 _BaseColor1;
+			float _UseBaseColor1;
+			float _ScanSpeed1;
+			float _LineRange1;
+			float _minSmoothStep2;
+			float _UseBaseColorAlpha1;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
 			#endif
@@ -1285,9 +1282,7 @@ Shader "ScanLine/ScanLine"
 				float _TessMaxDisp;
 			#endif
 			CBUFFER_END
-			sampler2D _MainTexture;
-			sampler2D _EmissionTexture;
-
+			
 
 			
 			VertexOutput VertexFunction( VertexInput v  )
@@ -1297,10 +1292,7 @@ Shader "ScanLine/ScanLine"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				o.ase_texcoord2.xy = v.ase_texcoord.xy;
 				
-				//setting value to unused interpolator channels and avoid initialization warnings
-				o.ase_texcoord2.zw = 0;
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
@@ -1338,8 +1330,7 @@ Shader "ScanLine/ScanLine"
 				float3 ase_normal : NORMAL;
 				float4 texcoord1 : TEXCOORD1;
 				float4 texcoord2 : TEXCOORD2;
-				float4 ase_texcoord : TEXCOORD0;
-
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1358,7 +1349,7 @@ Shader "ScanLine/ScanLine"
 				o.ase_normal = v.ase_normal;
 				o.texcoord1 = v.texcoord1;
 				o.texcoord2 = v.texcoord2;
-				o.ase_texcoord = v.ase_texcoord;
+				
 				return o;
 			}
 
@@ -1399,7 +1390,7 @@ Shader "ScanLine/ScanLine"
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
 				o.texcoord1 = patch[0].texcoord1 * bary.x + patch[1].texcoord1 * bary.y + patch[2].texcoord1 * bary.z;
 				o.texcoord2 = patch[0].texcoord2 * bary.x + patch[1].texcoord2 * bary.y + patch[2].texcoord2 * bary.z;
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1435,27 +1426,25 @@ Shader "ScanLine/ScanLine"
 					#endif
 				#endif
 
-				float2 uv_MainTexture = IN.ase_texcoord2.xy * _MainTexture_ST.xy + _MainTexture_ST.zw;
-				float4 tex2DNode51 = tex2D( _MainTexture, uv_MainTexture );
-				float4 lerpResult64 = lerp( _BaseColor , tex2DNode51 , _ColorTextureLerp);
-				
-				float mulTime9 = _TimeParameters.x * _ScanSpeed;
-				float temp_output_16_0 = ( mulTime9 + WorldPosition.z );
-				float ifLocalVar48 = 0;
-				if( _ScanSpeed <= 0.0 )
-				ifLocalVar48 = temp_output_16_0;
+				float mulTime71 = _TimeParameters.x * _ScanSpeed1;
+				float temp_output_72_0 = ( mulTime71 + WorldPosition.z );
+				float ifLocalVar75 = 0;
+				if( _ScanSpeed1 <= 0.0 )
+				ifLocalVar75 = temp_output_72_0;
 				else
-				ifLocalVar48 = ( 1.0 - temp_output_16_0 );
-				float temp_output_19_0 = fmod( ifLocalVar48 , _LineRange );
-				float4 temp_cast_1 = (step( 0.0 , temp_output_19_0 )).xxxx;
-				float smoothstepResult27 = smoothstep( _minSmoothStep1 , 0.0 , temp_output_19_0);
-				float4 lerpResult35 = lerp( temp_cast_1 , _TrajectoryColor , smoothstepResult27);
-				float2 uv_EmissionTexture = IN.ase_texcoord2.xy * _EmissionTexture_ST.xy + _EmissionTexture_ST.zw;
+				ifLocalVar75 = ( 1.0 - temp_output_72_0 );
+				float temp_output_77_0 = fmod( ifLocalVar75 , _LineRange1 );
+				float4 temp_cast_0 = (step( 0.0 , temp_output_77_0 )).xxxx;
+				float smoothstepResult87 = smoothstep( _minSmoothStep2 , 0.0 , temp_output_77_0);
+				float4 lerpResult90 = lerp( temp_cast_0 , _TrajectoryColor1 , smoothstepResult87);
+				float4 temp_output_91_0 = ( ( ( step( temp_output_77_0 , -0.1 ) * step( 0.0 , temp_output_77_0 ) ) * _LineColor1 ) + lerpResult90 );
+				
+				float4 temp_cast_3 = (_BaseColor1.a).xxxx;
 				
 				
-				float3 Albedo = ( lerpResult64 + float4( 0,0,0,0 ) ).rgb;
-				float3 Emission = ( ( ( float4( 0,0,0,0 ) * _LineColor ) + lerpResult35 ) + (( _OnEmission )?( tex2D( _EmissionTexture, uv_EmissionTexture ) ):( float4( 0,0,0,0 ) )) ).rgb;
-				float Alpha = 1;
+				float3 Albedo = (( _UseBaseColor1 )?( ( _BaseColor1 + temp_output_91_0 ) ):( temp_output_91_0 )).rgb;
+				float3 Emission = (( _UseBaseColor1 )?( ( _BaseColor1 + temp_output_91_0 ) ):( temp_output_91_0 )).rgb;
+				float Alpha = (( _UseBaseColorAlpha1 )?( temp_cast_3 ):( temp_output_91_0 )).r;
 				float AlphaClipThreshold = 0.5;
 
 				#ifdef _ALPHATEST_ON
@@ -1492,7 +1481,6 @@ Shader "ScanLine/ScanLine"
 			#pragma multi_compile_fog
 			#define ASE_FOG 1
 			#define _EMISSION
-			#define _NORMALMAP 1
 			#define ASE_SRP_VERSION 100500
 
 			
@@ -1507,7 +1495,8 @@ Shader "ScanLine/ScanLine"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/UnityInstancing.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			
-			
+			#define ASE_NEEDS_FRAG_WORLD_POSITION
+
 
 			#pragma shader_feature _ _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
 
@@ -1515,7 +1504,7 @@ Shader "ScanLine/ScanLine"
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
-				float4 ase_texcoord : TEXCOORD0;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1528,23 +1517,20 @@ Shader "ScanLine/ScanLine"
 				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
 				float4 shadowCoord : TEXCOORD1;
 				#endif
-				float4 ase_texcoord2 : TEXCOORD2;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _BaseColor;
-			float4 _MainTexture_ST;
-			float4 _NormalMap_ST;
-			float4 _LineColor;
-			float4 _TrajectoryColor;
-			float4 _EmissionTexture_ST;
-			float _ColorTextureLerp;
-			float _ScanSpeed;
-			float _LineRange;
-			float _minSmoothStep1;
-			float _OnEmission;
+			float4 _LineColor1;
+			float4 _TrajectoryColor1;
+			float4 _BaseColor1;
+			float _UseBaseColor1;
+			float _ScanSpeed1;
+			float _LineRange1;
+			float _minSmoothStep2;
+			float _UseBaseColorAlpha1;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
 			#endif
@@ -1565,8 +1551,7 @@ Shader "ScanLine/ScanLine"
 				float _TessMaxDisp;
 			#endif
 			CBUFFER_END
-			sampler2D _MainTexture;
-
+			
 
 			
 			VertexOutput VertexFunction( VertexInput v  )
@@ -1576,10 +1561,7 @@ Shader "ScanLine/ScanLine"
 				UNITY_TRANSFER_INSTANCE_ID( v, o );
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
-				o.ase_texcoord2.xy = v.ase_texcoord.xy;
 				
-				//setting value to unused interpolator channels and avoid initialization warnings
-				o.ase_texcoord2.zw = 0;
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
@@ -1618,8 +1600,7 @@ Shader "ScanLine/ScanLine"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
-				float4 ase_texcoord : TEXCOORD0;
-
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1636,7 +1617,7 @@ Shader "ScanLine/ScanLine"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
-				o.ase_texcoord = v.ase_texcoord;
+				
 				return o;
 			}
 
@@ -1675,7 +1656,7 @@ Shader "ScanLine/ScanLine"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1711,13 +1692,24 @@ Shader "ScanLine/ScanLine"
 					#endif
 				#endif
 
-				float2 uv_MainTexture = IN.ase_texcoord2.xy * _MainTexture_ST.xy + _MainTexture_ST.zw;
-				float4 tex2DNode51 = tex2D( _MainTexture, uv_MainTexture );
-				float4 lerpResult64 = lerp( _BaseColor , tex2DNode51 , _ColorTextureLerp);
+				float mulTime71 = _TimeParameters.x * _ScanSpeed1;
+				float temp_output_72_0 = ( mulTime71 + WorldPosition.z );
+				float ifLocalVar75 = 0;
+				if( _ScanSpeed1 <= 0.0 )
+				ifLocalVar75 = temp_output_72_0;
+				else
+				ifLocalVar75 = ( 1.0 - temp_output_72_0 );
+				float temp_output_77_0 = fmod( ifLocalVar75 , _LineRange1 );
+				float4 temp_cast_0 = (step( 0.0 , temp_output_77_0 )).xxxx;
+				float smoothstepResult87 = smoothstep( _minSmoothStep2 , 0.0 , temp_output_77_0);
+				float4 lerpResult90 = lerp( temp_cast_0 , _TrajectoryColor1 , smoothstepResult87);
+				float4 temp_output_91_0 = ( ( ( step( temp_output_77_0 , -0.1 ) * step( 0.0 , temp_output_77_0 ) ) * _LineColor1 ) + lerpResult90 );
+				
+				float4 temp_cast_2 = (_BaseColor1.a).xxxx;
 				
 				
-				float3 Albedo = ( lerpResult64 + float4( 0,0,0,0 ) ).rgb;
-				float Alpha = 1;
+				float3 Albedo = (( _UseBaseColor1 )?( ( _BaseColor1 + temp_output_91_0 ) ):( temp_output_91_0 )).rgb;
+				float Alpha = (( _UseBaseColorAlpha1 )?( temp_cast_2 ):( temp_output_91_0 )).r;
 				float AlphaClipThreshold = 0.5;
 
 				half4 color = half4( Albedo, Alpha );
@@ -1751,7 +1743,6 @@ Shader "ScanLine/ScanLine"
 			#pragma multi_compile_fog
 			#define ASE_FOG 1
 			#define _EMISSION
-			#define _NORMALMAP 1
 			#define ASE_SRP_VERSION 100500
 
 			
@@ -1765,7 +1756,8 @@ Shader "ScanLine/ScanLine"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 
-			
+			#define ASE_NEEDS_FRAG_WORLD_POSITION
+
 
 			struct VertexInput
 			{
@@ -1791,17 +1783,14 @@ Shader "ScanLine/ScanLine"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _BaseColor;
-			float4 _MainTexture_ST;
-			float4 _NormalMap_ST;
-			float4 _LineColor;
-			float4 _TrajectoryColor;
-			float4 _EmissionTexture_ST;
-			float _ColorTextureLerp;
-			float _ScanSpeed;
-			float _LineRange;
-			float _minSmoothStep1;
-			float _OnEmission;
+			float4 _LineColor1;
+			float4 _TrajectoryColor1;
+			float4 _BaseColor1;
+			float _UseBaseColor1;
+			float _ScanSpeed1;
+			float _LineRange1;
+			float _minSmoothStep2;
+			float _UseBaseColorAlpha1;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
 			#endif
@@ -1972,8 +1961,21 @@ Shader "ScanLine/ScanLine"
 					#endif
 				#endif
 
+				float mulTime71 = _TimeParameters.x * _ScanSpeed1;
+				float temp_output_72_0 = ( mulTime71 + WorldPosition.z );
+				float ifLocalVar75 = 0;
+				if( _ScanSpeed1 <= 0.0 )
+				ifLocalVar75 = temp_output_72_0;
+				else
+				ifLocalVar75 = ( 1.0 - temp_output_72_0 );
+				float temp_output_77_0 = fmod( ifLocalVar75 , _LineRange1 );
+				float4 temp_cast_0 = (step( 0.0 , temp_output_77_0 )).xxxx;
+				float smoothstepResult87 = smoothstep( _minSmoothStep2 , 0.0 , temp_output_77_0);
+				float4 lerpResult90 = lerp( temp_cast_0 , _TrajectoryColor1 , smoothstepResult87);
+				float4 temp_output_91_0 = ( ( ( step( temp_output_77_0 , -0.1 ) * step( 0.0 , temp_output_77_0 ) ) * _LineColor1 ) + lerpResult90 );
+				float4 temp_cast_1 = (_BaseColor1.a).xxxx;
 				
-				float Alpha = 1;
+				float Alpha = (( _UseBaseColorAlpha1 )?( temp_cast_1 ):( temp_output_91_0 )).r;
 				float AlphaClipThreshold = 0.5;
 				#ifdef ASE_DEPTH_WRITE_ON
 				float DepthValue = 0;
@@ -2018,7 +2020,6 @@ Shader "ScanLine/ScanLine"
 			#pragma multi_compile_fog
 			#define ASE_FOG 1
 			#define _EMISSION
-			#define _NORMALMAP 1
 			#define ASE_SRP_VERSION 100500
 
 			
@@ -2081,23 +2082,20 @@ Shader "ScanLine/ScanLine"
 				#if defined(ASE_NEEDS_FRAG_SCREEN_POSITION)
 				float4 screenPos : TEXCOORD6;
 				#endif
-				float4 ase_texcoord7 : TEXCOORD7;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _BaseColor;
-			float4 _MainTexture_ST;
-			float4 _NormalMap_ST;
-			float4 _LineColor;
-			float4 _TrajectoryColor;
-			float4 _EmissionTexture_ST;
-			float _ColorTextureLerp;
-			float _ScanSpeed;
-			float _LineRange;
-			float _minSmoothStep1;
-			float _OnEmission;
+			float4 _LineColor1;
+			float4 _TrajectoryColor1;
+			float4 _BaseColor1;
+			float _UseBaseColor1;
+			float _ScanSpeed1;
+			float _LineRange1;
+			float _minSmoothStep2;
+			float _UseBaseColorAlpha1;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
 			#endif
@@ -2118,11 +2116,7 @@ Shader "ScanLine/ScanLine"
 				float _TessMaxDisp;
 			#endif
 			CBUFFER_END
-			sampler2D _MainTexture;
-			sampler2D _NormalMap;
-			float Float1;
-			sampler2D _EmissionTexture;
-
+			
 
 			
 			VertexOutput VertexFunction( VertexInput v  )
@@ -2132,10 +2126,7 @@ Shader "ScanLine/ScanLine"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				o.ase_texcoord7.xy = v.texcoord.xy;
 				
-				//setting value to unused interpolator channels and avoid initialization warnings
-				o.ase_texcoord7.zw = 0;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
@@ -2320,33 +2311,29 @@ Shader "ScanLine/ScanLine"
 	
 				WorldViewDirection = SafeNormalize( WorldViewDirection );
 
-				float2 uv_MainTexture = IN.ase_texcoord7.xy * _MainTexture_ST.xy + _MainTexture_ST.zw;
-				float4 tex2DNode51 = tex2D( _MainTexture, uv_MainTexture );
-				float4 lerpResult64 = lerp( _BaseColor , tex2DNode51 , _ColorTextureLerp);
-				
-				float2 uv_NormalMap = IN.ase_texcoord7.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
-				
-				float mulTime9 = _TimeParameters.x * _ScanSpeed;
-				float temp_output_16_0 = ( mulTime9 + WorldPosition.z );
-				float ifLocalVar48 = 0;
-				if( _ScanSpeed <= 0.0 )
-				ifLocalVar48 = temp_output_16_0;
+				float mulTime71 = _TimeParameters.x * _ScanSpeed1;
+				float temp_output_72_0 = ( mulTime71 + WorldPosition.z );
+				float ifLocalVar75 = 0;
+				if( _ScanSpeed1 <= 0.0 )
+				ifLocalVar75 = temp_output_72_0;
 				else
-				ifLocalVar48 = ( 1.0 - temp_output_16_0 );
-				float temp_output_19_0 = fmod( ifLocalVar48 , _LineRange );
-				float4 temp_cast_1 = (step( 0.0 , temp_output_19_0 )).xxxx;
-				float smoothstepResult27 = smoothstep( _minSmoothStep1 , 0.0 , temp_output_19_0);
-				float4 lerpResult35 = lerp( temp_cast_1 , _TrajectoryColor , smoothstepResult27);
-				float2 uv_EmissionTexture = IN.ase_texcoord7.xy * _EmissionTexture_ST.xy + _EmissionTexture_ST.zw;
+				ifLocalVar75 = ( 1.0 - temp_output_72_0 );
+				float temp_output_77_0 = fmod( ifLocalVar75 , _LineRange1 );
+				float4 temp_cast_0 = (step( 0.0 , temp_output_77_0 )).xxxx;
+				float smoothstepResult87 = smoothstep( _minSmoothStep2 , 0.0 , temp_output_77_0);
+				float4 lerpResult90 = lerp( temp_cast_0 , _TrajectoryColor1 , smoothstepResult87);
+				float4 temp_output_91_0 = ( ( ( step( temp_output_77_0 , -0.1 ) * step( 0.0 , temp_output_77_0 ) ) * _LineColor1 ) + lerpResult90 );
 				
-				float3 Albedo = ( lerpResult64 + float4( 0,0,0,0 ) ).rgb;
-				float3 Normal = ( UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f ) * Float1 );
-				float3 Emission = ( ( ( float4( 0,0,0,0 ) * _LineColor ) + lerpResult35 ) + (( _OnEmission )?( tex2D( _EmissionTexture, uv_EmissionTexture ) ):( float4( 0,0,0,0 ) )) ).rgb;
+				float4 temp_cast_3 = (_BaseColor1.a).xxxx;
+				
+				float3 Albedo = (( _UseBaseColor1 )?( ( _BaseColor1 + temp_output_91_0 ) ):( temp_output_91_0 )).rgb;
+				float3 Normal = float3(0, 0, 1);
+				float3 Emission = (( _UseBaseColor1 )?( ( _BaseColor1 + temp_output_91_0 ) ):( temp_output_91_0 )).rgb;
 				float3 Specular = 0.5;
 				float Metallic = 0;
 				float Smoothness = 0.5;
 				float Occlusion = 1;
-				float Alpha = 1;
+				float Alpha = (( _UseBaseColorAlpha1 )?( temp_cast_3 ):( temp_output_91_0 )).r;
 				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
 				float3 BakedGI = 0;
@@ -2501,91 +2488,79 @@ Shader "ScanLine/ScanLine"
 }
 /*ASEBEGIN
 Version=18912
-219;455;1376;754;1574.284;184.5468;1.6;True;True
-Node;AmplifyShaderEditor.RangedFloatNode;12;-3356.08,187.8118;Inherit;False;Property;_ScanSpeed;ScanSpeed;9;0;Create;True;0;0;0;False;0;False;130;130;-400;400;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleTimeNode;9;-3003.65,119.0467;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.WorldPosInputsNode;13;-3002.446,320.6565;Inherit;True;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.SimpleAddOpNode;16;-2741.185,200.1029;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.OneMinusNode;50;-2467.243,453.474;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;49;-2289.745,68.41783;Inherit;False;Constant;_Float0;Float 0;9;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.ConditionalIfNode;48;-2326.529,220.7774;Inherit;False;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;20;-2090.717,338.6411;Inherit;False;Property;_LineRange;LineRange;10;0;Create;True;0;0;0;False;0;False;400;400;0;400;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;25;-1758.582,496.8358;Inherit;False;Constant;_step2;step2;9;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FmodOpNode;19;-1810.198,270.6242;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;28;-1780.842,634.5963;Inherit;False;Property;_minSmoothStep1;minSmoothStep1;8;0;Create;True;0;0;0;False;0;False;-15.13;-15.13;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;29;-1782.302,710.7254;Inherit;False;Constant;_maxSmoothStep1;maxSmoothStep1;7;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.ColorNode;11;-1253.035,453.0287;Inherit;False;Property;_LineColor;LineColor;6;0;Create;True;0;0;0;False;0;False;0.8117647,0.7840819,0.2196074,1;0.8117647,0.7840819,0.2196072,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.StepOpNode;26;-1459.084,571.5607;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SmoothstepOpNode;27;-1462.985,672.9609;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.ColorNode;32;-1133.507,929.308;Inherit;False;Property;_TrajectoryColor;TrajectoryColor;7;0;Create;True;0;0;0;False;0;False;0.764151,0.5244433,0.2198735,1;0.764151,0.5244433,0.2198734,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;30;-1063.475,312.6472;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SamplerNode;51;-1040.991,-32.3786;Inherit;True;Property;_MainTexture;MainTexture;1;0;Create;True;0;0;0;False;0;False;-1;None;75c8a126e6fa0874f9ecdcbffca06008;True;0;False;black;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;54;-965.1961,-208.2186;Inherit;False;Property;_BaseColor;BaseColor;0;0;Create;True;0;0;0;False;0;False;0,0,0,0;0,0,0,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;65;-954.7664,198.9597;Inherit;False;Property;_ColorTextureLerp;ColorTextureLerp;2;0;Create;True;0;0;0;False;0;False;0.5;1;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;66;-627.5985,687.1939;Inherit;True;Property;_EmissionTexture;EmissionTexture;5;0;Create;True;0;0;0;False;0;False;-1;None;75c8a126e6fa0874f9ecdcbffca06008;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.LerpOp;35;-1084.792,699.3168;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;63;-325.0448,-79.38766;Inherit;False;Global;Float1;Float 1;11;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;31;-808.2143,339.6418;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SamplerNode;56;-449.3832,-282.9018;Inherit;True;Property;_NormalMap;NormalMap;3;1;[Normal];Create;True;0;0;0;False;0;False;-1;None;None;True;0;True;bump;Auto;True;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ToggleSwitchNode;67;-652.0984,489.795;Inherit;False;Property;_OnEmission;OnEmission;4;0;Create;True;0;0;0;False;0;False;1;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.LerpOp;64;-579.1665,132.9596;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;62;-107.245,-82.38766;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;23;-1193.604,307.2206;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;53;-336.4151,161.7413;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;68;-240.6415,442.4171;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;61;-547.3073,-106.1801;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.StepOpNode;21;-1445.666,305.4142;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;22;-1771.765,384.3859;Inherit;False;Constant;_step1;step1;8;0;Create;True;0;0;0;False;0;False;-0.1;-0.1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.StepOpNode;24;-1449.434,456.0338;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+577;367;1376;742;741.9551;-89.52246;1;True;True
+Node;AmplifyShaderEditor.RangedFloatNode;69;-3246.858,359.571;Inherit;False;Property;_ScanSpeed1;ScanSpeed;3;0;Create;True;0;0;0;False;0;False;30;30;-400;400;0;1;FLOAT;0
+Node;AmplifyShaderEditor.WorldPosInputsNode;70;-3072.721,557.7156;Inherit;True;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.SimpleTimeNode;71;-3029.729,469.2058;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;72;-2836.161,474.862;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;74;-2774.729,374.377;Inherit;False;Constant;_Float1;Float 0;9;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.OneMinusNode;73;-2629.823,439.6332;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ConditionalIfNode;75;-2395.508,368.1364;Inherit;False;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;76;-2169.196,468.5002;Inherit;False;Property;_LineRange1;LineRange;5;0;Create;True;0;0;0;False;0;False;400;400;0;400;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;78;-1837.062,626.6947;Inherit;False;Constant;_step3;step2;7;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.FmodOpNode;77;-1888.678,400.4833;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;79;-1850.245,514.245;Inherit;False;Constant;_step2;step1;6;0;Create;True;0;0;0;False;0;False;-0.1;-0.1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.StepOpNode;80;-1527.913,585.8929;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;81;-1860.782,840.5844;Inherit;False;Constant;_maxSmoothStep2;maxSmoothStep1;5;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.StepOpNode;82;-1524.146,435.2733;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;83;-1859.322,764.4553;Inherit;False;Property;_minSmoothStep2;minSmoothStep1;4;0;Create;True;0;0;0;False;0;False;-15;-15;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SmoothstepOpNode;87;-1541.465,802.8199;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ColorNode;84;-1382.677,947.9743;Inherit;False;Property;_TrajectoryColor1;TrajectoryColor;2;0;Create;True;0;0;0;False;0;False;0.764151,0.5244433,0.2198735,1;0.764151,0.5244433,0.2198735,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;85;-1217.505,628.9937;Inherit;False;Property;_LineColor1;LineColor;1;0;Create;True;0;0;0;False;0;False;0.8117647,0.7840819,0.2196074,1;0.8117647,0.7840819,0.2196074,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.StepOpNode;86;-1537.564,701.4197;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;88;-1158.074,483.1856;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.LerpOp;90;-1049.261,875.282;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;89;-1027.945,488.6122;Inherit;False;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;91;-858.6837,458.3067;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ColorNode;92;-789.2662,144.2523;Inherit;False;Property;_BaseColor1;BaseColor;0;0;Create;True;0;0;0;False;0;False;0,0,0,0;0,0,0,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleAddOpNode;95;-713.6851,321.2062;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;93;-524.7208,418.2386;Inherit;False;Property;_UseBaseColorAlpha1;UseBaseColorAlpha;6;0;Create;True;0;0;0;False;0;False;0;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;94;-519.5314,296.3834;Inherit;False;Property;_UseBaseColor1;UseBaseColor;7;0;Create;True;0;0;0;False;0;False;0;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;7;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;GBuffer;0;7;GBuffer;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;1;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;1;LightMode=UniversalGBuffer;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;-80.6141,337.8448;Float;False;True;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;2;ScanLine/ScanLine;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;18;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;True;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;1;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;1;LightMode=UniversalForward;False;False;0;Hidden/InternalErrorShader;0;0;Standard;38;Workflow;1;Surface;0;  Refraction Model;0;  Blend;1;Two Sided;1;Fragment Normal Space,InvertActionOnDeselection;0;Transmission;0;  Transmission Shadow;0.5,False,-1;Translucency;0;  Translucency Strength;1,False,-1;  Normal Distortion;0.5,False,-1;  Scattering;2,False,-1;  Direct;0.9,False,-1;  Ambient;0.1,False,-1;  Shadow;0.5,False,-1;Cast Shadows;1;  Use Shadow Threshold;0;Receive Shadows;1;GPU Instancing;1;LOD CrossFade;1;Built-in Fog;1;_FinalColorxAlpha;0;Meta Pass;1;Override Baked GI;0;Extra Pre Pass;0;DOTS Instancing;0;Tessellation;0;  Phong;0;  Strength;0.5,False,-1;  Type;0;  Tess;16,False,-1;  Min;10,False,-1;  Max;25,False,-1;  Edge Length;16,False,-1;  Max Displacement;25,False,-1;Write Depth;0;  Early Z;0;Vertex Position,InvertActionOnDeselection;1;0;8;False;True;True;True;True;True;True;True;False;;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;4;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Meta;0;4;Meta;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;5;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Universal2D;0;5;Universal2D;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;1;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;1;LightMode=Universal2D;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;3;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;False;False;True;False;False;False;False;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;False;False;True;1;LightMode=DepthOnly;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;False;True;1;LightMode=ShadowCaster;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;0;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;False;True;1;LightMode=ShadowCaster;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;3;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;False;False;True;False;False;False;False;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;False;False;True;1;LightMode=DepthOnly;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;5;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Universal2D;0;5;Universal2D;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;1;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;1;LightMode=Universal2D;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;4;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Meta;0;4;Meta;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;6;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthNormals;0;6;DepthNormals;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;False;True;1;LightMode=DepthNormals;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-WireConnection;9;0;12;0
-WireConnection;16;0;9;0
-WireConnection;16;1;13;3
-WireConnection;50;0;16;0
-WireConnection;48;0;12;0
-WireConnection;48;1;49;0
-WireConnection;48;2;50;0
-WireConnection;48;3;16;0
-WireConnection;48;4;16;0
-WireConnection;19;0;48;0
-WireConnection;19;1;20;0
-WireConnection;26;0;25;0
-WireConnection;26;1;19;0
-WireConnection;27;0;19;0
-WireConnection;27;1;28;0
-WireConnection;27;2;29;0
-WireConnection;30;1;11;0
-WireConnection;35;0;26;0
-WireConnection;35;1;32;0
-WireConnection;35;2;27;0
-WireConnection;31;0;30;0
-WireConnection;31;1;35;0
-WireConnection;67;1;66;0
-WireConnection;64;0;54;0
-WireConnection;64;1;51;0
-WireConnection;64;2;65;0
-WireConnection;62;0;56;0
-WireConnection;62;1;63;0
-WireConnection;23;0;21;0
-WireConnection;23;1;24;0
-WireConnection;53;0;64;0
-WireConnection;68;0;31;0
-WireConnection;68;1;67;0
-WireConnection;61;0;54;0
-WireConnection;61;1;51;0
-WireConnection;21;0;19;0
-WireConnection;21;1;22;0
-WireConnection;24;0;25;0
-WireConnection;24;1;19;0
-WireConnection;1;0;53;0
-WireConnection;1;1;62;0
-WireConnection;1;2;68;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;-194.9368,271.1934;Float;False;True;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;2;ScanLine/ScanLine;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;18;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;True;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;1;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;1;LightMode=UniversalForward;False;False;0;Hidden/InternalErrorShader;0;0;Standard;38;Workflow;1;Surface;0;  Refraction Model;0;  Blend;1;Two Sided;1;Fragment Normal Space,InvertActionOnDeselection;0;Transmission;0;  Transmission Shadow;0.5,False,-1;Translucency;0;  Translucency Strength;1,False,-1;  Normal Distortion;0.5,False,-1;  Scattering;2,False,-1;  Direct;0.9,False,-1;  Ambient;0.1,False,-1;  Shadow;0.5,False,-1;Cast Shadows;1;  Use Shadow Threshold;0;Receive Shadows;1;GPU Instancing;1;LOD CrossFade;1;Built-in Fog;1;_FinalColorxAlpha;0;Meta Pass;1;Override Baked GI;0;Extra Pre Pass;0;DOTS Instancing;0;Tessellation;0;  Phong;0;  Strength;0.5,False,-1;  Type;0;  Tess;16,False,-1;  Min;10,False,-1;  Max;25,False,-1;  Edge Length;16,False,-1;  Max Displacement;25,False,-1;Write Depth;0;  Early Z;0;Vertex Position,InvertActionOnDeselection;1;0;8;False;True;True;True;True;True;True;True;False;;False;0
+WireConnection;71;0;69;0
+WireConnection;72;0;71;0
+WireConnection;72;1;70;3
+WireConnection;73;0;72;0
+WireConnection;75;0;69;0
+WireConnection;75;1;74;0
+WireConnection;75;2;73;0
+WireConnection;75;3;72;0
+WireConnection;75;4;72;0
+WireConnection;77;0;75;0
+WireConnection;77;1;76;0
+WireConnection;80;0;78;0
+WireConnection;80;1;77;0
+WireConnection;82;0;77;0
+WireConnection;82;1;79;0
+WireConnection;87;0;77;0
+WireConnection;87;1;83;0
+WireConnection;87;2;81;0
+WireConnection;86;0;78;0
+WireConnection;86;1;77;0
+WireConnection;88;0;82;0
+WireConnection;88;1;80;0
+WireConnection;90;0;86;0
+WireConnection;90;1;84;0
+WireConnection;90;2;87;0
+WireConnection;89;0;88;0
+WireConnection;89;1;85;0
+WireConnection;91;0;89;0
+WireConnection;91;1;90;0
+WireConnection;95;0;92;0
+WireConnection;95;1;91;0
+WireConnection;93;0;91;0
+WireConnection;93;1;92;4
+WireConnection;94;0;91;0
+WireConnection;94;1;95;0
+WireConnection;1;0;94;0
+WireConnection;1;2;94;0
+WireConnection;1;6;93;0
 ASEEND*/
-//CHKSM=70FF32F66E0D9F20CE00EE9BDC570004EEC8F73C
+//CHKSM=43F1ECCE3BD4E774F3B1450AC5C4FF541239425C
