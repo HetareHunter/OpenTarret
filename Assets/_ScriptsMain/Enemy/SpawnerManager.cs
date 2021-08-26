@@ -31,7 +31,7 @@ public class SpawnerManager : MonoBehaviour,ISpawnable
     {
         foreach (Transform item in transform)
         {
-            spawners.Add(item.gameObject);
+            spawners.Add(item.gameObject); //子オブジェクトの全てをスポナーの位置とする
         }
 
         JudgeEnemyNum();
