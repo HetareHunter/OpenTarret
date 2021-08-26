@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 using MenuUI;
+using Tarret;
 
 public enum GameState
 {
@@ -21,10 +22,12 @@ namespace Manager
         [Inject]
         ISpawnable spawner;
         [SerializeField] GameObject gameStartUI;
+        [SerializeField] GameObject tarret;
         GameObject SceneMovePanel;
         MenuButtonSelecter MenuButtonSelecter;
         GameStartManager gameStart;
         GameTimer gameTimer;
+        BaseTarretAttackManager baseTarretAttackManager;
 
         private void Start()
         {
@@ -37,6 +40,8 @@ namespace Manager
             MenuButtonSelecter = SceneMovePanel.GetComponent<MenuButtonSelecter>();
 
             ChangeGameState(GameState.Idle);
+
+            baseTarretAttackManager = tarret.GetComponent<BaseTarretAttackManager>();
         }
 
         public void ChangeGameState(GameState next)
@@ -62,12 +67,16 @@ namespace Manager
                 case GameState.Start:
                     ScoreManager.Instance.ResetScore();
                     MenuButtonSelecter.AllChangeInteractive(false);
+                    spawner.SpawnStart();
+
+                    baseTarretAttackManager.IsAttackable(false);
                     break;
                 case GameState.Play:
-                    spawner.SpawnStart();
                     gameTimer.CountStart();
                     MenuButtonSelecter.AllChangeInteractive(true);
                     MenuButtonSelecter.GamePlayInteractive(true);
+
+                    baseTarretAttackManager.IsAttackable(true);
                     break;
                 case GameState.End:
                     spawner.SpawnEnd();
@@ -110,7 +119,8 @@ namespace Manager
                     case GameState.None:
                         break;
                     case GameState.Idle:
-                        ChangeGameState(GameState.Start);
+                        //ChangeGameState(GameState.Start);
+                        gameStart.GameStart();
                         break;
                     case GameState.Start:
                         ChangeGameState(GameState.Play);

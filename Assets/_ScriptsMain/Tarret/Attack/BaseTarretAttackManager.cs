@@ -150,7 +150,7 @@ namespace Tarret
             razerEffecter.ShockWaveManager();
             KillEnemyFromRazer();
 
-            attackable = false;
+            IsAttackable(false);
             attackInterval.countStart = true;
         }
 
@@ -158,7 +158,16 @@ namespace Tarret
         public void EndAttack()
         {
             EffectFadeTask();
-            attackable = true;
+            IsAttackable(true);
+        }
+
+        /// <summary>
+        /// タレットの攻撃ができる状態にするかできない状態にするかの関数
+        /// </summary>
+        /// <param name="onAttack"></param>
+        public void IsAttackable(bool onAttack)
+        {
+            attackable = onAttack;
         }
 
 

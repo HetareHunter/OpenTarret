@@ -14,6 +14,8 @@ namespace Manager
     public class GameStartManager : MonoBehaviour
     {
         GameObject gameManager;
+        [SerializeField] GameObject spawnerMmanager;
+        IAppearable appearable;
         IGameStateChangable gameStateChangeable;
         bool onLeftHand = false;
         bool onRightHand = false;
@@ -61,6 +63,7 @@ namespace Manager
             gameManager = GameObject.Find("GameManager");
             gameStateChangeable = gameManager.GetComponent<IGameStateChangable>();
             boxCollider = GetComponent<BoxCollider>();
+            appearable = spawnerMmanager.GetComponent<IAppearable>();
         }
 
         private void Update()
@@ -72,7 +75,7 @@ namespace Manager
                 ToStartCount();
             }
 
-            if (onStart)
+            if (onStart && appearable.FinishAppear)
             {
                 ToPlayCount();
             }
@@ -124,6 +127,7 @@ namespace Manager
 
         /// <summary>
         /// タッチパネルに触れてからゲーム開始確定までの時間をカウントする
+        /// GameStateの Idle->Start の段階
         /// </summary>
         void ToStartCount()
         {
@@ -135,6 +139,9 @@ namespace Manager
             }
         }
 
+        /// <summary>
+        /// GameStateの Start->Play の段階
+        /// </summary>
         void ToPlayCount()
         {
             toPlayTime -= Time.deltaTime;
@@ -235,6 +242,7 @@ namespace Manager
             onStart = true;
             colorManager.ToChangeColor();
             ChangeAnim();
+            appearable.StartSpawn();
         }
 
         public void GameEnd()

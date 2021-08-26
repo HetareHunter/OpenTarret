@@ -1984,6 +1984,11 @@ PrefabInstance:
       objectReference: {fileID: 1129260309}
     - target: {fileID: 3516343273388241592, guid: 886b807aa377d604d8ed24bba82517da,
         type: 3}
+      propertyPath: spawnerMmanager
+      value: 
+      objectReference: {fileID: 583106766}
+    - target: {fileID: 3516343273388241592, guid: 886b807aa377d604d8ed24bba82517da,
+        type: 3}
       propertyPath: countText.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -3237,7 +3242,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startAppearPosi: {x: 0, y: 0, z: 0}
-  endAppearPosi: {x: 0, y: 40, z: 0}
+  endAppearPosi: {x: 0, y: 20, z: 0}
   scanWallSpeed: 2
   SpawnMTs:
   - {fileID: 2100000, guid: 3f84b96b7164906459149e241142983a, type: 2}
@@ -5381,6 +5386,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameState: 0
   gameStartUI: {fileID: 1024909124}
+  tarret: {fileID: 449676436726112946}
 --- !u!114 &1129260312
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -2,7 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScanAppear : MonoBehaviour
+/// <summary>
+/// オブジェクトの出現が終わっているかどうか
+/// 基本的にEnemySpawnShaderを使っているマテリアルによって可視化され、
+/// 全部見えるようになった状態を想定している
+/// </summary>
+public interface IAppearable
+{
+    public bool FinishAppear { get; set; }
+    public void StartSpawn();
+}
+
+/// <summary>
+/// EnemySpawnShaderを使っているマテリアルがアタッチされているオブジェクトを可視化するクラス
+/// </summary>
+public class ScanAppear : MonoBehaviour, IAppearable
 {
     Vector3 appearLinePosi;
     [SerializeField] Vector3 startAppearPosi;
@@ -12,10 +26,13 @@ public class ScanAppear : MonoBehaviour
     [SerializeField] Material[] SpawnMTs;
     public bool playScan = false;
 
+    public bool FinishAppear { get; set; }
+
     // Start is called before the first frame update
     void Start()
     {
         appearLinePosi = startAppearPosi;
+        FinishAppear = false;
     }
 
     // Update is called once per frame
@@ -58,12 +75,14 @@ public class ScanAppear : MonoBehaviour
     public void StartSpawn()
     {
         playScan = true;
+        FinishAppear = false;
         GetStartAppearLinePosi();
     }
 
     void FinishScan()
     {
         playScan = false;
+        FinishAppear = true;
     }
 
     /// <summary>
