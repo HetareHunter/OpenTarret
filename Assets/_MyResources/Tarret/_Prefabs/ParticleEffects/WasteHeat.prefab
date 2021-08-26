@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8581692388937943733}
   - component: {fileID: 9135687248729574882}
   - component: {fileID: 4921288146010506987}
-  - component: {fileID: 1601073658}
   m_Layer: 14
   m_Name: WasteHeat
   m_TagString: Untagged
@@ -4820,19 +4819,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &1601073658
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7856704607539118370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eae1c95f44a69b94daed6f8baafcb6d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tarretAttackData: {fileID: 11400000, guid: b32e40e76f528d94db97700dc4fd3dbd, type: 2}
 --- !u!1001 &1245717347400647111
 PrefabInstance:
   m_ObjectHideFlags: 0
