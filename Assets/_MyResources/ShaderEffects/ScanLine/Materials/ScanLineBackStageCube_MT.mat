@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ScanLineBackStageCube_MT
-  m_Shader: {fileID: 4800000, guid: a02fc3342a6168f4fa8608ec34c9babc, type: 3}
+  m_Shader: {fileID: 4800000, guid: 472997475aa20d348b2877ea2fd65b34, type: 3}
   m_ShaderKeywords: _GLOSSYREFLECTIONS_OFF _USEBASECOLORALPHA_ON _USEBASECOLOR_ON
     _USECOLOR_ON
   m_LightmapFlags: 4
@@ -146,7 +146,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _LineRange: 400
+    - _LineRange: 450
     - _LineRange1: 400
     - _LineSize1: 10
     - _Metallic: 0
@@ -159,7 +159,8 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _ScanLinePosi: 0
-    - _ScanSpeed: 30
+    - _ScanPosi: 606
+    - _ScanSpeed: 200
     - _ScanSpeed1: 30
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
@@ -176,9 +177,9 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     - _behindLine: -10
-    - _behindStrongLine: -7.5
+    - _behindStrongLine: -5
     - _forwardLine: 10
-    - _forwardStrongLine: 7.5
+    - _forwardStrongLine: 5
     - _maxSmoothStep1: 0
     - _maxSmoothStep2: 0
     - _minSmoothStep1: 10
@@ -196,7 +197,7 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _LineColor: {r: 0.8117647, g: 0.7840819, b: 0.21960741, a: 1}
     - _LineColor1: {r: 0.8117647, g: 0.7840819, b: 0.21960735, a: 1}
-    - _LineStrongColor: {r: 0.8679245, g: 0.8491356, b: 0.46262014, a: 1}
+    - _LineStrongColor: {r: 0.6886792, g: 0.6759376, b: 0.36058205, a: 1}
     - _ScanColor: {r: 1, g: 0.80136985, b: 0, a: 0}
     - _ScanLinePosi: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}

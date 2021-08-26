@@ -141,7 +141,8 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _LineRange: 400
+    - _LineRange: 450
+    - _LineRange1: 400
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -152,7 +153,10 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _ScanLinePosi: 0
+    - _ScanPosi: 606
+    - _ScanPosi2: 200
     - _ScanSpeed: 30
+    - _ScanSpeed1: 30
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -161,10 +165,16 @@ Material:
     - _ToggleSwitch0: 0
     - _UVSec: 0
     - _UseBaseColor: 0
+    - _UseBaseColor1: 0
     - _UseBaseColorAlpha: 0
+    - _UseBaseColorAlpha1: 0
     - _UseColor: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
+    - _behindLine1: -10
+    - _behindStrongLine1: -5
+    - _forwardLine1: 10
+    - _forwardStrongLine1: 5
     - _maxSmoothStep1: 0
     - _maxSmoothStep2: 0
     - _minSmoothStep1: -15
@@ -177,11 +187,14 @@ Material:
     - Direction: {r: 0, g: 0, b: 1, a: 0}
     - Vector3_1AD6E1F7: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 0, g: 0, b: 0, a: 1}
+    - _BaseColor1: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _LineColor: {r: 0.8117647, g: 0.7840819, b: 0.21960741, a: 1}
+    - _LineStrongColor1: {r: 0.6886792, g: 0.6759376, b: 0.36058202, a: 1}
     - _ScanColor: {r: 1, g: 0.80136985, b: 0, a: 0}
     - _ScanLinePosi: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _TrajectoryColor: {r: 0.764151, g: 0.52444327, b: 0.21987352, a: 1}
+    - _TrajectoryColor1: {r: 0.764151, g: 0.52444327, b: 0.21987346, a: 1}
   m_BuildTextureStacks: []

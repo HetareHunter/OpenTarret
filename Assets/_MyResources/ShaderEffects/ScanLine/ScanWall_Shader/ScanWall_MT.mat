@@ -26,7 +26,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3001
   stringTagMap: {}
   disabledShaderPasses:
   - SHADOWCASTER
@@ -116,7 +116,9 @@ Material:
     - _GlossyReflections: 0
     - _LineRange1: 400
     - _Metallic: 0
-    - _Noise: 0.506
+    - _Noise: 0.33
+    - _NoiseDensity: 0.262
+    - _NoiseScale: 0.294
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
@@ -134,8 +136,8 @@ Material:
     - _UseBaseColorAlpha1: 0
     - _WorkflowMode: 1
     - _ZWrite: 0
-    - _timeAdd: 0.7673972
-    - _timeMul: 0.1791619
+    - _timeAdd: 0.2
+    - _timeMul: 0.2
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColor1: {r: 0, g: 0, b: 0, a: 0}
