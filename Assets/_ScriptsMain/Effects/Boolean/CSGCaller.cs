@@ -1,0 +1,138 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Parabox.CSG;
+
+public class CSGCaller : MonoBehaviour
+{
+    public GameObject subtractedObj;
+    public GameObject subtractObj;
+
+    public Material subtract_MT;
+
+    enum BoolOp
+    {
+        Union,
+        SubtractLR,
+        SubtractRL,
+        Intersect
+    };
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        SubtractionLR();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    public void Union()
+    {
+        DoBooleanOperation(BoolOp.Union);
+    }
+
+    public void SubtractionLR()
+    {
+        DoBooleanOperation(BoolOp.SubtractLR);
+    }
+
+    public void SubtractionRL()
+    {
+        DoBooleanOperation(BoolOp.SubtractRL);
+    }
+
+    public void Intersection()
+    {
+        DoBooleanOperation(BoolOp.Intersect);
+    }
+
+    void DoBooleanOperation(BoolOp operation)
+    {
+        CSG_Model result;
+
+        /**
+         * All boolean operations accept two gameobjects and return a new mesh.
+         * Order matters - left, right vs. right, left will yield different
+         * results in some cases.
+         */
+        switch (operation)
+        {
+            case BoolOp.Union:
+                result = Boolean.Union(subtractedObj, subtractObj);
+                break;
+
+            case BoolOp.SubtractLR:
+                result = Boolean.Subtract(subtractedObj, subtractObj);
+                break;
+
+            case BoolOp.SubtractRL:
+                result = Boolean.Subtract(subtractObj, subtractedObj);
+                break;
+
+            default:
+                result = Boolean.Intersect(subtractObj, subtractedObj);
+                break;
+        }
+
+        //composite = new GameObject();
+        subtractedObj.GetComponent<MeshFilter>().sharedMesh = result.mesh;
+        subtractedObj.GetComponent<MeshRenderer>().sharedMaterials = result.materials.ToArray();
+
+        //GenerateBarycentric(subtractedObj);
+
+        //Destroy(left);
+        //Destroy(right);
+    }
+
+    /**
+		 * Rebuild mesh with individual triangles, adding barycentric coordinates
+		 * in the colors channel.  Not the most ideal wireframe implementation,
+		 * but it works and didn't take an inordinate amount of time :)
+		 * barycentricとは"重心の"という意味
+		 */
+    void GenerateBarycentric(GameObject go)
+    {
+        Mesh m = go.GetComponent<MeshFilter>().sharedMesh;//goのmeshデータを読み込み、mに代入している
+
+        if (m == null) return;
+
+        int[] tris = m.triangles;
+        int triangleCount = tris.Length;//各三角形の頂点の個数
+
+        Vector3[] mesh_vertices = m.vertices;
+        Vector3[] mesh_normals = m.normals;
+        Vector2[] mesh_uv = m.uv;
+
+        Vector3[] vertices = new Vector3[triangleCount];
+        Vector3[] normals = new Vector3[triangleCount];
+        Vector2[] uv = new Vector2[triangleCount];
+        Color[] colors = new Color[triangleCount];
+
+        for (int i = 0; i < triangleCount; i++)
+        {
+            vertices[i] = mesh_vertices[tris[i]];//一つ一つの三角形の頂点配列の順番にmeshの頂点番号を書き換えている。memo参照"Assets/pb_CSG-master/CSG/Classes/StudyMemo/Demo_cs_GenerateBarycentric_for.jpg"
+            normals[i] = mesh_normals[tris[i]];
+            uv[i] = mesh_uv[tris[i]];
+
+            colors[i] = i % 3 == 0 ? new Color(1, 0, 0, 0) : (i % 3) == 1 ? new Color(0, 1, 0, 0) : new Color(0, 0, 1, 0);
+
+            tris[i] = i;//三角形の頂点も、上で書き換えた頂点番号に対応するように変更している
+        }
+
+        Mesh wireframeMesh = new Mesh();
+
+        wireframeMesh.Clear();
+        wireframeMesh.vertices = vertices;
+        wireframeMesh.triangles = tris;
+        wireframeMesh.normals = normals;
+        wireframeMesh.colors = colors;
+        wireframeMesh.uv = uv;
+
+        go.GetComponent<MeshFilter>().sharedMesh = wireframeMesh;
+    }
+}
