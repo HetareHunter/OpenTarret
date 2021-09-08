@@ -64,6 +64,7 @@ namespace Manager
             gameStateChangeable = gameManager.GetComponent<IGameStateChangable>();
             boxCollider = GetComponent<BoxCollider>();
             appearable = spawnerMmanager.GetComponent<IAppearable>();
+            //TryGetComponent(out appearable);
         }
 
         private void Update()

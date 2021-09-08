@@ -10,7 +10,7 @@ using Parabox.CSG;
 /// </summary>
 public class CSGCaller : MonoBehaviour
 {
-    public GameObject subtract;
+    public GameObject subtracter;
     [HideInInspector] public GameObject composite;
 
     enum BoolOp
@@ -66,19 +66,19 @@ public class CSGCaller : MonoBehaviour
         switch (operation)
         {
             case BoolOp.Union:
-                result = Boolean.Union(gameObject, subtract);
+                result = Boolean.Union(gameObject, subtracter);
                 break;
 
             case BoolOp.SubtractLR:
-                result = Boolean.Subtract(gameObject, subtract);
+                result = Boolean.Subtract(gameObject, subtracter);
                 break;
 
             case BoolOp.SubtractRL:
-                result = Boolean.Subtract(subtract, gameObject);
+                result = Boolean.Subtract(subtracter, gameObject);
                 break;
 
             default:
-                result = Boolean.Intersect(subtract, gameObject);
+                result = Boolean.Intersect(subtracter, gameObject);
                 break;
         }
 

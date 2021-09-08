@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
+[RequireComponent(typeof(AttackRaycastManager))]
 public class RazerEffecter : MonoBehaviour
 {
     [SerializeField] TarretAttackData tarretAttackData;
@@ -15,7 +16,10 @@ public class RazerEffecter : MonoBehaviour
     AttackRaycastManager attackRaycastManager;
     Vector3[] razerPosition;
 
-
+    private void Reset()
+    {
+        TryGetComponent(out attackRaycastManager);
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -34,7 +38,7 @@ public class RazerEffecter : MonoBehaviour
         m_razerEffect.SetActive(true);
         razerLineObj.SetActive(true);
 
-        razerPosition[0] = attackRaycastManager.muzzle.transform.position;
+        razerPosition[0] = transform.position;
         razerPosition[1] = attackRaycastManager.FinishHitPosition();
         razerLineRenderer.SetPositions(razerPosition);
         razerLineRenderer.startWidth = tarretAttackData.razerWidth;

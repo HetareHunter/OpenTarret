@@ -14,21 +14,29 @@ public class AttackRaycastManager : MonoBehaviour
     List<RaycastHit> m_hitsEnemy;
     BaseTarretAttackManager BaseTarretAttacker;
     GuardCubeDamager GuardCubeDamager;
-    public GameObject muzzle;
+    ExplosionForce explosionForce;
+    //public GameObject muzzle;
     float muzzleRadius;
     [Header("当たるとレーザーがそのオブジェクトを貫通しないレイヤー")]
     public LayerMask noPenetrationLayer;
     public int PeneLayerMaskNum;
+    [SerializeField] GameObject tarret;
+
+    /// <summary>爆発のエフェクト </summary>
+    [SerializeField] GameObject[] m_hitExplodeEffects;
+
+    int hitExplodeIndex = 0;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        BaseTarretAttacker = GetComponent<BaseTarretAttackManager>();
+        BaseTarretAttacker = tarret.GetComponent<BaseTarretAttackManager>();
 
         //　弾の半径を取得
-        muzzleRadius = muzzle.GetComponent<SphereCollider>().radius;
+        muzzleRadius = GetComponent<SphereCollider>().radius;
         m_hitsEnemy = new List<RaycastHit>();
+        explosionForce = GetComponent<ExplosionForce>();
 
         //PeneLayerMaskNum = LayerMask.NameToLayer(noPenetrationLayer.ToString());
         int maskNum = noPenetrationLayer;
@@ -57,7 +65,7 @@ public class AttackRaycastManager : MonoBehaviour
     {
         m_hitsEnemy.Clear();
         //　飛ばす位置と飛ばす方向を設定
-        Ray ray = new Ray(muzzle.transform.position, muzzle.transform.forward);
+        Ray ray = new Ray(transform.position, transform.forward);
 
         //　Sphereの形でレイを飛ばしEnemy、GameManagerレイヤーのオブジェクトをm_hitsEnemyに入れる
         //RaycastAll系は取得したオブジェクトを一番遠いものから順に配列に格納していくので、0に近い要素数程遠いものになる
@@ -90,10 +98,7 @@ public class AttackRaycastManager : MonoBehaviour
                 return m_hitsEnemy[i].point;
             }
         }
-        //foreach (var item in m_hitsEnemy)
-        //{
 
-        //}
         return defaultRazerFinishPosition.transform.position;
     }
 
@@ -102,5 +107,31 @@ public class AttackRaycastManager : MonoBehaviour
         return m_hitsEnemy;
     }
 
+    /// <summary>
+    /// 攻撃したときの具体的な処理、現在タグで区別している
+    /// </summary>
+    public void KillEnemyFromRazer()
+    {
+        var hits = SetRaycastHit();
+        foreach (var hit in hits)
+        {
+            //爆発したときの力となるオブジェクトの生成
+            explosionForce.ActiveExplosionForce(hit.point);
+            //爆発エフェクトの再生
+            m_hitExplodeEffects[hitExplodeIndex].transform.position = hit.point;
+            m_hitExplodeEffects[hitExplodeIndex].SetActive(true);
+            hitExplodeIndex++;
+            if (hit.collider.gameObject.layer != PeneLayerMaskNum)
+            {
+                IEnemyDeath enemyDeath = hit.collider.gameObject.GetComponent<IEnemyDeath>();
+                enemyDeath.OnDead();
+            }
 
+
+            if (hitExplodeIndex >= m_hitExplodeEffects.Length)
+            {
+                hitExplodeIndex = 0;
+            }
+        }
+    }
 }

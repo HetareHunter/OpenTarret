@@ -29,12 +29,12 @@ namespace Tarret
 
         //------------------ここから撃った時のエフェクト関連の変数-------------------
         /// <summary>爆発のエフェクト </summary>
-        [SerializeField] GameObject[] m_hitExplodeEffects;
+        //[SerializeField] GameObject[] m_hitExplodeEffects;
 
-        int hitExplodeIndex = 0;
-        /// <summary>衝撃の物理的な力 </summary>
-        [SerializeField] GameObject[] explodeForces;
-        int explodeForceIndex = 0;
+        //int hitExplodeIndex = 0;
+        ///// <summary>衝撃の物理的な力 </summary>
+        //[SerializeField] GameObject[] explodeForces;
+        //int explodeForceIndex = 0;
 
         //-----------------エフェクト関連ここまで---------------------
 
@@ -57,9 +57,9 @@ namespace Tarret
             magazineRotate = magazine.GetComponent<MagazineRotate>();
             sightChanger = sight.GetComponent<SightChanger>();
             attackInterval = GetComponent<AttackIntervalCounter>();
-            razerAttacker = GetComponent<RazerEffecter>();
+            razerAttacker = muzzle.GetComponent<RazerEffecter>();
             razerEffecter = GetComponent<AttackEffecter>();
-            attackRayManager = GetComponent<AttackRaycastManager>();
+            attackRayManager = muzzle.GetComponent<AttackRaycastManager>();
         }
 
         public void ScreenChangeColor(List<RaycastHit> raycastHit)
@@ -89,48 +89,48 @@ namespace Tarret
         /// <summary>
         /// 攻撃したときの具体的な処理、現在タグで区別している
         /// </summary>
-        void KillEnemyFromRazer()
-        {
-            var hits = attackRayManager.SetRaycastHit();
-            foreach (var hit in hits)
-            {
-                //爆発したときの力となるオブジェクトの生成
-                ExplosionForce(hit.point);
-                //爆発エフェクトの再生
-                m_hitExplodeEffects[hitExplodeIndex].transform.position = hit.point;
-                m_hitExplodeEffects[hitExplodeIndex].SetActive(true);
-                hitExplodeIndex++;
-                if (hit.collider.gameObject.layer != attackRayManager.PeneLayerMaskNum)
-                {
-                    IEnemyDeath enemyDeath = hit.collider.gameObject.GetComponent<IEnemyDeath>();
-                    enemyDeath.OnDead();
-                }
-                
+        //void KillEnemyFromRazer()
+        //{
+        //    var hits = attackRayManager.SetRaycastHit();
+        //    foreach (var hit in hits)
+        //    {
+        //        //爆発したときの力となるオブジェクトの生成
+        //        ExplosionForce(hit.point);
+        //        //爆発エフェクトの再生
+        //        m_hitExplodeEffects[hitExplodeIndex].transform.position = hit.point;
+        //        m_hitExplodeEffects[hitExplodeIndex].SetActive(true);
+        //        hitExplodeIndex++;
+        //        if (hit.collider.gameObject.layer != attackRayManager.PeneLayerMaskNum)
+        //        {
+        //            IEnemyDeath enemyDeath = hit.collider.gameObject.GetComponent<IEnemyDeath>();
+        //            enemyDeath.OnDead();
+        //        }
 
-                if (hitExplodeIndex >= m_hitExplodeEffects.Length)
-                {
-                    hitExplodeIndex = 0;
-                }
-            }
-        }
+
+        //        if (hitExplodeIndex >= m_hitExplodeEffects.Length)
+        //        {
+        //            hitExplodeIndex = 0;
+        //        }
+        //    }
+        //}
 
 
         /// <summary>
         /// 攻撃が当たった時の吹き飛ばす力。オブジェクトを物理的に高速でぶつけている
         /// </summary>
         /// <param name="hitPosi"></param>
-        void ExplosionForce(Vector3 hitPosi)
-        {
-            explodeForces[explodeForceIndex].transform.position = hitPosi;
-            explodeForces[explodeForceIndex].transform.rotation = muzzle.transform.rotation;
-            explodeForces[explodeForceIndex].SetActive(true);
+        //void ExplosionForce(Vector3 hitPosi)
+        //{
+        //    explodeForces[explodeForceIndex].transform.position = hitPosi;
+        //    explodeForces[explodeForceIndex].transform.rotation = muzzle.transform.rotation;
+        //    explodeForces[explodeForceIndex].SetActive(true);
 
-            explodeForceIndex++;
-            if (explodeForceIndex >= explodeForces.Length)
-            {
-                explodeForceIndex = 0;
-            }
-        }
+        //    explodeForceIndex++;
+        //    if (explodeForceIndex >= explodeForces.Length)
+        //    {
+        //        explodeForceIndex = 0;
+        //    }
+        //}
 
         void EffectFadeTask()
         {
@@ -148,7 +148,7 @@ namespace Tarret
             razerAttacker.InstanceFireEffect();
             razerEffecter.InstanceWasteHeatEffect();
             razerEffecter.ShockWaveManager();
-            KillEnemyFromRazer();
+            attackRayManager.KillEnemyFromRazer();
 
             IsAttackable(false);
             attackInterval.countStart = true;
