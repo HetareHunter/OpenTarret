@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Parabox.CSG;
 
+/// <summary>
+/// 現状Booleanモデリングの引く処理のみ利用している。
+/// このスクリプトをアタッチしたオブジェクトが引かれる側のオブジェクトとなる
+/// 引かれた部分のマテリアルは引いたオブジェクトのマテリアルが適用される
+/// </summary>
 public class CSGCaller : MonoBehaviour
 {
-    public GameObject subtractedObj;
-    public GameObject subtractObj;
-
-    public Material subtract_MT;
+    public GameObject subtract;
+    [HideInInspector] public GameObject composite;
 
     enum BoolOp
     {
@@ -63,30 +66,29 @@ public class CSGCaller : MonoBehaviour
         switch (operation)
         {
             case BoolOp.Union:
-                result = Boolean.Union(subtractedObj, subtractObj);
+                result = Boolean.Union(gameObject, subtract);
                 break;
 
             case BoolOp.SubtractLR:
-                result = Boolean.Subtract(subtractedObj, subtractObj);
+                result = Boolean.Subtract(gameObject, subtract);
                 break;
 
             case BoolOp.SubtractRL:
-                result = Boolean.Subtract(subtractObj, subtractedObj);
+                result = Boolean.Subtract(subtract, gameObject);
                 break;
 
             default:
-                result = Boolean.Intersect(subtractObj, subtractedObj);
+                result = Boolean.Intersect(subtract, gameObject);
                 break;
         }
 
-        //composite = new GameObject();
-        subtractedObj.GetComponent<MeshFilter>().sharedMesh = result.mesh;
-        subtractedObj.GetComponent<MeshRenderer>().sharedMaterials = result.materials.ToArray();
+        composite = new GameObject();
+        composite.AddComponent<MeshFilter>().sharedMesh = result.mesh;
+        composite.AddComponent<MeshRenderer>().sharedMaterials = result.materials.ToArray();
 
-        //GenerateBarycentric(subtractedObj);
+        GenerateBarycentric(gameObject);
 
-        //Destroy(left);
-        //Destroy(right);
+        gameObject.GetComponent<MeshRenderer>().enabled = false;
     }
 
     /**
