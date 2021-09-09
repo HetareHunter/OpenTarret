@@ -41,13 +41,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _Threshold: 0.102
+    - _Threshold: 0
     - _Threshold1: 0
     - _glitterRange: 0.05
     - _glitterRange1: 0.05
     m_Colors:
     - _EmissionColor: {r: 0.28235295, g: 0.9411765, b: 1.5294118, a: 1}
     - _EmissionColor1: {r: 0.282353, g: 0.9411765, b: 1.529412, a: 1}
-    - _MainColor: {r: 0.8396226, g: 0.20990565, b: 0.20990565, a: 1}
+    - _MainColor: {r: 0.8962264, g: 0.292722, b: 0.24096641, a: 1}
     - _MainColor1: {r: 0.8396226, g: 0.20990565, b: 0.20990565, a: 1}
   m_BuildTextureStacks: []
