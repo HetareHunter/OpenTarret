@@ -39,11 +39,23 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DissolveTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DissolveTex1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex1:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -88,12 +100,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _Alpha: 0.5
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
+    - _AlphaToggle: 0
     - _Blend: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
+    - _ColorToggle: 0
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
@@ -111,13 +126,15 @@ Material:
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _ScanPosi: 60.275795
+    - _ScanPosi: 62.40297
     - _ScanPosi1: 33.6
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
+    - _Threshold: 0.1190738
+    - _Threshold1: 0.1190738
     - _UseBaseColor: 1
     - _UseBaseColor1: 0
     - _UseBaseColorAlpha: 0
@@ -132,15 +149,19 @@ Material:
     - _forwardLine1: 0.2
     - _forwardStrongLine: 0.05
     - _forwardStrongLine1: 0.5
+    - _glitterRange1: 0.05
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColor1: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color0: {r: 0, g: 0, b: 0, a: 0}
+    - _DissolveColor: {r: 0.282353, g: 0.9411765, b: 1.529412, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColor1: {r: 0.282353, g: 0.9411765, b: 1.529412, a: 1}
     - _LineStrongColor: {r: 0.49123347, g: 0.7830188, b: 0.7765825, a: 1}
     - _LineStrongColor1: {r: 0.11035957, g: 0.23442635, b: 0.75471693, a: 0}
     - _MainColor: {r: 0.3257569, g: 0.8862745, b: 0.30588233, a: 1}
+    - _MainColor1: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _TrajectoryColor: {r: 0.11035957, g: 0.23442635, b: 0.75471693, a: 0}
     - _TrajectoryColor1: {r: 0.33161265, g: 0.8679245, b: 0.8567312, a: 0}
