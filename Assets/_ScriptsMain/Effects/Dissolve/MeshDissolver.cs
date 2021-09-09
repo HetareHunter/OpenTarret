@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// DissolveShaderのマテリアルが付いているオブジェクトにアタッチする
+/// DissolveShaderのマテリアルが付いているオブジェクトにアタッチする。
+/// メッシュが溶けていく演出を制御するスクリプト
 /// </summary>
 public class MeshDissolver : MonoBehaviour
 {
     [SerializeField] float _dissolveSpeed = 0.2f;
     float _threshold;
+    const float DissolveAlpha= 0.5f;
     MaterialPropertyBlock _material;
     MeshRenderer _meshRenderer;
 
@@ -19,6 +21,7 @@ public class MeshDissolver : MonoBehaviour
         _meshRenderer = GetComponent<MeshRenderer>();
         _material = new MaterialPropertyBlock();
         _threshold = _material.GetFloat("_Threshold");
+        _material.SetFloat("_Alpha", DissolveAlpha);
     }
 
     // Update is called once per frame

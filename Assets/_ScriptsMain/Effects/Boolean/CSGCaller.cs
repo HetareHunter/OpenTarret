@@ -88,8 +88,8 @@ public class CSGCaller : MonoBehaviour
 
         composite = new GameObject();
         composite.AddComponent<MeshFilter>().sharedMesh = result.mesh;
-        //composite.AddComponent<MeshRenderer>().sharedMaterials = result.materials.ToArray();
-        composite.AddComponent<MeshRenderer>().sharedMaterial = _Dissolve_MT;
+        composite.AddComponent<MeshRenderer>().sharedMaterials = result.materials.ToArray();
+        //composite.AddComponent<MeshRenderer>().sharedMaterial = _Dissolve_MT;
         composite.AddComponent<MeshDissolver>();
 
         GenerateBarycentric(gameObject);
@@ -143,4 +143,6 @@ public class CSGCaller : MonoBehaviour
 
         go.GetComponent<MeshFilter>().sharedMesh = wireframeMesh;
     }
+
+
 }
