@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 3686acdd07f06b44280f61e8759412dc
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _DissolveTex: {fileID: 2800000, guid: d173dae1f9727924291c993eddc32e82, type: 3}
+  nonModifiableTextures: []
+  preprocessorOverride: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

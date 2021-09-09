@@ -25,7 +25,7 @@ public class CSGCaller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SubtractionLR();
+        //SubtractionLR();
     }
 
     // Update is called once per frame

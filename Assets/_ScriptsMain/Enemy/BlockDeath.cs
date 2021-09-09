@@ -6,9 +6,11 @@ public class BlockDeath : MonoBehaviour, IEnemyDeath
 {
     [SerializeField] float deathTime = 0.5f;
     [SerializeField] int addScore = 100;
+
     public void OnDead()
     {
         AddScore();
+        GetComponent<CSGCaller>().SubtractionLR();
         Destroy(gameObject, deathTime);
     }
 
