@@ -12,10 +12,6 @@ public class CSGCaller : MonoBehaviour
 {
     public GameObject subtracter;
     [HideInInspector] public GameObject composite;
-    /// <summary>
-    /// Dissolveƒ}ƒeƒŠƒAƒ‹‚ð“ü‚ê‚é
-    /// </summary>
-    [SerializeField] Material _Dissolve_MT;
 
     enum BoolOp
     {
@@ -29,7 +25,7 @@ public class CSGCaller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //SubtractionLR();
+        subtracter = GameObject.FindGameObjectWithTag("BooleanSubtracter");
     }
 
     // Update is called once per frame
@@ -89,7 +85,6 @@ public class CSGCaller : MonoBehaviour
         composite = new GameObject();
         composite.AddComponent<MeshFilter>().sharedMesh = result.mesh;
         composite.AddComponent<MeshRenderer>().sharedMaterials = result.materials.ToArray();
-        //composite.AddComponent<MeshRenderer>().sharedMaterial = _Dissolve_MT;
         composite.AddComponent<MeshDissolver>();
 
         GenerateBarycentric(gameObject);

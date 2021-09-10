@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1645256286179612668}
   - component: {fileID: 8971465344667344671}
   - component: {fileID: 3624497111606134672}
+  - component: {fileID: 1138052510}
   m_Layer: 17
   m_Name: Enemy_Red Test
   m_TagString: Enemy
@@ -125,5 +126,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cca0ff22a624174fbfed4f01d2143b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathTime: 0.5
+  deathTime: 0
   addScore: 110
+--- !u!114 &1138052510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4347581134648245739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb98b44fdfba0894baee739a50054a95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  subtracter: {fileID: 0}
+  composite: {fileID: 0}
+  _Dissolve_MT: {fileID: 2100000, guid: 92caa9c0c8eae05498bca296431dd2b0, type: 2}
