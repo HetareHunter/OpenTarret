@@ -38,7 +38,7 @@ public class MeshDissolver : MonoBehaviour
 
         if (_threshold > 1.0f)
         {
-            Destroy(gameObject);
+            Destroy(gameObject);//destroy‚·‚é‚Ì‚Åreset‚Í‚©‚¯‚È‚¢
         }
     }
 }
