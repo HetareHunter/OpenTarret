@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1645256286179612668}
   - component: {fileID: 8971465344667344671}
   - component: {fileID: 3624497111606134672}
-  - component: {fileID: 1138052510}
+  - component: {fileID: 1600573392}
   m_Layer: 17
   m_Name: Enemy_Red Test
   m_TagString: Enemy
@@ -43,7 +43,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4347581134648245739}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4068373912626513877, guid: 9fd65f6c5c8fd98418146dd107daed65, type: 3}
 --- !u!23 &2700440744461383972
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -126,9 +126,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cca0ff22a624174fbfed4f01d2143b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathTime: 0
-  addScore: 110
---- !u!114 &1138052510
+  _deathTime: 0.5
+  _addScore: 100
+  decreaseSpeed: 0.65
+--- !u!114 &1600573392
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -137,9 +138,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 4347581134648245739}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb98b44fdfba0894baee739a50054a95, type: 3}
+  m_Script: {fileID: 11500000, guid: a85de2ad081b75c41a22c3c701b0e014, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  subtracter: {fileID: 0}
-  composite: {fileID: 0}
-  _Dissolve_MT: {fileID: 2100000, guid: 92caa9c0c8eae05498bca296431dd2b0, type: 2}
+  _dissolveSpeed: 0.2
+  _disolveDelay: 0.1

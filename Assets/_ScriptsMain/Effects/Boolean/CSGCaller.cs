@@ -4,8 +4,7 @@ using UnityEngine;
 using Parabox.CSG;
 
 /// <summary>
-/// 現状Booleanモデリングの引く処理のみ利用している。
-/// このスクリプトをアタッチしたオブジェクトが引かれる側のオブジェクトとなる
+/// SubjectLR()を利用する場合→このスクリプトをアタッチしたオブジェクトが引かれる側のオブジェクトとなる
 /// 引かれた部分のマテリアルは引いたオブジェクトのマテリアルが適用される
 /// </summary>
 public class CSGCaller : MonoBehaviour
@@ -21,17 +20,10 @@ public class CSGCaller : MonoBehaviour
         Intersect
     };
 
-
     // Start is called before the first frame update
     void Start()
     {
         subtracter = GameObject.FindGameObjectWithTag("BooleanSubtracter");
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void Union()
@@ -138,6 +130,4 @@ public class CSGCaller : MonoBehaviour
 
         go.GetComponent<MeshFilter>().sharedMesh = wireframeMesh;
     }
-
-
 }

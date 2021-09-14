@@ -117,10 +117,7 @@ public class AttackRaycastManager : MonoBehaviour
         {
             //爆発したときの力となるオブジェクトの生成
             explosionForce.ActiveExplosionForce(hit.point);
-            //爆発エフェクトの再生
-            m_hitExplodeEffects[hitExplodeIndex].transform.position = hit.point;
-            m_hitExplodeEffects[hitExplodeIndex].SetActive(true);
-            hitExplodeIndex++;
+            PlayHitExplodeEffect(hit.point);
             if (hit.collider.gameObject.layer != PeneLayerMaskNum)
             {
                 IEnemyDeath enemyDeath = hit.collider.gameObject.GetComponent<IEnemyDeath>();
@@ -133,5 +130,13 @@ public class AttackRaycastManager : MonoBehaviour
                 hitExplodeIndex = 0;
             }
         }
+    }
+
+    void PlayHitExplodeEffect(Vector3 hit)
+    {
+        //爆発エフェクトの再生
+        m_hitExplodeEffects[hitExplodeIndex].transform.position = hit;
+        m_hitExplodeEffects[hitExplodeIndex].SetActive(true);
+        hitExplodeIndex++;
     }
 }

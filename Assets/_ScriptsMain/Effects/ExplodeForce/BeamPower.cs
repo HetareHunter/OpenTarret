@@ -30,7 +30,15 @@ public class BeamPower : MonoBehaviour
     {
         if (OncollisionDeath)
         {
-            gameObject.SetActive(false);
+            DeathBeamPower();
+            var collisionBlockDeath = collision.gameObject.GetComponent<BlockDeath>();
+
+            if (collisionBlockDeath != null)
+            {
+                collisionBlockDeath.IsCollisionEnabled(false);
+                collisionBlockDeath.AfterDeadChangeRigidBody();
+            }
+            
         }
     }
 }
