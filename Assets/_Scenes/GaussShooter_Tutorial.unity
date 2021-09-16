@@ -5373,6 +5373,7 @@ GameObject:
   - component: {fileID: 1129260311}
   - component: {fileID: 1129260312}
   - component: {fileID: 1129260313}
+  - component: {fileID: 1129260314}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -5436,6 +5437,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2276fe0a014276c459c5b6954bb9c47d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1129260314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129260309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28ecaa35f2dabba45945f8daa6257000, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineRendererData: {fileID: 11400000, guid: 933472c8a12099743a53197a855334f2,
+    type: 2}
+  contentRenderers:
+  - {fileID: 367315696924590513}
+  - {fileID: 7119208971157555172}
 --- !u!1001 &1132457072
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9458,6 +9476,7 @@ SkinnedMeshRenderer:
   m_Materials:
   - {fileID: 2100000, guid: 9bf1d898260765e4da92f9eb776fbac1, type: 2}
   - {fileID: 2100000, guid: 7e01d896d393e3249b956e9909d7e004, type: 2}
+  - {fileID: 2100000, guid: 522effcb4be8dd843b95ff8d793448b0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9720,8 +9739,8 @@ Transform:
   - {fileID: 4414476561167457274}
   - {fileID: 791811927729794198}
   - {fileID: 8842116086991161123}
-  - {fileID: 6198536859646364937}
   - {fileID: 3249849499504038101}
+  - {fileID: 6198536859646364937}
   - {fileID: 3634815431431931318}
   - {fileID: 8438883492999698633}
   - {fileID: 6884587411614312652}
@@ -9925,6 +9944,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CustomOVRCameraRig
+      objectReference: {fileID: 0}
+    - target: {fileID: 1805517545092505018, guid: 19ad9f82f1211a4469a985584fea8881,
+        type: 3}
+      propertyPath: m_RendererIndex
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1805517545092892464, guid: 19ad9f82f1211a4469a985584fea8881,
         type: 3}
@@ -10190,16 +10214,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 1129260311}
-    - target: {fileID: 3018435302213825636, guid: 1f49a6d706027614c950d2cd824aa998,
-        type: 3}
-      propertyPath: m_PresetInfoIsWorld
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018435302213825637, guid: 1f49a6d706027614c950d2cd824aa998,
-        type: 3}
-      propertyPath: GameFinishPanel
-      value: 
-      objectReference: {fileID: 2998110283489612739}
     - target: {fileID: 3018435302213825638, guid: 1f49a6d706027614c950d2cd824aa998,
         type: 3}
       propertyPath: m_Pivot.x
@@ -10317,12 +10331,6 @@ PrefabInstance:
       objectReference: {fileID: 1823898970}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f49a6d706027614c950d2cd824aa998, type: 3}
---- !u!1 &2998110283489612739 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2998110284215461142, guid: 1f49a6d706027614c950d2cd824aa998,
-    type: 3}
-  m_PrefabInstance: {fileID: 2998110283489612738}
-  m_PrefabAsset: {fileID: 0}
 --- !u!137 &3127707346807922454
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
@@ -10417,11 +10425,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1787227846111442194}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 970036414078793736}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3322619035220665389
 GameObject:
@@ -10731,7 +10739,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 970036414078793736}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &6884587411614312652
 Transform:
@@ -11012,6 +11020,7 @@ SkinnedMeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 9bf1d898260765e4da92f9eb776fbac1, type: 2}
+  - {fileID: 2100000, guid: 522effcb4be8dd843b95ff8d793448b0, type: 2}
   - {fileID: 2100000, guid: 7e01d896d393e3249b956e9909d7e004, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
