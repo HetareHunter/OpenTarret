@@ -14,7 +14,7 @@ namespace Manager
     public class GameStartManager : MonoBehaviour
     {
         GameObject gameManager;
-        [SerializeField] GameObject spawnerMmanager;
+        [SerializeField] GameObject spawnerManager;
         IAppearable appearable;
         IGameStateChangable gameStateChangeable;
         bool onLeftHand = false;
@@ -63,7 +63,7 @@ namespace Manager
             gameManager = GameObject.Find("GameManager");
             gameStateChangeable = gameManager.GetComponent<IGameStateChangable>();
             boxCollider = GetComponent<BoxCollider>();
-            appearable = spawnerMmanager.GetComponent<IAppearable>();
+            appearable = spawnerManager.GetComponent<IAppearable>();
             //TryGetComponent(out appearable);
         }
 

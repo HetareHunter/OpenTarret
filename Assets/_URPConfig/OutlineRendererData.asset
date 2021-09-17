@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RendererFeatures:
   - {fileID: 1074741311026260837}
-  m_RendererFeatureMap: 656b2835873fea0e
+  - {fileID: 2748299676271164265}
+  m_RendererFeatureMap: 656b2835873fea0e69bb7694feeb2326
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
   shaders:
@@ -54,10 +55,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67fc53dde65caeb41bd1d7cbaba5ec2d, type: 3}
-  m_Name: NewOutlineRenderer
+  m_Name: LeftHandleOutlineRenderer
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  outlineMaterial: {fileID: 2100000, guid: 9993b3603bb280c46bb30a95f377e4fe, type: 2}
+  contentRenderers:
+  - {fileID: 0}
+--- !u!114 &2748299676271164265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67fc53dde65caeb41bd1d7cbaba5ec2d, type: 3}
+  m_Name: RightHandleOutlineRenderer
   m_EditorClassIdentifier: 
   m_Active: 1
   outlineMaterial: {fileID: 2100000, guid: 522effcb4be8dd843b95ff8d793448b0, type: 2}
   contentRenderers:
-  - {fileID: 0}
   - {fileID: 0}

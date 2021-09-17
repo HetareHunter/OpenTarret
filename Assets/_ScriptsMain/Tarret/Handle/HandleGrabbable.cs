@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Tarret;
 using Zenject;
+using UnityEngine.Rendering.Universal;
 
 public enum HandleSide
 {
@@ -24,7 +25,11 @@ namespace Players
         [Inject]
         ITarretState TarretState;
         [SerializeField] GameObject anglePointerObj;
-        HandlePositionResetter returnPosition = new HandlePositionResetter();
+        Color startColor;
+        [SerializeField] Color selectedColor;
+        [SerializeField] ForwardRendererData outlineRendererData;
+        OutlineRenderer outlineRenderer;
+        HandlePositionResetter returnPosition;
         AnglePointer anglePointer;
         HandleVibe handleVibe;
         HandleInput handleInput;
@@ -46,15 +51,26 @@ namespace Players
 
         protected override void Start()
         {
-            returnPosition = GetComponent<HandlePositionResetter>();
             if (anglePointerObj != null)
             {
                 anglePointer = anglePointerObj.GetComponent<AnglePointer>();
             }
-            
+
+            if (handle == HandleSide.Left)
+            {
+                outlineRenderer = (OutlineRenderer)outlineRendererData.rendererFeatures[0];
+            }
+            else
+            {
+                outlineRenderer = (OutlineRenderer)outlineRendererData.rendererFeatures[1];
+            }
+
+            startColor = outlineRenderer.outlineMaterial.GetColor("_OutlineColor");
+
             handleVibe = GetComponent<HandleVibe>();
             handleInput = GetComponent<HandleInput>();
             handFixer = GetComponent<HandFixer>();
+            returnPosition = GetComponent<HandlePositionResetter>();
         }
         void FixedUpdate()
         {
@@ -78,6 +94,7 @@ namespace Players
                     handleInput.CartMove(OVRInput.Get(OVRInput.RawAxis2D.LThumbstick));
                 }
 
+                m_allowOffhandGrab = false;
                 handFixer.FixHand(currentController);
                 handleGrabMoment = true;
             }
@@ -113,13 +130,20 @@ namespace Players
             if (other.tag == "LHand" && !isGrabbed)
             {
                 /*握ったときにcurrentControllerにどちらのコントローラかの情報が入るので、触れたときの振動処理は
-                currentCntrollerを引数に使えない*/
+                currentControllerを引数に使えない*/
                 handleVibe.Vibrate(touchVibeDuration, touchFrequeency, touchAmplitude, OVRInput.Controller.LTouch);
             }
             else if (other.tag == "RHand" && !isGrabbed)
             {
                 handleVibe.Vibrate(touchVibeDuration, touchFrequeency, touchAmplitude, OVRInput.Controller.RTouch);
             }
+
+            ChangeColor(true);
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            ChangeColor(false);
         }
 
         public void AttackVibe()
@@ -128,6 +152,18 @@ namespace Players
             {
                 handleVibe.Vibrate(tarretData.attackVibeDuration, tarretData.attackVibeFrequency,
                     tarretData.attackVibeAmplitude, currentController);
+            }
+        }
+
+        void ChangeColor(bool grabbable)
+        {
+            if (grabbable)
+            {
+                outlineRenderer.outlineMaterial.SetColor("_OutlineColor", selectedColor);
+            }
+            else
+            {
+                outlineRenderer.outlineMaterial.SetColor("_OutlineColor", startColor);
             }
         }
     }

@@ -153,7 +153,7 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _ScanLinePosi: 0
-    - _ScanPosi: 306.64838
+    - _ScanPosi: 606
     - _ScanPosi2: 200
     - _ScanSpeed: 30
     - _ScanSpeed1: 30
