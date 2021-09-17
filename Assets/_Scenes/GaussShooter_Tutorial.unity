@@ -5981,6 +5981,7 @@ MonoBehaviour:
   m_grabPoints: []
   tarretData: {fileID: 11400000, guid: b32e40e76f528d94db97700dc4fd3dbd, type: 2}
   anglePointerObj: {fileID: 810249609}
+  startColor: {r: 0.72156864, g: 1, b: 0.85848135, a: 1}
   selectedColor: {r: 0.7490196, g: 0.2784314, b: 0.03529412, a: 1}
   outlineRendererData: {fileID: 11400000, guid: 933472c8a12099743a53197a855334f2,
     type: 2}
@@ -10889,6 +10890,7 @@ MonoBehaviour:
   m_grabPoints: []
   tarretData: {fileID: 11400000, guid: b32e40e76f528d94db97700dc4fd3dbd, type: 2}
   anglePointerObj: {fileID: 810249609}
+  startColor: {r: 0.72156864, g: 1, b: 0.85848135, a: 1}
   selectedColor: {r: 0.7490196, g: 0.2784314, b: 0.03529412, a: 1}
   outlineRendererData: {fileID: 11400000, guid: 933472c8a12099743a53197a855334f2,
     type: 2}
