@@ -7,21 +7,29 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Unlit_TouchLight_L
-  m_Shader: {fileID: 4800000, guid: ca6f75376b4acff4b9432d346af454c1, type: 3}
+  m_Name: TouchLight_3
+  m_Shader: {fileID: 4800000, guid: 9bd382896e434ea448935869253157a2, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 4000
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs: []
     m_Floats:
-    - _Cutoff: 0.148
-    - _OutlineWidth: 0.8
+    - _Alpha: 1
+    - _AlphaCutoff: 0.5
+    - _ClipNum: 0
+    - _FresnelBias: 0
+    - _FresnelPower: 15
+    - _FresnelScal: 25
+    - _Threshold: 1
+    - _Threshold1: 0.2413318
+    - _glitterRange1: -0.5
     m_Colors:
-    - _OutlineColor: {r: 0.72156864, g: 1, b: 0.85848135, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _OutlineColor: {r: 0.7215686, g: 1, b: 0.8584813, a: 0}
   m_BuildTextureStacks: []

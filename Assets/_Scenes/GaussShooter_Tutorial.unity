@@ -5378,7 +5378,6 @@ GameObject:
   - component: {fileID: 1129260311}
   - component: {fileID: 1129260312}
   - component: {fileID: 1129260313}
-  - component: {fileID: 1129260314}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -5442,24 +5441,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2276fe0a014276c459c5b6954bb9c47d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1129260314
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1129260309}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28ecaa35f2dabba45945f8daa6257000, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineRendererData: {fileID: 11400000, guid: 933472c8a12099743a53197a855334f2,
-    type: 2}
-  LHandleContentRenderers:
-  - {fileID: 367315696924590513}
-  RHandleContentRenderers:
-  - {fileID: 7119208971157555172}
 --- !u!1001 &1132457072
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5983,8 +5964,7 @@ MonoBehaviour:
   anglePointerObj: {fileID: 810249609}
   startColor: {r: 0.72156864, g: 1, b: 0.85848135, a: 1}
   selectedColor: {r: 0.7490196, g: 0.2784314, b: 0.03529412, a: 1}
-  outlineRendererData: {fileID: 11400000, guid: 933472c8a12099743a53197a855334f2,
-    type: 2}
+  handleObj: {fileID: 1787227846111442194}
   handle: 1
   touchFrequeency: 0.4
   touchAmplitude: 0.2
@@ -9435,6 +9415,7 @@ SkinnedMeshRenderer:
   m_Materials:
   - {fileID: 2100000, guid: 9bf1d898260765e4da92f9eb776fbac1, type: 2}
   - {fileID: 2100000, guid: 7e01d896d393e3249b956e9909d7e004, type: 2}
+  - {fileID: 2100000, guid: c79fa66f8f6e6224d87b58cde2d799d3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9893,6 +9874,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7748163867149650226}
     m_Modifications:
+    - target: {fileID: 1805517545091254508, guid: 19ad9f82f1211a4469a985584fea8881,
+        type: 3}
+      propertyPath: m_HDR
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1805517545092471568, guid: 19ad9f82f1211a4469a985584fea8881,
         type: 3}
       propertyPath: m_Name
@@ -9952,6 +9938,56 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1805517546065744712, guid: 19ad9f82f1211a4469a985584fea8881,
+        type: 3}
+      propertyPath: m_Antialiasing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1805517546065744712, guid: 19ad9f82f1211a4469a985584fea8881,
+        type: 3}
+      propertyPath: m_RendererIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1805517546065744712, guid: 19ad9f82f1211a4469a985584fea8881,
+        type: 3}
+      propertyPath: m_RenderPostProcessing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1805517546452134128, guid: 19ad9f82f1211a4469a985584fea8881,
+        type: 3}
+      propertyPath: m_Antialiasing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1805517546452134128, guid: 19ad9f82f1211a4469a985584fea8881,
+        type: 3}
+      propertyPath: m_RendererIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1805517546452134128, guid: 19ad9f82f1211a4469a985584fea8881,
+        type: 3}
+      propertyPath: m_RenderPostProcessing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1822112057229600930, guid: 19ad9f82f1211a4469a985584fea8881,
+        type: 3}
+      propertyPath: m_HDR
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1822112057229600930, guid: 19ad9f82f1211a4469a985584fea8881,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 261943
+      objectReference: {fileID: 0}
+    - target: {fileID: 1822112059304556344, guid: 19ad9f82f1211a4469a985584fea8881,
+        type: 3}
+      propertyPath: m_HDR
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1822112059304556344, guid: 19ad9f82f1211a4469a985584fea8881,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 261943
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19ad9f82f1211a4469a985584fea8881, type: 3}
@@ -10892,8 +10928,7 @@ MonoBehaviour:
   anglePointerObj: {fileID: 810249609}
   startColor: {r: 0.72156864, g: 1, b: 0.85848135, a: 1}
   selectedColor: {r: 0.7490196, g: 0.2784314, b: 0.03529412, a: 1}
-  outlineRendererData: {fileID: 11400000, guid: 933472c8a12099743a53197a855334f2,
-    type: 2}
+  handleObj: {fileID: 665794924282389620}
   handle: 0
   touchFrequeency: 0.4
   touchAmplitude: 0.2
@@ -10957,6 +10992,7 @@ SkinnedMeshRenderer:
   m_Materials:
   - {fileID: 2100000, guid: 9bf1d898260765e4da92f9eb776fbac1, type: 2}
   - {fileID: 2100000, guid: 7e01d896d393e3249b956e9909d7e004, type: 2}
+  - {fileID: 2100000, guid: c79fa66f8f6e6224d87b58cde2d799d3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

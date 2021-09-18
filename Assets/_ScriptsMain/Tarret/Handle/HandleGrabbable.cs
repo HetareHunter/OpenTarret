@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Tarret;
 using Zenject;
-using UnityEngine.Rendering.Universal;
 
 public enum HandleSide
 {
@@ -28,11 +27,13 @@ namespace Players
         [SerializeField] Color startColor;
         Color vanishingColor = new Color(0, 0, 0, 0);
         [SerializeField] Color selectedColor;
-        [SerializeField] ForwardRendererData outlineRendererData;
-        OutlineRenderer outlineRenderer;
         bool _isTouch = false;
         HandlePositionResetter returnPosition;
         AnglePointer anglePointer;
+
+        [SerializeField] GameObject handleObj;
+        Renderer handleRenderer;
+
         HandleVibe handleVibe;
         HandleInput handleInput;
         HandFixer handFixer;
@@ -58,15 +59,7 @@ namespace Players
                 anglePointer = anglePointerObj.GetComponent<AnglePointer>();
             }
 
-            if (handle == HandleSide.Left)
-            {
-                outlineRenderer = (OutlineRenderer)outlineRendererData.rendererFeatures[0];
-            }
-            else
-            {
-                outlineRenderer = (OutlineRenderer)outlineRendererData.rendererFeatures[1];
-            }
-
+            handleRenderer = handleObj.GetComponent<Renderer>();
             //startColor = outlineRenderer.outlineMaterial.GetColor("_OutlineColor");
 
             handleVibe = GetComponent<HandleVibe>();
@@ -183,11 +176,11 @@ namespace Players
         {
             if (isTouch)
             {
-                outlineRenderer.outlineMaterial.SetColor("_OutlineColor", selectedColor);
+                handleRenderer.materials[2].SetColor("_OutlineColor", selectedColor);
             }
             else
             {
-                outlineRenderer.outlineMaterial.SetColor("_OutlineColor", startColor);
+                handleRenderer.materials[2].SetColor("_OutlineColor", startColor);
             }
         }
 
@@ -196,7 +189,7 @@ namespace Players
         /// </summary>
         void VanishHandleOutline()
         {
-            outlineRenderer.outlineMaterial.SetColor("_OutlineColor", vanishingColor);
+            handleRenderer.materials[2].SetColor("_OutlineColor", vanishingColor);
         }
     }
 }
