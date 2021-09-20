@@ -16,7 +16,7 @@ namespace Players
     /// 実際にハンドルを握ることができるコライダー部分にコンポーネントを付ける
     /// 手についているクラスが処理を考えるのではなく握ったオブジェクトが処理を行う方向で組み立てる
     /// </summary>
-    public class HandleGrabbable : OVRGrabbable, IGrabbable
+    public class HandleGrabbable : OVRGrabbable, IGrabbable, ISelectable
     {
         [SerializeField] TarretAttackData tarretData;
         OVRInput.Controller currentController;
@@ -28,6 +28,7 @@ namespace Players
         Color vanishingColor = new Color(0, 0, 0, 0);
         [SerializeField] Color selectedColor;
         bool _isTouch = false;
+        bool _isTouchMoment = false;
         HandlePositionResetter returnPosition;
         AnglePointer anglePointer;
 
@@ -89,25 +90,25 @@ namespace Players
                     handleInput.CartMove(OVRInput.Get(OVRInput.RawAxis2D.LThumbstick));
                 }
 
-                
+
                 handFixer.FixHand(currentController); //手のメッシュの位置をハンドルの位置に固定し続けている
 
                 if (!handleGrabMoment)//手を握った瞬間の処理
                 {
-                    VanishHandleOutline();
+                    VanishOutline();
 
                     m_allowOffhandGrab = false;
 
                     handleGrabMoment = true;
                 }
-                
+
             }
             else //離している間の処理
             {
                 returnPosition.Released();
                 if (handleGrabMoment)//手を離した瞬間の処理
                 {
-                    ChangeHandleOutlineColor(_isTouch);
+                    ChangeOutlineColor(_isTouch);
                     m_allowOffhandGrab = true;
 
                     handFixer.ReleseHand(currentController);
@@ -137,15 +138,15 @@ namespace Players
             {
                 if (other.tag == "LHand")
                 {
-                    /*握ったときにcurrentControllerにどちらのコントローラかの情報が入るので、触れたときの振動処理は
-                    currentControllerを引数に使えない*/
+                    //握ったときにcurrentControllerにどちらのコントローラかの情報が入るので、触れたときの振動処理は
+                    //currentControllerを引数に使えない
                     handleVibe.Vibrate(touchVibeDuration, touchFrequeency, touchAmplitude, OVRInput.Controller.LTouch);
                 }
                 else if (other.tag == "RHand")
                 {
                     handleVibe.Vibrate(touchVibeDuration, touchFrequeency, touchAmplitude, OVRInput.Controller.RTouch);
                 }
-                ChangeHandleOutlineColor(_isTouch);
+                ChangeOutlineColor(_isTouch);
             }
         }
 
@@ -154,9 +155,53 @@ namespace Players
             _isTouch = false;
             if (!isGrabbed) //握っていないときでコライダーから手が離れた時
             {
-                ChangeHandleOutlineColor(_isTouch);
+                ChangeOutlineColor(_isTouch);
             }
-            
+        }
+
+        public void OnTouch(bool isTouch, Hand hand)
+        {
+            _isTouch = isTouch;
+            if (!_isTouchMoment && isTouch)//触れた瞬間の処理
+            {
+                TouchEnter(isTouch, hand);
+            }
+            else if (_isTouchMoment && !isTouch)
+            {
+                TouchExit(isTouch);
+            }
+        }
+
+        /// <summary>
+        /// レイがオブジェクトに触れた瞬間の処理
+        /// </summary>
+        /// <param name="isTouch"></param>
+        /// <param name="hand"></param>
+        void TouchEnter(bool isTouch, Hand hand)
+        {
+            _isTouchMoment = isTouch;
+            if (hand == Hand.Left)
+            {
+                //握ったときにcurrentControllerにどちらのコントローラかの情報が入るので、触れたときの振動処理は
+                //currentControllerを引数に使えない
+                handleVibe.Vibrate(touchVibeDuration, touchFrequeency, touchAmplitude, OVRInput.Controller.LTouch);
+            }
+            else
+            {
+                handleVibe.Vibrate(touchVibeDuration, touchFrequeency, touchAmplitude, OVRInput.Controller.RTouch);
+            }
+
+            ChangeOutlineColor(_isTouch);
+        }
+
+        /// <summary>
+        /// 触れたレイがオブジェクトから離れた瞬間の処理
+        /// </summary>
+        /// <param name="isTouch"></param>
+        public void TouchExit(bool isTouch)
+        {
+            _isTouchMoment = isTouch;
+            ChangeOutlineColor(_isTouch);
         }
 
         public void AttackVibe()
@@ -172,7 +217,7 @@ namespace Players
         /// 手がハンドルに触れただけで、握ってはいないときに色を変える
         /// </summary>
         /// <param name="isTouch">触れているかどうか</param>
-        void ChangeHandleOutlineColor(bool isTouch)
+        public void ChangeOutlineColor(bool isTouch)
         {
             if (isTouch)
             {
@@ -187,7 +232,7 @@ namespace Players
         /// <summary>
         /// ハンドルを握ったときに、ハンドルのアウトラインを透過する
         /// </summary>
-        void VanishHandleOutline()
+        public void VanishOutline()
         {
             handleRenderer.materials[2].SetColor("_OutlineColor", vanishingColor);
         }

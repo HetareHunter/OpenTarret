@@ -14,7 +14,7 @@ public class PointerRayCaster : MonoBehaviour
     RaycastHit m_hit;
     [SerializeField] float maxRayDistance = 200.0f;
     public Vector3 hitPointerObj { private set; get; }
-    public bool isDrawLine = true;
+    //public bool isDrawLine = true;
     // Start is called before the first frame update
     void Start()
     {
