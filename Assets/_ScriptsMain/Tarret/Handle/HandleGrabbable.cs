@@ -159,6 +159,11 @@ namespace Players
             }
         }
 
+        /// <summary>
+        /// 手から放たれ続けているレイがオブジェクトに触れているときの処理
+        /// </summary>
+        /// <param name="isTouch"></param>
+        /// <param name="hand"></param>
         public void OnTouch(bool isTouch, Hand hand)
         {
             _isTouch = isTouch;
