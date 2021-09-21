@@ -20,18 +20,22 @@ namespace Players
 
     public class ObjectLaserPointer : MonoBehaviour
     {
-        public Hand hand;
+        public Hand _hand;
         [SerializeField] GameObject defaultLineFinishPosi;
         //[SerializeField] GameObject HitPointer;
         [SerializeField] GameObject customHand;
         LineRenderer lineRenderer;
         Vector3[] linePosition;
-        RaycastHit m_hit;
+        RaycastHit _hit;
         [SerializeField] float maxRayDistance = 0.5f;
         ISelectable selectable;
+        IGrabbable grabbable;
 
+        [SerializeField] float grabBegin = 0.55f;
+        [SerializeField] float grabEnd = 0.35f;
+        bool _preGrab = false;
 
-        public Vector3 hitPointerObj { private set; get; }
+        bool _searchable = true;
 
 
         // Start is called before the first frame update
@@ -45,6 +49,7 @@ namespace Players
         void FixedUpdate()
         {
             RaySearchObject();
+            CheckForGrabOrRelease();
         }
 
         /// <summary>
@@ -52,28 +57,35 @@ namespace Players
         /// </summary>
         void RaySearchObject()
         {
+            if (!_searchable)
+            {
+                DrawLineRenderer(customHand.transform.position);
+                return;
+            }
             //Å@îÚÇŒÇ∑à íuÇ∆îÚÇŒÇ∑ï˚å¸Çê›íË
             Ray ray = new Ray(transform.position, transform.forward);
-            if (Physics.Raycast(ray, out m_hit, maxRayDistance, LayerMask.GetMask("Tarret")))
+            if (Physics.Raycast(ray, out _hit, maxRayDistance, LayerMask.GetMask("Tarret")))
             {
-                hitPointerObj = m_hit.point;
-                DrawLineRenderer(m_hit.point);
+                //hitPointerObj = m_hit.point;
+                DrawLineRenderer(_hit.point);
                 //SetHitObjPosition();
                 if (selectable == null)
                 {
-                    selectable = m_hit.transform.GetComponent<ISelectable>();
+                    selectable = _hit.transform.GetComponent<ISelectable>();
+                    grabbable = _hit.transform.GetComponent<IGrabbable>();
                 }
-                selectable.OnTouch(true,hand);
+
+                selectable.OnTouch(true, _hand);
                 
             }
             else
             {
                 if (selectable != null)
                 {
-                    selectable.OnTouch(false, hand);
+                    selectable.OnTouch(false, _hand);
                     selectable = null;
                 }
-                hitPointerObj = defaultLineFinishPosi.transform.position;
+                //hitPointerObj = defaultLineFinishPosi.transform.position;
                 DrawLineRenderer(defaultLineFinishPosi.transform.position);
             }
         }
@@ -85,9 +97,42 @@ namespace Players
             lineRenderer.SetPositions(linePosition);
         }
 
-        //void SetHitObjPosition()
-        //{
-        //    HitPointer.transform.position = m_hit.point;
-        //}
+        void CheckForGrabOrRelease()
+        {
+            if (grabbable == null) return;
+
+            if (_hand == Hand.Left)
+            {
+                if (OVRInput.Get(OVRInput.RawAxis1D.LHandTrigger) >= grabBegin)
+                {
+                    _preGrab = true;
+                    _searchable = false;
+                    grabbable.GrabBegin(OVRInput.Controller.LTouch, transform);
+                }
+                else if (OVRInput.Get(OVRInput.RawAxis1D.LHandTrigger) <= grabEnd && _preGrab)
+                {
+                    _preGrab = false;
+                    grabbable.GrabEnd();
+                    grabbable = null;
+                    _searchable = true;
+                }
+            }
+            else
+            {
+                if (OVRInput.Get(OVRInput.RawAxis1D.RHandTrigger) >= grabBegin)
+                {
+                    _preGrab = true;
+                    _searchable = false;
+                    grabbable.GrabBegin(OVRInput.Controller.RTouch, transform);
+                }
+                else if (OVRInput.Get(OVRInput.RawAxis1D.RHandTrigger) <= grabEnd && _preGrab)
+                {
+                    _preGrab = false;
+                    grabbable.GrabEnd();
+                    grabbable = null;
+                    _searchable = true;
+                }
+            }
+        }
     }
 }

@@ -10,16 +10,31 @@ public enum HandleSide
     Right
 }
 
+
 namespace Players
 {
+    [RequireComponent(typeof(HandFixer))]
+    [RequireComponent(typeof(HandleInput))]
+    [RequireComponent(typeof(HandleVibe))]
     /// <summary>
     /// 実際にハンドルを握ることができるコライダー部分にコンポーネントを付ける
     /// 手についているクラスが処理を考えるのではなく握ったオブジェクトが処理を行う方向で組み立てる
     /// </summary>
-    public class HandleGrabbable : OVRGrabbable, IGrabbable, ISelectable
+    public class HandleGrabbable : MonoBehaviour, IGrabbable, ISelectable
     {
         [SerializeField] TarretAttackData tarretData;
+        /// <summary>
+        /// 握っている手が左か右かのステート
+        /// </summary>
         OVRInput.Controller currentController;
+        /// <summary>
+        /// 握っているかどうか
+        /// </summary>
+        bool _isGrabbed;
+        /// <summary>
+        /// 握ることのできるかどうか
+        /// </summary>
+        public bool _allowOffhandGrab = true;
 
         [Inject]
         ITarretState TarretState;
@@ -27,6 +42,9 @@ namespace Players
         [SerializeField] Color startColor;
         Color vanishingColor = new Color(0, 0, 0, 0);
         [SerializeField] Color selectedColor;
+        /// <summary>
+        /// 手のレイが当たっているかどうか
+        /// </summary>
         bool _isTouch = false;
         bool _isTouchMoment = false;
         HandlePositionResetter returnPosition;
@@ -52,8 +70,19 @@ namespace Players
         /// </summary>
         bool handleGrabMoment = false;
 
+        Transform grabbedHandTransform;
 
-        protected override void Start()
+        public bool IsGrabbed
+        {
+            get
+            {
+                return _isGrabbed;
+            }
+            private set { }
+        }
+
+
+        void Start()
         {
             if (anglePointerObj != null)
             {
@@ -61,7 +90,6 @@ namespace Players
             }
 
             handleRenderer = handleObj.GetComponent<Renderer>();
-            //startColor = outlineRenderer.outlineMaterial.GetColor("_OutlineColor");
 
             handleVibe = GetComponent<HandleVibe>();
             handleInput = GetComponent<HandleInput>();
@@ -74,11 +102,11 @@ namespace Players
         }
 
         /// <summary>
-        /// 握っているときの処理
+        /// 掴む処理
         /// </summary>
         private void GrabMethod()
         {
-            if (isGrabbed) //握っている間の処理
+            if (_isGrabbed) //握っている間の処理
             {
                 if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, currentController) && handle == HandleSide.Right)
                 {
@@ -92,49 +120,59 @@ namespace Players
 
 
                 handFixer.FixHand(currentController); //手のメッシュの位置をハンドルの位置に固定し続けている
+                FollowHand(grabbedHandTransform);
 
                 if (!handleGrabMoment)//手を握った瞬間の処理
                 {
                     VanishOutline();
-
-                    m_allowOffhandGrab = false;
-
+                    _allowOffhandGrab = false;
                     handleGrabMoment = true;
                 }
-
             }
             else //離している間の処理
             {
-                returnPosition.Released();
                 if (handleGrabMoment)//手を離した瞬間の処理
                 {
-                    ChangeOutlineColor(_isTouch);
-                    m_allowOffhandGrab = true;
-
-                    handFixer.ReleseHand(currentController);
-                    currentController = OVRInput.Controller.None;
-
-                    TarretState.ChangeTarretState(Tarret.TarretState.Idle);
-
-                    anglePointer.isAdjust = false;
-
-                    handleGrabMoment = false;
+                    GrabEnd();
                 }
-
             }
         }
 
-
-        public void GrabBegin(OVRInput.Controller controller)
+        /// <summary>
+        /// ハンドルのコリジョン部分を手のレイで当てて、中指のトリガーを引くことで握る処理を始めるメソッド
+        /// </summary>
+        /// <param name="controller"></param>
+        public void GrabBegin(OVRInput.Controller controller, Transform transform)
         {
             currentController = controller;
+            grabbedHandTransform = transform;
+            _isGrabbed = true;
+        }
+
+        /// <summary>
+        /// 手の中指トリガーを離したとき1回だけ呼び出されるメソッド
+        /// </summary>
+        public void GrabEnd()
+        {
+            handFixer.ReleseHand(currentController);
+            currentController = OVRInput.Controller.None;
+
+            returnPosition.Released();
+            ChangeOutlineColor(_isTouch);
+
+            TarretState.ChangeTarretState(Tarret.TarretState.Idle);
+            grabbedHandTransform = null;
+            anglePointer.isAdjust = false;
+            handleGrabMoment = false;
+            _allowOffhandGrab = true;
+            _isGrabbed = false;
         }
 
 
         private void OnTriggerEnter(Collider other)
         {
             _isTouch = true;
-            if (!isGrabbed) //握ってはいないがハンドルに触れているとき
+            if (!_isGrabbed) //握ってはいないがハンドルに触れているとき
             {
                 if (other.tag == "LHand")
                 {
@@ -153,7 +191,7 @@ namespace Players
         private void OnTriggerExit(Collider other)
         {
             _isTouch = false;
-            if (!isGrabbed) //握っていないときでコライダーから手が離れた時
+            if (!_isGrabbed) //握っていないときでコライダーから手が離れた時
             {
                 ChangeOutlineColor(_isTouch);
             }
@@ -240,6 +278,11 @@ namespace Players
         public void VanishOutline()
         {
             handleRenderer.materials[2].SetColor("_OutlineColor", vanishingColor);
+        }
+
+        void FollowHand(Transform handTransform)
+        {
+            transform.SetPositionAndRotation(handTransform.position, handTransform.rotation);
         }
     }
 }

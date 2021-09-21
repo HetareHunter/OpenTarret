@@ -25,6 +25,7 @@ namespace Players
 
         public void CartMove(Vector2 stick)
         {
+            if (tarretCart == null) return;
             tarretCart.CartMove(stick);
             //tarretCart.transform.Translate(Vector3.right * stick.x * cartSpeed * Time.deltaTime);
         }

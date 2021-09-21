@@ -6,6 +6,7 @@ namespace Players
 {
     public interface IGrabbable
     {
-        void GrabBegin(OVRInput.Controller controller);
+        void GrabBegin(OVRInput.Controller controller,Transform transform);
+        void GrabEnd();
     }
 }

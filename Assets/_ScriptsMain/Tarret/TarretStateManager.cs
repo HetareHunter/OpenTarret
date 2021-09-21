@@ -52,7 +52,7 @@ namespace Tarret
         public void JudgeRotateTarret()
         {
             //両手ともタレットのハンドルを握っているとき
-            if (leftHandle.isGrabbed && rightHandle.isGrabbed)
+            if (leftHandle.IsGrabbed && rightHandle.IsGrabbed)
             {
                 ChangeTarretState(TarretState.Rotate);
                 if (anglePointPlayOneShot)

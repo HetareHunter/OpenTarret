@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8262330716324060312}
   - component: {fileID: 8262330716324060313}
   m_Layer: 6
-  m_Name: ObjectCatchLaserPointer
+  m_Name: ObjectCatchLaserPointerRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
