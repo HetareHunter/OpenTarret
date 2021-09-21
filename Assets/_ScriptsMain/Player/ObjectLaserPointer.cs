@@ -22,10 +22,12 @@ namespace Players
     {
         public Hand _hand;
         [SerializeField] GameObject defaultLineFinishPosi;
-        //[SerializeField] GameObject HitPointer;
         [SerializeField] GameObject customHand;
         LineRenderer lineRenderer;
-        Vector3[] linePosition;
+        /// <summary>
+        /// 手から出るレーザー。レイを可視化しているだけのものなので始点と終点の2点の座標を格納する
+        /// </summary>
+        Vector3[] linePosition = new Vector3[2];
         RaycastHit _hit;
         [SerializeField] float maxRayDistance = 0.5f;
         ISelectable selectable;
@@ -35,13 +37,16 @@ namespace Players
         [SerializeField] float grabEnd = 0.35f;
         bool _preGrab = false;
 
+        /// <summary>
+        /// レイで掴めるものを探索できるかどうかのフラグ。
+        /// 何かを掴んでいる間は探索できないようにする
+        /// </summary>
         bool _searchable = true;
 
 
         // Start is called before the first frame update
         void Start()
         {
-            linePosition = new Vector3[2];
             lineRenderer = GetComponent<LineRenderer>();
         }
 
@@ -66,12 +71,13 @@ namespace Players
             Ray ray = new Ray(transform.position, transform.forward);
             if (Physics.Raycast(ray, out _hit, maxRayDistance, LayerMask.GetMask("Tarret")))
             {
-                //hitPointerObj = m_hit.point;
                 DrawLineRenderer(_hit.point);
-                //SetHitObjPosition();
                 if (selectable == null)
                 {
                     selectable = _hit.transform.GetComponent<ISelectable>();
+                }
+                if (grabbable == null)
+                {
                     grabbable = _hit.transform.GetComponent<IGrabbable>();
                 }
 
@@ -85,7 +91,10 @@ namespace Players
                     selectable.OnTouch(false, _hand);
                     selectable = null;
                 }
-                //hitPointerObj = defaultLineFinishPosi.transform.position;
+                if (grabbable != null)
+                {
+                    grabbable = null;
+                }
                 DrawLineRenderer(defaultLineFinishPosi.transform.position);
             }
         }
