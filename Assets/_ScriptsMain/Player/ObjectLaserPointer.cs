@@ -5,14 +5,16 @@ using UnityEngine;
 public enum Hand
 {
     Left,
-    Right
+    Right,
+    None
 }
 
 namespace Players
 {
     public interface ISelectable
     {
-        public void OnTouch(bool isTouch, Hand hand);
+        public Hand SelectHand { get; set; }
+        public void SelectHandle(bool isTouch, Hand hand);
         public void ChangeOutlineColor(bool isTouch);
         public void VanishOutline();
     }
@@ -76,19 +78,30 @@ namespace Players
                 {
                     selectable = _hit.transform.GetComponent<ISelectable>();
                 }
-                if (grabbable == null)
+
+                if (selectable != null)
                 {
-                    grabbable = _hit.transform.GetComponent<IGrabbable>();
+                    if (selectable.SelectHand == _hand || selectable.SelectHand == Hand.None)//選択している手がこのコンポーネントの手、あるいは選択している手がない場合
+                    {
+                        selectable.SelectHandle(true, _hand);
+                        if (grabbable == null)//掴むことができるようにする
+                        {
+                            grabbable = _hit.transform.GetComponent<IGrabbable>();
+                        }
+                    }
+                    else //選択している手がこのコンポーネントではない手である場合
+                    {
+                        selectable = null;
+                    }
+                    
                 }
 
-                selectable.OnTouch(true, _hand);
-                
             }
             else
             {
-                if (selectable != null)
+                if (selectable != null)//レイが外れる瞬間に呼び出される処理
                 {
-                    selectable.OnTouch(false, _hand);
+                    selectable.SelectHandle(false, Hand.None);
                     selectable = null;
                 }
                 if (grabbable != null)
@@ -126,7 +139,7 @@ namespace Players
                     _searchable = true;
                 }
             }
-            else
+            else if (_hand == Hand.Right)
             {
                 if (OVRInput.Get(OVRInput.RawAxis1D.RHandTrigger) >= grabBegin)
                 {

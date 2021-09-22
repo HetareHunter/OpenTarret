@@ -45,8 +45,9 @@ namespace Players
         /// <summary>
         /// 手のレイが当たっているかどうか
         /// </summary>
-        bool _isTouch = false;
-        bool _isTouchMoment = false;
+        bool _isSelect = false;
+        bool _isSelectMoment = false;
+        Hand _selectHand = Hand.None;
         HandlePositionResetter returnPosition;
         AnglePointer anglePointer;
 
@@ -71,6 +72,15 @@ namespace Players
         bool handleGrabMoment = false;
 
         Transform grabbedHandTransform;
+
+        public Hand SelectHand
+        {
+            get
+            {
+                return _selectHand;
+            }
+            set { }
+        }
 
         public bool IsGrabbed
         {
@@ -158,7 +168,7 @@ namespace Players
             currentController = OVRInput.Controller.None;
 
             returnPosition.Released();
-            ChangeOutlineColor(_isTouch);
+            ChangeOutlineColor(_isSelect);
 
             TarretState.ChangeTarretState(Tarret.TarretState.Idle);
             grabbedHandTransform = null;
@@ -200,51 +210,53 @@ namespace Players
         /// <summary>
         /// 手から放たれ続けているレイがオブジェクトに触れているときの処理
         /// </summary>
-        /// <param name="isTouch"></param>
-        /// <param name="hand"></param>
-        public void OnTouch(bool isTouch, Hand hand)
+        /// <param name="isSelect">レイが触れた時trueにし、レイが外れた時、falseにする</param>
+        /// <param name="hand">どちらの手から放たれたレイで取得するか</param>
+        public void SelectHandle(bool isSelect, Hand hand)
         {
-            _isTouch = isTouch;
-            if (!_isTouchMoment && isTouch)//触れた瞬間の処理
+            _isSelect = isSelect;
+            _selectHand = hand;
+            if (!_isSelectMoment && isSelect)//触れた瞬間の処理
             {
-                TouchEnter(isTouch, hand);
+                SelectEnter(isSelect, hand);
             }
-            else if (_isTouchMoment && !isTouch)
+            else if (_isSelectMoment && !isSelect)
             {
-                TouchExit(isTouch);
+                SelectExit(isSelect, hand);
             }
         }
 
         /// <summary>
         /// レイがオブジェクトに触れた瞬間の処理
         /// </summary>
-        /// <param name="isTouch"></param>
+        /// <param name="isSelect"></param>
         /// <param name="hand"></param>
-        void TouchEnter(bool isTouch, Hand hand)
+        void SelectEnter(bool isSelect, Hand hand)
         {
-            _isTouchMoment = isTouch;
+            _isSelectMoment = isSelect;
             if (hand == Hand.Left)
             {
                 //握ったときにcurrentControllerにどちらのコントローラかの情報が入るので、触れたときの振動処理は
                 //currentControllerを引数に使えない
                 handleVibe.Vibrate(touchVibeDuration, touchFrequeency, touchAmplitude, OVRInput.Controller.LTouch);
             }
-            else
+            else if (hand == Hand.Right)
             {
                 handleVibe.Vibrate(touchVibeDuration, touchFrequeency, touchAmplitude, OVRInput.Controller.RTouch);
             }
 
-            ChangeOutlineColor(_isTouch);
+            ChangeOutlineColor(_isSelect);
         }
 
         /// <summary>
         /// 触れたレイがオブジェクトから離れた瞬間の処理
         /// </summary>
-        /// <param name="isTouch"></param>
-        public void TouchExit(bool isTouch)
+        /// <param name="isSelect"></param>
+        public void SelectExit(bool isSelect, Hand hand)
         {
-            _isTouchMoment = isTouch;
-            ChangeOutlineColor(_isTouch);
+            _selectHand = hand;
+            _isSelectMoment = isSelect;
+            ChangeOutlineColor(_isSelect);
         }
 
         public void AttackVibe()
@@ -259,10 +271,10 @@ namespace Players
         /// <summary>
         /// 手がハンドルに触れただけで、握ってはいないときに色を変える
         /// </summary>
-        /// <param name="isTouch">触れているかどうか</param>
-        public void ChangeOutlineColor(bool isTouch)
+        /// <param name="isSelect">触れているかどうか</param>
+        public void ChangeOutlineColor(bool isSelect)
         {
-            if (isTouch)
+            if (isSelect)
             {
                 handleRenderer.materials[2].SetColor("_OutlineColor", selectedColor);
             }
