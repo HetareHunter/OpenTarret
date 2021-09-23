@@ -139,7 +139,7 @@ namespace Players
                 }
 
 
-                handFixer.FixHand(currentController); //手のメッシュの位置をハンドルの位置に固定し続けている
+                handFixer.FixHand(); //手のメッシュの位置をハンドルの位置に固定し続けている
                 FollowHand(grabbedHandTransform);
 
                 if (!handleGrabMoment)//手を握った瞬間の処理
@@ -174,7 +174,7 @@ namespace Players
         /// </summary>
         public void GrabEnd()
         {
-            handFixer.ReleseHand(currentController);
+            handFixer.ReleseHand();
             currentController = OVRInput.Controller.None;
 
             returnPosition.Released();
