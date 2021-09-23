@@ -58,6 +58,7 @@ namespace Players
         HandleInput handleInput;
         HandFixer handFixer;
         public HandleSide handle;
+        public SelectableHand selectableHand;
 
         /// <summary> 触れた時の振動の大きさ </summary>
         [SerializeField] float touchFrequeency = 0.3f;
@@ -78,6 +79,15 @@ namespace Players
             get
             {
                 return _selectHand;
+            }
+            set { }
+        }
+
+        public SelectableHand SelectableHand
+        {
+            get
+            {
+                return selectableHand;
             }
             set { }
         }
@@ -214,8 +224,10 @@ namespace Players
         /// <param name="hand">どちらの手から放たれたレイで取得するか</param>
         public void SelectHandle(bool isSelect, Hand hand)
         {
+            //if ((hand == Hand.Left && handle == HandleSide.Right) || (hand == Hand.Right && handle == HandleSide.Left)) return;
             _isSelect = isSelect;
             _selectHand = hand;
+
             if (!_isSelectMoment && isSelect)//触れた瞬間の処理
             {
                 SelectEnter(isSelect, hand);

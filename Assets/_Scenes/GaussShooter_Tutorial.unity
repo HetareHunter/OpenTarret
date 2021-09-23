@@ -5917,6 +5917,7 @@ MonoBehaviour:
   selectedColor: {r: 0.7490196, g: 0.2784314, b: 0.03529412, a: 1}
   handleObj: {fileID: 1787227846111442194}
   handle: 1
+  selectableHand: 1
   touchFrequeency: 0.4
   touchAmplitude: 0.2
   touchVibeDuration: 0.3
@@ -7115,6 +7116,87 @@ Transform:
   m_Father: {fileID: 289059958}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1551282349
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1551282352}
+  - component: {fileID: 1551282351}
+  - component: {fileID: 1551282350}
+  m_Layer: 0
+  m_Name: Sphere
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!23 &1551282350
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551282349}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: f809efb411ec40e46b3c4e576451285b, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1551282351
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551282349}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1551282352
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551282349}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.834, y: 1.499, z: 1.052}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 38
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1552850014 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3271362516878423326, guid: 4c947f2b0ea8236429a97a3edae41aa1,
@@ -7876,6 +7958,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c947f2b0ea8236429a97a3edae41aa1, type: 3}
+--- !u!1 &1749834757 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1804390802185628332, guid: 19ad9f82f1211a4469a985584fea8881,
+    type: 3}
+  m_PrefabInstance: {fileID: 1805517546569208131}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1764161610
 GameObject:
   m_ObjectHideFlags: 0
@@ -9216,6 +9304,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1513886614}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2122404001 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1803798277078798196, guid: 19ad9f82f1211a4469a985584fea8881,
+    type: 3}
+  m_PrefabInstance: {fileID: 1805517546569208131}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2136069624
 GameObject:
   m_ObjectHideFlags: 0
@@ -9825,6 +9919,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7748163867149650226}
     m_Modifications:
+    - target: {fileID: 1793643528892561380, guid: 19ad9f82f1211a4469a985584fea8881,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3637b758ff163493f8bb8b6d7e96d7ae, type: 2}
+    - target: {fileID: 1794237119866155082, guid: 19ad9f82f1211a4469a985584fea8881,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794237119866155082, guid: 19ad9f82f1211a4469a985584fea8881,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3637b758ff163493f8bb8b6d7e96d7ae, type: 2}
+    - target: {fileID: 1794237119866155082, guid: 19ad9f82f1211a4469a985584fea8881,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1803702787227450092, guid: 19ad9f82f1211a4469a985584fea8881,
         type: 3}
       propertyPath: m_Layer
@@ -10585,6 +10699,36 @@ PrefabInstance:
       propertyPath: _hand
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6266994441535854576, guid: 19ad9f82f1211a4469a985584fea8881,
+        type: 3}
+      propertyPath: _handMesh
+      value: 
+      objectReference: {fileID: 1749834757}
+    - target: {fileID: 6266994441535854576, guid: 19ad9f82f1211a4469a985584fea8881,
+        type: 3}
+      propertyPath: _wireFrameMT
+      value: 
+      objectReference: {fileID: 2100000, guid: f809efb411ec40e46b3c4e576451285b, type: 2}
+    - target: {fileID: 6266994441535854576, guid: 19ad9f82f1211a4469a985584fea8881,
+        type: 3}
+      propertyPath: _defaultHandMT
+      value: 
+      objectReference: {fileID: 2100000, guid: 3637b758ff163493f8bb8b6d7e96d7ae, type: 2}
+    - target: {fileID: 7952230623539886227, guid: 19ad9f82f1211a4469a985584fea8881,
+        type: 3}
+      propertyPath: _handMesh
+      value: 
+      objectReference: {fileID: 2122404001}
+    - target: {fileID: 7952230623539886227, guid: 19ad9f82f1211a4469a985584fea8881,
+        type: 3}
+      propertyPath: _wireFrameMT
+      value: 
+      objectReference: {fileID: 2100000, guid: f809efb411ec40e46b3c4e576451285b, type: 2}
+    - target: {fileID: 7952230623539886227, guid: 19ad9f82f1211a4469a985584fea8881,
+        type: 3}
+      propertyPath: _defaultHandMT
+      value: 
+      objectReference: {fileID: 2100000, guid: 3637b758ff163493f8bb8b6d7e96d7ae, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19ad9f82f1211a4469a985584fea8881, type: 3}
 --- !u!4 &1805517546569208132 stripped
@@ -11532,6 +11676,7 @@ MonoBehaviour:
   selectedColor: {r: 0.7490196, g: 0.2784314, b: 0.03529412, a: 1}
   handleObj: {fileID: 665794924282389620}
   handle: 0
+  selectableHand: 0
   touchFrequeency: 0.4
   touchAmplitude: 0.2
   touchVibeDuration: 0.3

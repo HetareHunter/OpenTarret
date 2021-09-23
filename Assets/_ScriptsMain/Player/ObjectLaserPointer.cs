@@ -9,11 +9,26 @@ public enum Hand
     None
 }
 
+public enum SelectableHand
+{
+    Left,
+    Right,
+    Both,
+    None
+}
+
 namespace Players
 {
     public interface ISelectable
     {
+        /// <summary>
+        /// 選択している手
+        /// </summary>
         public Hand SelectHand { get; set; }
+        /// <summary>
+        /// 選択できる手
+        /// </summary>
+        public SelectableHand SelectableHand { get; set; }
         public void SelectHandle(bool isTouch, Hand hand);
         public void ChangeOutlineColor(bool isTouch);
         public void VanishOutline();
@@ -32,7 +47,7 @@ namespace Players
         Vector3[] linePosition = new Vector3[2];
         RaycastHit _hit;
         [SerializeField] float maxRayDistance = 0.5f;
-        ISelectable selectable;
+        ISelectable selectedObj;
         IGrabbable grabbable;
 
         [SerializeField] float grabBegin = 0.55f;
@@ -45,11 +60,17 @@ namespace Players
         /// </summary>
         bool _searchable = true;
 
+        [SerializeField] GameObject _handMesh;
+        Renderer _handMeshRenderer;
+        [SerializeField] Material _defaultHandMT;
+        [SerializeField] Material _wireFrameMT;
 
         // Start is called before the first frame update
         void Start()
         {
             lineRenderer = GetComponent<LineRenderer>();
+            _handMeshRenderer = _handMesh.GetComponent<Renderer>();
+            _handMeshRenderer.material = _defaultHandMT;
         }
 
         // Update is called once per frame
@@ -74,16 +95,14 @@ namespace Players
             if (Physics.Raycast(ray, out _hit, maxRayDistance, LayerMask.GetMask("Tarret")))
             {
                 DrawLineRenderer(_hit.point);
-                if (selectable == null)
-                {
-                    selectable = _hit.transform.GetComponent<ISelectable>();
-                }
+                SelectBegin();
+                if (!JudgeSelectable(_hand)) selectedObj = null;
 
-                if (selectable != null)
+                if (selectedObj != null)
                 {
-                    if (selectable.SelectHand == _hand || selectable.SelectHand == Hand.None)//選択している手がこのコンポーネントの手、あるいは選択している手がない場合
+                    if (selectedObj.SelectHand == _hand || selectedObj.SelectHand == Hand.None)//選択している手がこのコンポーネントの手、あるいは選択している手がない場合
                     {
-                        selectable.SelectHandle(true, _hand);
+                        selectedObj.SelectHandle(true, _hand);
                         if (grabbable == null)//掴むことができるようにする
                         {
                             grabbable = _hit.transform.GetComponent<IGrabbable>();
@@ -91,24 +110,52 @@ namespace Players
                     }
                     else //選択している手がこのコンポーネントではない手である場合
                     {
-                        selectable = null;
+                        selectedObj = null;
                     }
-                    
                 }
-
             }
             else
             {
-                if (selectable != null)//レイが外れる瞬間に呼び出される処理
-                {
-                    selectable.SelectHandle(false, Hand.None);
-                    selectable = null;
-                }
+                SelectEnd();
                 if (grabbable != null)
                 {
                     grabbable = null;
                 }
                 DrawLineRenderer(defaultLineFinishPosi.transform.position);
+            }
+        }
+
+        bool JudgeSelectable(Hand hand)
+        {
+            if (_hand == Hand.Left)
+            {
+                if (selectedObj.SelectableHand == SelectableHand.Left || selectedObj.SelectableHand == SelectableHand.Both)
+                {
+                    return true;
+                }
+            }
+            else if (_hand == Hand.Right)
+            {
+                if (selectedObj.SelectableHand == SelectableHand.Right || selectedObj.SelectableHand == SelectableHand.Both)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        void SelectBegin()
+        {
+            if (selectedObj == null) //GetComponentを毎フレーム常に行うのは避けたい
+            {
+                selectedObj = _hit.transform.GetComponent<ISelectable>();
+            }
+        }
+        void SelectEnd()
+        {
+            if (selectedObj != null)//レイが外れる瞬間に呼び出される処理
+            {
+                selectedObj.SelectHandle(false, Hand.None);
+                selectedObj = null;
             }
         }
 
@@ -130,6 +177,7 @@ namespace Players
                     _preGrab = true;
                     _searchable = false;
                     grabbable.GrabBegin(OVRInput.Controller.LTouch, transform);
+                    _handMeshRenderer.material = _wireFrameMT;
                 }
                 else if (OVRInput.Get(OVRInput.RawAxis1D.LHandTrigger) <= grabEnd && _preGrab)
                 {
@@ -137,6 +185,7 @@ namespace Players
                     grabbable.GrabEnd();
                     grabbable = null;
                     _searchable = true;
+                    _handMeshRenderer.material = _defaultHandMT;
                 }
             }
             else if (_hand == Hand.Right)
@@ -146,6 +195,7 @@ namespace Players
                     _preGrab = true;
                     _searchable = false;
                     grabbable.GrabBegin(OVRInput.Controller.RTouch, transform);
+                    _handMeshRenderer.material = _wireFrameMT;
                 }
                 else if (OVRInput.Get(OVRInput.RawAxis1D.RHandTrigger) <= grabEnd && _preGrab)
                 {
@@ -153,6 +203,7 @@ namespace Players
                     grabbable.GrabEnd();
                     grabbable = null;
                     _searchable = true;
+                    _handMeshRenderer.material = _defaultHandMT;
                 }
             }
         }
