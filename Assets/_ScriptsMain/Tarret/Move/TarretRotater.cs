@@ -29,6 +29,11 @@ namespace Tarret
 
         [SerializeField] float maxHorizontalAngle = 0.5f;
         [SerializeField] float minHorizontalAngle = -0.5f;
+        /// <summary>
+        /// あそびの調整
+        /// </summary>
+        [SerializeField] float coodinaiteHorzontalPlay = 0.02f;
+        [SerializeField] float coodinaiteVerticalPlay = 0.02f;
 
         TarretStateManager tarretStateManager;
 
@@ -83,14 +88,14 @@ namespace Tarret
         {
             if (rootPos.transform.localRotation.y > maxHorizontalAngle)
             {
-                if (m_arrowMark.transform.localRotation.y < 0)
+                if (m_arrowMark.transform.localRotation.y < -coodinaiteHorzontalPlay)
                 {
                     HRotate();
                 }
             }
-            else if(rootPos.transform.localRotation.y < minHorizontalAngle)
+            else if (rootPos.transform.localRotation.y < minHorizontalAngle)
             {
-                if (m_arrowMark.transform.localRotation.y > 0)
+                if (m_arrowMark.transform.localRotation.y > coodinaiteHorzontalPlay)
                 {
                     HRotate();
                 }
@@ -99,13 +104,13 @@ namespace Tarret
             {
                 HRotate();
             }
-            //rootPos.transform.Rotate(new Vector3(0, 90, 0) * rotateSpeed * Time.deltaTime * m_arrowMark.transform.localRotation.y);
+            DebugUIBuilder.instance.AddLabel(m_arrowMark.transform.localRotation.y.ToString());
         }
 
         void HRotate()
         {
             rootPos.transform.Rotate(new Vector3(0, 90, 0) * rotateSpeed * Time.deltaTime
-                                    * m_arrowMark.transform.localRotation.y);
+                                    * (m_arrowMark.transform.localRotation.y));
         }
 
         /// <summary>
@@ -116,14 +121,14 @@ namespace Tarret
             //Debug.Log("muzzleFlameJointPos localRotation.x " + muzzleFlameJointPos.transform.localRotation.x);
             if (muzzleFlameJointPos.transform.localRotation.x > maxVerticalAngle)
             {
-                if (m_arrowMark.transform.localRotation.x < 0)
+                if (m_arrowMark.transform.localRotation.x < -coodinaiteVerticalPlay)
                 {
                     VRotate();
                 }
             }
             else if (muzzleFlameJointPos.transform.localRotation.x < minVerticalAngle)
             {
-                if (m_arrowMark.transform.localRotation.x > 0)
+                if (m_arrowMark.transform.localRotation.x > coodinaiteVerticalPlay)
                 {
                     VRotate();
                 }
@@ -137,7 +142,7 @@ namespace Tarret
         void VRotate()
         {
             muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * rotateSpeed * Time.deltaTime
-                                    * m_arrowMark.transform.localRotation.x);
+                                    * (m_arrowMark.transform.localRotation.x));
         }
         #region
 #if UNITY_EDITOR
@@ -184,5 +189,4 @@ namespace Tarret
 #endif
         #endregion
     }
-
 }
