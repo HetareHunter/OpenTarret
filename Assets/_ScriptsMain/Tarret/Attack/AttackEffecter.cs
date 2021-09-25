@@ -4,25 +4,22 @@ using UnityEngine;
 
 public class AttackEffecter : MonoBehaviour
 {
-    [SerializeField] TarretAttackData tarretAttackData;
-
     /// <summary>衝撃波のエフェクト </summary>
-    [SerializeField] GameObject m_shockWaveEffect;
+    [SerializeField] GameObject _shockWaveEffect;
     /// <summary>衝撃波の生成位置 </summary>
-    [SerializeField] GameObject m_shockWaveEffectInsPosi;
+    [SerializeField] GameObject _shockWaveEffectInsPosi;
 
-    /// <summary>廃熱のエフェクト </summary>
-    [SerializeField] GameObject[] m_wasteHeatEffects;
-    int wasteHeatIndex = 0;
     /// <summary>廃熱エフェクトの生成位置 </summary>
-    [SerializeField] GameObject m_wasteHeatEffectInsPosi;
-    
+    [SerializeField] GameObject _wasteHeatEffectInsPosi;
 
+    ParticleCreater _wasteHeatCreater;
+    ParticleCreater _shockWaveCreater;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+        _wasteHeatCreater = _wasteHeatEffectInsPosi.GetComponent<ParticleCreater>();
+        _shockWaveCreater = _shockWaveEffectInsPosi.GetComponent<ParticleCreater>();
     }
 
     /// <summary>
@@ -30,9 +27,7 @@ public class AttackEffecter : MonoBehaviour
     /// </summary>
     public void ShockWaveManager()
     {
-        m_shockWaveEffect.transform.position = m_shockWaveEffectInsPosi.transform.position;
-        m_shockWaveEffect.transform.rotation = m_shockWaveEffectInsPosi.transform.rotation;
-        m_shockWaveEffect.SetActive(true);
+        _shockWaveCreater.InstanceParticle();
     }
 
     /// <summary>
@@ -40,11 +35,6 @@ public class AttackEffecter : MonoBehaviour
     /// </summary>
     public void InstanceWasteHeatEffect()
     {
-        m_wasteHeatEffects[wasteHeatIndex].SetActive(true);
-        wasteHeatIndex++;
-        if (wasteHeatIndex >= m_wasteHeatEffects.Length)
-        {
-            wasteHeatIndex = 0;
-        }
+        _wasteHeatCreater.InstanceParticle();
     }
 }

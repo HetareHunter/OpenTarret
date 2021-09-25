@@ -5,9 +5,8 @@ using DG.Tweening;
 
 public class ImpactTransManager : MonoBehaviour
 {
-    [SerializeField] TarretAttackData tarretData;
-    float deathTime;
-    [SerializeField] Vector3 m_endSize;
+    float deathTime = 0.2f;
+    [SerializeField] Vector3 m_endSize = new Vector3(10, 10, 10);
     Vector3 m_startSize;
     Renderer renderer;
     float alpha;
@@ -16,7 +15,6 @@ public class ImpactTransManager : MonoBehaviour
 
     private void Awake()
     {
-        deathTime = tarretData.shockWaveExistTime;
         m_startSize = transform.localScale;
         renderer = GetComponent<Renderer>();
         renderer.material.SetFloat("_alpha", startAlpha);
@@ -34,7 +32,7 @@ public class ImpactTransManager : MonoBehaviour
     {
         transform.DOScale(m_endSize, deathTime)
             .SetEase(Ease.Linear)
-            .OnComplete(()=>InactiveImpact());
+            .OnComplete(() => InactiveImpact());
     }
 
     void InactiveImpact()
