@@ -31,5 +31,5 @@ Material:
     - _glitterRange1: -0.5
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _OutlineColor: {r: 0.7215686, g: 1, b: 0.8584813, a: 0}
+    - _OutlineColor: {r: 0.72156864, g: 1, b: 0.85848135, a: 1}
   m_BuildTextureStacks: []

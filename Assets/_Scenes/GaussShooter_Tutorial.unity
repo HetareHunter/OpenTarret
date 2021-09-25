@@ -4049,7 +4049,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 810249609}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -6042,8 +6042,8 @@ GameObject:
   - component: {fileID: 1316524900}
   - component: {fileID: 1316524904}
   - component: {fileID: 1316524903}
-  - component: {fileID: 1316524902}
   - component: {fileID: 1316524901}
+  - component: {fileID: 1316524902}
   - component: {fileID: 1316524907}
   - component: {fileID: 1316524908}
   - component: {fileID: 1316524909}
@@ -6084,7 +6084,7 @@ MonoBehaviour:
   _allowOffhandGrab: 1
   anglePointerObj: {fileID: 810249609}
   startColor: {r: 0.72156864, g: 1, b: 0.85848135, a: 1}
-  selectedColor: {r: 0.7490196, g: 0.2784314, b: 0.03529412, a: 1}
+  selectedColor: {r: 0, g: 0, b: 1, a: 1}
   handleObj: {fileID: 1787227846111442194}
   handle: 1
   selectableHand: 1
@@ -9718,15 +9718,17 @@ MonoBehaviour:
   m_leftHandlePos: {fileID: 8838843817545228087}
   m_rightHandlePos: {fileID: 8992619533171000389}
   m_arrowMark: {fileID: 776679598}
+  _anglePoint: {fileID: 810249609}
   maxVerticalAngle: 0.3
   minVerticalAngle: -0.2
   maxHorizontalAngle: 0.8
   minHorizontalAngle: -0.8
-  coodinaiteHorzontalPlay: 0.1
-  coodinaiteVerticalPlay: 0.1
+  _coodinaiteHorzontalPlay: 0.04
+  _coodinaiteVerticalPlay: 0.04
+  _coodinatePlay: 0.0004
   debugHorizontalRotate: 0.8
   debugVerticalRotate: 0.3
-  rotateSpeed: 1
+  rotateSpeed: 3
   editRotateMode: 1
 --- !u!114 &449676436726112949
 MonoBehaviour:
@@ -11895,7 +11897,7 @@ MonoBehaviour:
   _allowOffhandGrab: 1
   anglePointerObj: {fileID: 810249609}
   startColor: {r: 0.72156864, g: 1, b: 0.85848135, a: 1}
-  selectedColor: {r: 0.7490196, g: 0.2784314, b: 0.03529412, a: 1}
+  selectedColor: {r: 0, g: 0, b: 1, a: 1}
   handleObj: {fileID: 665794924282389620}
   handle: 0
   selectableHand: 0

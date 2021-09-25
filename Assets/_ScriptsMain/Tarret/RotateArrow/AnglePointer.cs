@@ -14,6 +14,7 @@ public class AnglePointer : MonoBehaviour
     [SerializeField] GameObject originAnglePoint;
 
     Vector3 adjustPosi;
+    Vector3 _newPosi;
     /// <summary>
     /// センターポジションの調整処理を呼び出すディレイ時間、単位はミリ秒
     /// </summary>
@@ -34,6 +35,22 @@ public class AnglePointer : MonoBehaviour
         }
     }
 
+    public float AnglePointMoveDistance
+    {
+        get
+        {
+            return Mathf.Pow(transform.localPosition.x, 2) + Mathf.Pow(transform.localPosition.y, 2);
+        }
+    }
+
+    public Vector2 AnglePointPosi
+    {
+        get
+        {
+            return _newPosi;
+        }
+    }
+
     private void Start()
     {
         tarretStateManager = tarret.GetComponent<TarretStateManager>();
@@ -51,13 +68,19 @@ public class AnglePointer : MonoBehaviour
 
     void MoveAnglePoint()
     {
-        Vector3 newPosi = CenterOfHands;
+        _newPosi = CenterOfHands;
 
-        newPosi += adjustPosi;
-        newPosi.z = originAnglePoint.transform.localPosition.z;
-        transform.localPosition = newPosi;
+        _newPosi += adjustPosi;
+        _newPosi.z = originAnglePoint.transform.localPosition.z;
+        transform.localPosition = _newPosi;
+
+        //DebugUIBuilder.instance.AddLabel("ArrowAndlePointの transform.localPosition.x :" + transform.localPosition.x.ToString() +
+        //   " transform.localPosition.y :" + transform.localPosition.y.ToString());
     }
 
+    /// <summary>
+    /// 握った瞬間大きく動かないようにディレイをかけている
+    /// </summary>
     public void BeginGrabHandle()
     {
         Observable.Return(Unit.Default)
@@ -68,4 +91,6 @@ public class AnglePointer : MonoBehaviour
                isAdjust = true;
            });
     }
+
+    
 }
