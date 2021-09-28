@@ -12,14 +12,14 @@ public class AttackEffecter : MonoBehaviour
     /// <summary>廃熱エフェクトの生成位置 </summary>
     [SerializeField] GameObject _wasteHeatEffectInsPosi;
 
-    ParticleCreater _wasteHeatCreater;
-    ParticleCreater _shockWaveCreater;
+    ChildParticleCreater _wasteHeatCreater;
+    WorldParticleCreater _shockWaveCreater;
 
     // Start is called before the first frame update
     void Awake()
     {
-        _wasteHeatCreater = _wasteHeatEffectInsPosi.GetComponent<ParticleCreater>();
-        _shockWaveCreater = _shockWaveEffectInsPosi.GetComponent<ParticleCreater>();
+        _wasteHeatCreater = _wasteHeatEffectInsPosi.GetComponent<ChildParticleCreater>();
+        _shockWaveCreater = _shockWaveEffectInsPosi.GetComponent<WorldParticleCreater>();
     }
 
     /// <summary>
@@ -27,7 +27,7 @@ public class AttackEffecter : MonoBehaviour
     /// </summary>
     public void ShockWaveManager()
     {
-        _shockWaveCreater.InstanceParticle();
+        _shockWaveCreater.InstanceParticle(_shockWaveEffectInsPosi.transform.position, _shockWaveEffectInsPosi.transform.rotation);
     }
 
     /// <summary>
