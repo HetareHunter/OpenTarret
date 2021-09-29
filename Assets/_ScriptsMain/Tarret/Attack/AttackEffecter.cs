@@ -6,28 +6,32 @@ public class AttackEffecter : MonoBehaviour
 {
     /// <summary>衝撃波のエフェクト </summary>
     [SerializeField] GameObject _shockWaveEffect;
+    [SerializeField] int _shockWaveMax;
     /// <summary>衝撃波の生成位置 </summary>
     [SerializeField] GameObject _shockWaveEffectInsPosi;
+    [SerializeField] GameObject _objectPoolObj;
 
     /// <summary>廃熱エフェクトの生成位置 </summary>
     [SerializeField] GameObject _wasteHeatEffectInsPosi;
-
-    ChildParticleCreater _wasteHeatCreater;
-    WorldParticleCreater _shockWaveCreater;
+    [SerializeField] GameObject _wasteHeatEffect;
+    [SerializeField] int _wasteHeatMax;
+    ObjectPool _objectPool;
 
     // Start is called before the first frame update
     void Awake()
     {
-        _wasteHeatCreater = _wasteHeatEffectInsPosi.GetComponent<ChildParticleCreater>();
-        _shockWaveCreater = _shockWaveEffectInsPosi.GetComponent<WorldParticleCreater>();
+        _objectPool = _objectPoolObj.GetComponent<ObjectPool>();
+
+        _objectPool.CreatePool(_shockWaveEffect, _shockWaveMax);
+        _objectPool.CreatePool(_wasteHeatEffect, _wasteHeatMax, _wasteHeatEffectInsPosi.transform);
     }
 
     /// <summary>
     /// 衝撃波を徐々に大きくしていき、一定時間で消滅する
     /// </summary>
-    public void ShockWaveManager()
+    public void InstanceShockWave()
     {
-        _shockWaveCreater.InstanceParticle(_shockWaveEffectInsPosi.transform.position, _shockWaveEffectInsPosi.transform.rotation);
+        _objectPool.GetObject(_shockWaveEffect, _shockWaveEffectInsPosi.transform.position, _shockWaveEffectInsPosi.transform.rotation);
     }
 
     /// <summary>
@@ -35,6 +39,6 @@ public class AttackEffecter : MonoBehaviour
     /// </summary>
     public void InstanceWasteHeatEffect()
     {
-        _wasteHeatCreater.InstanceParticle();
+        _objectPool.GetObject(_wasteHeatEffect, _wasteHeatEffectInsPosi.transform);
     }
 }

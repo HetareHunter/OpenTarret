@@ -147,7 +147,7 @@ namespace Tarret
             muzzleAudio.AudioPlay();
             razerAttacker.InstanceFireEffect();
             razerEffecter.InstanceWasteHeatEffect();
-            razerEffecter.ShockWaveManager();
+            razerEffecter.InstanceShockWave();
             attackRayManager.KillEnemyFromRazer();
 
             IsAttackable(false);

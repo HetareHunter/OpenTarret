@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ParticleCreater : MonoBehaviour
 {
-    public GameObject _particlePrefab;
+    //public List<GameObject> _particlePrefab;
     public int _particleObjMax = 10;
     public GameObject _ObejctPoolObj;
     protected ObjectPool _objectPool;
@@ -15,7 +15,7 @@ public class ParticleCreater : MonoBehaviour
     {
         _objectPool = _ObejctPoolObj.GetComponent<ObjectPool>();
     }
-    public virtual void InstanceParticle()
+    public virtual void InstanceParticle(GameObject _particlePrefab)
     {
         var poolParticle = _objectPool.GetObject(_particlePrefab);
     }

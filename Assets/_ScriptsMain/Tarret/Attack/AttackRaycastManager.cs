@@ -13,20 +13,21 @@ public class AttackRaycastManager : MonoBehaviour
     /// <summary> 当たったオブジェクトの情報を入れておく変数 </summary>
     List<RaycastHit> m_hitsEnemy;
     BaseTarretAttackManager BaseTarretAttacker;
-    GuardCubeDamager GuardCubeDamager;
-    WorldParticleCreater explosionForce;
-    //public GameObject muzzle;
+
+    ObjectPool _objectPool;
+    [Header("ヒットしたとき生成するオブジェクト、オブジェクトプールに設定するもの")]
+    [SerializeField] GameObject _objectPoolObj;
+    [SerializeField] GameObject _explodeForceEffect;
+    [SerializeField] int _explodeForceEffectMax;
+
+    [SerializeField] GameObject _explodeEffect;
+    [SerializeField] int _explodeEffectMax;
+
     float muzzleRadius;
     [Header("当たるとレーザーがそのオブジェクトを貫通しないレイヤー")]
     public LayerMask noPenetrationLayer;
     public int PeneLayerMaskNum;
     [SerializeField] GameObject tarret;
-
-    /// <summary>爆発のエフェクト </summary>
-    [SerializeField] GameObject[] m_hitExplodeEffects;
-
-    int hitExplodeIndex = 0;
-
 
     // Start is called before the first frame update
     void Start()
@@ -36,9 +37,10 @@ public class AttackRaycastManager : MonoBehaviour
         //　弾の半径を取得
         muzzleRadius = GetComponent<SphereCollider>().radius;
         m_hitsEnemy = new List<RaycastHit>();
-        explosionForce = GetComponent<WorldParticleCreater>();
+        _objectPool = _objectPoolObj.GetComponent<ObjectPool>();
+        _objectPool.CreatePool(_explodeForceEffect, _explodeForceEffectMax);
+        _objectPool.CreatePool(_explodeEffect, _explodeEffectMax);
 
-        //PeneLayerMaskNum = LayerMask.NameToLayer(noPenetrationLayer.ToString());
         int maskNum = noPenetrationLayer;
         int layerNum = 0;
         while (maskNum > 0)
@@ -116,8 +118,10 @@ public class AttackRaycastManager : MonoBehaviour
         foreach (var hit in hits)
         {
             //爆発したときの力となるオブジェクトの生成
-            explosionForce.InstanceParticle(hit.point, Quaternion.identity);
-            PlayHitExplodeEffect(hit.point);
+            _objectPool.GetObject(_explodeForceEffect, hit.point, Quaternion.identity);
+            //explosionForce.InstanceParticle(hit.point, Quaternion.identity);
+            //PlayHitExplodeEffect(hit.point);
+            _objectPool.GetObject(_explodeEffect, hit.point, Quaternion.identity);
             if (hit.collider.gameObject.layer != PeneLayerMaskNum)
             {
                 IEnemyDeath enemyDeath = hit.collider.gameObject.GetComponent<IEnemyDeath>();
@@ -125,18 +129,18 @@ public class AttackRaycastManager : MonoBehaviour
             }
 
 
-            if (hitExplodeIndex >= m_hitExplodeEffects.Length)
-            {
-                hitExplodeIndex = 0;
-            }
+            //if (hitExplodeIndex >= m_hitExplodeEffects.Length)
+            //{
+            //    hitExplodeIndex = 0;
+            //}
         }
     }
 
-    void PlayHitExplodeEffect(Vector3 hit)
-    {
-        //爆発エフェクトの再生
-        m_hitExplodeEffects[hitExplodeIndex].transform.position = hit;
-        m_hitExplodeEffects[hitExplodeIndex].SetActive(true);
-        hitExplodeIndex++;
-    }
+    //void PlayHitExplodeEffect(Vector3 hit)
+    //{
+    //    //爆発エフェクトの再生
+    //    m_hitExplodeEffects[hitExplodeIndex].transform.position = hit;
+    //    m_hitExplodeEffects[hitExplodeIndex].SetActive(true);
+    //    hitExplodeIndex++;
+    //}
 }
