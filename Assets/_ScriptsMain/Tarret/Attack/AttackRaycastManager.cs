@@ -11,8 +11,8 @@ public class AttackRaycastManager : MonoBehaviour
     /// <summary>レイの原点。ここから伸びていく </summary>
     [SerializeField] GameObject rayOfOrigin;
     /// <summary> 当たったオブジェクトの情報を入れておく変数 </summary>
-    List<RaycastHit> m_hitsEnemy;
-    BaseTarretAttackManager BaseTarretAttacker;
+    List<RaycastHit> _hitsEnemy;
+    BaseTarretAttackManager _BaseTarretAttacker;
 
     ObjectPool _objectPool;
     [Header("ヒットしたとき生成するオブジェクト、オブジェクトプールに設定するもの")]
@@ -23,32 +23,32 @@ public class AttackRaycastManager : MonoBehaviour
     [SerializeField] GameObject _explodeEffect;
     [SerializeField] int _explodeEffectMax;
 
-    float muzzleRadius;
+    float _muzzleRadius;
     [Header("当たるとレーザーがそのオブジェクトを貫通しないレイヤー")]
-    public LayerMask noPenetrationLayer;
-    public int PeneLayerMaskNum;
+    public LayerMask _noPenetrationLayer;
+    public int _PeneLayerMaskNum;
     [SerializeField] GameObject tarret;
 
     // Start is called before the first frame update
     void Start()
     {
-        BaseTarretAttacker = tarret.GetComponent<BaseTarretAttackManager>();
+        _BaseTarretAttacker = tarret.GetComponent<BaseTarretAttackManager>();
 
         //　弾の半径を取得
-        muzzleRadius = GetComponent<SphereCollider>().radius;
-        m_hitsEnemy = new List<RaycastHit>();
+        _muzzleRadius = GetComponent<SphereCollider>().radius;
+        _hitsEnemy = new List<RaycastHit>();
         _objectPool = _objectPoolObj.GetComponent<ObjectPool>();
         _objectPool.CreatePool(_explodeForceEffect, _explodeForceEffectMax);
         _objectPool.CreatePool(_explodeEffect, _explodeEffectMax);
 
-        int maskNum = noPenetrationLayer;
+        int maskNum = _noPenetrationLayer;
         int layerNum = 0;
         while (maskNum > 0)
         {
             maskNum >>= 1;
             if (maskNum <= 0)
             {
-                PeneLayerMaskNum = layerNum;
+                _PeneLayerMaskNum = layerNum;
                 break;
             }
             layerNum++;
@@ -65,39 +65,38 @@ public class AttackRaycastManager : MonoBehaviour
     /// </summary>
     void RaySearchObject()
     {
-        m_hitsEnemy.Clear();
+        _hitsEnemy.Clear();
         //　飛ばす位置と飛ばす方向を設定
         Ray ray = new Ray(transform.position, transform.forward);
 
         //　Sphereの形でレイを飛ばしEnemy、GameManagerレイヤーのオブジェクトをm_hitsEnemyに入れる
         //RaycastAll系は取得したオブジェクトを一番遠いものから順に配列に格納していくので、0に近い要素数程遠いものになる
-        var hits = Physics.SphereCastAll(ray, muzzleRadius, maxRayDistance.z, LayerMask.GetMask("Enemy", "Stage", "TutorialTarget"));
+        var hits = Physics.SphereCastAll(ray, _muzzleRadius, maxRayDistance.z, LayerMask.GetMask("Enemy", "Stage", "TutorialTarget"));
         for (int i = 0; i < hits.Length; i++)
         {
-            m_hitsEnemy.Add(hits[i]);
-
+            _hitsEnemy.Add(hits[i]);
         }
-        BaseTarretAttacker.ScreenChangeColor(m_hitsEnemy);
+        _BaseTarretAttacker.ScreenChangeColor(_hitsEnemy);
     }
 
     public Vector3 FinishHitPosition()
     {
 
-        if (m_hitsEnemy.Count == 0)
+        if (_hitsEnemy.Count == 0)
         {
             return defaultRazerFinishPosition.transform.position;
         }
-        m_hitsEnemy.Sort((a, b) => a.distance.CompareTo(b.distance));
-        for (int i = 0; i < m_hitsEnemy.Count; i++)
+        _hitsEnemy.Sort((a, b) => a.distance.CompareTo(b.distance));
+        for (int i = 0; i < _hitsEnemy.Count; i++)
         {
-            if (m_hitsEnemy[i].collider.gameObject.layer == PeneLayerMaskNum)
+            if (_hitsEnemy[i].collider.gameObject.layer == _PeneLayerMaskNum)
             {
-                if (i != m_hitsEnemy.Count - 1)
+                if (i != _hitsEnemy.Count - 1)
                 {
-                    m_hitsEnemy.RemoveRange(i + 1, m_hitsEnemy.Count - 1 - (i + 1) + 1);
+                    _hitsEnemy.RemoveRange(i + 1, _hitsEnemy.Count - 1 - (i + 1) + 1);
                 }
 
-                return m_hitsEnemy[i].point;
+                return _hitsEnemy[i].point;
             }
         }
 
@@ -106,7 +105,7 @@ public class AttackRaycastManager : MonoBehaviour
 
     public List<RaycastHit> SetRaycastHit()
     {
-        return m_hitsEnemy;
+        return _hitsEnemy;
     }
 
     /// <summary>
@@ -119,28 +118,12 @@ public class AttackRaycastManager : MonoBehaviour
         {
             //爆発したときの力となるオブジェクトの生成
             _objectPool.GetObject(_explodeForceEffect, hit.point, Quaternion.identity);
-            //explosionForce.InstanceParticle(hit.point, Quaternion.identity);
-            //PlayHitExplodeEffect(hit.point);
             _objectPool.GetObject(_explodeEffect, hit.point, Quaternion.identity);
-            if (hit.collider.gameObject.layer != PeneLayerMaskNum)
+            if (hit.collider.gameObject.layer != _PeneLayerMaskNum)
             {
                 IEnemyDeath enemyDeath = hit.collider.gameObject.GetComponent<IEnemyDeath>();
                 enemyDeath.OnDead();
             }
-
-
-            //if (hitExplodeIndex >= m_hitExplodeEffects.Length)
-            //{
-            //    hitExplodeIndex = 0;
-            //}
         }
     }
-
-    //void PlayHitExplodeEffect(Vector3 hit)
-    //{
-    //    //爆発エフェクトの再生
-    //    m_hitExplodeEffects[hitExplodeIndex].transform.position = hit;
-    //    m_hitExplodeEffects[hitExplodeIndex].SetActive(true);
-    //    hitExplodeIndex++;
-    //}
 }
