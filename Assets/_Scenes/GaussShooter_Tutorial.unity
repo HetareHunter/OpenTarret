@@ -5181,7 +5181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _particlePrefab: {fileID: 4232023163730643856, guid: 31f732c4996897144aefea7cd54d212c,
     type: 3}
-  _particleObjMax: 10
+  _particleObjMax: 1
   _ObejctPoolObj: {fileID: 1596261476}
 --- !u!1 &1129260309
 GameObject:
@@ -8693,8 +8693,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _particlePrefab: {fileID: 7856704607539118370, guid: ef621d526b2fbb24996fb57d017c1457,
     type: 3}
-  _particleObjMax: 0
-  _ObejctPoolObj: {fileID: 1995909460}
+  _particleObjMax: 3
+  _ObejctPoolObj: {fileID: 1596261476}
   _parentObj: {fileID: 1995909460}
 --- !u!114 &1995909463
 MonoBehaviour:

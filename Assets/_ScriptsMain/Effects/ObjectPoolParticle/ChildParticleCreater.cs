@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(ObjectPool))]
 public class ChildParticleCreater : ParticleCreater
 {
     [SerializeField] GameObject _parentObj;
@@ -12,8 +11,9 @@ public class ChildParticleCreater : ParticleCreater
         base.Awake();
         _objectPool.CreatePool(_particlePrefab, _particleObjMax, _parentObj.transform);
     }
+
     public override void InstanceParticle()
     {
-        var poolParticle = _objectPool.GetObject(_parentObj.transform);
+        var poolParticle = _objectPool.GetObject(_particlePrefab, _parentObj.transform);
     }
 }

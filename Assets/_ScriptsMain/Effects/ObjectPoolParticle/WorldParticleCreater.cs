@@ -12,6 +12,6 @@ public class WorldParticleCreater : ParticleCreater
 
     public void InstanceParticle(Vector3 position, Quaternion angle)
     {
-        var poolParticle = _objectPool.GetObject(_particlePrefab.name, position, angle);
+        var poolParticle = _objectPool.GetObject(_particlePrefab, position, angle);
     }
 }

@@ -2,12 +2,15 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+/// <summary>
+/// 動的二重配列によってオブジェクトプールを行う
+/// インスタンス化するprefabを格納するリストと、そのリストを格納するDictionaryの二重配列で管理する
+/// これを行うことで、一つのコンポーネントでそのシーンのオブジェクトプールを管理できる
+/// </summary>
 public class ObjectPool : MonoBehaviour
 {
     Dictionary<string, List<GameObject>> _poolObjectLists = new Dictionary<string, List<GameObject>>();
-    public List<GameObject> _poolObjList;
-    GameObject _poolObj;
-
+    List<GameObject> _poolObjList;
 
     /// <summary>
     /// オブジェクトプールリストを登録する
@@ -20,52 +23,53 @@ public class ObjectPool : MonoBehaviour
     }
 
     // オブジェクトプールを作成
-    public void CreatePool(GameObject obj, int maxCount)
+    public void CreatePool(GameObject prefabObj, int maxCount)
     {
-        _poolObj = obj;
+        //_poolObj = prefabObj;
         _poolObjList = new List<GameObject>();
         for (int i = 0; i < maxCount; i++)
         {
-            var newObj = CreateNewObject();
+            var newObj = CreateNewObject(prefabObj, i + 1);
             newObj.SetActive(false);
             _poolObjList.Add(newObj);
         }
-        CreatePoolLists(obj.name, _poolObjList);
-    }
-
-    GameObject CreateNewObject()
-    {
-        var newObj = Instantiate(_poolObj);
-        newObj.name = _poolObj.name + (_poolObjList.Count + 1);
-
-        return newObj;
+        CreatePoolLists(prefabObj.name, _poolObjList);
     }
 
     // オブジェクトプールを作成
-    public void CreatePool(GameObject obj, int maxCount, Transform parentObj)
+    public void CreatePool(GameObject prefabObj, int maxCount, Transform parentObj)
     {
-        _poolObj = obj;
+        //_poolObj = prefabObj;
         _poolObjList = new List<GameObject>();
         for (int i = 0; i < maxCount; i++)
         {
-            var newObj = CreateNewObject(parentObj);
+            var newObj = CreateNewObject(prefabObj, parentObj, i + 1);
             newObj.SetActive(false);
             _poolObjList.Add(newObj);
         }
+        CreatePoolLists(prefabObj.name, _poolObjList);
     }
 
-    GameObject CreateNewObject(Transform parentObj)
+    GameObject CreateNewObject(GameObject prefabObj, int nameIndex)
     {
-        var newObj = Instantiate(_poolObj, parentObj);
-        newObj.name = _poolObj.name + (_poolObjList.Count + 1);
+        var newObj = Instantiate(prefabObj);
+        newObj.name = prefabObj.name + nameIndex;
 
         return newObj;
     }
 
-    public GameObject GetObject()
+    GameObject CreateNewObject(GameObject prefabObj, Transform parentObj, int nameIndex)
+    {
+        var newObj = Instantiate(prefabObj, parentObj);
+        newObj.name = prefabObj.name + nameIndex;
+
+        return newObj;
+    }
+
+    public GameObject GetObject(GameObject prefabObj)
     {
         // 使用中でないものを探して返す
-        foreach (var obj in _poolObjList)
+        foreach (var obj in _poolObjectLists[prefabObj.name])
         {
             if (obj.activeSelf == false)
             {
@@ -75,16 +79,16 @@ public class ObjectPool : MonoBehaviour
         }
 
         // 全て使用中だったら新しく作って返す
-        var newObj = CreateNewObject();
+        var newObj = CreateNewObject(prefabObj, _poolObjectLists[prefabObj.name].Count + 1);
         newObj.SetActive(true);
-        _poolObjList.Add(newObj);
+        _poolObjectLists[prefabObj.name].Add(newObj);
 
         return newObj;
     }
 
-    public GameObject GetObject(Transform parentObj)
+    public GameObject GetObject(GameObject prefabObj, Transform parentObj)
     {
-        foreach (var obj in _poolObjList)
+        foreach (var obj in _poolObjectLists[prefabObj.name])
         {
             if (obj.activeSelf == false)
             {
@@ -93,9 +97,9 @@ public class ObjectPool : MonoBehaviour
             }
         }
 
-        var newObj = CreateNewObject(parentObj);
+        var newObj = CreateNewObject(prefabObj, parentObj, _poolObjectLists[prefabObj.name].Count + 1);
         newObj.SetActive(true);
-        _poolObjList.Add(newObj);
+        _poolObjectLists[prefabObj.name].Add(newObj);
 
         return newObj;
     }
@@ -103,13 +107,13 @@ public class ObjectPool : MonoBehaviour
     /// <summary>
     /// プールからオブジェクトを拾い上げ、呼び出し元に渡す
     /// </summary>
-    /// <param name="name">プールのリストに登録している名前</param>
+    /// <param name="prefabObj"></param>
     /// <param name="position"></param>
     /// <param name="angle"></param>
     /// <returns></returns>
-    public GameObject GetObject(string name, Vector3 position, Quaternion angle)
+    public GameObject GetObject(GameObject prefabObj, Vector3 position, Quaternion angle)
     {
-        foreach (var obj in _poolObjectLists[name])
+        foreach (var obj in _poolObjectLists[prefabObj.name])
         {
             if (obj.activeSelf == false)
             {
@@ -119,10 +123,10 @@ public class ObjectPool : MonoBehaviour
             }
         }
 
-        var newObj = CreateNewObject();
+        var newObj = CreateNewObject(prefabObj, _poolObjectLists[prefabObj.name].Count + 1);
         newObj.transform.SetPositionAndRotation(position, angle);
         newObj.SetActive(true);
-        _poolObjList.Add(newObj);
+        _poolObjectLists[prefabObj.name].Add(newObj);
 
         return newObj;
     }

@@ -17,6 +17,6 @@ public class ParticleCreater : MonoBehaviour
     }
     public virtual void InstanceParticle()
     {
-        var poolParticle = _objectPool.GetObject();
+        var poolParticle = _objectPool.GetObject(_particlePrefab);
     }
 }
