@@ -30,18 +30,5 @@ public class ExplosionForce : MonoBehaviour
         {
             _explodeForceIndex = 0;
         }
-
     }
-
-    //public void CreatePoolExplosionForces(GameObject obj, int maxCount)
-    //{
-    //    _explodeForceOrigin = obj;
-    //    for (int i = 0; i < maxCount; i++)
-    //    {
-
-    //    }
-
-    //    _explodeForces.Add(_explodeForceOrigin);
-    //}
-
 }

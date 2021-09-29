@@ -14,7 +14,7 @@ public class AttackRaycastManager : MonoBehaviour
     List<RaycastHit> m_hitsEnemy;
     BaseTarretAttackManager BaseTarretAttacker;
     GuardCubeDamager GuardCubeDamager;
-    ExplosionForce explosionForce;
+    WorldParticleCreater explosionForce;
     //public GameObject muzzle;
     float muzzleRadius;
     [Header("当たるとレーザーがそのオブジェクトを貫通しないレイヤー")]
@@ -36,7 +36,7 @@ public class AttackRaycastManager : MonoBehaviour
         //　弾の半径を取得
         muzzleRadius = GetComponent<SphereCollider>().radius;
         m_hitsEnemy = new List<RaycastHit>();
-        explosionForce = GetComponent<ExplosionForce>();
+        explosionForce = GetComponent<WorldParticleCreater>();
 
         //PeneLayerMaskNum = LayerMask.NameToLayer(noPenetrationLayer.ToString());
         int maskNum = noPenetrationLayer;
@@ -116,7 +116,7 @@ public class AttackRaycastManager : MonoBehaviour
         foreach (var hit in hits)
         {
             //爆発したときの力となるオブジェクトの生成
-            explosionForce.ActiveExplosionForce(hit.point);
+            explosionForce.InstanceParticle(hit.point, Quaternion.identity);
             PlayHitExplodeEffect(hit.point);
             if (hit.collider.gameObject.layer != PeneLayerMaskNum)
             {

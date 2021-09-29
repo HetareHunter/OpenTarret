@@ -4,8 +4,20 @@ using System.Collections.Generic;
 
 public class ObjectPool : MonoBehaviour
 {
+    Dictionary<string, List<GameObject>> _poolObjectLists = new Dictionary<string, List<GameObject>>();
     public List<GameObject> _poolObjList;
     GameObject _poolObj;
+
+
+    /// <summary>
+    /// オブジェクトプールリストを登録する
+    /// </summary>
+    /// <param name="prefabName">Dictionaryのキー</param>
+    /// <param name="objList"></param>
+    public void CreatePoolLists(string prefabName, List<GameObject> objList)
+    {
+        _poolObjectLists.Add(prefabName, objList);
+    }
 
     // オブジェクトプールを作成
     public void CreatePool(GameObject obj, int maxCount)
@@ -18,6 +30,7 @@ public class ObjectPool : MonoBehaviour
             newObj.SetActive(false);
             _poolObjList.Add(newObj);
         }
+        CreatePoolLists(obj.name, _poolObjList);
     }
 
     GameObject CreateNewObject()
@@ -87,9 +100,16 @@ public class ObjectPool : MonoBehaviour
         return newObj;
     }
 
-    public GameObject GetObject(Vector3 position, Quaternion angle)
+    /// <summary>
+    /// プールからオブジェクトを拾い上げ、呼び出し元に渡す
+    /// </summary>
+    /// <param name="name">プールのリストに登録している名前</param>
+    /// <param name="position"></param>
+    /// <param name="angle"></param>
+    /// <returns></returns>
+    public GameObject GetObject(string name, Vector3 position, Quaternion angle)
     {
-        foreach (var obj in _poolObjList)
+        foreach (var obj in _poolObjectLists[name])
         {
             if (obj.activeSelf == false)
             {
@@ -107,3 +127,4 @@ public class ObjectPool : MonoBehaviour
         return newObj;
     }
 }
+
