@@ -30,14 +30,14 @@ public class BlockDeath : MonoBehaviour, IEnemyDeath
         ScoreManager.Instance.AddScore(_addScore);
     }
 
-    public void AfterDeadChangeRigidBody()
+    public void AfterDeadRigidBody()
     {
         _rb.drag = _strongDrag;
         _rb.angularDrag = _strongAnglarDrag;
     }
 
-    public void IsCollisionEnabled(bool isUsed)
+    public void IsCollisionEnabled(bool enabled)
     {
-        collider.enabled = isUsed;
+        collider.enabled = enabled;
     }
 }

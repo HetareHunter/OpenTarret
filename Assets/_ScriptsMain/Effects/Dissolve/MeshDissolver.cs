@@ -24,13 +24,6 @@ public class MeshDissolver : MonoBehaviour
         _material = new MaterialPropertyBlock();
         _threshold = _material.GetFloat("_Threshold") - _disolveDelay;
         _material.SetFloat("_Alpha", DissolveAlpha);
-
-        //MeshFilter meshFilter = GetComponent<MeshFilter>();
-        //for (int i = 0; i < meshFilter.mesh.subMeshCount; i++)
-        //{
-        //    meshFilter.mesh.SetIndices(meshFilter.mesh.GetIndices(i), MeshTopology.Points, i);
-        //}
-
     }
 
     // Update is called once per frame

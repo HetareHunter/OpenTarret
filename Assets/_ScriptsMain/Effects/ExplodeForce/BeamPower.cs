@@ -6,19 +6,14 @@ public class BeamPower : MonoBehaviour
 {
     [SerializeField] float power;
     Rigidbody m_rb;
-    [SerializeField] TarretAttackData tarretAttackData;
-    [SerializeField] bool OncollisionDeath = false;
-    float deathTime;
 
     private void Awake()
     {
         m_rb = GetComponent<Rigidbody>();
-        deathTime = tarretAttackData.explodeExistTime;
     }
     private void OnEnable()
     {
         m_rb.AddForce(transform.forward * power,ForceMode.Impulse);
-        Invoke("DeathBeamPower", deathTime);
     }
 
     void DeathBeamPower()
@@ -28,17 +23,13 @@ public class BeamPower : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (OncollisionDeath)
-        {
-            DeathBeamPower();
-            var collisionBlockDeath = collision.gameObject.GetComponent<BlockDeath>();
+        DeathBeamPower();
+        var collisionBlockDeath = collision.gameObject.GetComponent<BlockDeath>();
 
-            if (collisionBlockDeath != null)
-            {
-                collisionBlockDeath.IsCollisionEnabled(false);
-                collisionBlockDeath.AfterDeadChangeRigidBody();
-            }
-            
+        if (collisionBlockDeath != null)
+        {
+            collisionBlockDeath.IsCollisionEnabled(false);
+            collisionBlockDeath.AfterDeadRigidBody();
         }
     }
 }

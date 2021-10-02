@@ -24,6 +24,6 @@ MonoBehaviour:
   razerWidth: 1.3
   razerExistTime: 0.5
   razerExistFrame: 4
-  attackVibeDuration: 0.9
-  attackVibeFrequency: 0.3
-  attackVibeAmplitude: 0.7
+  attackVibeDuration: 0.6
+  attackVibeFrequency: 0.2
+  attackVibeAmplitude: 0.5
