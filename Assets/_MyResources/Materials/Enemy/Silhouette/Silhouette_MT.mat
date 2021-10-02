@@ -7,20 +7,22 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: EnemySpawnBlue_MT
-  m_Shader: {fileID: 4800000, guid: 9d8582db34593fb4094ed476ffa20e75, type: 3}
-  m_ShaderKeywords: _USEBASECOLOR_ON
-  m_LightmapFlags: 4
+  m_Name: Silhouette_MT
+  m_Shader: {fileID: 4800000, guid: 650dd9526735d5b46b79224bc6e94025, type: 3}
+  m_ShaderKeywords: _ALPHAPREMULTIPLY_ON _EMISSION
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
+  m_CustomRenderQueue: 3000
+  stringTagMap:
+    RenderType: Transparent
+  disabledShaderPasses:
+  - SHADOWCASTER
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 249d7b0395a47f744b3582eed3158e6b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -39,28 +41,12 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _DissolveTex:
-        m_Texture: {fileID: 2800000, guid: d173dae1f9727924291c993eddc32e82, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DissolveTex1:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 249d7b0395a47f744b3582eed3158e6b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex1:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTexture:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 249d7b0395a47f744b3582eed3158e6b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -79,14 +65,6 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _TextureSample0:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _texcoord:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -100,79 +78,44 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Alpha: 1
     - _AlphaClip: 0
-    - _AlphaCutoff: 0.5
-    - _AlphaToggle: 0
-    - _Blend: 0
+    - _Blend: 1
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _ColorToggle: 0
     - _Cull: 2
-    - _Cutoff: 0.5
+    - _Cutoff: 0.506
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _DstBlend: 0
+    - _DstBlend: 10
     - _EnvironmentReflections: 1
-    - _Float0: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
+    - _GlossinessSource: 0
     - _GlossyReflections: 0
-    - _LineRange: 80.3
-    - _LineRange1: 10
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _ScanPosi: 60.250736
-    - _ScanPosi1: 33.6
+    - _SampleGI: 0
+    - _Shininess: 0
     - _Smoothness: 0.5
+    - _SmoothnessSource: 0
     - _SmoothnessTextureChannel: 0
+    - _SpecSource: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _Surface: 0
-    - _TessEdgeLength: 16
-    - _TessMax: 25
-    - _TessMin: 10
-    - _TessPhongStrength: 0.5
-    - _TessValue: 16
-    - _Threshold: 0
-    - _Threshold1: 0.1190738
-    - _UseBaseColor: 1
-    - _UseBaseColor1: 0
-    - _UseBaseColorAlpha: 0
-    - _UseBaseColorAlpha1: 0
+    - _Surface: 1
     - _WorkflowMode: 1
-    - _ZWrite: 1
-    - _behindLine: -0.5
-    - _behindLine1: -0.5
-    - _behindStrongLine: -0.05
-    - _behindStrongLine1: 0.5
-    - _forwardLine: 0.5
-    - _forwardLine1: 0.2
-    - _forwardStrongLine: 0.05
-    - _forwardStrongLine1: 0.5
-    - _glitterRange: 0.05
-    - _glitterRange1: 0.05
+    - _ZWrite: 0
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BaseColor1: {r: 0, g: 0, b: 0, a: 0}
+    - _BaseColor: {r: 0, g: 0, b: 0, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color0: {r: 0, g: 0, b: 0, a: 0}
-    - _DissolveColor: {r: 0.58830667, g: 0.93968534, b: 2.188088, a: 0.8235294}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _EmissionColor1: {r: 0.282353, g: 0.9411765, b: 1.529412, a: 1}
-    - _LineStrongColor: {r: 0.49123347, g: 0.7830188, b: 0.7765825, a: 1}
-    - _LineStrongColor1: {r: 0.11035957, g: 0.23442635, b: 0.75471693, a: 0}
-    - _MainColor: {r: 0.22241005, g: 0.31600612, b: 0.9622641, a: 1}
-    - _MainColor1: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _TrajectoryColor: {r: 0.11035957, g: 0.23442635, b: 0.75471693, a: 0}
-    - _TrajectoryColor1: {r: 0.33161265, g: 0.8679245, b: 0.8567312, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &8486957266579049963
+--- !u!114 &1535012211789227399
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

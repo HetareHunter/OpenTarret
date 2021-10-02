@@ -11,6 +11,7 @@ TagManager:
   - Explodable
   - Tarret
   - BooleanSubtracter
+  - Ground
   layers:
   - Default
   - TransparentFX

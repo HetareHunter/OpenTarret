@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: EnemySpawnRed_MT
+  m_Name: EnemySpawnBlue_MT
   m_Shader: {fileID: 4800000, guid: 9d8582db34593fb4094ed476ffa20e75, type: 3}
   m_ShaderKeywords: _USEBASECOLOR_ON
   m_LightmapFlags: 4
@@ -44,7 +44,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DissolveTex1:
-        m_Texture: {fileID: 2800000, guid: d173dae1f9727924291c993eddc32e82, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -113,7 +113,6 @@ Material:
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _DotSize: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
     - _Float0: 0
@@ -127,7 +126,7 @@ Material:
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _ScanPosi: 60.250736
+    - _ScanPosi: 60.273293
     - _ScanPosi1: 33.6
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
@@ -140,7 +139,7 @@ Material:
     - _TessPhongStrength: 0.5
     - _TessValue: 16
     - _Threshold: 0
-    - _Threshold1: 0
+    - _Threshold1: 0.1190738
     - _UseBaseColor: 1
     - _UseBaseColor1: 0
     - _UseBaseColorAlpha: 0
@@ -155,7 +154,7 @@ Material:
     - _forwardLine1: 0.2
     - _forwardStrongLine: 0.05
     - _forwardStrongLine1: 0.5
-    - _glitterRange: 0.075
+    - _glitterRange: 0.05
     - _glitterRange1: 0.05
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
@@ -167,8 +166,8 @@ Material:
     - _EmissionColor1: {r: 0.282353, g: 0.9411765, b: 1.529412, a: 1}
     - _LineStrongColor: {r: 0.49123347, g: 0.7830188, b: 0.7765825, a: 1}
     - _LineStrongColor1: {r: 0.11035957, g: 0.23442635, b: 0.75471693, a: 0}
-    - _MainColor: {r: 0.8962264, g: 0.2927217, b: 0.24096611, a: 1}
-    - _MainColor1: {r: 0.8962264, g: 0.2927219, b: 0.2409663, a: 1}
+    - _MainColor: {r: 0.22241005, g: 0.31600612, b: 0.9622641, a: 1}
+    - _MainColor1: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _TrajectoryColor: {r: 0.11035957, g: 0.23442635, b: 0.75471693, a: 0}
     - _TrajectoryColor1: {r: 0.33161265, g: 0.8679245, b: 0.8567312, a: 0}

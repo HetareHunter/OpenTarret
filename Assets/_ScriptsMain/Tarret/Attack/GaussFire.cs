@@ -52,6 +52,7 @@ public class GaussFire : MonoBehaviour
     {
         _objectPool.GetObject(_razerEffect, _gaussEffectInsPosi.transform.position, Quaternion.identity);
         var bullet = _objectPool.GetObject(_bulletEffect, _gaussEffectInsPosi.transform.position, _gaussEffectInsPosi.transform.rotation);
+        bullet.SetActive(false);
         if (_lockOn)
         {
             
@@ -59,5 +60,6 @@ public class GaussFire : MonoBehaviour
             var look = Quaternion.LookRotation(aim);
             bullet.transform.rotation = look;
         }
+        bullet.SetActive(true);
     }
 }
