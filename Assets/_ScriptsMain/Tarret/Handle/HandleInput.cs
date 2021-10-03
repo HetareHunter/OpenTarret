@@ -15,7 +15,10 @@ namespace Players
         
         private void Start()
         {
-            tarretCart = tarretCartObj.GetComponent<TarretCartMover>();
+            if (tarretCartObj != null)
+            {
+                tarretCart = tarretCartObj.GetComponent<TarretCartMover>();
+            }
         }
 
         public void Attack()
