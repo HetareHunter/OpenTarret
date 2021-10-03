@@ -25,13 +25,19 @@ namespace MenuUI
         public void ToTutorial()
         {
             TimeScaleChanger(1.0f);
-            screenFade.SceneFadeOut("GaussShooter_Tutorial");
+            screenFade.SceneFadeOut("GaussShooter_Block");
         }
 
         public void ToGame()
         {
             TimeScaleChanger(1.0f);
             screenFade.SceneFadeOut("GaussShooter_InvaderGame");
+        }
+
+        public void ToSilhouette()
+        {
+            TimeScaleChanger(1.0f);
+            screenFade.SceneFadeOut("GaussShooter_Silhouette");
         }
 
         public void ToTitle()

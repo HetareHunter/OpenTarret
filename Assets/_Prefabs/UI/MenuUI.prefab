@@ -107,6 +107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd5469fd38ef8c64f812563079aa75bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  titleButtonObj: {fileID: 0}
+  TutorialEndButtonObj: {fileID: 0}
 --- !u!114 &3009144145200468700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,7 +122,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   centerEyeAnchor: {fileID: 0}
-  fadeTime: 2
 --- !u!1 &34005151584411696
 GameObject:
   m_ObjectHideFlags: 0
