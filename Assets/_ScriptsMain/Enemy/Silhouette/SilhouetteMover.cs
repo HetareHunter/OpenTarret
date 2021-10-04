@@ -8,8 +8,17 @@ using DG.Tweening;
 /// </summary>
 public class SilhouetteMover : MonoBehaviour
 {
-    [SerializeField] float rotateSpeed = 1.0f;
-    bool _isStand = false;
+    public enum Stand
+    {
+        Up,
+        Down
+    }
+
+    [SerializeField] float _rotateTime = 1.0f;
+    /// <summary>
+    /// 現在のスタンドの状態
+    /// </summary>
+    Stand _standState = Stand.Down;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,27 +30,31 @@ public class SilhouetteMover : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.U))
         {
-            _isStand = true;
-            RotatePivot();
+            RotatePivot(Stand.Up, _rotateTime);
         }
-        else if (Input.GetKeyDown(KeyCode.D))
+        else if (Input.GetKeyDown(KeyCode.J))
         {
-            _isStand = false;
-            RotatePivot();
+            RotatePivot(Stand.Down, _rotateTime / 2);
         }
     }
 
-    public void RotatePivot()
+    /// <summary>
+    /// シルエットの回転軸を回転させるメソッド
+    /// </summary>
+    /// <param name="standState">これからこの状態にしたいというステート</param>
+    /// <param name="rotateTime"></param>
+    public void RotatePivot(Stand standState, float rotateTime)
     {
-        if (_isStand)
+        if (_standState == Stand.Down && standState == Stand.Up)
         {
-            transform.DORotate(new Vector3(-90, 0, 0), rotateSpeed, RotateMode.WorldAxisAdd)
+            transform.DORotate(new Vector3(-90, 0, 0), rotateTime, RotateMode.WorldAxisAdd)
                 .SetEase(Ease.OutBounce);
         }
-        else
+        else if (_standState == Stand.Up && standState == Stand.Down)
         {
-            transform.DORotate(new Vector3(90, 0, 0), rotateSpeed, RotateMode.WorldAxisAdd)
+            transform.DORotate(new Vector3(90, 0, 0), rotateTime, RotateMode.WorldAxisAdd)
                 .SetEase(Ease.OutBounce);
         }
+        _standState = standState;
     }
 }

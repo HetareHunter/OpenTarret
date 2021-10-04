@@ -83,7 +83,7 @@ MonoBehaviour:
   dissolveTime: 1
   _explodeEffect: {fileID: 3271362516878423326, guid: 4c947f2b0ea8236429a97a3edae41aa1,
     type: 3}
-  _startExplodeEffectNum: 3
+  _startExplodeEffectNum: 5
 --- !u!198 &6328854609502124555
 ParticleSystem:
   m_ObjectHideFlags: 0
