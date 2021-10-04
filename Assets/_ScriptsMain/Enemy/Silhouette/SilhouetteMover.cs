@@ -41,7 +41,8 @@ public class SilhouetteMover : MonoBehaviour
     /// <summary>
     /// シルエットの回転軸を回転させるメソッド
     /// </summary>
-    /// <param name="standState">これからこの状態にしたいというステート</param>
+    /// <param name="standState">これからこの状態にしたいというhikisuu
+    /// </param>
     /// <param name="rotateTime"></param>
     public void RotatePivot(Stand standState, float rotateTime)
     {
