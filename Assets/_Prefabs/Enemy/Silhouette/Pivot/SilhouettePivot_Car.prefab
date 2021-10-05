@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 561956796134409789}
   - component: {fileID: 81998462678114530}
   - component: {fileID: 286365548948637737}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Silhouette_Car
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: aaf4da10e78211c499246b3a51a58546, type: 2}
+  - {fileID: 2100000, guid: 2acc11ad0ce047649944cfb1428f77fc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -93,7 +93,8 @@ GameObject:
   - component: {fileID: 2774423528469039619}
   - component: {fileID: 2774423528469039618}
   - component: {fileID: 2774423528469039617}
-  m_Layer: 0
+  - component: {fileID: 1876618714}
+  m_Layer: 10
   m_Name: SilhouetteTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,8 +109,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2774423528469039616}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
-  m_LocalScale: {x: 6, y: 4, z: 0.2}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalScale: {x: 4, y: 3, z: 0.15}
   m_Children:
   - {fileID: 561956796134409789}
   m_Father: {fileID: 715195863098481645}
@@ -177,6 +178,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1876618714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2774423528469039616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0fbd60798b013f409d22adce1ce039a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _addScore: 100
+  _deathStandDownTime: 0.5
 --- !u!1 &9195805267842220087
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,7 +202,7 @@ GameObject:
   m_Component:
   - component: {fileID: 715195863098481645}
   - component: {fileID: 1186714614}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SilhouettePivot_Car
   m_TagString: Untagged
   m_Icon: {fileID: 0}

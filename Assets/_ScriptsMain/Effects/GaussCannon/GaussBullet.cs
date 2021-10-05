@@ -78,18 +78,10 @@ public class GaussBullet : MonoBehaviour
     {
         Debug.Log("hit!");
         var collisionBlockDeath = collision.gameObject.GetComponent<BlockDeath>();
+        var collisionSilhouetteDeath = collision.gameObject.GetComponent<IEnemyDeath>();
         _objectPool.GetObject(_explodeEffect, transform.position, Quaternion.identity);
 
-        if (collisionBlockDeath != null)
-        {
-            collisionBlockDeath.IsCollisionEnabled(false);
-            collisionBlockDeath.AfterDeadRigidBody();
-            collisionBlockDeath.OnDead();
-
-            transform.rotation = startRota;
-            MoveFoward(cannonPower);
-        }
-        else if (collision.transform.CompareTag("Ground"))
+        if (collision.transform.CompareTag("Ground"))
         {
             _collider.enabled = false;
             MoveFoward(0);
@@ -97,6 +89,21 @@ public class GaussBullet : MonoBehaviour
             {
                 gameObject.SetActive(false);
             });
+        }
+
+        if (collisionBlockDeath != null)
+        {
+            collisionBlockDeath.IsCollisionEnabled(false);
+            collisionBlockDeath.AfterDeadRigidBody();
+            collisionBlockDeath.OnDead();
+
+            transform.rotation = startRota; //ä—í Ç≥ÇπÇÈÇΩÇﬂäpìxÇïœÇ¶Ç∏Ç…ÇªÇÃÇ‹Ç‹ÇÃê®Ç¢Ç≈êiÇ‹ÇπÇÈ
+            MoveFoward(cannonPower);
+        }
+
+        if (collisionSilhouetteDeath != null)
+        {
+            collisionSilhouetteDeath.OnDead();
         }
     }
 }

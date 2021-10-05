@@ -5,24 +5,20 @@ using DG.Tweening;
 
 /// <summary>
 /// ターゲットであるシルエットを起こしたり倒したりするクラス。DoTweenでアニメーションさせている
+/// 人のシルエットはPositionが動かない
 /// </summary>
-public class SilhouetteMover : MonoBehaviour
+public class SilhouetteHumanMover : MonoBehaviour, IMovableSilhouette
 {
-    public enum Stand
-    {
-        Up,
-        Down
-    }
-
     [SerializeField] float _rotateTime = 1.0f;
+    SilhouetteHumanDeath _silhouetteHumanDeath;
     /// <summary>
     /// 現在のスタンドの状態
     /// </summary>
-    Stand _standState = Stand.Down;
+    SilhouetteStandState _standState = SilhouetteStandState.Down;
     // Start is called before the first frame update
     void Start()
     {
-        //RotatePivot();
+        _silhouetteHumanDeath = GetComponentInChildren<SilhouetteHumanDeath>();
     }
 
     // Update is called once per frame
@@ -30,11 +26,11 @@ public class SilhouetteMover : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.U))
         {
-            RotatePivot(Stand.Up, _rotateTime);
+            StandSilhouette(SilhouetteStandState.Up, _rotateTime);
         }
         else if (Input.GetKeyDown(KeyCode.J))
         {
-            RotatePivot(Stand.Down, _rotateTime / 2);
+            StandSilhouette(SilhouetteStandState.Down, _rotateTime / 2);
         }
     }
 
@@ -44,16 +40,16 @@ public class SilhouetteMover : MonoBehaviour
     /// <param name="standState">これからこの状態にしたいというhikisuu
     /// </param>
     /// <param name="rotateTime"></param>
-    public void RotatePivot(Stand standState, float rotateTime)
+    public void StandSilhouette(SilhouetteStandState standState, float rotateTime)
     {
-        if (_standState == Stand.Down && standState == Stand.Up)
+        if (_standState == SilhouetteStandState.Down && standState == SilhouetteStandState.Up)//起き上がる時の処理
         {
-            transform.DORotate(new Vector3(-90, 0, 0), rotateTime, RotateMode.WorldAxisAdd)
+            transform.DORotate(new Vector3(-90, 0, 0), rotateTime, RotateMode.LocalAxisAdd)
                 .SetEase(Ease.OutBounce);
         }
-        else if (_standState == Stand.Up && standState == Stand.Down)
+        else if (_standState == SilhouetteStandState.Up && standState == SilhouetteStandState.Down)//倒れる時の処理
         {
-            transform.DORotate(new Vector3(90, 0, 0), rotateTime, RotateMode.WorldAxisAdd)
+            transform.DORotate(new Vector3(90, 0, 0), rotateTime, RotateMode.LocalAxisAdd)
                 .SetEase(Ease.OutBounce);
         }
         _standState = standState;

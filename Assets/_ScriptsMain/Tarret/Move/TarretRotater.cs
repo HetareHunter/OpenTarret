@@ -17,7 +17,7 @@ namespace Tarret
         /// タレットの縦回転をする関節
         /// </summary>
         [SerializeField] GameObject muzzleFlameJointPos;
-        [SerializeField] float rotateSpeed = 3.0f;
+        [SerializeField] float rotateSpeed = 2.5f;
 
         [SerializeField] GameObject _anglePoint;
         AnglePointer anglePointer;
@@ -30,7 +30,7 @@ namespace Tarret
         /// <summary>
         /// あそびの間隔
         /// </summary>
-        [SerializeField] float _coodinatePlay = 0.001f;
+        [SerializeField] float _coodinatePlayDis = 0.0003f;
         float _sqrtcoodinatePlay;
         float anglePointMoveDistance;
         float sqrtAnglePointMoveDistance;
@@ -47,7 +47,7 @@ namespace Tarret
         {
             tarretStateManager = GetComponent<TarretStateManager>();
             anglePointer = _anglePoint.GetComponent<AnglePointer>();
-            _sqrtcoodinatePlay = Mathf.Sqrt(_coodinatePlay);
+            _sqrtcoodinatePlay = Mathf.Sqrt(_coodinatePlayDis);
         }
 
         void FixedUpdate()
@@ -71,7 +71,7 @@ namespace Tarret
 
                 case TarretState.Rotate:
                     anglePointMoveDistance = anglePointer.AnglePointMoveDistance;
-                    if (anglePointMoveDistance > _coodinatePlay)
+                    if (anglePointMoveDistance > _coodinatePlayDis)
                     {
                         sqrtAnglePointMoveDistance = Mathf.Sqrt(anglePointMoveDistance);
                         anglePointPosi = anglePointer.AnglePointPosi;
