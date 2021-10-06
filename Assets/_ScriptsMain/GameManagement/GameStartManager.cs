@@ -64,7 +64,6 @@ namespace Manager
             gameStateChangeable = gameManager.GetComponent<IGameStateChangable>();
             boxCollider = GetComponent<BoxCollider>();
             appearable = spawnerManager.GetComponent<IAppearable>();
-            //TryGetComponent(out appearable);
         }
 
         private void Update()
@@ -76,9 +75,19 @@ namespace Manager
                 ToStartCount();
             }
 
-            if (onStart && appearable.FinishAppear)
+            if (onStart)
             {
-                ToPlayCount();
+                if (appearable != null)
+                {
+                    if (appearable.FinishAppear) 
+                    { 
+                        ToPlayCount();
+                    }
+                }
+                else
+                {
+                    ToPlayCount();
+                }
             }
         }
 
@@ -204,11 +213,6 @@ namespace Manager
             }
         }
 
-        //public void ActiveCollider(bool swicth)
-        //{
-        //    GetComponent<BoxCollider>().enabled = swicth;
-        //}
-
         public void ChangeAnim()
         {
             gameStartUIAnim.SetTrigger("StateChange");
@@ -243,7 +247,10 @@ namespace Manager
             onStart = true;
             colorManager.ToChangeColor();
             ChangeAnim();
-            appearable.StartSpawn();
+            if (appearable != null)
+            {
+                appearable.StartSpawn();
+            }
         }
 
         public void GameEnd()

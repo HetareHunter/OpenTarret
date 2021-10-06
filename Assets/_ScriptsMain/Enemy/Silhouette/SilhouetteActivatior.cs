@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class SilhouetteActivatior : MonoBehaviour, IEnemyDeath
 {
@@ -10,6 +11,8 @@ public class SilhouetteActivatior : MonoBehaviour, IEnemyDeath
     bool isActive = false;
     Collider _collider;
     SilhouetteMover _silhouetteHumanMover;
+    [Inject]
+    ISpawnable spawnable;
 
     public bool IsActive
     {
@@ -20,8 +23,17 @@ public class SilhouetteActivatior : MonoBehaviour, IEnemyDeath
         set
         {
             isActive = value;
-            _collider.enabled = true;
+            if (value == true)
+            {
+                _collider.enabled = true;
+            }
         }
+    }
+
+    void Reset()
+    {
+        IsActive = false;
+        _silhouetteHumanMover.StandSilhouette(SilhouetteStandState.Down, _deathStandDownTime);
     }
 
     private void Start()
@@ -34,6 +46,7 @@ public class SilhouetteActivatior : MonoBehaviour, IEnemyDeath
         IsActive = false;
         AddScore();
         _collider.enabled = false;
+        spawnable.ChangeEnemyNum(-1);
         _silhouetteHumanMover.StandSilhouette(SilhouetteStandState.Down, _deathStandDownTime);
     }
 

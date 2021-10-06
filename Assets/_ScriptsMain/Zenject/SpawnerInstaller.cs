@@ -1,7 +1,7 @@
 using UnityEngine;
 using Zenject;
 
-public class SpwanerInstaller : MonoInstaller
+public class SpawnerInstaller : MonoInstaller
 {
     [SerializeField] GameObject spawner;
     public override void InstallBindings()
