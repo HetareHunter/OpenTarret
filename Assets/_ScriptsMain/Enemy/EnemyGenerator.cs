@@ -4,22 +4,6 @@ using UnityEngine;
 
 public class EnemyGenerator : MonoBehaviour, ISpawnable
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-    public void EnemySpawn()
-    {
-
-    }
-
     public void ResetEnemies()
     {
 
@@ -39,9 +23,9 @@ public class EnemyGenerator : MonoBehaviour, ISpawnable
 }
 
 
-    public interface ISpawnable
+public interface ISpawnable
 {
-    public void EnemySpawn();
+    //public void EnemySpawn();
     public void ResetEnemies();
     public void ChangeEnemyNum(int num);
     public void SpawnStart();

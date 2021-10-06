@@ -7,10 +7,10 @@ using DG.Tweening;
 /// ターゲットであるシルエットを起こしたり倒したりするクラス。DoTweenでアニメーションさせている
 /// 人のシルエットはPositionが動かない
 /// </summary>
-public class SilhouetteHumanMover : MonoBehaviour, IMovableSilhouette
+public class SilhouetteMover : MonoBehaviour, IMovableSilhouette
 {
     [SerializeField] float _rotateTime = 1.0f;
-    SilhouetteHumanDeath _silhouetteHumanDeath;
+    SilhouetteActivatior _silhouetteHumanDeath;
     /// <summary>
     /// 現在のスタンドの状態
     /// </summary>
@@ -18,7 +18,7 @@ public class SilhouetteHumanMover : MonoBehaviour, IMovableSilhouette
     // Start is called before the first frame update
     void Start()
     {
-        _silhouetteHumanDeath = GetComponentInChildren<SilhouetteHumanDeath>();
+        _silhouetteHumanDeath = GetComponentInChildren<SilhouetteActivatior>();
     }
 
     // Update is called once per frame
