@@ -1,15 +1,18 @@
 using System;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Manager;
 
 /// <summary>
-/// シルエットのスポナークラス(時間経過とアクティブなシルエットオブジェクトの数で新たにシルエットを起こす処理を行う)
+/// シルエットのスポナークラス(時間経過とアクティブなシルエットオブジェクトの数の条件で新たにシルエットを起こす処理を行う)
 /// </summary>
 public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
 {
+    IGameStateChangable _gameStateChangable;
+    [SerializeField]GameObject _gameManager;
+
     public List<GameObject> _registerSilhouettes = new List<GameObject>();
     Queue<SilhouetteActivatior> _silhouettes = new Queue<SilhouetteActivatior>();
 
@@ -27,6 +30,9 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
     bool _spawnable = false;
     /// <summary> スポナーを起動しているかどうか </summary>
     public bool _onSpawn = false;
+    /// <summary> ゲームが終了するまでに起動するシルエットの数 </summary>
+    int _maxActivateSilhouetteNum;
+    int _activatedSilhouetteNum = 0;
 
     public int ActiveSilhouetteNum
     {
@@ -38,6 +44,10 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
         {
             _activeSilhouetteNum += value;
         }
+    }
+    private void Awake()
+    {
+        _gameStateChangable = _gameManager.GetComponent<IGameStateChangable>();
     }
 
     // Start is called before the first frame update
@@ -66,8 +76,12 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
 
     public void ActivateSilhouette()
     {
-        _silhouettes.Dequeue().Activate();
+        _activatedSilhouetteNum++;
         ChangeEnemyNum(1); //敵の数が増える
+
+        _silhouettes.Enqueue(_silhouettes.Peek());
+        _silhouettes.Dequeue().Activate();
+        
         _nowTime = 0;
         _onSpawnTimePassed = false;
         _spawnable = false;
@@ -75,11 +89,20 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
 
     public void ResetEnemies()
     {
-
+        
     }
     public void ChangeEnemyNum(int num)
     {
         _activeSilhouetteNum += num;
+        if (_activatedSilhouetteNum >= _maxActivateSilhouetteNum)
+        {
+            _onSpawn = false;
+        }
+
+        if (num < 0)
+        {
+            JudgeGameFinish();
+        }
     }
     public void SpawnStart()
     {
@@ -89,6 +112,7 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
     }
     public void SpawnEnd()
     {
+        _activatedSilhouetteNum = 0;
         _onSpawn = false;
         ResetEnemies();
     }
@@ -119,10 +143,19 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
 
     void RegisterSilhouettes(List<GameObject> registerSilhouettes)
     {
+        _maxActivateSilhouetteNum = registerSilhouettes.Count;
         registerSilhouettes = registerSilhouettes.OrderBy(x => Guid.NewGuid()).ToList();
         for (int i = 0; i < _registerSilhouettes.Count; i++)
         {
             _silhouettes.Enqueue(registerSilhouettes[i].GetComponentInChildren<SilhouetteActivatior>());
+        }
+    }
+
+    void JudgeGameFinish()
+    {
+        if (!_onSpawn)
+        {
+            _gameStateChangable.ChangeGameState(GameState.End);
         }
     }
 }
