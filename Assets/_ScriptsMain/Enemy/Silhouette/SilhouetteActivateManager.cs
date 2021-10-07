@@ -11,7 +11,7 @@ using Manager;
 public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
 {
     IGameStateChangable _gameStateChangable;
-    [SerializeField]GameObject _gameManager;
+    [SerializeField] GameObject _gameManager;
 
     public List<GameObject> _registerSilhouettes = new List<GameObject>();
     Queue<SilhouetteActivatior> _silhouettes = new Queue<SilhouetteActivatior>();
@@ -81,7 +81,7 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
 
         _silhouettes.Enqueue(_silhouettes.Peek());
         _silhouettes.Dequeue().Activate();
-        
+
         _nowTime = 0;
         _onSpawnTimePassed = false;
         _spawnable = false;
@@ -89,7 +89,10 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
 
     public void ResetEnemies()
     {
-        
+        foreach (var item in _silhouettes)
+        {
+            item.Reset();
+        }
     }
     public void ChangeEnemyNum(int num)
     {
@@ -113,6 +116,9 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
     public void SpawnEnd()
     {
         _activatedSilhouetteNum = 0;
+        _activeSilhouetteNum = 0;
+        _nowTime = 0;
+        _onSpawnTimePassed = false;
         _onSpawn = false;
         ResetEnemies();
     }
@@ -141,6 +147,11 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
         }
     }
 
+    /// <summary>
+    /// 的当てゲームに使うシルエットを登録する
+    /// ここで登録したシルエットが時間経過で起動し、撃つ事ができるようになる
+    /// </summary>
+    /// <param name="registerSilhouettes">対象のシルエットはインスペクターから設定する</param>
     void RegisterSilhouettes(List<GameObject> registerSilhouettes)
     {
         _maxActivateSilhouetteNum = registerSilhouettes.Count;

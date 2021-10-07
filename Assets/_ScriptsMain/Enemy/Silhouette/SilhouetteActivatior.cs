@@ -30,7 +30,7 @@ public class SilhouetteActivatior : MonoBehaviour, IEnemyDeath
         }
     }
 
-    void Reset()
+    public void Reset()
     {
         IsActive = false;
         _silhouetteHumanMover.StandSilhouette(SilhouetteStandState.Down, _deathStandDownTime);
