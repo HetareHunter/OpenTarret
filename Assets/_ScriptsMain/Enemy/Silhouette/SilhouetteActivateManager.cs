@@ -3,7 +3,6 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Manager;
 
 /// <summary>
 /// シルエットのスポナークラス(時間経過とアクティブなシルエットオブジェクトの数の条件で新たにシルエットを起こす処理を行う)

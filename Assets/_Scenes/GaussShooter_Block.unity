@@ -4559,8 +4559,8 @@ MonoBehaviour:
   startColor: {r: 0.72156864, g: 1, b: 0.85848135, a: 1}
   selectedColor: {r: 0, g: 0, b: 1, a: 1}
   handleObj: {fileID: 1787227846111442194}
-  handle: 1
-  selectableHand: 1
+  _handle: 1
+  _selectableHand: 1
   touchFrequeency: 0.4
   touchAmplitude: 0.2
   touchVibeDuration: 0.3
@@ -7401,7 +7401,7 @@ MonoBehaviour:
   minVerticalAngle: -0.2
   maxHorizontalAngle: 0.8
   minHorizontalAngle: -0.8
-  _coodinatePlay: 0.0004
+  _coodinatePlayDis: 0.0003
   editRotateMode: 1
   debugHorizontalRotate: 0.8
   debugVerticalRotate: 0.3
@@ -8813,6 +8813,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1805517546569208131}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1805517546569208134 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6266994441535854578, guid: 19ad9f82f1211a4469a985584fea8881,
+    type: 3}
+  m_PrefabInstance: {fileID: 1805517546569208131}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1805517546569208135 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7952230623539886225, guid: 19ad9f82f1211a4469a985584fea8881,
+    type: 3}
+  m_PrefabInstance: {fileID: 1805517546569208131}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1851166874191770505
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9014,6 +9026,16 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3018435302213825637, guid: 1f49a6d706027614c950d2cd824aa998,
+        type: 3}
+      propertyPath: _handPointerObj_L
+      value: 
+      objectReference: {fileID: 1805517546569208135}
+    - target: {fileID: 3018435302213825637, guid: 1f49a6d706027614c950d2cd824aa998,
+        type: 3}
+      propertyPath: _handPointerObj_R
+      value: 
+      objectReference: {fileID: 1805517546569208134}
     - target: {fileID: 3018435302213825638, guid: 1f49a6d706027614c950d2cd824aa998,
         type: 3}
       propertyPath: m_Pivot.x
@@ -9860,8 +9882,8 @@ MonoBehaviour:
   startColor: {r: 0.72156864, g: 1, b: 0.85848135, a: 1}
   selectedColor: {r: 0, g: 0, b: 1, a: 1}
   handleObj: {fileID: 665794924282389620}
-  handle: 0
-  selectableHand: 0
+  _handle: 0
+  _selectableHand: 0
   touchFrequeency: 0.4
   touchAmplitude: 0.2
   touchVibeDuration: 0.3

@@ -58,12 +58,16 @@ namespace Players
         /// レイで掴めるものを探索できるかどうかのフラグ。
         /// 何かを掴んでいる間は探索できないようにする
         /// </summary>
-        bool _searchable = true;
+        public bool _searchable = true;
 
         [SerializeField] GameObject _handMesh;
         Renderer _handMeshRenderer;
         [SerializeField] Material _defaultHandMT;
         [SerializeField] Material _wireFrameMT;
+
+        [SerializeField] GameObject _customOVRCameraRig;
+        UserGuid _userGuid;
+        bool _grabbableObjSelectBegin = true;
 
         // Start is called before the first frame update
         void Start()
@@ -71,6 +75,7 @@ namespace Players
             lineRenderer = GetComponent<LineRenderer>();
             _handMeshRenderer = _handMesh.GetComponent<Renderer>();
             _handMeshRenderer.material = _defaultHandMT;
+            _userGuid = _customOVRCameraRig.GetComponent<UserGuid>();
         }
 
         // Update is called once per frame
@@ -95,15 +100,20 @@ namespace Players
             if (Physics.Raycast(ray, out _hit, maxRayDistance, LayerMask.GetMask("Tarret")))
             {
                 DrawLineRenderer(_hit.point);
-                SelectBegin();
-                if (!JudgeSelectable(_hand)) selectedObj = null;
+                ObjectSelectBegin();
+                if (!JudgeSelectable(_hand)) selectedObj = null; //掴めないものであった場合nullにする
 
-                if (selectedObj != null)
+                if (selectedObj != null)//レーザーの触れたものがつかめるものである場合
                 {
                     if (selectedObj.SelectHand == _hand || selectedObj.SelectHand == Hand.None)//選択している手がこのコンポーネントの手、あるいは選択している手がない場合
                     {
                         selectedObj.SelectHandle(true, _hand);
-                        if (grabbable == null)//掴むことができるようにする
+                        if (_grabbableObjSelectBegin)
+                        {
+                            GrabbableObjectSelectBegin(_hand);
+                        }
+
+                        if (grabbable == null)//トリガーを押せば掴むことができる状態にする
                         {
                             grabbable = _hit.transform.GetComponent<IGrabbable>();
                         }
@@ -116,7 +126,7 @@ namespace Players
             }
             else
             {
-                SelectEnd();
+                ObjectSelectEnd();
                 if (grabbable != null)
                 {
                     grabbable = null;
@@ -127,14 +137,14 @@ namespace Players
 
         bool JudgeSelectable(Hand hand)
         {
-            if (_hand == Hand.Left)
+            if (hand == Hand.Left)
             {
                 if (selectedObj.SelectableHand == SelectableHand.Left || selectedObj.SelectableHand == SelectableHand.Both)
                 {
                     return true;
                 }
             }
-            else if (_hand == Hand.Right)
+            else if (hand == Hand.Right)
             {
                 if (selectedObj.SelectableHand == SelectableHand.Right || selectedObj.SelectableHand == SelectableHand.Both)
                 {
@@ -143,20 +153,41 @@ namespace Players
             }
             return false;
         }
-        void SelectBegin()
+
+        /// <summary>
+        /// 掴めるかどうか分からないがレイが触れることができるオブジェクトに触れたときに呼ばれる
+        /// </summary>
+        void ObjectSelectBegin()
         {
             if (selectedObj == null) //GetComponentを毎フレーム常に行うのは避けたい
             {
                 selectedObj = _hit.transform.GetComponent<ISelectable>();
             }
         }
-        void SelectEnd()
+
+        void ObjectSelectEnd()
         {
             if (selectedObj != null)//レイが外れる瞬間に呼び出される処理
             {
                 selectedObj.SelectHandle(false, Hand.None);
                 selectedObj = null;
+                GrabbableObjectSelectEnd(_hand);
             }
+        }
+
+        /// <summary>
+        /// 掴めるオブジェクトに触れた瞬間の処理
+        /// </summary>
+        void GrabbableObjectSelectBegin(Hand hand)
+        {
+            _grabbableObjSelectBegin = false;
+            _userGuid.SwicthHandMesh(true, hand);
+        }
+
+        void GrabbableObjectSelectEnd(Hand hand)
+        {
+            _grabbableObjSelectBegin = true;
+            _userGuid.SwicthHandMesh(false, hand);
         }
 
         void DrawLineRenderer(Vector3 finishLine)
@@ -178,6 +209,7 @@ namespace Players
                     _searchable = false;
                     grabbable.GrabBegin(OVRInput.Controller.LTouch, transform);
                     _handMeshRenderer.material = _wireFrameMT;
+                    _userGuid.SwicthHandMesh(false, _hand);
                 }
                 else if (OVRInput.Get(OVRInput.RawAxis1D.LHandTrigger) <= grabEnd && _preGrab)
                 {
@@ -186,6 +218,7 @@ namespace Players
                     grabbable = null;
                     _searchable = true;
                     _handMeshRenderer.material = _defaultHandMT;
+                    //_userGuid.SwicthHandMesh(true, _hand);
                 }
             }
             else if (_hand == Hand.Right)
@@ -196,6 +229,7 @@ namespace Players
                     _searchable = false;
                     grabbable.GrabBegin(OVRInput.Controller.RTouch, transform);
                     _handMeshRenderer.material = _wireFrameMT;
+                    _userGuid.SwicthHandMesh(false, _hand);
                 }
                 else if (OVRInput.Get(OVRInput.RawAxis1D.RHandTrigger) <= grabEnd && _preGrab)
                 {

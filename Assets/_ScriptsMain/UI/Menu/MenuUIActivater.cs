@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Manager;
+using Players;
 
 namespace MenuUI
 {
@@ -10,20 +10,25 @@ namespace MenuUI
     /// </summary>
     public class MenuUIActivater : MonoBehaviour
     {
-        GameObject gameManager;
-        TutorialGameStateManager TutorialGameStateManager;
         GameObject SceneMovePanel;
         [SerializeField] GameObject GameFinishPanel;
         GameObject UIhelpers;
         LineRenderer lineRenderer;
+        [SerializeField] GameObject _handPointerObj_L;
+        [SerializeField] GameObject _handPointerObj_R;
+
+        ObjectLaserPointer _objectLaserPointer_L;
+        ObjectLaserPointer _objectLaserPointer_R;
+
+        private void Awake()
+        {
+            _objectLaserPointer_L = _handPointerObj_L.GetComponent<ObjectLaserPointer>();
+            _objectLaserPointer_R = _handPointerObj_R.GetComponent<ObjectLaserPointer>();
+        }
+
         // Start is called before the first frame update
         void Start()
         {
-            if (gameManager == null)
-            {
-                gameManager = GameObject.Find("GameManager");
-                TutorialGameStateManager = gameManager.GetComponent<TutorialGameStateManager>();
-            }
             if (SceneMovePanel == null)
             {
                 SceneMovePanel = GameObject.Find("SceneMovePanel");
@@ -33,10 +38,6 @@ namespace MenuUI
             {
                 UIhelpers = GameObject.Find("MyUIHelpers");
             }
-            //if (SceneManager.GetActiveScene().name == "GaussShooter_Tutorial")
-            //{
-            //    TutorialFinishPanel = GameObject.Find("TutorialFinishUIPanal");
-            //}
             lineRenderer = UIhelpers.GetComponentInChildren<LineRenderer>();
         }
 
@@ -55,13 +56,17 @@ namespace MenuUI
             {
                 SceneMovePanel.SetActive(true);
                 lineRenderer.enabled = true;
-                //TutorialGameStateManager.StopGame();
+
+                _objectLaserPointer_L._searchable = false;
+                _objectLaserPointer_R._searchable = false;
             }
             else
             {
                 SceneMovePanel.SetActive(false);
                 lineRenderer.enabled = false;
-                //TutorialGameStateManager.RebootGame();
+
+                _objectLaserPointer_L._searchable = true;
+                _objectLaserPointer_R._searchable = true;
             }
         }
 
@@ -76,14 +81,5 @@ namespace MenuUI
                 GameFinishPanel.SetActive(false);
             }
         }
-
-        //void StopGame()
-        //{
-        //    Time.timeScale = 0;
-        //}
-        //void RebootGame()
-        //{
-        //    Time.timeScale = 1;
-        //}
     }
 }

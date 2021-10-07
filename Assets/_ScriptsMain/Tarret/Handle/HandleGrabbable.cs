@@ -26,7 +26,7 @@ namespace Players
         /// <summary>
         /// 握っている手が左か右かのステート
         /// </summary>
-        OVRInput.Controller currentController;
+        OVRInput.Controller _currentController;
         /// <summary>
         /// 握っているかどうか
         /// </summary>
@@ -37,10 +37,10 @@ namespace Players
         public bool _allowOffhandGrab = true;
 
         [Inject]
-        ITarretState TarretState;
+        ITarretState _TarretState;
         [SerializeField] GameObject anglePointerObj;
         [SerializeField] Color startColor;
-        Color vanishingColor = new Color(0, 0, 0, 0);
+        Color _vanishingColor = new Color(0, 0, 0, 0);
         [SerializeField] Color selectedColor;
         /// <summary>
         /// 手のレイが当たっているかどうか
@@ -48,17 +48,18 @@ namespace Players
         bool _isSelect = false;
         bool _isSelectMoment = false;
         Hand _selectHand = Hand.None;
-        HandlePositionResetter returnPosition;
-        AnglePointer anglePointer;
+        HandlePositionResetter _returnPosition;
+        AnglePointer _anglePointer;
 
         [SerializeField] GameObject handleObj;
-        Renderer handleRenderer;
+        Renderer _handleRenderer;
 
-        HandleVibe handleVibe;
-        HandleInput handleInput;
-        HandFixer handFixer;
-        public HandleSide handle;
-        public SelectableHand selectableHand;
+        HandleVibe _handleVibe;
+        HandleInput _handleInput;
+        HandFixer _handFixer;
+        
+        public HandleSide _handle;
+        public SelectableHand _selectableHand;
 
         /// <summary> 触れた時の振動の大きさ </summary>
         [SerializeField] float touchFrequeency = 0.3f;
@@ -70,9 +71,9 @@ namespace Players
         /// <summary>
         /// 手でつかんだ瞬間のフラグ
         /// </summary>
-        bool handleGrabMoment = false;
+        bool _handleGrabMoment = false;
 
-        Transform grabbedHandTransform;
+        Transform _grabbedHandTransform;
 
         public Hand SelectHand
         {
@@ -87,7 +88,7 @@ namespace Players
         {
             get
             {
-                return selectableHand;
+                return _selectableHand;
             }
             set { }
         }
@@ -106,15 +107,15 @@ namespace Players
         {
             if (anglePointerObj != null)
             {
-                anglePointer = anglePointerObj.GetComponent<AnglePointer>();
+                _anglePointer = anglePointerObj.GetComponent<AnglePointer>();
             }
 
-            handleRenderer = handleObj.GetComponent<Renderer>();
+            _handleRenderer = handleObj.GetComponent<Renderer>();
 
-            handleVibe = GetComponent<HandleVibe>();
-            handleInput = GetComponent<HandleInput>();
-            handFixer = GetComponent<HandFixer>();
-            returnPosition = GetComponent<HandlePositionResetter>();
+            _handleVibe = GetComponent<HandleVibe>();
+            _handleInput = GetComponent<HandleInput>();
+            _handFixer = GetComponent<HandFixer>();
+            _returnPosition = GetComponent<HandlePositionResetter>();
         }
         void FixedUpdate()
         {
@@ -128,30 +129,30 @@ namespace Players
         {
             if (_isGrabbed) //握っている間の処理
             {
-                if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, currentController) && handle == HandleSide.Right)
+                if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, _currentController) && _handle == HandleSide.Right)
                 {
-                    handleInput.Attack();
+                    _handleInput.Attack();
                 }
 
-                if (handle == HandleSide.Left)
+                if (_handle == HandleSide.Left)
                 {
-                    handleInput.CartMove(OVRInput.Get(OVRInput.RawAxis2D.LThumbstick));
+                    _handleInput.CartMove(OVRInput.Get(OVRInput.RawAxis2D.LThumbstick));
                 }
 
 
-                handFixer.FixHand(); //手のメッシュの位置をハンドルの位置に固定し続けている
-                FollowHand(grabbedHandTransform);
+                _handFixer.FixHand(); //手のメッシュの位置をハンドルの位置に固定し続けている
+                FollowHand(_grabbedHandTransform);
 
-                if (!handleGrabMoment)//手を握った瞬間の処理
+                if (!_handleGrabMoment)//手を握った瞬間の処理
                 {
                     VanishOutline();
                     _allowOffhandGrab = false;
-                    handleGrabMoment = true;
+                    _handleGrabMoment = true;
                 }
             }
             else //離している間の処理
             {
-                if (handleGrabMoment)//手を離した瞬間の処理
+                if (_handleGrabMoment)//手を離した瞬間の処理
                 {
                     GrabEnd();
                 }
@@ -164,8 +165,8 @@ namespace Players
         /// <param name="controller"></param>
         public void GrabBegin(OVRInput.Controller controller, Transform transform)
         {
-            currentController = controller;
-            grabbedHandTransform = transform;
+            _currentController = controller;
+            _grabbedHandTransform = transform;
             _isGrabbed = true;
         }
 
@@ -174,16 +175,16 @@ namespace Players
         /// </summary>
         public void GrabEnd()
         {
-            handFixer.ReleseHand();
-            currentController = OVRInput.Controller.None;
+            _handFixer.ReleseHand();
+            _currentController = OVRInput.Controller.None;
 
-            returnPosition.Released();
+            _returnPosition.Released();
             ChangeOutlineColor(_isSelect);
 
-            TarretState.ChangeTarretState(Tarret.TarretState.Idle);
-            grabbedHandTransform = null;
-            anglePointer.isAdjust = false;
-            handleGrabMoment = false;
+            _TarretState.ChangeTarretState(Tarret.TarretState.Idle);
+            _grabbedHandTransform = null;
+            _anglePointer.isAdjust = false;
+            _handleGrabMoment = false;
             _allowOffhandGrab = true;
             _isGrabbed = false;
         }
@@ -250,11 +251,11 @@ namespace Players
             {
                 //握ったときにcurrentControllerにどちらのコントローラかの情報が入るので、触れたときの振動処理は
                 //currentControllerを引数に使えない
-                handleVibe.Vibrate(touchVibeDuration, touchFrequeency, touchAmplitude, OVRInput.Controller.LTouch);
+                _handleVibe.Vibrate(touchVibeDuration, touchFrequeency, touchAmplitude, OVRInput.Controller.LTouch);
             }
             else if (hand == Hand.Right)
             {
-                handleVibe.Vibrate(touchVibeDuration, touchFrequeency, touchAmplitude, OVRInput.Controller.RTouch);
+                _handleVibe.Vibrate(touchVibeDuration, touchFrequeency, touchAmplitude, OVRInput.Controller.RTouch);
             }
 
             ChangeOutlineColor(_isSelect);
@@ -273,10 +274,10 @@ namespace Players
 
         public void AttackVibe()
         {
-            if (handleVibe != null && currentController != OVRInput.Controller.None)
+            if (_handleVibe != null && _currentController != OVRInput.Controller.None)
             {
-                handleVibe.Vibrate(tarretData.attackVibeDuration, tarretData.attackVibeFrequency,
-                    tarretData.attackVibeAmplitude, currentController);
+                _handleVibe.Vibrate(tarretData.attackVibeDuration, tarretData.attackVibeFrequency,
+                    tarretData.attackVibeAmplitude, _currentController);
             }
         }
 
@@ -288,11 +289,11 @@ namespace Players
         {
             if (isSelect)
             {
-                handleRenderer.materials[2].SetColor("_OutlineColor", selectedColor);
+                _handleRenderer.materials[2].SetColor("_OutlineColor", selectedColor);
             }
             else
             {
-                handleRenderer.materials[2].SetColor("_OutlineColor", startColor);
+                _handleRenderer.materials[2].SetColor("_OutlineColor", startColor);
             }
         }
 
@@ -301,7 +302,7 @@ namespace Players
         /// </summary>
         public void VanishOutline()
         {
-            handleRenderer.materials[2].SetColor("_OutlineColor", vanishingColor);
+            _handleRenderer.materials[2].SetColor("_OutlineColor", _vanishingColor);
         }
 
         void FollowHand(Transform handTransform)
