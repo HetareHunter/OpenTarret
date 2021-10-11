@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Shader Graphs_OculusController
+  m_Shader: {fileID: -6465566751694194690, guid: afbb7bd046c5cce4490a421129d4ef87,
+    type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_ada367f6bc8a4b7e84fefb4f74972487:
+        m_Texture: {fileID: 2800000, guid: 3e94e20f45a1e4148a85b5746bbdc037, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_b996e709e22b436cbff451a842956d20:
+        m_Texture: {fileID: 2800000, guid: a53d1d4e8207acf45b310f189c342b70, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Boolean_373b9f6827e4408dba5a032c280ab463: 0
+    - Vector1_226bc5c8ee334cea9b880920462f2e2c: 0
+    m_Colors:
+    - Color_1e7b6073c2c44379980395f599917c86: {r: 1, g: 1, b: 1, a: 0}
+  m_BuildTextureStacks: []

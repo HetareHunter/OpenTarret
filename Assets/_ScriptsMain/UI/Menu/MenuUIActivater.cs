@@ -20,10 +20,14 @@ namespace MenuUI
         ObjectLaserPointer _objectLaserPointer_L;
         ObjectLaserPointer _objectLaserPointer_R;
 
+        [SerializeField] GameObject _customOVRCameraRig;
+        UserGuid _userGuid;
+
         private void Awake()
         {
             _objectLaserPointer_L = _handPointerObj_L.GetComponent<ObjectLaserPointer>();
             _objectLaserPointer_R = _handPointerObj_R.GetComponent<ObjectLaserPointer>();
+            _userGuid = _customOVRCameraRig.GetComponent<UserGuid>();
         }
 
         // Start is called before the first frame update
@@ -59,6 +63,9 @@ namespace MenuUI
 
                 _objectLaserPointer_L._searchable = false;
                 _objectLaserPointer_R._searchable = false;
+
+                _userGuid.SwicthHandMesh(true, Hand.Left);
+                _userGuid.SwicthHandMesh(true, Hand.Right);
             }
             else
             {
@@ -67,6 +74,9 @@ namespace MenuUI
 
                 _objectLaserPointer_L._searchable = true;
                 _objectLaserPointer_R._searchable = true;
+
+                _userGuid.SwicthHandMesh(false, Hand.Left);
+                _userGuid.SwicthHandMesh(false, Hand.Right);
             }
         }
 

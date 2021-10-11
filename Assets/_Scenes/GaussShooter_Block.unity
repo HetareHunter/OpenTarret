@@ -6298,7 +6298,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 130615
+    m_Bits: 130679
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
@@ -8825,6 +8825,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1805517546569208131}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1805517546569208136 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1805517545092471568, guid: 19ad9f82f1211a4469a985584fea8881,
+    type: 3}
+  m_PrefabInstance: {fileID: 1805517546569208131}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1851166874191770505
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9036,6 +9042,11 @@ PrefabInstance:
       propertyPath: _handPointerObj_R
       value: 
       objectReference: {fileID: 1805517546569208134}
+    - target: {fileID: 3018435302213825637, guid: 1f49a6d706027614c950d2cd824aa998,
+        type: 3}
+      propertyPath: _customOVRCameraRig
+      value: 
+      objectReference: {fileID: 1805517546569208136}
     - target: {fileID: 3018435302213825638, guid: 1f49a6d706027614c950d2cd824aa998,
         type: 3}
       propertyPath: m_Pivot.x

@@ -53,7 +53,10 @@ public class AnglePointer : MonoBehaviour
 
     private void Start()
     {
-        tarretStateManager = tarret.GetComponent<TarretStateManager>();
+        if (tarret != null)
+        {
+            tarretStateManager = tarret.GetComponent<TarretStateManager>();
+        }
     }
 
     // Update is called once per frame
