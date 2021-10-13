@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlockDeath : MonoBehaviour, IEnemyDeath
+public class BlockDeath : EnemyDeath
 {
     [SerializeField] float _deathTime = 0.5f;
     [SerializeField] int _addScore = 100;
@@ -18,14 +18,16 @@ public class BlockDeath : MonoBehaviour, IEnemyDeath
         collider = GetComponent<Collider>();
     }
 
-    public void OnDead()
+    public override void OnDead()
     {
         AddScore();
+        IsCollisionEnabled(false);
+        AfterDeadRigidBody();
         GetComponent<MeshDissolver>().ISPlayDissolve(true);
         _rb.useGravity = false;
     }
 
-    public void AddScore()
+    public override void AddScore()
     {
         ScoreManager.Instance.AddScore(_addScore);
     }

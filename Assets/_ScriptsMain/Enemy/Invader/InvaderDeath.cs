@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Enemy
 {
-    public class InvaderDeath : MonoBehaviour, IEnemyDeath
+    public class InvaderDeath : EnemyDeath
     {
         [SerializeField] float deathTime = 2.0f;
         InvaderStateManager invaderStateManager;
@@ -16,7 +16,7 @@ namespace Enemy
             invaderStateManager = GetComponent<InvaderStateManager>();
             
         }
-        public void OnDead()
+        public override void OnDead()
         {
             if (invaderStateManager == null)
             {
@@ -29,7 +29,7 @@ namespace Enemy
 
             Invoke("EnemyDestroy", deathTime);
         }
-        public void AddScore()
+        public override void AddScore()
         {
 
         }
@@ -38,7 +38,5 @@ namespace Enemy
         {
             gameObject.SetActive(false);
         }
-
-        
     }
 }

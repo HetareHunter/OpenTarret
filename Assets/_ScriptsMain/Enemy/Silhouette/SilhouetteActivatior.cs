@@ -3,26 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class SilhouetteActivatior : MonoBehaviour, IEnemyDeath
+public class SilhouetteActivatior : EnemyDeath
 {
     [SerializeField] int _addScore = 100;
     [SerializeField] float _deathStandDownTime = 0.5f;
     [SerializeField] float _activateStandUpTime = 1.0f;
-    bool isActive = false;
+    bool _isActive = false;
     Collider _collider;
     SilhouetteMover _silhouetteHumanMover;
     [Inject]
-    ISpawnable spawnable;
+    ISpawnable _spawnable;
 
     public bool IsActive
     {
         get
         {
-            return isActive;
+            return _isActive;
         }
         set
         {
-            isActive = value;
+            _isActive = value;
             if (value == true)
             {
                 _collider.enabled = true;
@@ -41,16 +41,16 @@ public class SilhouetteActivatior : MonoBehaviour, IEnemyDeath
         _silhouetteHumanMover = transform.parent.GetComponent<SilhouetteMover>();
         _collider = GetComponent<Collider>();
     }
-    public void OnDead()
+    public override void OnDead()
     {
         IsActive = false;
         AddScore();
         _collider.enabled = false;
-        spawnable.ChangeEnemyNum(-1);
+        _spawnable.ChangeEnemyNum(-1);
         _silhouetteHumanMover.StandSilhouette(SilhouetteStandState.Down, _deathStandDownTime);
     }
 
-    public void AddScore()
+    public override void AddScore()
     {
         ScoreManager.Instance.AddScore(_addScore);
     }

@@ -25,7 +25,6 @@ public class GaussBullet : MonoBehaviour
         _collider = GetComponent<Collider>();
         _objectPool = GetComponent<ObjectPool>();
         Reset();
-        //MoveFoward(ca);
     }
 
     // Start is called before the first frame update
@@ -76,34 +75,29 @@ public class GaussBullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("hit!");
-        var collisionBlockDeath = collision.gameObject.GetComponent<BlockDeath>();
-        var collisionSilhouetteDeath = collision.gameObject.GetComponent<IEnemyDeath>();
-        _objectPool.GetObject(_explodeEffect, transform.position, Quaternion.identity);
+        //Debug.Log("hit!");
+        var collisionEnemyDeath = collision.gameObject.GetComponent<EnemyDeath>();
+        _objectPool.GetObject(_explodeEffect, transform.position, Quaternion.identity); //爆発エフェクト生成
 
         if (collision.transform.CompareTag("Ground"))
         {
             _collider.enabled = false;
             MoveFoward(0);
+            //dissolveTime変数の時間経過後オブジェクトを非アクティブにする
             DOVirtual.DelayedCall(dissolveTime, () =>
             {
                 gameObject.SetActive(false);
             });
         }
 
-        if (collisionBlockDeath != null)
+        if (collisionEnemyDeath != null)
         {
-            collisionBlockDeath.IsCollisionEnabled(false);
-            collisionBlockDeath.AfterDeadRigidBody();
-            collisionBlockDeath.OnDead();
-
-            transform.rotation = startRota; //貫通させるため角度を変えずにそのままの勢いで進ませる
-            MoveFoward(cannonPower);
-        }
-
-        if (collisionSilhouetteDeath != null)
-        {
-            collisionSilhouetteDeath.OnDead();
+            collisionEnemyDeath.OnDead();
+            if (collisionEnemyDeath.Penetratable)
+            {
+                transform.rotation = startRota; //貫通させるため角度を変えずにそのままの勢いで進ませる
+                MoveFoward(cannonPower);
+            }
         }
     }
 }

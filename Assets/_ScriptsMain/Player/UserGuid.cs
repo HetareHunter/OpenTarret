@@ -1,10 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class UserGuid : MonoBehaviour
 {
+    EventSystem _eventSystem;
+    OVRInputModule _oVRInputModule;
+    OVRPointerEventData _oVRPointerEventData = new OVRPointerEventData(EventSystem.current);
+    [SerializeField] GameObject _oVRRaycasterObj;
+    OVRRaycaster _oVRRaycaster;
+
     [SerializeField] GameObject _handMesh_L;
     [SerializeField] GameObject _handMesh_R;
     [SerializeField] GameObject _handController_L;
@@ -16,7 +23,6 @@ public class UserGuid : MonoBehaviour
     Renderer _controllerMeshRenderer_R;
     MaterialPropertyBlock _LControllerMpb;
     MaterialPropertyBlock _RControllerMpb;
-    MaterialPropertyBlock _Float;
 
     void Awake()
     {
@@ -24,6 +30,8 @@ public class UserGuid : MonoBehaviour
         _handMeshRenderer_R = _handMesh_R.GetComponent<SkinnedMeshRenderer>();
         _controllerMeshRenderer_L = _handController_L.GetComponent<Renderer>();
         _controllerMeshRenderer_R = _handController_R.GetComponent<Renderer>();
+
+        _oVRRaycaster = _oVRRaycasterObj.GetComponent<OVRRaycaster>();
     }
 
     // Start is called before the first frame update
@@ -33,6 +41,9 @@ public class UserGuid : MonoBehaviour
         _RControllerMpb = new MaterialPropertyBlock();
         _controllerMeshRenderer_L.enabled = false;
         _controllerMeshRenderer_R.enabled = false;
+
+        _eventSystem = EventSystem.current;
+        _eventSystem.enabled = true;
     }
 
     public void SwicthHandMesh(bool useControllerMesh, Hand hand)
@@ -70,6 +81,20 @@ public class UserGuid : MonoBehaviour
     /// </summary>
     public void UseEmissionAButton()
     {
+        //_oVRInputModule.ActivateModule();
+        //var currentSelectedGameObject = new OVRPointerEventData(_eventSystem);
+        List<RaycastResult> raycastResults = new List<RaycastResult>();
+        _oVRRaycaster.Raycast(_oVRPointerEventData, raycastResults);
+        Debug.Log("currentSelectedGameObject.pointerEnter :" + EventSystem.current.currentSelectedGameObject);
+        if (_oVRPointerEventData.pointerEnter == null)
+        {
+            return;
+        }
+        if (EventSystem.current.currentSelectedGameObject.GetComponent<Button>().interactable == true)
+        {
+            _RControllerMpb.SetFloat(Shader.PropertyToID("Boolean_373b9f6827e4408dba5a032c280ab463"), 1.0f);
+            _controllerMeshRenderer_R.SetPropertyBlock(_RControllerMpb);
+        }
         _RControllerMpb.SetFloat(Shader.PropertyToID("Boolean_373b9f6827e4408dba5a032c280ab463"), 1.0f);
         _controllerMeshRenderer_R.SetPropertyBlock(_RControllerMpb);
     }

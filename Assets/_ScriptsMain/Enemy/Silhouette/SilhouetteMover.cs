@@ -10,7 +10,13 @@ using DG.Tweening;
 public class SilhouetteMover : MonoBehaviour, IMovableSilhouette
 {
     [SerializeField] float _rotateTime = 1.0f;
-    SilhouetteActivatior _silhouetteHumanDeath;
+
+    /// <summary>
+    /// ¶‚«‚Ä‚¢‚éŠÔ
+    /// </summary>
+    [SerializeField] float _activeTime = 8.0f;
+
+    SilhouetteActivatior _silhouetteActivatior;
     /// <summary>
     /// Œ»İ‚ÌƒXƒ^ƒ“ƒh‚Ìó‘Ô
     /// </summary>
@@ -18,20 +24,12 @@ public class SilhouetteMover : MonoBehaviour, IMovableSilhouette
     // Start is called before the first frame update
     void Start()
     {
-        _silhouetteHumanDeath = GetComponentInChildren<SilhouetteActivatior>();
+        _silhouetteActivatior = GetComponentInChildren<SilhouetteActivatior>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            StandSilhouette(SilhouetteStandState.Up, _rotateTime);
-        }
-        else if (Input.GetKeyDown(KeyCode.J))
-        {
-            StandSilhouette(SilhouetteStandState.Down, _rotateTime / 2);
-        }
     }
 
     /// <summary>

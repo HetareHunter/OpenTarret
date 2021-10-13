@@ -126,6 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cca0ff22a624174fbfed4f01d2143b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  penetratable: 1
   _deathTime: 0.5
   _addScore: 100
 --- !u!114 &5294391598127587620

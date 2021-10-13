@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class DroneDeath : MonoBehaviour, IEnemyDeath
+public class DroneDeath : EnemyDeath
 {
     [SerializeField] float deathTime = 0.5f;
     [SerializeField] int addScore = 100;
@@ -11,7 +11,7 @@ public class DroneDeath : MonoBehaviour, IEnemyDeath
     [Inject]
     ISpawnable spawner;
 
-    public void OnDead()
+    public override void OnDead()
     {
         spawner.ChangeEnemyNum(-1); //敵のカウントを1減らす
         AddScore();
@@ -27,7 +27,7 @@ public class DroneDeath : MonoBehaviour, IEnemyDeath
         }
     }
 
-    public void AddScore()
+    public override void AddScore()
     {
         ScoreManager.Instance.AddScore(addScore);
     }

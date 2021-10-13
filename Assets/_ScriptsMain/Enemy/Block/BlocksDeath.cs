@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlocksDeath : MonoBehaviour, IEnemyDeath
+public class BlocksDeath : EnemyDeath
 {
-    public void OnDead()
+    public override void OnDead()
     {
         AddScore();
         Destroy(gameObject, 0);
     }
 
-    public void AddScore()
+    public override void AddScore()
     {
     }
 }

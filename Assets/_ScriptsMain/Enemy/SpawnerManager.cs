@@ -149,7 +149,7 @@ public class SpawnerManager : MonoBehaviour,ISpawnable
         foreach (var item in enemies)
         {
             if (item == null) continue;
-            var enemyDeath = item.GetComponent<IEnemyDeath>();
+            var enemyDeath = item.GetComponent<EnemyDeath>();
             if (enemyDeath != null)
             {
                 item.GetComponent<DroneDeath>().BulletDead();
