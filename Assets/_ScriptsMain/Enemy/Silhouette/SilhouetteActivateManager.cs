@@ -44,6 +44,18 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
             _activeSilhouetteNum += value;
         }
     }
+
+    public bool OnSpawn
+    {
+        get
+        {
+            return _onSpawn;
+        }
+        set
+        {
+            _onSpawn = value;
+        }
+    }
     private void Awake()
     {
         _gameStateChangable = _gameManager.GetComponent<IGameStateChangable>();

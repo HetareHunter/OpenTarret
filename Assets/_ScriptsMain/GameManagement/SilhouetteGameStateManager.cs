@@ -49,20 +49,21 @@ namespace Manager
                 case GameState.None:
                     break;
                 case GameState.Idle:
-                    if (gameStart.ExistUIText())
-                    {
-                        gameStart.ResetScreen();
-                    }
+                    gameStart.Reset();
+                    //if (gameStart.ExistUIText())
+                    //{
+                    //    gameStart.ResetScreen();
+                    //}
                     MenuButtonSelecter.IdleInteractive();
                     break;
                 case GameState.Start:
                     ScoreManager.Instance.ResetScore();
                     MenuButtonSelecter.AllChangeInteractive(false);
-                    spawner.SpawnStart();
 
                     baseTarretAttackManager.IsAttackable(false);
                     break;
                 case GameState.Play:
+                    spawner.SpawnStart();
                     gameTimer.CountStart();
                     MenuButtonSelecter.AllChangeInteractive(true);
                     MenuButtonSelecter.GamePlayInteractive(true);
@@ -97,6 +98,14 @@ namespace Manager
         public void FinishGame(bool win)
         {
 
+        }
+
+        /// <summary>
+        /// UIのボタンによってゲームを強制終了する場合
+        /// </summary>
+        public void DrawGame()
+        {
+            ChangeGameState(GameState.End);
         }
 
         #region

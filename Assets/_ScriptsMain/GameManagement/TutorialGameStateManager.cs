@@ -58,10 +58,7 @@ namespace Manager
                 case GameState.None:
                     break;
                 case GameState.Idle:
-                    if (gameStart.ExistUIText())
-                    {
-                        gameStart.ResetScreen();
-                    }
+                    gameStart.Reset();
                     MenuButtonSelecter.IdleInteractive();
                     break;
                 case GameState.Start:

@@ -47,7 +47,7 @@ namespace Manager
         int beginingToPlayTimeCountNum;
 
         [SerializeField] Image[] startUIImage;
-        [SerializeField] TextMeshProUGUI[] countText;
+        [SerializeField] TextMeshProUGUI[] countText;//複数のUIに対応するための配列
 
         Animator gameStartUIAnim;
 
@@ -89,6 +89,12 @@ namespace Manager
                     ToPlayCount();
                 }
             }
+        }
+
+        public void Reset()
+        {
+            ResetScreen();
+            ActivateGameStart(true);
         }
 
         private void OnTriggerEnter(Collider other)
@@ -172,10 +178,9 @@ namespace Manager
                     gameStateChangeable.ChangeGameState(GameState.Play);
                     colorManager.ToStartColor();
                     toPlayTimeCountNum = beginingToPlayTimeCountNum;
-                    for (int i = 0; i < countText.Length; i++)
-                    {
-                        WriteScreenText("Start!");
-                    }
+
+                    WriteScreenText("Start!");
+
                     onStart = false;
                 }
             }
@@ -185,13 +190,14 @@ namespace Manager
         {
             WriteScreenText("Ready?");
             LoadCountImage();
+            ActivateGameStart(true);
         }
 
         public void WriteScreenText(string input)
         {
             if (!ExistUIText()) return;
 
-            for (int i = 0; i < countText.Length; i++)
+            for (int i = 0; i < countText.Length; i++)//登録したUIテキストの全てに変更を加える
             {
                 countText[i].text = input;
             }
@@ -255,9 +261,13 @@ namespace Manager
 
         public void GameEnd()
         {
-            boxCollider.enabled = true;
             ChangeAnim();
             WriteScreenText("Finish!");
+        }
+
+        void ActivateGameStart(bool isActive)
+        {
+            boxCollider.enabled = isActive;
         }
     }
 }

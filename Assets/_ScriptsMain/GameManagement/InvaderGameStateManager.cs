@@ -71,10 +71,7 @@ namespace Manager
                     break;
                 case GameState.Idle:
                     spawner.ResetEnemies();
-                    if (gameStart.ExistUIText())
-                    {
-                        gameStart.ResetScreen();
-                    }
+                    gameStart.Reset();
                     tarretState.ChangeTarretState(TarretState.Idle);
                     MenuButtonSelecter.IdleInteractive();
                     tarretVitalManager.ResetTarretVital();
