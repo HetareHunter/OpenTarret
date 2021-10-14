@@ -13,78 +13,80 @@ namespace Manager
     /// </summary>
     public class GameStartManager : MonoBehaviour
     {
-        GameObject gameManager;
+        GameObject _gameManager;
         [SerializeField] GameObject spawnerManager;
-        IAppearable appearable;
-        IGameStateChangable gameStateChangeable;
-        bool onLeftHand = false;
-        bool onRightHand = false;
-        bool onHand = false;
+        IAppearable _appearable;
+        IGameStateChangable _gameStateChangeable;
+        bool _onLeftHand = false;
+        bool _onRightHand = false;
+        bool _onHand = false;
 
         /// <summary>
         /// ゲームのスタートが確定するフラグ
         /// </summary>
-        bool onStart = false;
+        bool _onStart = false;
 
         /// <summary> 触れた時の振動の大きさ </summary>
         [SerializeField] float touchFrequeency = 0.3f;
         /// <summary> 触れた時の振動の周波数 </summary>
         [SerializeField] float touchAmplitude = 0.3f;
 
-        float toStartTime = 0;
+        float _toStartTime = 0;
         [SerializeField] float toStartLimitTime = 2.0f;
         [SerializeField] Image TouchCountImage;
 
         /// <summary>
         /// 1秒固定、1秒ごとにUIのカウントを３，２，１と変化させたいので変数を二つ用意した
         /// </summary>
-        float toPlayTime = 1.0f;
+        [SerializeField] float _toPlayCountDownTime = 3.0f;
+        float _toPlayTimeCountDownFirstNum;
 
         /// <summary>
-        /// 一秒を何回カウントするか
+        /// スクリーンに投影するゲーム開始の待ち時間
         /// </summary>
-        [SerializeField] int toPlayTimeCountNum = 3;
-        int beginingToPlayTimeCountNum;
+        int _toPlayTimeCountScreenNum = 3;
 
         [SerializeField] Image[] startUIImage;
         [SerializeField] TextMeshProUGUI[] countText;//複数のUIに対応するための配列
 
-        Animator gameStartUIAnim;
+        Animator _gameStartUIAnim;
 
         [SerializeField] GameObject changeColorObj;
-        ColorManager colorManager;
-        BoxCollider boxCollider;
+        ColorManager _colorManager;
+        BoxCollider _boxCollider;
 
         private void Start()
         {
-            gameStartUIAnim = GetComponent<Animator>();
-            beginingToPlayTimeCountNum = toPlayTimeCountNum;
-            colorManager = changeColorObj.GetComponent<ColorManager>();
-            gameManager = GameObject.Find("GameManager");
-            gameStateChangeable = gameManager.GetComponent<IGameStateChangable>();
-            boxCollider = GetComponent<BoxCollider>();
-            appearable = spawnerManager.GetComponent<IAppearable>();
+            _gameStartUIAnim = GetComponent<Animator>();
+            _colorManager = changeColorObj.GetComponent<ColorManager>();
+            _gameManager = GameObject.Find("GameManager");
+            _gameStateChangeable = _gameManager.GetComponent<IGameStateChangable>();
+            _boxCollider = GetComponent<BoxCollider>();
+            _appearable = spawnerManager.GetComponent<IAppearable>();
+
+            _toPlayTimeCountScreenNum = (int)_toPlayCountDownTime + 1;
+            _toPlayTimeCountDownFirstNum = _toPlayCountDownTime;
         }
 
         private void Update()
         {
             OnHandJudge();
-            if (onHand)
+            if (_onHand)
             {
                 LoadTouchImage();
                 ToStartCount();
             }
 
-            if (onStart)
+            if (_onStart)
             {
-                if (appearable != null)
+                if (_appearable != null)
                 {
-                    if (appearable.FinishAppear) 
-                    { 
+                    if (_appearable.FinishAppear)//オブジェクトの出現が終わっているならばゲームプレイステートへのカウントが始まる
+                    {
                         ToPlayCount();
                     }
                 }
-                else
+                else//出現させる演出のあるオブジェクトがない場合は即カウントを始める
                 {
                     ToPlayCount();
                 }
@@ -93,6 +95,7 @@ namespace Manager
 
         public void Reset()
         {
+            _toPlayCountDownTime = _toPlayTimeCountDownFirstNum;
             ResetScreen();
             ActivateGameStart(true);
         }
@@ -101,12 +104,12 @@ namespace Manager
         {
             if (other.gameObject.CompareTag("RHand"))
             {
-                onRightHand = true;
+                _onRightHand = true;
                 VibrationExtension.Instance.VibrateController(toStartLimitTime, touchFrequeency, touchAmplitude, OVRInput.Controller.RTouch);
             }
             else if (other.gameObject.CompareTag("LHand"))
             {
-                onLeftHand = true;
+                _onLeftHand = true;
                 VibrationExtension.Instance.VibrateController(toStartLimitTime, touchFrequeency, touchAmplitude, OVRInput.Controller.LTouch);
             }
         }
@@ -115,13 +118,13 @@ namespace Manager
         {
             if (other.gameObject.CompareTag("RHand"))
             {
-                onRightHand = false;
+                _onRightHand = false;
                 VibrationExtension.Instance.VibrateStop(OVRInput.Controller.RTouch);
                 OVRInput.SetControllerVibration(0, 0, OVRInput.Controller.RTouch);
             }
             else if (other.gameObject.CompareTag("LHand"))
             {
-                onLeftHand = false;
+                _onLeftHand = false;
                 VibrationExtension.Instance.VibrateStop(OVRInput.Controller.LTouch);
                 OVRInput.SetControllerVibration(0, 0, OVRInput.Controller.LTouch);
             }
@@ -129,14 +132,14 @@ namespace Manager
 
         void OnHandJudge()
         {
-            if (onLeftHand || onRightHand)
+            if (_onLeftHand || _onRightHand)
             {
-                onHand = true;
+                _onHand = true;
             }
             else
             {
-                onHand = false;
-                toStartTime = 0; //時間の初期化
+                _onHand = false;
+                _toStartTime = 0; //時間の初期化
                 LoadTouchImage(); //UIの初期化
             }
         }
@@ -147,10 +150,10 @@ namespace Manager
         /// </summary>
         void ToStartCount()
         {
-            toStartTime += Time.deltaTime;
-            if (toStartTime > toStartLimitTime)
+            _toStartTime += Time.deltaTime;
+            if (_toStartTime > toStartLimitTime)
             {
-                toStartTime = 0;
+                _toStartTime = 0;
                 GameStart();
             }
         }
@@ -160,43 +163,42 @@ namespace Manager
         /// </summary>
         void ToPlayCount()
         {
-            toPlayTime -= Time.deltaTime;
-            LoadCountImage();
-
-            if (toPlayTime < 0)
+            _toPlayCountDownTime -= Time.deltaTime;
+            if (_toPlayCountDownTime > 0)
             {
-                toPlayTime = 1;
-                toPlayTimeCountNum--;
-                for (int i = 0; i < countText.Length; i++)
-                {
-                    if (!ExistUIText()) continue;
-                    countText[i].text = toPlayTimeCountNum.ToString();
-                }
+                _toPlayTimeCountScreenNum = (int)_toPlayCountDownTime + 1;
+            }
+            else
+            {
+                _toPlayTimeCountScreenNum = (int)_toPlayCountDownTime;
+            }
 
-                if (toPlayTimeCountNum <= 0)
-                {
-                    gameStateChangeable.ChangeGameState(GameState.Play);
-                    colorManager.ToStartColor();
-                    toPlayTimeCountNum = beginingToPlayTimeCountNum;
+            LoadCountImage(_toPlayCountDownTime % 1);
 
-                    WriteScreenText("Start!");
+            for (int i = 0; i < countText.Length; i++)
+            {
+                countText[i].text = _toPlayTimeCountScreenNum.ToString();
+            }
 
-                    onStart = false;
-                }
+            if (_toPlayTimeCountScreenNum <= 0)
+            {
+                _gameStateChangeable.ChangeGameState(GameState.Play);
+                _colorManager.ToStartColor();
+
+                WriteScreenText("Start!");
+                _onStart = false;
             }
         }
 
         public void ResetScreen()
         {
             WriteScreenText("Ready?");
-            LoadCountImage();
+            LoadCountImage(1.0f);
             ActivateGameStart(true);
         }
 
         public void WriteScreenText(string input)
         {
-            if (!ExistUIText()) return;
-
             for (int i = 0; i < countText.Length; i++)//登録したUIテキストの全てに変更を加える
             {
                 countText[i].text = input;
@@ -206,56 +208,36 @@ namespace Manager
         void LoadTouchImage()
         {
             //ロード画面の画像が丸になっていくことでロード時間の可視化をする
-            TouchCountImage.fillAmount = toStartTime / toStartLimitTime;
+            TouchCountImage.fillAmount = _toStartTime / toStartLimitTime;
         }
 
-        void LoadCountImage()
+        void LoadCountImage(float per)
         {
-            if (!ExistUIText()) return;
             //毎秒のイメージの変化
-            for (int i = 0; i < startUIImage.Length; i++)
+            for (int i = 0; i < startUIImage.Length; i++)//演出するスクリーンの数だけ繰り返す
             {
-                startUIImage[i].fillAmount = toPlayTime / 1.0f;
+                startUIImage[i].fillAmount = per;
             }
         }
 
         public void ChangeAnim()
         {
-            gameStartUIAnim.SetTrigger("StateChange");
-        }
-
-        public bool ExistUIText()
-        {
-            if (countText.Length > 0)
-            {
-                if (countText[0] == null)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-            }
-            else
-            {
-                return false;
-            }
+            _gameStartUIAnim.SetTrigger("StateChange");
         }
 
         public void GameStart()
         {
-            gameStateChangeable.ChangeGameState(GameState.Start); //ゲーム開始
-            WriteScreenText(toPlayTimeCountNum.ToString());
-            onRightHand = false;
-            onLeftHand = false;
-            boxCollider.enabled = false;
-            onStart = true;
-            colorManager.ToChangeColor();
+            _gameStateChangeable.ChangeGameState(GameState.Start); //ゲーム開始
+            WriteScreenText(_toPlayTimeCountScreenNum.ToString());
+            _onRightHand = false;
+            _onLeftHand = false;
+            _boxCollider.enabled = false;
+            _onStart = true;
+            _colorManager.ToChangeColor();
             ChangeAnim();
-            if (appearable != null)
+            if (_appearable != null)
             {
-                appearable.StartSpawn();
+                _appearable.StartSpawn();
             }
         }
 
@@ -267,7 +249,7 @@ namespace Manager
 
         void ActivateGameStart(bool isActive)
         {
-            boxCollider.enabled = isActive;
+            _boxCollider.enabled = isActive;
         }
     }
 }
