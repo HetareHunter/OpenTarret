@@ -9,21 +9,22 @@ using DG.Tweening;
 /// </summary>
 public class SilhouetteMover : MonoBehaviour, IMovableSilhouette
 {
-    [SerializeField] float _rotateTime = 1.0f;
+    [SerializeField] float _tweenEndRotateTime = 1.0f;
 
-    /// <summary>
-    /// ¶‚«‚Ä‚¢‚éŠÔ
-    /// </summary>
-    [SerializeField] float _activeTime = 8.0f;
+    ///// <summary>
+    ///// ¶‚«‚Ä‚¢‚éŠÔ
+    ///// </summary>
+    //[SerializeField] float _activeTime = 8.0f;
 
     SilhouetteActivatior _silhouetteActivatior;
 
     Tweener _startTween;
+    //Tweener _endTween;
     Sequence _mySequence;
 
     [SerializeField] Vector3[] _wayPoint;
-    [SerializeField] float _moveDuration = 2.0f;
-    [SerializeField] float _standbyTime = 0.5f;
+    [SerializeField] float _moveDuration = 4.0f;
+    [SerializeField] float _standbyTime = 2.0f;
     Vector3 startPosi;
 
     /// <summary>
@@ -43,26 +44,6 @@ public class SilhouetteMover : MonoBehaviour, IMovableSilhouette
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            DoPlayTween();
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            DoPauseTween();
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            DoKillPause();
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            DoRestart();
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            SetTweenPath();
-        }
     }
 
     private void Reset()
@@ -93,7 +74,7 @@ public class SilhouetteMover : MonoBehaviour, IMovableSilhouette
                     Reset();
                 })
                 .SetEase(Ease.OutBounce);
-                
+
         }
         _standState = standState;
     }
@@ -108,14 +89,14 @@ public class SilhouetteMover : MonoBehaviour, IMovableSilhouette
             _startTween = transform.DOPath(_wayPoint, _moveDuration)
                 .SetDelay(_standbyTime)
                 .SetEase(Ease.Linear);
-            //.OnComplete(Reset);
-
-            //_endTween=StandSilhouette(SilhouetteStandState.Down,_rotateTime)
-            //    .SetDelay(_standbyTime)
-            //    .SetEase(Ease.Linear);
 
             _mySequence = DOTween.Sequence()
                 .Append(_startTween)
+                .AppendInterval(_standbyTime)
+                .AppendCallback(() => {
+                    //StandSilhouette(SilhouetteStandState.Down, _tweenEndRotateTime);
+                    _silhouetteActivatior.NonActivateSilhouette();
+                    })
                 .Pause()
                 .SetAutoKill(false)
                 .SetLink(gameObject);

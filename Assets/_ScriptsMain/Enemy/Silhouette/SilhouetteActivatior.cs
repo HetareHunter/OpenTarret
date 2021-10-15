@@ -11,7 +11,9 @@ public class SilhouetteActivatior : EnemyDeath
     bool _isActive = false;
     Collider _collider;
     SilhouetteMover _silhouetteMover;
-    float _standTime = 0.0f;
+    [SerializeField] float _standTime = 6.0f;
+    float _startStandTime;
+    bool _countStart = false;
     [Inject]
     ISpawnable _spawnable;
 
@@ -42,11 +44,17 @@ public class SilhouetteActivatior : EnemyDeath
     {
         _silhouetteMover = transform.parent.GetComponent<SilhouetteMover>();
         _collider = GetComponent<Collider>();
+
+        _startStandTime = _standTime;
     }
 
     private void Update()
     {
-        TimeCountUp();
+        if (_countStart)
+        {
+            TimeCountDown();
+        }
+        
     }
     public override void OnDead()
     {
@@ -62,22 +70,38 @@ public class SilhouetteActivatior : EnemyDeath
         ScoreManager.Instance.AddScore(_addScore);
     }
 
-    public void Activate()
+    public void ActivateSilhouette()
     {
         IsActive = true;
         _collider.enabled = true;
         TimeCountReset();
         _silhouetteMover.StandSilhouette(SilhouetteStandState.Up, _activateStandUpTime);
         _silhouetteMover.DoRestart();
+        //_countStart = true;
     }
 
-    void TimeCountUp()
+    public void NonActivateSilhouette()
     {
-        _standTime += Time.deltaTime;
+        IsActive = false;
+        _collider.enabled = false;
+        _spawnable.ChangeEnemyNum(-1);
+        //TimeCountReset();
+        _silhouetteMover.StandSilhouette(SilhouetteStandState.Down, _activateStandUpTime);
+    }
+
+    void TimeCountDown()
+    {
+        _standTime -= Time.deltaTime;
+        if (_standTime < 0.0f)//カウントダウン終了
+        {
+            NonActivateSilhouette();
+            TimeCountReset();
+            _countStart = false;
+        }
     }
 
     void TimeCountReset()
     {
-        _standTime = 0.0f;
+        _standTime = _startStandTime;
     }
 }

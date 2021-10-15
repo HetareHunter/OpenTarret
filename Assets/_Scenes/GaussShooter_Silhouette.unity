@@ -3299,6 +3299,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1186714614, guid: 4dca843ee54784745a25ce88d04e6617, type: 3}
+      propertyPath: _wayPoint.Array.data[0].x
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1186714614, guid: 4dca843ee54784745a25ce88d04e6617, type: 3}
+      propertyPath: _wayPoint.Array.data[0].z
+      value: 21
+      objectReference: {fileID: 0}
     - target: {fileID: 1876618714, guid: 4dca843ee54784745a25ce88d04e6617, type: 3}
       propertyPath: penetratable
       value: 1
@@ -3381,66 +3389,6 @@ PrefabInstance:
     - target: {fileID: 715195863098481645, guid: 4dca843ee54784745a25ce88d04e6617,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2774423528882463728, guid: 4dca843ee54784745a25ce88d04e6617,
-        type: 3}
-      propertyPath: path.length
-      value: 10.860001
-      objectReference: {fileID: 0}
-    - target: {fileID: 2774423528882463728, guid: 4dca843ee54784745a25ce88d04e6617,
-        type: 3}
-      propertyPath: lastSrcPosition.x
-      value: 4.14
-      objectReference: {fileID: 0}
-    - target: {fileID: 2774423528882463728, guid: 4dca843ee54784745a25ce88d04e6617,
-        type: 3}
-      propertyPath: lastSrcPosition.z
-      value: 21
-      objectReference: {fileID: 0}
-    - target: {fileID: 2774423528882463728, guid: 4dca843ee54784745a25ce88d04e6617,
-        type: 3}
-      propertyPath: wps.Array.data[0].x
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2774423528882463728, guid: 4dca843ee54784745a25ce88d04e6617,
-        type: 3}
-      propertyPath: wps.Array.data[0].z
-      value: 21
-      objectReference: {fileID: 0}
-    - target: {fileID: 2774423528882463728, guid: 4dca843ee54784745a25ce88d04e6617,
-        type: 3}
-      propertyPath: path.wps.Array.data[0].x
-      value: 4.14
-      objectReference: {fileID: 0}
-    - target: {fileID: 2774423528882463728, guid: 4dca843ee54784745a25ce88d04e6617,
-        type: 3}
-      propertyPath: path.wps.Array.data[0].z
-      value: 21
-      objectReference: {fileID: 0}
-    - target: {fileID: 2774423528882463728, guid: 4dca843ee54784745a25ce88d04e6617,
-        type: 3}
-      propertyPath: path.wps.Array.data[1].x
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2774423528882463728, guid: 4dca843ee54784745a25ce88d04e6617,
-        type: 3}
-      propertyPath: path.wps.Array.data[1].z
-      value: 21
-      objectReference: {fileID: 0}
-    - target: {fileID: 2774423528882463728, guid: 4dca843ee54784745a25ce88d04e6617,
-        type: 3}
-      propertyPath: path.wpLengths.Array.data[1]
-      value: 10.860001
-      objectReference: {fileID: 0}
-    - target: {fileID: 2774423528882463729, guid: 4dca843ee54784745a25ce88d04e6617,
-        type: 3}
-      propertyPath: preset
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2774423528882463729, guid: 4dca843ee54784745a25ce88d04e6617,
-        type: 3}
-      propertyPath: onEnableBehaviour
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9195805267842220087, guid: 4dca843ee54784745a25ce88d04e6617,
@@ -3895,7 +3843,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7eda1522f20501449ec4c9cc32f412d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameTime: 10
+  gameTime: 30
   toIdleStateTime: 4
   timeText: {fileID: 1621407879}
 --- !u!1001 &1132457072
@@ -7520,6 +7468,31 @@ PrefabInstance:
       propertyPath: penetratable
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1197089605342720692, guid: 15315f86b011b1048b14eb02cba19561,
+        type: 3}
+      propertyPath: _standbyTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1197089605342720692, guid: 15315f86b011b1048b14eb02cba19561,
+        type: 3}
+      propertyPath: _moveDuration
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1197089605342720692, guid: 15315f86b011b1048b14eb02cba19561,
+        type: 3}
+      propertyPath: _wayPoint.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1197089605342720692, guid: 15315f86b011b1048b14eb02cba19561,
+        type: 3}
+      propertyPath: _wayPoint.Array.data[0].y
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1197089605342720692, guid: 15315f86b011b1048b14eb02cba19561,
+        type: 3}
+      propertyPath: _wayPoint.Array.data[0].z
+      value: 31
+      objectReference: {fileID: 0}
     - target: {fileID: 1832974386415041199, guid: 15315f86b011b1048b14eb02cba19561,
         type: 3}
       propertyPath: m_RootOrder
@@ -8085,19 +8058,7 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1186714614, guid: 4dca843ee54784745a25ce88d04e6617, type: 3}
-      propertyPath: _standbyTime
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1186714614, guid: 4dca843ee54784745a25ce88d04e6617, type: 3}
-      propertyPath: _moveDuration
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1186714614, guid: 4dca843ee54784745a25ce88d04e6617, type: 3}
       propertyPath: wayPoint.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1186714614, guid: 4dca843ee54784745a25ce88d04e6617, type: 3}
-      propertyPath: _wayPoint.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1186714614, guid: 4dca843ee54784745a25ce88d04e6617, type: 3}
@@ -8114,14 +8075,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1186714614, guid: 4dca843ee54784745a25ce88d04e6617, type: 3}
       propertyPath: wayPoint.Array.data[1].z
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 1186714614, guid: 4dca843ee54784745a25ce88d04e6617, type: 3}
-      propertyPath: _wayPoint.Array.data[0].y
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1186714614, guid: 4dca843ee54784745a25ce88d04e6617, type: 3}
-      propertyPath: _wayPoint.Array.data[0].z
       value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 715195863098481645, guid: 4dca843ee54784745a25ce88d04e6617,
@@ -8192,41 +8145,6 @@ PrefabInstance:
     - target: {fileID: 715195863098481645, guid: 4dca843ee54784745a25ce88d04e6617,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2774423528882463728, guid: 4dca843ee54784745a25ce88d04e6617,
-        type: 3}
-      propertyPath: id
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2774423528882463728, guid: 4dca843ee54784745a25ce88d04e6617,
-        type: 3}
-      propertyPath: autoPlay
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2774423528882463728, guid: 4dca843ee54784745a25ce88d04e6617,
-        type: 3}
-      propertyPath: isSpeedBased
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2774423528882463728, guid: 4dca843ee54784745a25ce88d04e6617,
-        type: 3}
-      propertyPath: showWpLength
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2774423528882463728, guid: 4dca843ee54784745a25ce88d04e6617,
-        type: 3}
-      propertyPath: wps.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2774423528882463729, guid: 4dca843ee54784745a25ce88d04e6617,
-        type: 3}
-      propertyPath: preset
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2774423528882463729, guid: 4dca843ee54784745a25ce88d04e6617,
-        type: 3}
-      propertyPath: onEnableBehaviour
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9195805267842220087, guid: 4dca843ee54784745a25ce88d04e6617,
