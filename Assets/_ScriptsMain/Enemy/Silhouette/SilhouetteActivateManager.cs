@@ -20,7 +20,7 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
     [SerializeField] int _maxActiveSilhouetteNum = 3;
 
     /// <summary> ‹N‚«ã‚ª‚é‚Ü‚Å‚ÌŠÔŠÔŠu </summary>
-    [SerializeField] float _spawnTime = 5.0f;
+    [SerializeField] float _spawnInterval = 5.0f;
     float _nowTime = 0;
 
     /// <summary> •¦‚­‚Ü‚Å‚ÌŠÔ‚ªŒo‰ß‚µ‚½‚©‚Ç‚¤‚© </summary>
@@ -151,7 +151,7 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
     void CalculateSpawnTime()
     {
         _nowTime += Time.deltaTime;
-        if (_nowTime > _spawnTime)
+        if (_nowTime > _spawnInterval)
         {
             _onSpawnTimePassed = true;
             _nowTime = 0;
