@@ -190,9 +190,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0fbd60798b013f409d22adce1ce039a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _addScore: 100
+  penetratable: 1
+  _addScore: 200
   _deathStandDownTime: 0.5
   _activateStandUpTime: 1
+  _standTime: 6
 --- !u!1 &9116740479904354677
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,7 +219,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9116740479904354677}
-  m_LocalRotation: {x: 0.6602751, y: -0.25305495, z: 0.2530549, w: 0.6602751}
+  m_LocalRotation: {x: 0.6602759, y: -0.25305295, z: 0.25305295, w: 0.6602759}
   m_LocalPosition: {x: -22.45, y: 9.5, z: 31.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -237,4 +239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8878eecd850a9a449b2e78b619a6e0d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rotateTime: 1
+  _tweenEndRotateTime: 1
+  _wayPoint: []
+  _moveDuration: 4
+  _standbyTime: 2

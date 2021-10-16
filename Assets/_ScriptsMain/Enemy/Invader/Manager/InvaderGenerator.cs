@@ -94,7 +94,7 @@ namespace Enemy
             m_instancePosition.z = 0;
         }
 
-        public void ResetEnemies()
+        public void Reset()
         {
             foreach (var item in invaders)
             {

@@ -12,6 +12,7 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
     IGameStateChangable _gameStateChangable;
     [SerializeField] GameObject _gameManager;
 
+    [Tooltip("ここにアタッチしたシルエットオブジェクトがゲーム中に使用される")]
     public List<GameObject> _registerSilhouettes = new List<GameObject>();
     Queue<SilhouetteActivatior> _silhouettes = new Queue<SilhouetteActivatior>();
 
@@ -33,7 +34,7 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
     /// ゲームが終了するまでに起動するシルエットの数
     /// 同じシルエットを2回以上アクティブにしない。
     /// </summary>
-    int _maxActivateSilhouetteNum;
+    int _maxActivatedSilhouetteNum;
     int _activatedSilhouetteNum = 0;
 
     public int ActiveSilhouetteNum
@@ -91,6 +92,7 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
     public void ActivateSilhouette()
     {
         _activatedSilhouetteNum++;
+        Debug.Log("_activatedSilhouetteNum : " + _activatedSilhouetteNum);
         ChangeEnemyNum(1); //敵の数が増える
 
         _silhouettes.Enqueue(_silhouettes.Peek());
@@ -101,8 +103,12 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
         _spawnable = false;
     }
 
-    public void ResetEnemies()
+    public void Reset()
     {
+        _activatedSilhouetteNum = 0;
+        _activeSilhouetteNum = 0;
+        _nowTime = 0;
+        _onSpawnTimePassed = false;
         foreach (var item in _silhouettes)
         {
             item.Reset();
@@ -112,12 +118,12 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
     {
         _activeSilhouetteNum += num;
         Debug.Log("EnemyNum : " + _activeSilhouetteNum);
-        if (_activatedSilhouetteNum >= _maxActivateSilhouetteNum)
+        if (_activatedSilhouetteNum >= _maxActivatedSilhouetteNum)
         {
             _onSpawn = false;
         }
 
-        if (_activeSilhouetteNum <= 0)
+        if (num < 0)//敵が減った場合にゲーム終了判定をする
         {
             JudgeGameFinish();
         }
@@ -130,12 +136,9 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
     }
     public void SpawnEnd()
     {
-        _activatedSilhouetteNum = 0;
-        _activeSilhouetteNum = 0;
-        _nowTime = 0;
-        _onSpawnTimePassed = false;
+
         _onSpawn = false;
-        ResetEnemies();
+        Reset();
     }
     void JudgeSpawn()
     {
@@ -169,7 +172,7 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
     /// <param name="registerSilhouettes">対象のシルエットはインスペクターから設定する</param>
     void RegisterSilhouettes(List<GameObject> registerSilhouettes)
     {
-        _maxActivateSilhouetteNum = registerSilhouettes.Count;
+        _maxActivatedSilhouetteNum = registerSilhouettes.Count;
         registerSilhouettes = registerSilhouettes.OrderBy(x => Guid.NewGuid()).ToList();
         for (int i = 0; i < _registerSilhouettes.Count; i++)
         {
@@ -179,7 +182,7 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
 
     void JudgeGameFinish()
     {
-        if (!_onSpawn)
+        if (!_onSpawn && _activeSilhouetteNum <= 0)
         {
             _gameStateChangable.ChangeGameState(GameState.End);
         }

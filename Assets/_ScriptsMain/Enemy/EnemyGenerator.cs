@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyGenerator : MonoBehaviour, ISpawnable
 {
-    public void ResetEnemies()
+    public void Reset()
     {
 
     }
@@ -26,7 +26,7 @@ public class EnemyGenerator : MonoBehaviour, ISpawnable
 public interface ISpawnable
 {
     //public void EnemySpawn();
-    public void ResetEnemies();
+    public void Reset();
     public void ChangeEnemyNum(int num);
     public void SpawnStart();
     public void SpawnEnd();

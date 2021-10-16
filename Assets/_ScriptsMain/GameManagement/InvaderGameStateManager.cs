@@ -70,7 +70,7 @@ namespace Manager
                 case GameState.None:
                     break;
                 case GameState.Idle:
-                    spawner.ResetEnemies();
+                    spawner.Reset();
                     gameStart.Reset();
                     tarretState.ChangeTarretState(TarretState.Idle);
                     MenuButtonSelecter.IdleInteractive();

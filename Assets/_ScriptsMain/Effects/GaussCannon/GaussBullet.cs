@@ -85,7 +85,7 @@ public class GaussBullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("hit!");
+        //Debug.Log("hit!");
         var collisionEnemyDeath = collision.gameObject.GetComponent<EnemyDeath>();
         _objectPool.GetObject(_explodeEffect, transform.position, Quaternion.identity); //爆発エフェクト生成
 

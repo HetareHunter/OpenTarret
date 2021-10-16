@@ -66,10 +66,11 @@ public class SilhouetteMover : MonoBehaviour, IMovableSilhouette
         }
         else if (_standState == SilhouetteStandState.Up && standState == SilhouetteStandState.Down)//“|‚ê‚éŽž‚Ìˆ—
         {
+            _mySequence.Kill();
             transform.DORotate(new Vector3(90, 0, 0), rotateTime, RotateMode.LocalAxisAdd)
                 .OnComplete(() =>
                 {
-                    _mySequence.Kill();
+                    //_mySequence.Kill();
                     SetTweenPath();
                     Reset();
                 })

@@ -250,6 +250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49677cff4e27d6843954e46c73a45bef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _oVRRaycasterObj: {fileID: 0}
   _handMesh_L: {fileID: 1803798277078798196}
   _handMesh_R: {fileID: 1804390802185628332}
   _handController_L: {fileID: 1805517544909615742}
@@ -766,7 +767,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6355999501637400561}
   - component: {fileID: 4502086106975321646}
-  - component: {fileID: 7090816789545091151}
   - component: {fileID: 5646857044270215227}
   m_Layer: 6
   m_Name: UICamera
@@ -832,14 +832,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &7090816789545091151
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3437032879073940507}
-  m_Enabled: 1
 --- !u!114 &5646857044270215227
 MonoBehaviour:
   m_ObjectHideFlags: 0

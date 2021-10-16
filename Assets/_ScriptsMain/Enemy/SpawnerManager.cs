@@ -67,7 +67,7 @@ public class SpawnerManager : MonoBehaviour,ISpawnable
     {
         onSpawn = false;
         ResetSpawner();
-        ResetEnemies();
+        Reset();
     }
 
     public void ChangeEnemyNum(int num)
@@ -144,7 +144,7 @@ public class SpawnerManager : MonoBehaviour,ISpawnable
     /// <summary>
     /// 敵をすべて削除し、タイマー、敵のカウントを0にする
     /// </summary>
-    public void ResetEnemies()
+    public void Reset()
     {
         foreach (var item in enemies)
         {
