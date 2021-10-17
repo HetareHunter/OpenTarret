@@ -9,28 +9,49 @@ using DG.Tweening;
 /// </summary>
 public class SilhouetteMover : MonoBehaviour, IMovableSilhouette
 {
-    [SerializeField] float _tweenEndRotateTime = 1.0f;
-
-    ///// <summary>
-    ///// 生きている時間
-    ///// </summary>
-    //[SerializeField] float _activeTime = 8.0f;
-
     SilhouetteActivatior _silhouetteActivatior;
 
     Tweener _startTween;
-    //Tweener _endTween;
-    Sequence _mySequence;
+    Sequence _silhouetteSequence;
 
     [SerializeField] Vector3[] _wayPoint;
+    [Tooltip("移動している時間")]
     [SerializeField] float _moveDuration = 4.0f;
+    [Tooltip("立っているだけの時間")]
     [SerializeField] float _standbyTime = 2.0f;
+    float _activeTime;
     Vector3 startPosi;
+
+    public float ActiveTime
+    {
+        get
+        {
+            return _activeTime;
+        }
+        set
+        {
+
+        }
+    }
 
     /// <summary>
     /// 現在のスタンドの状態
     /// </summary>
     SilhouetteStandState _standState = SilhouetteStandState.Down;
+
+    void Awake()
+    {
+        if (_wayPoint.Length == 0)
+        {
+            _activeTime = _standbyTime;
+        }
+        else
+        {
+            _activeTime = _moveDuration + _standbyTime * 2;//_standbyTimeは起き上がったとき、動いた後止まった時の2回
+        }
+        
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,11 +60,6 @@ public class SilhouetteMover : MonoBehaviour, IMovableSilhouette
         startPosi = transform.position;
         SetTweenPath();
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
     }
 
     private void Reset()
@@ -66,7 +82,7 @@ public class SilhouetteMover : MonoBehaviour, IMovableSilhouette
         }
         else if (_standState == SilhouetteStandState.Up && standState == SilhouetteStandState.Down)//倒れる時の処理
         {
-            _mySequence.Kill();
+            _silhouetteSequence.Kill();
             transform.DORotate(new Vector3(90, 0, 0), rotateTime, RotateMode.LocalAxisAdd)
                 .OnComplete(() =>
                 {
@@ -85,19 +101,29 @@ public class SilhouetteMover : MonoBehaviour, IMovableSilhouette
     /// </summary>
     void SetTweenPath()
     {
-        if (_wayPoint.Length > 0)
+        if (_wayPoint.Length > 0) //動く場合
         {
             _startTween = transform.DOPath(_wayPoint, _moveDuration)
                 .SetDelay(_standbyTime)
                 .SetEase(Ease.Linear);
 
-            _mySequence = DOTween.Sequence()
+            _silhouetteSequence = DOTween.Sequence()
                 .Append(_startTween)
                 .AppendInterval(_standbyTime)
-                .AppendCallback(() => {
-                    //StandSilhouette(SilhouetteStandState.Down, _tweenEndRotateTime);
-                    _silhouetteActivatior.NonActivateSilhouette();
-                    })
+                //.AppendCallback(() => {
+                //    _silhouetteActivatior.NonActivateSilhouette();
+                //    })
+                .Pause()
+                .SetAutoKill(false)
+                .SetLink(gameObject);
+        }
+        else //動かない場合
+        {
+            _silhouetteSequence = DOTween.Sequence()
+                .AppendInterval(_standbyTime)
+                //.AppendCallback(() => {
+                //    _silhouetteActivatior.NonActivateSilhouette();
+                //})
                 .Pause()
                 .SetAutoKill(false)
                 .SetLink(gameObject);
@@ -106,21 +132,21 @@ public class SilhouetteMover : MonoBehaviour, IMovableSilhouette
 
     void DoPlayTween()
     {
-        _mySequence.Play();
+        _silhouetteSequence.Play();
     }
 
     void DoPauseTween()
     {
-        _mySequence.Pause();
+        _silhouetteSequence.Pause();
     }
 
     void DoKillPause()
     {
-        _mySequence.Kill(false);
+        _silhouetteSequence.Kill(false);
     }
 
     public void DoRestart()
     {
-        _mySequence.Restart();
+        _silhouetteSequence.Restart();
     }
 }

@@ -192,9 +192,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   penetratable: 1
   _addScore: 200
-  _deathStandDownTime: 0.5
-  _activateStandUpTime: 1
-  _standTime: 6
+  _deathStandDownRotateTime: 0.5
+  _activateStandUpRotateTime: 1
 --- !u!1 &9116740479904354677
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,7 +238,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8878eecd850a9a449b2e78b619a6e0d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tweenEndRotateTime: 1
   _wayPoint: []
-  _moveDuration: 4
-  _standbyTime: 2
+  _moveDuration: 0
+  _standbyTime: 18
