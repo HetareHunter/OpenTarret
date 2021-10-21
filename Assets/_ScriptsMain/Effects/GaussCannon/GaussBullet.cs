@@ -18,6 +18,8 @@ public class GaussBullet : MonoBehaviour
     [Header("オブジェクトプールに設定するもの")]
     [SerializeField] GameObject _explodeEffect;
     [SerializeField] int _startExplodeEffectNum;
+    [SerializeField] GameObject _hitWallEffect;
+    [SerializeField] int _startHitWallEffectNum;
 
     Vector3 startPosi = Vector3.zero;
     Quaternion forwardDire;
@@ -36,6 +38,7 @@ public class GaussBullet : MonoBehaviour
     void Start()
     {
         _objectPool.CreatePool(_explodeEffect, _startExplodeEffectNum);
+        _objectPool.CreatePool(_hitWallEffect, _startHitWallEffectNum);
     }
 
     private void OnEnable()
@@ -87,7 +90,15 @@ public class GaussBullet : MonoBehaviour
     {
         //Debug.Log("hit!");
         var collisionEnemyDeath = collision.gameObject.GetComponent<EnemyDeath>();
-        _objectPool.GetObject(_explodeEffect, transform.position, Quaternion.identity); //爆発エフェクト生成
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            _objectPool.GetObject(_hitWallEffect, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            _objectPool.GetObject(_explodeEffect, transform.position, Quaternion.identity); //爆発エフェクト生成
+        }
+        
 
         if (collisionEnemyDeath != null)
         {

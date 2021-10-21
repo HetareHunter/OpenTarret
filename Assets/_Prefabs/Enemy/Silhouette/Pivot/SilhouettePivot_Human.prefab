@@ -192,6 +192,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   penetratable: 1
   _addScore: 200
+  _excellentRankTimeCoe: 0.7
+  _goodRankTimeCoe: 0.5
+  _excellentRankBonusScoreCoe: 2
+  _goodRankBonusScoreCoe: 1.5
   _deathStandDownRotateTime: 0.5
   _activateStandUpRotateTime: 1
 --- !u!1 &9116740479904354677
@@ -240,4 +244,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _wayPoint: []
   _moveDuration: 0
-  _standbyTime: 18
+  _standbyTime: 15

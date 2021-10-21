@@ -8,12 +8,16 @@ using Zenject;
 /// </summary>
 public class SilhouetteActivatior : EnemyDeath
 {
+    [Tooltip("基礎点")]
     [SerializeField] int _addScore = 100;
+    [Header("早く倒すほど得点を高くもらえるように設定する")]
     [SerializeField] float _excellentRankTimeCoe = 0.7f;
     [SerializeField] float _goodRankTimeCoe = 0.5f;
     [SerializeField] float _excellentRankBonusScoreCoe = 2.0f;
     [SerializeField] float _goodRankBonusScoreCoe = 1.5f;
+    [Header("倒れる始めてから倒れ終わるまでの時間")]
     [SerializeField] float _deathStandDownRotateTime = 0.5f;
+    [Header("起き始めてから起き終わるまでの時間")]
     [SerializeField] float _activateStandUpRotateTime = 1.0f;
     bool _isActive = false;
     Collider _collider;
@@ -62,7 +66,6 @@ public class SilhouetteActivatior : EnemyDeath
         {
             TimeCountDown();
         }
-
     }
     public override void OnDead()
     {
@@ -70,6 +73,7 @@ public class SilhouetteActivatior : EnemyDeath
         AddScore();
         _collider.enabled = false;
         _spawnable.ChangeEnemyNum(-1);
+        _countStart = false;
         _silhouetteMover.StandSilhouette(SilhouetteStandState.Down, _deathStandDownRotateTime);
     }
 
@@ -107,7 +111,7 @@ public class SilhouetteActivatior : EnemyDeath
         IsActive = false;
         _collider.enabled = false;
         _spawnable.ChangeEnemyNum(-1);
-        //TimeCountReset();
+        _countStart = false;
         _silhouetteMover.StandSilhouette(SilhouetteStandState.Down, _activateStandUpRotateTime);
     }
 

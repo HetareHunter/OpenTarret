@@ -9,8 +9,6 @@ using DG.Tweening;
 /// </summary>
 public class SilhouetteMover : MonoBehaviour, IMovableSilhouette
 {
-    SilhouetteActivatior _silhouetteActivatior;
-
     Tweener _startTween;
     Sequence _silhouetteSequence;
 
@@ -49,17 +47,14 @@ public class SilhouetteMover : MonoBehaviour, IMovableSilhouette
         {
             _activeTime = _moveDuration + _standbyTime * 2;//_standbyTimeÇÕãNÇ´è„Ç™Ç¡ÇΩÇ∆Ç´ÅAìÆÇ¢ÇΩå„é~Ç‹Ç¡ÇΩéûÇÃ2âÒ
         }
-        
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        _silhouetteActivatior = GetComponentInChildren<SilhouetteActivatior>();
         DOTween.Init();
         startPosi = transform.position;
         SetTweenPath();
-
     }
 
     private void Reset()
@@ -82,16 +77,14 @@ public class SilhouetteMover : MonoBehaviour, IMovableSilhouette
         }
         else if (_standState == SilhouetteStandState.Up && standState == SilhouetteStandState.Down)//ì|ÇÍÇÈéûÇÃèàóù
         {
-            _silhouetteSequence.Kill();
+            DoKillTween();
             transform.DORotate(new Vector3(90, 0, 0), rotateTime, RotateMode.LocalAxisAdd)
                 .OnComplete(() =>
                 {
-                    //_mySequence.Kill();
                     SetTweenPath();
                     Reset();
                 })
                 .SetEase(Ease.OutBounce);
-
         }
         _standState = standState;
     }
@@ -110,20 +103,6 @@ public class SilhouetteMover : MonoBehaviour, IMovableSilhouette
             _silhouetteSequence = DOTween.Sequence()
                 .Append(_startTween)
                 .AppendInterval(_standbyTime)
-                //.AppendCallback(() => {
-                //    _silhouetteActivatior.NonActivateSilhouette();
-                //    })
-                .Pause()
-                .SetAutoKill(false)
-                .SetLink(gameObject);
-        }
-        else //ìÆÇ©Ç»Ç¢èÍçá
-        {
-            _silhouetteSequence = DOTween.Sequence()
-                .AppendInterval(_standbyTime)
-                //.AppendCallback(() => {
-                //    _silhouetteActivatior.NonActivateSilhouette();
-                //})
                 .Pause()
                 .SetAutoKill(false)
                 .SetLink(gameObject);
@@ -140,13 +119,17 @@ public class SilhouetteMover : MonoBehaviour, IMovableSilhouette
         _silhouetteSequence.Pause();
     }
 
-    void DoKillPause()
+    public void DoKillTween()
     {
+        _startTween.Kill();
         _silhouetteSequence.Kill(false);
     }
 
     public void DoRestart()
     {
-        _silhouetteSequence.Restart();
+        if (_silhouetteSequence != null)
+        {
+            _silhouetteSequence.Restart();
+        }
     }
 }
