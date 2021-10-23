@@ -12,8 +12,10 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
     IGameStateChangable _gameStateChangable;
     [SerializeField] GameObject _gameManager;
 
-    [Tooltip("ここにアタッチしたシルエットオブジェクトがゲーム中に使用される")]
-    public List<GameObject> _registerSilhouettes = new List<GameObject>();
+    [Tooltip("この子オブジェクトに入れて、setActiveがtrueのシルエットオブジェクトがゲーム中に使用される")]
+    public GameObject _registerSilhouettesParent;
+    List<GameObject> _registerSilhouettes = new List<GameObject>();
+    List<SilhouetteActivatior> _registerSilhouettesActivater = new List<SilhouetteActivatior>();
     Queue<SilhouetteActivatior> _silhouettes = new Queue<SilhouetteActivatior>();
 
     /// <summary> 同時にアクティブにできるシルエットの数</summary>
@@ -69,6 +71,20 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
     void Start()
     {
         JudgeSpawn();
+        var registerSilhouetteChildcount = _registerSilhouettesParent.transform.childCount;
+        for (int i = 0; i < registerSilhouetteChildcount; i++)
+        {
+            var setObj= _registerSilhouettesParent.transform.GetChild(i).gameObject;
+            if (setObj.activeSelf)
+            {
+                _registerSilhouettes.Add(setObj);
+            }
+        }
+
+        foreach (var item in _registerSilhouettes)
+        {
+            _registerSilhouettesActivater.Add(item.GetComponentInChildren<SilhouetteActivatior>());
+        }
     }
 
     // Update is called once per frame
@@ -131,7 +147,7 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
     public void SpawnStart()
     {
         _onSpawn = true;
-        RegisterSilhouettes(_registerSilhouettes);
+        RegisterSilhouettes(_registerSilhouettesActivater);
         JudgeSpawn();
     }
     public void SpawnEnd()
@@ -169,13 +185,13 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
     /// ここで登録したシルエットが時間経過で起動し、撃つ事ができるようになる
     /// </summary>
     /// <param name="registerSilhouettes">対象のシルエットはインスペクターから設定する</param>
-    void RegisterSilhouettes(List<GameObject> registerSilhouettes)
+    void RegisterSilhouettes(List<SilhouetteActivatior> registerSilhouettes)
     {
         _maxActivatedSilhouetteNum = registerSilhouettes.Count;
         registerSilhouettes = registerSilhouettes.OrderBy(x => Guid.NewGuid()).ToList();
         for (int i = 0; i < _registerSilhouettes.Count; i++)
         {
-            _silhouettes.Enqueue(registerSilhouettes[i].GetComponentInChildren<SilhouetteActivatior>());
+            _silhouettes.Enqueue(registerSilhouettes[i]);
         }
     }
 

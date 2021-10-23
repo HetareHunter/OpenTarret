@@ -38,11 +38,12 @@ namespace Manager
         public void ChangeGameState(GameState next)
         {
             //以前の状態を保持
-            //var prev = gameState;
+            var prev = gameState;
             //次の状態に変更する
             gameState = next;
             // ログを出す
             //Debug.Log($"ChangeState {prev} -> {next}");
+            if (next == GameState.End && prev != GameState.Play) return;
 
             switch (gameState)
             {
@@ -50,10 +51,6 @@ namespace Manager
                     break;
                 case GameState.Idle:
                     gameStart.Reset();
-                    //if (gameStart.ExistUIText())
-                    //{
-                    //    gameStart.ResetScreen();
-                    //}
                     MenuButtonSelecter.IdleInteractive();
                     break;
                 case GameState.Start:
@@ -76,6 +73,9 @@ namespace Manager
                     gameStart.GameEnd();
                     MenuButtonSelecter.GamePlayInteractive(false);
                     break;
+
+                case GameState.Result:
+
                 default:
                     break;
             }

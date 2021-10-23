@@ -190,9 +190,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0fbd60798b013f409d22adce1ce039a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  penetratable: 1
   _addScore: 100
-  _deathStandDownTime: 0.5
-  _activateStandUpTime: 1
+  _excellentRankTimeCoe: 0.7
+  _goodRankTimeCoe: 0.5
+  _excellentRankBonusScoreCoe: 2
+  _goodRankBonusScoreCoe: 1.5
+  _deathStandDownRotateTime: 0.5
+  _activateStandUpRotateTime: 1
+  _excAudioClip: {fileID: 8300000, guid: 34f4bb86652382347977bc2bca254226, type: 3}
+  _goodAudioClip: {fileID: 8300000, guid: 2e54d0bc0af63104fa6e668eb99166c4, type: 3}
+  _normalAudioClip: {fileID: 8300000, guid: 39fce60539df2e44592ff8f43154a8ba, type: 3}
 --- !u!1 &7999231369397854581
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,4 +245,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8878eecd850a9a449b2e78b619a6e0d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rotateTime: 1
+  _wayPoint: []
+  _moveDuration: 4
+  _standbyTime: 2

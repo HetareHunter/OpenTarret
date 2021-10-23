@@ -12,6 +12,7 @@ public enum GameState
     Start,
     Play,
     End,
+    Result
 }
 
 namespace Manager

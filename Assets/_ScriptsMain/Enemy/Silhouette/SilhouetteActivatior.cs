@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
+[RequireComponent(typeof(AudioSource))]
 /// <summary>
 /// シルエットが倒れるときの処理を行うクラス
 /// </summary>
@@ -22,6 +23,10 @@ public class SilhouetteActivatior : EnemyDeath
     bool _isActive = false;
     Collider _collider;
     SilhouetteMover _silhouetteMover;
+    AudioSource _audioSource;
+    [SerializeField] AudioClip _excAudioClip;
+    [SerializeField] AudioClip _goodAudioClip;
+    [SerializeField] AudioClip _normalAudioClip;
     float _standTime;
     float _startStandTime;
     bool _countStart = false;
@@ -55,6 +60,7 @@ public class SilhouetteActivatior : EnemyDeath
     {
         _silhouetteMover = transform.parent.GetComponent<SilhouetteMover>();
         _collider = GetComponent<Collider>();
+        _audioSource = GetComponent<AudioSource>();
 
         _standTime = _silhouetteMover.ActiveTime;
         _startStandTime = _standTime;
@@ -82,16 +88,21 @@ public class SilhouetteActivatior : EnemyDeath
         if (_standTime >= _startStandTime * _excellentRankTimeCoe)
         {
             ScoreManager.Instance.AddScore((int)(_addScore * _excellentRankBonusScoreCoe));
+            _audioSource.PlayOneShot(_normalAudioClip);
+            _audioSource.PlayOneShot(_excAudioClip);
             Debug.Log("Excellent!");
         }
         else if (_standTime >= _startStandTime * _goodRankTimeCoe && _standTime < _startStandTime * _excellentRankTimeCoe)
         {
             ScoreManager.Instance.AddScore((int)(_addScore * _goodRankBonusScoreCoe));
+            _audioSource.PlayOneShot(_normalAudioClip);
+            _audioSource.PlayOneShot(_goodAudioClip);
             Debug.Log("Good!");
         }
         else if(_standTime < _startStandTime * _goodRankTimeCoe)
         {
             ScoreManager.Instance.AddScore(_addScore);
+            _audioSource.PlayOneShot(_normalAudioClip);
             Debug.Log("Normal!");
         }
     }
