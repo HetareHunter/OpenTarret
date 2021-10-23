@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;//タスクが完了する前に同じタスクを繰り返すと意図しない事態が起きやすいので注意
+using DG.Tweening;//タスクが完了する前に同じタスクを繰り返すと意図しない事態が起きるので必ずキルを確認する
 
 public class GaussBullet : MonoBehaviour
 {
@@ -89,6 +89,7 @@ public class GaussBullet : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         //Debug.Log("hit!");
+        //エフェクトの再生
         var collisionEnemyDeath = collision.gameObject.GetComponent<EnemyDeath>();
         if (collision.gameObject.CompareTag("Ground"))
         {
@@ -99,7 +100,7 @@ public class GaussBullet : MonoBehaviour
             _objectPool.GetObject(_explodeEffect, transform.position, Quaternion.identity); //爆発エフェクト生成
         }
         
-
+        //ヒットしたものが敵かどうか判定
         if (collisionEnemyDeath != null)
         {
             collisionEnemyDeath.OnDead();
@@ -131,18 +132,5 @@ public class GaussBullet : MonoBehaviour
                 gameObject.SetActive(false);
             }, false);
         }
-
-        //if (collision.transform.CompareTag("Ground"))
-        //{
-        //    _collider.enabled = false;
-        //    MoveFoward(0);
-        //    //dissolveTime変数の時間経過後オブジェクトを非アクティブにする
-        //    DOVirtual.DelayedCall(dissolveTime, () =>
-        //    {
-        //        gameObject.SetActive(false);
-        //    });
-        //}
-
-
     }
 }

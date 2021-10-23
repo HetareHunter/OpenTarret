@@ -218,7 +218,6 @@ namespace Players
                     grabbable = null;
                     _searchable = true;
                     _handMeshRenderer.material = _defaultHandMT;
-                    //_userGuid.SwicthHandMesh(true, _hand);
                 }
             }
             else if (_hand == Hand.Right)

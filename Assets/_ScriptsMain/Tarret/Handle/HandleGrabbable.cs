@@ -102,7 +102,6 @@ namespace Players
             private set { }
         }
 
-
         void Start()
         {
             if (anglePointerObj != null)
@@ -189,35 +188,6 @@ namespace Players
             _isGrabbed = false;
         }
 
-
-        //private void OnTriggerEnter(Collider other)
-        //{
-        //    _isTouch = true;
-        //    if (!_isGrabbed) //握ってはいないがハンドルに触れているとき
-        //    {
-        //        if (other.tag == "LHand")
-        //        {
-        //            //握ったときにcurrentControllerにどちらのコントローラかの情報が入るので、触れたときの振動処理は
-        //            //currentControllerを引数に使えない
-        //            handleVibe.Vibrate(touchVibeDuration, touchFrequeency, touchAmplitude, OVRInput.Controller.LTouch);
-        //        }
-        //        else if (other.tag == "RHand")
-        //        {
-        //            handleVibe.Vibrate(touchVibeDuration, touchFrequeency, touchAmplitude, OVRInput.Controller.RTouch);
-        //        }
-        //        ChangeOutlineColor(_isTouch);
-        //    }
-        //}
-
-        //private void OnTriggerExit(Collider other)
-        //{
-        //    _isTouch = false;
-        //    if (!_isGrabbed) //握っていないときでコライダーから手が離れた時
-        //    {
-        //        ChangeOutlineColor(_isTouch);
-        //    }
-        //}
-
         /// <summary>
         /// 手から放たれ続けているレイがオブジェクトに触れているときの処理
         /// </summary>
@@ -225,7 +195,6 @@ namespace Players
         /// <param name="hand">どちらの手から放たれたレイで取得するか</param>
         public void SelectHandle(bool isSelect, Hand hand)
         {
-            //if ((hand == Hand.Left && handle == HandleSide.Right) || (hand == Hand.Right && handle == HandleSide.Left)) return;
             _isSelect = isSelect;
             _selectHand = hand;
 

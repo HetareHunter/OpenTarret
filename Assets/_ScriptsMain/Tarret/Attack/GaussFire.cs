@@ -55,7 +55,6 @@ public class GaussFire : MonoBehaviour
         bullet.SetActive(false);
         if (_lockOn)
         {
-            
             var aim = _target - bullet.transform.position;
             var look = Quaternion.LookRotation(aim);
             bullet.transform.rotation = look;

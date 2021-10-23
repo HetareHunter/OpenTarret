@@ -12,9 +12,10 @@ public abstract class EnemyDeath : MonoBehaviour
     [SerializeField] bool penetratable;
     public bool Penetratable
     {
-        get{
+        get
+        {
             return penetratable;
-            }
+        }
         set { } 
     }
 }

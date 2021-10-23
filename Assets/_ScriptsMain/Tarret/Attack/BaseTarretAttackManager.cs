@@ -21,22 +21,8 @@ namespace Tarret
         SightChanger sightChanger;
         GaussFire razerAttacker;
         AttackEffecter razerEffecter;
-        AttackRaycastManager attackRayManager;
         [Inject]
         private IChangeSightColor changeSightColor;
-
-
-
-        //------------------ここから撃った時のエフェクト関連の変数-------------------
-        /// <summary>爆発のエフェクト </summary>
-        //[SerializeField] GameObject[] m_hitExplodeEffects;
-
-        //int hitExplodeIndex = 0;
-        ///// <summary>衝撃の物理的な力 </summary>
-        //[SerializeField] GameObject[] explodeForces;
-        //int explodeForceIndex = 0;
-
-        //-----------------エフェクト関連ここまで---------------------
 
         /// <summary> 攻撃可能かどうか判定する </summary>
         [NonSerialized] public bool attackable = true;
@@ -48,18 +34,15 @@ namespace Tarret
         [SerializeField] GameObject sight;
         bool screenColorRed = false;
 
-
         private void Start()
         {
             tarretStateManager = GetComponent<TarretStateManager>();
-
             muzzleAudio = muzzle.GetComponent<AudioPlayer>();
             magazineRotate = magazine.GetComponent<MagazineRotate>();
             sightChanger = sight.GetComponent<SightChanger>();
             attackInterval = GetComponent<AttackIntervalCounter>();
             razerAttacker = muzzle.GetComponent<GaussFire>();
             razerEffecter = GetComponent<AttackEffecter>();
-            attackRayManager = muzzle.GetComponent<AttackRaycastManager>();
         }
 
         public void ScreenChangeColor(bool raycastHit)
@@ -91,7 +74,6 @@ namespace Tarret
             magazineRotate.RotateMagazine();
         }
 
-
         /// <summary>
         /// 攻撃したとき、TarretCommandステートがAttackになったときに一度だけ呼ばれるメソッド。
         /// </summary>
@@ -101,7 +83,6 @@ namespace Tarret
             razerAttacker.InstanceFireEffect();
             razerEffecter.InstanceWasteHeatEffect();
             razerEffecter.InstanceShockWave();
-            //attackRayManager.KillEnemyFromRazer();
 
             IsAttackable(false);
             attackInterval.countStart = true;
@@ -125,10 +106,8 @@ namespace Tarret
 
 
 #if UNITY_EDITOR
-
         private void Update()
         {
-
             if (Input.GetKeyDown("space"))
             {
                 if (tarretStateManager.tarretCommandState != TarretState.Attack)
@@ -136,7 +115,6 @@ namespace Tarret
                     tarretStateManager.ChangeTarretState(TarretState.Attack);
                 }
             }
-
         }
 #endif
     }

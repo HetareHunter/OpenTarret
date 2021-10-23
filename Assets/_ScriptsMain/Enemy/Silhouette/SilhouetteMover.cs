@@ -26,10 +26,7 @@ public class SilhouetteMover : MonoBehaviour, IMovableSilhouette
         {
             return _activeTime;
         }
-        set
-        {
-
-        }
+        set { }
     }
 
     /// <summary>
@@ -96,7 +93,7 @@ public class SilhouetteMover : MonoBehaviour, IMovableSilhouette
     {
         if (_wayPoint.Length > 0) //ìÆÇ≠èÍçá
         {
-            _startTween = transform.DOPath(_wayPoint, _moveDuration)
+            _startTween = transform.DOLocalPath(_wayPoint, _moveDuration)
                 .SetDelay(_standbyTime)
                 .SetEase(Ease.Linear);
 

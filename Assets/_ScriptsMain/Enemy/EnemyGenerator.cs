@@ -25,7 +25,6 @@ public class EnemyGenerator : MonoBehaviour, ISpawnable
 
 public interface ISpawnable
 {
-    //public void EnemySpawn();
     public void Reset();
     public void ChangeEnemyNum(int num);
     public void SpawnStart();

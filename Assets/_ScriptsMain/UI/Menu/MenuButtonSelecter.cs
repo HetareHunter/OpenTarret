@@ -29,7 +29,6 @@ namespace MenuUI
             }
         }
 
-
         public void ChangeInteractiveAfterPushedButton()
         {
             canvasGroup.interactable = false;

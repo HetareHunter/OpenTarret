@@ -29,7 +29,7 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
     /// <summary> 沸いて良い状況かを管理するフラグ </summary>
     bool _spawnable = false;
     /// <summary> スポナーを起動しているかどうか </summary>
-    public bool _onSpawn = false;
+    bool _onSpawn = false;
     /// <summary> 
     /// ゲームが終了するまでに起動するシルエットの数
     /// 同じシルエットを2回以上アクティブにしない。
@@ -136,7 +136,6 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
     }
     public void SpawnEnd()
     {
-
         _onSpawn = false;
         Reset();
     }
