@@ -11,7 +11,6 @@ public class GaussBullet : MonoBehaviour
     [SerializeField] float cannonPower = 5.0f;
     [SerializeField] float effectiveRange = 300.0f;
     [SerializeField] float dissolveTime = 1.0f;
-    const float MinReflectAngle = 0.0f;
     [SerializeField] float _maxReflectAngle = 160.0f;
 
     ObjectPool _objectPool;
@@ -43,7 +42,6 @@ public class GaussBullet : MonoBehaviour
 
     private void OnEnable()
     {
-        //startPosi = transform.position;
         forwardDire = transform.rotation;
         if (_rb == null) _rb = GetComponent<Rigidbody>();
         Reset();

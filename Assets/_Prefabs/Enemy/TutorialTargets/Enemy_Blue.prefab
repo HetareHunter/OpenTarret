@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1851991286475880493}
   - component: {fileID: 4805870334855586440}
   - component: {fileID: 7229226829051007432}
-  - component: {fileID: 8628758500774825406}
+  - component: {fileID: 996602646980932382}
   - component: {fileID: 2026737944742619243}
   - component: {fileID: 3326593656637840647}
   - component: {fileID: -7317593524129407851}
@@ -85,19 +85,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8628758500774825406
-BoxCollider:
+--- !u!64 &996602646980932382
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2743875396394071723}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 0b8e9a900e63fda489ac42aaba92942d, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.0000001, y: 2, z: 1.0000002}
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!54 &2026737944742619243
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -127,9 +128,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   penetratable: 1
-  _deathTime: 0.5
   _addScore: 100
-  _strongDrag: 20
+  _strongDrag: 8
+  _strongAnglarDrag: 0.2
 --- !u!114 &-7317593524129407851
 MonoBehaviour:
   m_ObjectHideFlags: 0

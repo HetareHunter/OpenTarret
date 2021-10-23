@@ -16,7 +16,7 @@ public interface IAppearable
 /// <summary>
 /// EnemySpawnShaderを使っているマテリアルがアタッチされているオブジェクトを可視化するクラス
 /// </summary>
-public class ScanAppear : MonoBehaviour, IAppearable
+public class ScanAppear : MonoBehaviour
 {
     Vector3 appearLinePosi;
     [SerializeField] Vector3 startAppearPosi;
@@ -25,12 +25,16 @@ public class ScanAppear : MonoBehaviour, IAppearable
     [SerializeField] float scanWallSpeed = 1.0f;
     [SerializeField] Material[] SpawnMTs;
     public bool playScan = false;
+    string _scanPosi = "Vector1_bc6a38dab71149e392ba24144467bb94";
+    string _lineRange = "Vector1_73826083ca9b46dbb89f50e79b0c5527";
 
     public bool FinishAppear { get; set; }
 
     // Start is called before the first frame update
     void Start()
     {
+        GetStartAppearLinePosi();
+        ResetApeearLinePosi();
         appearLinePosi = startAppearPosi;
         FinishAppear = false;
     }
@@ -46,10 +50,10 @@ public class ScanAppear : MonoBehaviour, IAppearable
 
     void UpdateAppearLinePosi()
     {
-        appearLinePosi.y += scanWallSpeed * Time.deltaTime;
+        appearLinePosi.y -= scanWallSpeed * Time.deltaTime;
         UpdateMTAppearLinePosi();
 
-        if (appearLinePosi.y >= endAppearPosi.y)
+        if (appearLinePosi.y <= endAppearPosi.y)
         {
             FinishScan();
         }
@@ -59,7 +63,7 @@ public class ScanAppear : MonoBehaviour, IAppearable
     {
         for (int i = 0; i < SpawnMTs.Length; i++)
         {
-            SpawnMTs[i].SetFloat("Vector1_bc6a38dab71149e392ba24144467bb94", -appearLinePosi.y + lineRanges[i]);
+            SpawnMTs[i].SetFloat(_scanPosi, appearLinePosi.y);
         }
     }
 
@@ -68,7 +72,7 @@ public class ScanAppear : MonoBehaviour, IAppearable
         lineRanges = new float[SpawnMTs.Length];
         for (int i = 0; i < SpawnMTs.Length; i++)
         {
-            lineRanges[i] = SpawnMTs[i].GetFloat("Vector1_73826083ca9b46dbb89f50e79b0c5527");
+            lineRanges[i] = SpawnMTs[i].GetFloat(_lineRange);
         }
     }
 

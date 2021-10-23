@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class BlockDeath : EnemyDeath
 {
-    [SerializeField] float _deathTime = 0.5f;
+    //[SerializeField] float _deathTime = 0.5f;
     [SerializeField] int _addScore = 100;
 
     Rigidbody _rb;
     Collider collider;
     [SerializeField] float _strongDrag = 4.0f;
-    float _strongAnglarDrag = 4.0f;
+    [SerializeField] float _strongAnglarDrag = 4.0f;
 
     private void Start()
     {

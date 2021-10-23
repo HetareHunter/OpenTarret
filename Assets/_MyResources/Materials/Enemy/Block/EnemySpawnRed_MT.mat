@@ -8,10 +8,11 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: EnemySpawnRed_MT
-  m_Shader: {fileID: 4800000, guid: 9d8582db34593fb4094ed476ffa20e75, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 107cb766845b10849a1c0e691ec7398a,
+    type: 3}
   m_ShaderKeywords: _USEBASECOLOR_ON
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -19,6 +20,14 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_6e060acc79eb4631aae02a4788dab899:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_81ab1d452a3e42d89a3aa44acb209aa4:
+        m_Texture: {fileID: 2800000, guid: d173dae1f9727924291c993eddc32e82, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -100,6 +109,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_22c676db07b746ba85f8e1bfc5ee6aa7: 0
+    - Vector1_25b0b69cc4a648cd949ccbbb7826c8fa: 0.05
+    - Vector1_3bb703576c634b3b8673ac73a5006e43: 0.05
+    - Vector1_5f885ecad8244b90af32b4ed4a04266e: -0.05
+    - Vector1_73826083ca9b46dbb89f50e79b0c5527: 80
+    - Vector1_7e113bfd69c44598824716b9f5574a47: 0
+    - Vector1_bc6a38dab71149e392ba24144467bb94: 64.98054
     - _Alpha: 1
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
@@ -160,6 +176,12 @@ Material:
     - _glitterRange: 0.075
     - _glitterRange1: 0.05
     m_Colors:
+    - Color_31237aabf72f43bbb5c10ea7ae43500f: {r: 2.503169, g: 0.9567086, b: 0.1441616,
+        a: 1}
+    - Color_8349bfba60ae4a0283b9586d12a1914a: {r: 0.14070836, g: 0.9383773, b: 0.9622641,
+        a: 0.8235294}
+    - Color_cc2cf8bd34154b33818d26ba8a62d975: {r: 0.8962264, g: 0.29272202, b: 0.24096644,
+        a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColor1: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}

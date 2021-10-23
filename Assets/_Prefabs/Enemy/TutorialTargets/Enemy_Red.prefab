@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 2399507953277712176}
   - component: {fileID: 2856384241127412207}
   - component: {fileID: 2700440744461383972}
-  - component: {fileID: 1645256286179612668}
   - component: {fileID: 8971465344667344671}
   - component: {fileID: 3624497111606134672}
   - component: {fileID: 7730624217152304304}
+  - component: {fileID: -11920763151354392}
   m_Layer: 17
   m_Name: Enemy_Red
   m_TagString: Enemy
@@ -85,19 +85,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1645256286179612668
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4347581134648245739}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &8971465344667344671
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -127,9 +114,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   penetratable: 1
-  _deathTime: 0.5
   _addScore: 100
-  _strongDrag: 20
+  _strongDrag: 8
+  _strongAnglarDrag: 0.2
 --- !u!114 &7730624217152304304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,3 +131,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dissolveSpeed: 0.2
   _disolveDelay: 0.1
+--- !u!64 &-11920763151354392
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4347581134648245739}
+  m_Material: {fileID: 13400000, guid: 0b8e9a900e63fda489ac42aaba92942d, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}

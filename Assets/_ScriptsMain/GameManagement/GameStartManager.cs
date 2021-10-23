@@ -15,7 +15,7 @@ namespace Manager
     {
         GameObject _gameManager;
         [SerializeField] GameObject spawnerManager;
-        IAppearable _appearable;
+        ScanAppear _scanAppear;
         IGameStateChangable _gameStateChangeable;
         bool _onLeftHand = false;
         bool _onRightHand = false;
@@ -45,9 +45,10 @@ namespace Manager
         /// スクリーンに投影するゲーム開始の待ち時間
         /// </summary>
         int _toPlayTimeCountScreenNum = 3;
+        const float ToPlayScreenNumAdd = 0.999999f;
 
         [SerializeField] Image[] startUIImage;
-        [SerializeField] TextMeshProUGUI[] countText;//複数のUIに対応するための配列
+        [SerializeField] TextMeshPro[] _countText;//複数のUIに対応するための配列
 
         Animator _gameStartUIAnim;
 
@@ -62,9 +63,9 @@ namespace Manager
             _gameManager = GameObject.Find("GameManager");
             _gameStateChangeable = _gameManager.GetComponent<IGameStateChangable>();
             _boxCollider = GetComponent<BoxCollider>();
-            _appearable = spawnerManager.GetComponent<IAppearable>();
+            _scanAppear = spawnerManager.GetComponent<ScanAppear>();
 
-            _toPlayTimeCountScreenNum = (int)_toPlayCountDownTime + 1;
+            _toPlayTimeCountScreenNum = (int)(_toPlayCountDownTime + ToPlayScreenNumAdd);
             _toPlayTimeCountDownFirstNum = _toPlayCountDownTime;
         }
 
@@ -79,9 +80,9 @@ namespace Manager
 
             if (_onStart)
             {
-                if (_appearable != null)
+                if (_scanAppear != null)
                 {
-                    if (_appearable.FinishAppear)//オブジェクトの出現が終わっているならばゲームプレイステートへのカウントが始まる
+                    if (_scanAppear.FinishAppear)//オブジェクトの出現が終わっているならばゲームプレイステートへのカウントが始まる
                     {
                         ToPlayCount();
                     }
@@ -96,7 +97,12 @@ namespace Manager
         public void Reset()
         {
             _toPlayCountDownTime = _toPlayTimeCountDownFirstNum;
+            _toPlayTimeCountScreenNum = (int)(_toPlayCountDownTime + ToPlayScreenNumAdd);
             ResetScreen();
+            if (_scanAppear != null)
+            {
+                _scanAppear.ResetApeearLinePosi();
+            }
             ActivateGameStart(true);
         }
 
@@ -166,7 +172,7 @@ namespace Manager
             _toPlayCountDownTime -= Time.deltaTime;
             if (_toPlayCountDownTime > 0)
             {
-                _toPlayTimeCountScreenNum = (int)_toPlayCountDownTime + 1;
+                _toPlayTimeCountScreenNum = (int)(_toPlayCountDownTime + ToPlayScreenNumAdd);
             }
             else
             {
@@ -175,9 +181,9 @@ namespace Manager
 
             LoadCountImage(_toPlayCountDownTime % 1);
 
-            for (int i = 0; i < countText.Length; i++)
+            for (int i = 0; i < _countText.Length; i++)
             {
-                countText[i].text = _toPlayTimeCountScreenNum.ToString();
+                _countText[i].text = _toPlayTimeCountScreenNum.ToString();
             }
 
             if (_toPlayTimeCountScreenNum <= 0)
@@ -199,9 +205,9 @@ namespace Manager
 
         public void WriteScreenText(string input)
         {
-            for (int i = 0; i < countText.Length; i++)//登録したUIテキストの全てに変更を加える
+            for (int i = 0; i < _countText.Length; i++)//登録したUIテキストの全てに変更を加える
             {
-                countText[i].text = input;
+                _countText[i].text = input;
             }
         }
 
@@ -235,9 +241,9 @@ namespace Manager
             _onStart = true;
             _colorManager.ToChangeColor();
             ChangeAnim();
-            if (_appearable != null)
+            if (_scanAppear != null)
             {
-                _appearable.StartSpawn();
+                _scanAppear.StartSpawn();
             }
         }
 
