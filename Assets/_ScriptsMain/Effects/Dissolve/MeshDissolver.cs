@@ -15,15 +15,12 @@ public class MeshDissolver : MonoBehaviour
     [SerializeField] float _disolveDelay = 0.1f;
     bool _playDissolve = false;
 
-    const float DissolveAlpha = 0.5f;
-
     // Start is called before the first frame update
     void Start()
     {
         _meshRenderer = GetComponent<MeshRenderer>();
         _material = new MaterialPropertyBlock();
-        _threshold = _material.GetFloat("_Threshold") - _disolveDelay;
-        _material.SetFloat("_Alpha", DissolveAlpha);
+        _threshold = _material.GetFloat("Vector1_7e113bfd69c44598824716b9f5574a47") - _disolveDelay;
     }
 
     // Update is called once per frame
@@ -38,7 +35,7 @@ public class MeshDissolver : MonoBehaviour
     void UpdateDissolveMaterial()
     {
         _threshold += _dissolveSpeed * Time.deltaTime;
-        _material.SetFloat("_Threshold", _threshold);
+        _material.SetFloat("Vector1_7e113bfd69c44598824716b9f5574a47", _threshold);
         _meshRenderer.SetPropertyBlock(_material);
 
         if (_threshold > 1.0f)
@@ -48,8 +45,8 @@ public class MeshDissolver : MonoBehaviour
         }
     }
 
-    public void ISPlayDissolve(bool a)
+    public void IsPlayDissolve(bool onPlay)
     {
-        _playDissolve = a;
+        _playDissolve = onPlay;
     }
 }

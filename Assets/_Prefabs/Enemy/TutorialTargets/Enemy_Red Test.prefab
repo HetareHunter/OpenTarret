@@ -129,6 +129,7 @@ MonoBehaviour:
   penetratable: 1
   _deathTime: 0.5
   _addScore: 100
+  _strongDrag: 20
 --- !u!114 &1600573392
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9,7 +9,7 @@ public class BlockDeath : EnemyDeath
 
     Rigidbody _rb;
     Collider collider;
-    float _strongDrag = 4.0f;
+    [SerializeField] float _strongDrag = 4.0f;
     float _strongAnglarDrag = 4.0f;
 
     private void Start()
@@ -23,7 +23,7 @@ public class BlockDeath : EnemyDeath
         AddScore();
         IsCollisionEnabled(false);
         AfterDeadRigidBody();
-        GetComponent<MeshDissolver>().ISPlayDissolve(true);
+        GetComponent<MeshDissolver>().IsPlayDissolve(true);
         _rb.useGravity = false;
     }
 

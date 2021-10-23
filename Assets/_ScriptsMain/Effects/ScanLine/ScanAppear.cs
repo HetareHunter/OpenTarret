@@ -59,7 +59,7 @@ public class ScanAppear : MonoBehaviour, IAppearable
     {
         for (int i = 0; i < SpawnMTs.Length; i++)
         {
-            SpawnMTs[i].SetFloat("_ScanPosi", -appearLinePosi.y + lineRanges[i]);
+            SpawnMTs[i].SetFloat("Vector1_bc6a38dab71149e392ba24144467bb94", -appearLinePosi.y + lineRanges[i]);
         }
     }
 
@@ -68,7 +68,7 @@ public class ScanAppear : MonoBehaviour, IAppearable
         lineRanges = new float[SpawnMTs.Length];
         for (int i = 0; i < SpawnMTs.Length; i++)
         {
-            lineRanges[i] = SpawnMTs[i].GetFloat("_LineRange");
+            lineRanges[i] = SpawnMTs[i].GetFloat("Vector1_73826083ca9b46dbb89f50e79b0c5527");
         }
     }
 
