@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dissolveSpeed: 0.2
-  _disolveDelay: 0.1
+  _dissolveDelay: 0.7
 --- !u!64 &6655293504011180107
 MeshCollider:
   m_ObjectHideFlags: 0

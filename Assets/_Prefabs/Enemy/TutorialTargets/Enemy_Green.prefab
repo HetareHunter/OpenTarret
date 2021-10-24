@@ -143,4 +143,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dissolveSpeed: 0.2
-  _disolveDelay: 0.1
+  _dissolveDelay: 0.7

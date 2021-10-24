@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BlockDeath : EnemyDeath
 {
-    //[SerializeField] float _deathTime = 0.5f;
     [SerializeField] int _addScore = 100;
 
     Rigidbody _rb;
