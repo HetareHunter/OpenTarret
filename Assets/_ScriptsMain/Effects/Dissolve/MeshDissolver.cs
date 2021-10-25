@@ -37,9 +37,9 @@ public class MeshDissolver : MonoBehaviour
         StartCoroutine(Dissolve(_dissolveDelay));
     }
 
-    IEnumerator Dissolve(float seconds)
+    IEnumerator Dissolve(float delaySeconds)
     {
-        yield return new WaitForSeconds(seconds);
+        yield return new WaitForSeconds(delaySeconds);
         var threshold = 0.0f;
         while (threshold < 1.0f)
         {

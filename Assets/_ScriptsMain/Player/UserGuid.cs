@@ -7,10 +7,12 @@ using UnityEngine.EventSystems;
 public class UserGuid : MonoBehaviour
 {
     EventSystem _eventSystem;
+    EventTrigger _eventTrigger;
     OVRInputModule _oVRInputModule;
     OVRPointerEventData _oVRPointerEventData = new OVRPointerEventData(EventSystem.current);
     [SerializeField] GameObject _oVRRaycasterObj;
     OVRRaycaster _oVRRaycaster;
+    [SerializeField] GameObject _eventSystemObj;
 
     [SerializeField] GameObject _handMesh_L;
     [SerializeField] GameObject _handMesh_R;
@@ -32,6 +34,7 @@ public class UserGuid : MonoBehaviour
         _controllerMeshRenderer_R = _handController_R.GetComponent<Renderer>();
 
         _oVRRaycaster = _oVRRaycasterObj.GetComponent<OVRRaycaster>();
+        _oVRInputModule = _eventSystemObj.GetComponent<OVRInputModule>();
     }
 
     // Start is called before the first frame update
@@ -79,24 +82,13 @@ public class UserGuid : MonoBehaviour
     /// <summary>
     /// Œõ‚ç‚¹‚éƒ{ƒ^ƒ“‚ð‘I‘ð‚·‚é
     /// </summary>
-    public void UseEmissionAButton()
+    public void UseEmissionAButton(GameObject button)
     {
-        //_oVRInputModule.ActivateModule();
-        //var currentSelectedGameObject = new OVRPointerEventData(_eventSystem);
-        List<RaycastResult> raycastResults = new List<RaycastResult>();
-        _oVRRaycaster.Raycast(_oVRPointerEventData, raycastResults);
-        Debug.Log("currentSelectedGameObject.pointerEnter :" + EventSystem.current.currentSelectedGameObject);
-        if (_oVRPointerEventData.pointerEnter == null)
-        {
-            return;
-        }
-        if (EventSystem.current.currentSelectedGameObject.GetComponent<Button>().interactable == true)
+        if (button.GetComponent<Button>().interactable)
         {
             _RControllerMpb.SetFloat(Shader.PropertyToID("Boolean_373b9f6827e4408dba5a032c280ab463"), 1.0f);
             _controllerMeshRenderer_R.SetPropertyBlock(_RControllerMpb);
         }
-        _RControllerMpb.SetFloat(Shader.PropertyToID("Boolean_373b9f6827e4408dba5a032c280ab463"), 1.0f);
-        _controllerMeshRenderer_R.SetPropertyBlock(_RControllerMpb);
     }
 
     public void NoUseEmissionAButton()
