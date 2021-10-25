@@ -250,11 +250,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49677cff4e27d6843954e46c73a45bef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _oVRRaycasterObj: {fileID: 0}
   _handMesh_L: {fileID: 1803798277078798196}
   _handMesh_R: {fileID: 1804390802185628332}
   _handController_L: {fileID: 1805517544909615742}
   _handController_R: {fileID: 1805517546218290262}
+  _onStartControllerMesh: 0
 --- !u!1 &1805517545092471570
 GameObject:
   m_ObjectHideFlags: 0
@@ -1055,6 +1055,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 32fbc8bcebb64584da5868aeeb086cda, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2f9e77279cc7aad468b4a73a8dfda7f3, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 32fbc8bcebb64584da5868aeeb086cda, type: 3}
 --- !u!1 &1805517544909615742 stripped
@@ -1462,6 +1466,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 37ba10a26a648144fa2390c8adfb2c8a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2f9e77279cc7aad468b4a73a8dfda7f3, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37ba10a26a648144fa2390c8adfb2c8a, type: 3}
 --- !u!1 &1805517546218290262 stripped

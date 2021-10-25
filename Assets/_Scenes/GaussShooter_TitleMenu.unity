@@ -489,6 +489,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1805517546569208133}
+        m_TargetAssemblyTypeName: UserGuid, Assembly-CSharp
+        m_MethodName: NoUseEmissionAButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &211920586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1609,6 +1621,18 @@ MonoBehaviour:
       - m_Target: {fileID: 598955293}
         m_TargetAssemblyTypeName: ExitAplication, Assembly-CSharp
         m_MethodName: FinishAplication
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1805517546569208133}
+        m_TargetAssemblyTypeName: UserGuid, Assembly-CSharp
+        m_MethodName: NoUseEmissionAButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3437,6 +3461,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1805517546569208133}
+        m_TargetAssemblyTypeName: UserGuid, Assembly-CSharp
+        m_MethodName: NoUseEmissionAButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1527636557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4318,6 +4354,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1805517546569208133}
+        m_TargetAssemblyTypeName: UserGuid, Assembly-CSharp
+        m_MethodName: NoUseEmissionAButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1948565960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4657,6 +4705,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1805517546569208133}
+        m_TargetAssemblyTypeName: UserGuid, Assembly-CSharp
+        m_MethodName: NoUseEmissionAButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2019723617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4753,6 +4813,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 392022474, guid: 19ad9f82f1211a4469a985584fea8881, type: 3}
+      propertyPath: _onStartControllerMesh
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1803798277078798196, guid: 19ad9f82f1211a4469a985584fea8881,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1804390802185628332, guid: 19ad9f82f1211a4469a985584fea8881,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1805517545092471568, guid: 19ad9f82f1211a4469a985584fea8881,
         type: 3}
       propertyPath: m_Name
