@@ -8,7 +8,7 @@ public class SpawnerInstaller : MonoInstaller
     {
         Container
             .Bind<ISpawnable>() // InjectアトリビュートがついているIChangeSightColor型のフィールドに
-            .To<SpawnerManager>()
+            .To<BlockSpawnerManager>()
             .FromComponentOn(spawner) // TarretScreenSliderChangerクラスのインスタンスを注入する
             .AsTransient();
     }

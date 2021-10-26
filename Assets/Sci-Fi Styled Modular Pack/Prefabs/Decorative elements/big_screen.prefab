@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 490306}
   - component: {fileID: 3331562}
   - component: {fileID: 2311092}
-  - component: {fileID: 6565700}
   m_Layer: 0
   m_Name: big_screen
   m_TagString: Untagged
@@ -62,6 +61,7 @@ MeshRenderer:
   m_Materials:
   - {fileID: 2100000, guid: bf1464b84bb76b44abb088d5a41acfee, type: 2}
   - {fileID: 2100000, guid: 10de6384af0c3b54e8166f9c3f936e88, type: 2}
+  - {fileID: 2100000, guid: 7e01d896d393e3249b956e9909d7e004, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,16 +83,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6565700
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 152624}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 4.322736, y: 3.5018215, z: 0.088799365}
-  m_Center: {x: 0.046551466, y: 0.015386164, z: 0.017572433}

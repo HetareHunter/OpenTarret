@@ -14,6 +14,11 @@ public class MeshDissolver : MonoBehaviour
     [SerializeField] float _dissolveDelay = 0.5f;
     string _dissolveThresholdstr = "Vector1_7e113bfd69c44598824716b9f5574a47";
 
+    public void Reset()
+    {
+        UpdateDissolveMaterial(0.0f);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +33,8 @@ public class MeshDissolver : MonoBehaviour
 
         if (threshold >= 1.0f)
         {
-            Destroy(gameObject);//destroy‚·‚é‚Ì‚Åreset‚Í‚©‚¯‚È‚¢
+            //Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 

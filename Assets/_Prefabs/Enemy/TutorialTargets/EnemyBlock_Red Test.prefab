@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1600573392}
   - component: {fileID: -5932160960510481936}
   m_Layer: 17
-  m_Name: Enemy_Red Test
+  m_Name: EnemyBlock_Red Test
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
