@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class BlockDeathAudio : MonoBehaviour
 {
     AudioSource _audioSource;
@@ -13,9 +14,9 @@ public class BlockDeathAudio : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
     }
 
-    private void OnEnable()
+
+    public void PlayDeathSound()
     {
-        //Random.InitState(System.DateTime.Now.Millisecond);
         var randomNom = Random.Range(0, _audioClips.Length);
         _audioSource.PlayOneShot(_audioClips[randomNom]);
     }
