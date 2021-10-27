@@ -47,7 +47,7 @@ public class GaussBullet : MonoBehaviour
         Reset();
         MoveFoward(transform.forward, cannonPower);
     }
-    // Update is called once per frame
+
     void FixedUpdate()
     {
         velocity = _rb.velocity;
@@ -86,7 +86,6 @@ public class GaussBullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        //Debug.Log("hit!");
         //エフェクトの再生
         var collisionEnemyDeath = collision.gameObject.GetComponent<EnemyDeath>();
         if (collision.gameObject.CompareTag("Ground"))
@@ -112,7 +111,6 @@ public class GaussBullet : MonoBehaviour
 
         Vector3 reflect = Vector3.Reflect(velocity, collision.contacts[0].normal);
         float reflectAngle = Vector3.Angle(velocity, reflect);
-        Debug.Log("reflectAngle : " + reflectAngle);
 
         if (reflectAngle < _maxReflectAngle)
         {

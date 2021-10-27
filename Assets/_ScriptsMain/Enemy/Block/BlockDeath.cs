@@ -24,6 +24,8 @@ public class BlockDeath : EnemyDeath
         _meshDissolver = GetComponent<MeshDissolver>();
         _rb = GetComponent<Rigidbody>();
         _collider = GetComponent<Collider>();
+        IsRigidBodyKinematicEnabled(true);
+        IsCollisionEnabled(false);
 
         startPosi = transform.localPosition;
         startAngle = transform.localRotation;
@@ -39,16 +41,18 @@ public class BlockDeath : EnemyDeath
         }
         transform.localPosition = startPosi;
         transform.localRotation = startAngle;
-        IsCollisionEnabled(true);
+        
+        _rb.velocity = Vector3.zero;
+        _rb.angularVelocity = Vector3.zero;
         NormalRigidBody();
 
         _meshDissolver.Reset();
     }
 
-    private void OnDisable()
-    {
-        Reset();
-    }
+    //private void OnDisable()
+    //{
+        
+    //}
 
     public override void OnDead()
     {
@@ -74,8 +78,6 @@ public class BlockDeath : EnemyDeath
 
     void NormalRigidBody()
     {
-        _rb.velocity = Vector3.zero;
-        _rb.angularVelocity = Vector3.zero;
         _rb.drag = _normalDrag;
         _rb.angularDrag = _normalAnglarDrag;
         _rb.useGravity = _normalUseGravity;
@@ -84,6 +86,24 @@ public class BlockDeath : EnemyDeath
     public void IsCollisionEnabled(bool enabled)
     {
         _collider.enabled = enabled;
+    }
+
+    public void IsRigidBodyKinematicEnabled(bool enabled)
+    {
+        _rb.isKinematic = enabled;
+    }
+
+    public void DoNonActivate()
+    {
+        _meshDissolver.DoNonActive();
+        IsRigidBodyKinematicEnabled(true);
+        IsCollisionEnabled(false);
+    }
+
+    public void DoActivate()
+    {
+        IsRigidBodyKinematicEnabled(false);
+        IsCollisionEnabled(true);
     }
 
     void PlayDeadSound()

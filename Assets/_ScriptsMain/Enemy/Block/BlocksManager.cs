@@ -17,17 +17,38 @@ public class BlocksManager : MonoBehaviour
     }
     private void Start()
     {
-        foreach (var item in _enemyBlocks)
-        {
-            item.gameObject.SetActive(false);
-        }
-        gameObject.SetActive(false);
+        NonActivateBlocks();
+        //gameObject.SetActive(false);
     }
     private void OnEnable()
     {
         foreach (var item in _enemyBlocks)
         {
             item.gameObject.SetActive(true);
+        }
+    }
+
+    public void ResetBlocks()
+    {
+        foreach (var item in _enemyBlockDeath)
+        {
+            item.Reset();
+        }
+    }
+
+    public void ActivateBlocks()
+    {
+        foreach (var item in _enemyBlockDeath)
+        {
+            item.DoActivate();
+        }
+    }
+
+    public void NonActivateBlocks()
+    {
+        foreach (var item in _enemyBlockDeath)
+        {
+            item.DoNonActivate();
         }
     }
 }

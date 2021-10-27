@@ -11,8 +11,7 @@ public enum GameState
     Idle,
     Start,
     Play,
-    End,
-    Result
+    End
 }
 
 namespace Manager
@@ -67,10 +66,10 @@ namespace Manager
                     ScoreManager.Instance.ResetScore();
                     MenuButtonSelecter.AllChangeInteractive(false);
                     spawner.SpawnStart();
-
                     baseTarretAttackManager.IsAttackable(false);
                     break;
                 case GameState.Play:
+                    spawner.SpawnEnd();
                     gameTimer.CountStart();
                     MenuButtonSelecter.AllChangeInteractive(true);
                     MenuButtonSelecter.GamePlayInteractive(true);
@@ -78,7 +77,7 @@ namespace Manager
                     baseTarretAttackManager.IsAttackable(true);
                     break;
                 case GameState.End:
-                    spawner.SpawnEnd();
+                    spawner.Reset();
                     gameTimer.CountEnd();
                     gameStart.GameEnd();
                     MenuButtonSelecter.GamePlayInteractive(false);

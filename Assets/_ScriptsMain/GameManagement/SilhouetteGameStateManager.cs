@@ -73,9 +73,6 @@ namespace Manager
                     gameStart.GameEnd();
                     MenuButtonSelecter.GamePlayInteractive(false);
                     break;
-
-                case GameState.Result:
-
                 default:
                     break;
             }

@@ -8,6 +8,11 @@ using UnityEngine;
 public class BlockSpawnerManager : MonoBehaviour, ISpawnable
 {
     [SerializeField] GameObject enemy;
+    BlocksManager _blocksManager;
+    private void Awake()
+    {
+        _blocksManager = enemy.GetComponent<BlocksManager>();
+    }
 
     public void SpawnStart()
     {
@@ -16,7 +21,7 @@ public class BlockSpawnerManager : MonoBehaviour, ISpawnable
 
     public void SpawnEnd()
     {
-        Reset();
+        _blocksManager.ActivateBlocks();
     }
 
     public void ChangeEnemyNum(int num)
@@ -26,14 +31,11 @@ public class BlockSpawnerManager : MonoBehaviour, ISpawnable
 
     public void EnemySpawn()
     {
-        enemy.gameObject.SetActive(true);
+        _blocksManager.ResetBlocks();
     }
 
-    /// <summary>
-    /// 敵をすべて削除し、タイマー、敵のカウントを0にする
-    /// </summary>
     public void Reset()
     {
-        enemy.gameObject.SetActive(false);
+        _blocksManager.NonActivateBlocks();
     }
 }
