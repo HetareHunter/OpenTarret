@@ -6337,7 +6337,7 @@ GameObject:
   - component: {fileID: 1711030736}
   - component: {fileID: 1711030735}
   m_Layer: 0
-  m_Name: big_screen (1)
+  m_Name: ControllerOperationExplanationScreen (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8964,7 +8964,7 @@ GameObject:
   - component: {fileID: 2420927446226509941}
   - component: {fileID: 2420927446225434155}
   m_Layer: 0
-  m_Name: big_screen
+  m_Name: ControllerOperationExplanationScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
