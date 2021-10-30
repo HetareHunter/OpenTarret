@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 6655293504011180107}
   - component: {fileID: 4940325952702984882}
   - component: {fileID: 5344319536480211560}
+  - component: {fileID: 3668760053665354383}
   m_Layer: 17
   m_Name: EnemyBlock_Yellow
   m_TagString: Enemy
@@ -261,3 +262,19 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 23abb650a71b6044cbaa8917074cf2b6, type: 3}
   _minAudioPitch: 0.65
   _maxAudioPitch: 0.85
+--- !u!114 &3668760053665354383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6657965651189499761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7257d15d8d8eb5049b3a4c792e99b621, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _centerObj: {fileID: 0}
+  _axis: {x: 0, y: 1, z: 0}
+  _rotateSpeed: 0.5
+  _rotateMode: 1

@@ -13,6 +13,7 @@ public class BlockDeath : EnemyDeath
     Collider _collider;
     MeshDissolver _meshDissolver;
     BlockDeathAudio _blockDeathAudio;
+    BlockMover _blockMover;
 
     float _normalDrag;
     float _normalAnglarDrag;
@@ -26,6 +27,11 @@ public class BlockDeath : EnemyDeath
         _rb = GetComponent<Rigidbody>();
         _collider = GetComponent<Collider>();
         _blockDeathAudio = GetComponent<BlockDeathAudio>();
+        if(TryGetComponent<BlockMover>(out var blockMover))
+        {
+            _blockMover = blockMover;
+        }
+        
         IsRigidBodyKinematicEnabled(true);
         IsCollisionEnabled(false);
 
@@ -49,6 +55,10 @@ public class BlockDeath : EnemyDeath
         NormalRigidBody();
 
         _meshDissolver.Reset();
+        if (_blockMover != null)
+        {
+            _blockMover.Reset();
+        }
     }
 
     public override void OnDead()

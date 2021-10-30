@@ -12,7 +12,11 @@ public class BlocksManager : MonoBehaviour
         {
             var child = transform.GetChild(i).gameObject;
             _enemyBlocks.Add(child);
-            _enemyBlockDeath.Add(child.GetComponent<BlockDeath>());
+            if (child.TryGetComponent<BlockDeath>(out var blockDeath))
+            {
+                _enemyBlockDeath.Add(blockDeath);
+            }
+            //_enemyBlockDeath.Add(child.GetComponent<BlockDeath>());
         }
     }
     private void Start()
