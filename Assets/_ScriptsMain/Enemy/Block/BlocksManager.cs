@@ -4,32 +4,14 @@ using UnityEngine;
 
 public class BlocksManager : MonoBehaviour
 {
-    List<GameObject> _enemyBlocks = new List<GameObject>();
-    List<BlockDeath> _enemyBlockDeath = new List<BlockDeath>();
+    BlockDeath[] _enemyBlockDeath;
     private void Awake()
     {
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            var child = transform.GetChild(i).gameObject;
-            _enemyBlocks.Add(child);
-            if (child.TryGetComponent<BlockDeath>(out var blockDeath))
-            {
-                _enemyBlockDeath.Add(blockDeath);
-            }
-            //_enemyBlockDeath.Add(child.GetComponent<BlockDeath>());
-        }
+        _enemyBlockDeath = GetComponentsInChildren<BlockDeath>();
     }
     private void Start()
     {
         NonActivateBlocks();
-        //gameObject.SetActive(false);
-    }
-    private void OnEnable()
-    {
-        foreach (var item in _enemyBlocks)
-        {
-            item.gameObject.SetActive(true);
-        }
     }
 
     public void ResetBlocks()
