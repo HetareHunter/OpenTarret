@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class ScanLineMover : MonoBehaviour
 {
-    Vector3 newPosi;
+    [SerializeField] Vector3 newPosi;
     Vector3 startPosi;
     [SerializeField] Vector3 endPosi;
     float[] lineRanges;
