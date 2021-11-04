@@ -4,48 +4,54 @@ using UnityEngine;
 
 public class EnemyTargetShaderDemo : MonoBehaviour
 {
-    Vector3 appearLinePosi;
-    [SerializeField] Vector3 startAppearPosi;
-    [SerializeField] Vector3 endAppearPosi;
-    //float[] _nowlinePosi;
+    public Vector3 appearLinePosi;
+    public Vector3 startAppearPosi;
+    public Vector3 endAppearPosi;
+
     [SerializeField] float scanWallSpeed = 1.0f;
     [SerializeField] float _dissolveSpeed = 1.0f;
     float _startDissolveThreshold = 0.0f;
-    float _nowDissolveThreshold;
+    public float _nowDissolveThreshold;
     [SerializeField] Material[] spawnMTs;
     public bool _playScan = false;
     public bool _playDissolve = false;
-    string _scanPosi = "Vector1_bc6a38dab71149e392ba24144467bb94";
-    string _lineRange = "Vector1_73826083ca9b46dbb89f50e79b0c5527";
-    string _dissolveThresholdstr = "Vector1_7e113bfd69c44598824716b9f5574a47";
-    [SerializeField] bool _OnPhotoMode = false;
+    [SerializeField] string _scanPosi = "Vector1_bc6a38dab71149e392ba24144467bb94";
+    [SerializeField] string _lineRange = "Vector1_73826083ca9b46dbb89f50e79b0c5527";
+    [SerializeField] string _dissolveThresholdstr = "Vector1_7e113bfd69c44598824716b9f5574a47";
+    Animator _animator;
+    [SerializeField] bool _OnDemoAnimation = false;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        //GetStartAppearLinePosi();
         ResetApeearLinePosi();
         ResetDissolveThreshold();
         appearLinePosi = startAppearPosi;
+        _animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_OnPhotoMode)
+        //if (_OnPhotoMode)
+        //{
+        //    return;
+        //}
+        //if (_playScan)
+        //{
+        //    UpdateAppearLinePosi();
+        //}
+        //if (_playDissolve)
+        //{
+        //    UpdateDissolveThreshold();
+        //}
+        if (Input.GetKeyDown(KeyCode.S))
         {
-
-            return;
+            _animator.SetTrigger("DemoStart");
         }
-        if (_playScan)
-        {
-            UpdateAppearLinePosi();
-        }
-        if (_playDissolve)
-        {
-            UpdateDissolveThreshold();
-        }
+        UpdateMTAppearLinePosi();
+        UpdateMTDissolve();
     }
 
 
@@ -123,6 +129,15 @@ public class EnemyTargetShaderDemo : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.L))
         {
             ResetDissolveThreshold();
+        }
+        else if (Input.GetKeyDown(KeyCode.R))
+        {
+            ResetApeearLinePosi();
+            ResetDissolveThreshold();
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+
         }
     }
 
