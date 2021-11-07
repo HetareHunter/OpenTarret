@@ -13,7 +13,7 @@ public class AttackRaycastManager : MonoBehaviour
     /// <summary> 当たったオブジェクトの情報を入れておく変数 </summary>
     List<RaycastHit> _hitsEnemy;
 
-    BaseTarretAttackManager _BaseTarretAttacker;
+    TarretAttacker _tarretAttacker;
     float _muzzleRadius;
 
     [Header("当たるとレーザーがそのオブジェクトを貫通しないレイヤー")]
@@ -26,7 +26,7 @@ public class AttackRaycastManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _BaseTarretAttacker = tarret.GetComponent<BaseTarretAttackManager>();
+        _tarretAttacker = tarret.GetComponent<TarretAttacker>();
         _gaussFire = GetComponent<GaussFire>();
 
         //　弾の半径を取得
@@ -71,7 +71,7 @@ public class AttackRaycastManager : MonoBehaviour
 
         if (_hitsEnemy.Count > 0)
         {
-            _BaseTarretAttacker.ScreenChangeColor(true);
+            _tarretAttacker.ScreenChangeColor(true);
 
             var target = _hitsEnemy[_hitsEnemy.Count - 1].point;
             _gaussFire.SetTarget = target;
@@ -79,7 +79,7 @@ public class AttackRaycastManager : MonoBehaviour
         }
         else
         {
-            _BaseTarretAttacker.ScreenChangeColor(false);
+            _tarretAttacker.ScreenChangeColor(false);
             _gaussFire.TargetUnlock = false;
         }
     }

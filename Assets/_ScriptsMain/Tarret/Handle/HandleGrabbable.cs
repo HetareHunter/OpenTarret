@@ -258,11 +258,11 @@ namespace Players
         {
             if (isSelect)
             {
-                _handleRenderer.materials[2].SetColor("_OutlineColor", selectedColor);
+                _handleRenderer.materials[1].SetColor("_OutlineColor", selectedColor);
             }
             else
             {
-                _handleRenderer.materials[2].SetColor("_OutlineColor", startColor);
+                _handleRenderer.materials[1].SetColor("_OutlineColor", startColor);
             }
         }
 
@@ -271,7 +271,7 @@ namespace Players
         /// </summary>
         public void VanishOutline()
         {
-            _handleRenderer.materials[2].SetColor("_OutlineColor", _vanishingColor);
+            _handleRenderer.materials[1].SetColor("_OutlineColor", _vanishingColor);
         }
 
         void FollowHand(Transform handTransform)

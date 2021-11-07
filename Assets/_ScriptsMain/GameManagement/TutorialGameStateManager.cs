@@ -23,25 +23,21 @@ namespace Manager
         ISpawnable spawner;
         [SerializeField] GameObject gameStartUI;
         [SerializeField] GameObject tarret;
-        GameObject SceneMovePanel;
+        [SerializeField] GameObject SceneMovePanel;
         MenuButtonSelecter MenuButtonSelecter;
         GameStartManager gameStart;
         GameTimer gameTimer;
-        BaseTarretAttackManager baseTarretAttackManager;
+        TarretAttacker tarretAttackManager;
 
         private void Start()
         {
             gameStart = gameStartUI.GetComponent<GameStartManager>();
             gameTimer = GetComponent<GameTimer>();
-            if (SceneMovePanel == null)
-            {
-                SceneMovePanel = GameObject.Find("SceneMovePanel");
-            }
             MenuButtonSelecter = SceneMovePanel.GetComponent<MenuButtonSelecter>();
 
             ChangeGameState(GameState.Idle);
 
-            baseTarretAttackManager = tarret.GetComponent<BaseTarretAttackManager>();
+            tarretAttackManager = tarret.GetComponent<TarretAttacker>();
         }
 
         public void ChangeGameState(GameState next)
@@ -66,7 +62,7 @@ namespace Manager
                     ScoreManager.Instance.ResetScore();
                     MenuButtonSelecter.AllChangeInteractive(false);
                     spawner.SpawnStart();
-                    baseTarretAttackManager.IsAttackable(false);
+                    tarretAttackManager.IsAttackable(false);
                     break;
                 case GameState.Play:
                     spawner.SpawnEnd();
@@ -74,7 +70,7 @@ namespace Manager
                     MenuButtonSelecter.AllChangeInteractive(true);
                     MenuButtonSelecter.GamePlayInteractive(true);
 
-                    baseTarretAttackManager.IsAttackable(true);
+                    tarretAttackManager.IsAttackable(true);
                     break;
                 case GameState.End:
                     spawner.Reset();

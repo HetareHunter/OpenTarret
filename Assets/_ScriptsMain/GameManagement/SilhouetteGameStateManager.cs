@@ -14,25 +14,21 @@ namespace Manager
         ISpawnable spawner;
         [SerializeField] GameObject gameStartUI;
         [SerializeField] GameObject tarret;
-        GameObject SceneMovePanel;
+        [SerializeField] GameObject SceneMovePanel;
         MenuButtonSelecter MenuButtonSelecter;
         GameStartManager gameStart;
         GameTimer gameTimer;
-        BaseTarretAttackManager baseTarretAttackManager;
+        TarretAttacker baseTarretAttackManager;
 
         private void Start()
         {
             gameStart = gameStartUI.GetComponent<GameStartManager>();
             gameTimer = GetComponent<GameTimer>();
-            if (SceneMovePanel == null)
-            {
-                SceneMovePanel = GameObject.Find("SceneMovePanel");
-            }
             MenuButtonSelecter = SceneMovePanel.GetComponent<MenuButtonSelecter>();
 
             ChangeGameState(GameState.Idle);
 
-            baseTarretAttackManager = tarret.GetComponent<BaseTarretAttackManager>();
+            baseTarretAttackManager = tarret.GetComponent<TarretAttacker>();
         }
 
         public void ChangeGameState(GameState next)

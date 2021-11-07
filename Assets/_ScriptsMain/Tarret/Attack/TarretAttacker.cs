@@ -10,10 +10,8 @@ namespace Tarret
     /// タレットの攻撃関係の処理をまとめているクラス
     /// 機能が集中しすぎてきたため機能を分散すること
     /// </summary>
-    public class BaseTarretAttackManager : MonoBehaviour
+    public class TarretAttacker : MonoBehaviour
     {
-        [SerializeField] TarretAttackData tarretAttackData;
-
         AttackIntervalCounter attackInterval;
         TarretStateManager tarretStateManager;
         AudioPlayer muzzleAudio;

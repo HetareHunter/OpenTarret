@@ -23,7 +23,7 @@ namespace Tarret
         ///<summary>Tarretのhandleを握ったときに情報が格納される変数</summary>
         public HandleGrabbable rightHandle;
 
-        BaseTarretAttackManager tarretAttack;
+        TarretAttacker tarretAttacker;
         AnglePointer anglePoint;
         TarretVitalManager tarretVitalManager;
 
@@ -34,7 +34,7 @@ namespace Tarret
 
         private void Start()
         {
-            tarretAttack = GetComponent<BaseTarretAttackManager>();
+            tarretAttacker = GetComponent<TarretAttacker>();
             if (tarretAnglePoint != null)
             {
                 anglePoint = tarretAnglePoint.GetComponent<AnglePointer>();
@@ -85,9 +85,9 @@ namespace Tarret
                 case TarretState.Idle:
                     break;
                 case TarretState.Attack:
-                    if (tarretAttack.attackable)
+                    if (tarretAttacker.attackable)
                     {
-                        tarretAttack.BeginAttack();
+                        tarretAttacker.BeginAttack();
                         leftHandle.AttackVibe();
                         rightHandle.AttackVibe();
                     }
