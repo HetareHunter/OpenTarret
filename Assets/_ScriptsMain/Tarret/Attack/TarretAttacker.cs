@@ -13,7 +13,6 @@ namespace Tarret
     public class TarretAttacker : MonoBehaviour
     {
         AttackIntervalCounter attackInterval;
-        TarretStateManager tarretStateManager;
         AudioPlayer muzzleAudio;
         MagazineRotate magazineRotate;
         SightChanger sightChanger;
@@ -34,7 +33,6 @@ namespace Tarret
 
         private void Start()
         {
-            tarretStateManager = GetComponent<TarretStateManager>();
             muzzleAudio = muzzle.GetComponent<AudioPlayer>();
             magazineRotate = magazine.GetComponent<MagazineRotate>();
             sightChanger = sight.GetComponent<SightChanger>();
@@ -101,19 +99,5 @@ namespace Tarret
         {
             attackable = onAttack;
         }
-
-
-#if UNITY_EDITOR
-        private void Update()
-        {
-            if (Input.GetKeyDown("space"))
-            {
-                if (tarretStateManager.tarretCommandState != TarretState.Attack)
-                {
-                    tarretStateManager.ChangeTarretState(TarretState.Attack);
-                }
-            }
-        }
-#endif
     }
 }

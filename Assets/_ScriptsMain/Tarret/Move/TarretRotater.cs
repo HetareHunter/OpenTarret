@@ -38,11 +38,6 @@ namespace Tarret
 
         TarretStateManager tarretStateManager;
 
-        [Header("以下unityEditorでのデバッグ用")]
-        [SerializeField] bool editRotateMode = false;
-        [SerializeField] float debugHorizontalRotate = 0.8f;
-        [SerializeField] float debugVerticalRotate = 0.3f;
-
         private void Start()
         {
             tarretStateManager = GetComponent<TarretStateManager>();
@@ -149,47 +144,5 @@ namespace Tarret
             muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * rotateSpeed * Time.deltaTime
                  * (-anglePointPosi.y - (-anglePointPosi.y * _sqrtcoodinatePlay / sqrtAnglePointMoveDistance)));
         }
-        #region
-#if UNITY_EDITOR
-        void Update()
-        {
-            if (editRotateMode)
-            {
-                float dx = Input.GetAxis("Horizontal");
-                float dy = Input.GetAxis("Vertical");
-
-                DebugHorizontalRotate(dx);
-                DebugVerticalRotate(dy);
-            }
-        }
-
-        void DebugHorizontalRotate(float dx)
-        {
-            rootPos.transform.Rotate(new Vector3(0, 90, 0) * dx * debugHorizontalRotate * Time.deltaTime);
-        }
-
-        void DebugVerticalRotate(float dy)
-        {
-            if (muzzleFlameJointPos.transform.localRotation.x > maxVerticalAngle)
-            {
-                if (dy < 0)
-                {
-                    muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * dy * debugVerticalRotate * Time.deltaTime);
-                }
-            }
-            else if (muzzleFlameJointPos.transform.localRotation.x < minVerticalAngle)
-            {
-                if (dy > 0)
-                {
-                    muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * dy * debugVerticalRotate * Time.deltaTime);
-                }
-            }
-            else
-            {
-                muzzleFlameJointPos.transform.Rotate(new Vector3(90, 0, 0) * dy * debugVerticalRotate * Time.deltaTime);
-            }
-        }
-#endif
-        #endregion
     }
 }
