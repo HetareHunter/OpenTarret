@@ -125,6 +125,7 @@ GameObject:
   - component: {fileID: 3516343273388241590}
   - component: {fileID: 3516343273388241595}
   - component: {fileID: 3516343273388241592}
+  - component: {fileID: 8521137431374746542}
   - component: {fileID: 3516343273388241591}
   m_Layer: 0
   m_Name: GameStartCanvas
@@ -225,20 +226,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8731e858a3c21d1429b9df10bf559862, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gameManager: {fileID: 0}
+  spawnerManager: {fileID: 0}
   touchFrequeency: 0.2
   touchAmplitude: 0.2
-  toStartLimitTime: 2
-  TouchCountImage: {fileID: 3516343273875787958}
-  toPlayTimeCountNum: 3
-  startUIImage:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  countText:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  _toStartLimitTime: 2
+  _toPlayCountDownTime: 3
   changeColorObj: {fileID: 3516343274502842425}
+--- !u!114 &8521137431374746542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3516343273388241589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20156f4ac9e2cd642b3ce28d4da48da1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TouchCountImage: {fileID: 0}
+  startUIImage: []
+  _countText: []
 --- !u!95 &3516343273388241591
 Animator:
   serializedVersion: 3
@@ -480,7 +489,7 @@ GameObject:
   - component: {fileID: 3516343273875787961}
   - component: {fileID: 3516343273875787958}
   m_Layer: 0
-  m_Name: LoadUI
+  m_Name: TouchLoadUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

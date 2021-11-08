@@ -13,7 +13,7 @@ namespace Manager
     /// </summary>
     public class GameStartManager : MonoBehaviour
     {
-        GameObject _gameManager;
+        [SerializeField] GameObject _gameManager;
         [SerializeField] GameObject spawnerManager;
         ScanAppear _scanAppear;
         IGameStateChangable _gameStateChangeable;
@@ -32,8 +32,7 @@ namespace Manager
         [SerializeField] float touchAmplitude = 0.3f;
 
         float _toStartTime = 0;
-        [SerializeField] float toStartLimitTime = 2.0f;
-        [SerializeField] Image TouchCountImage;
+        [SerializeField] float _toStartLimitTime = 2.0f;
 
         /// <summary>
         /// 1秒固定、1秒ごとにUIのカウントを３，２，１と変化させたいので変数を二つ用意した
@@ -47,23 +46,21 @@ namespace Manager
         int _toPlayTimeCountScreenNum = 3;
         const float ToPlayScreenNumAdd = 0.999999f;
 
-        [SerializeField] Image[] startUIImage;
-        [SerializeField] TextMeshPro[] _countText;//複数のUIに対応するための配列
-
         Animator _gameStartUIAnim;
 
         [SerializeField] GameObject changeColorObj;
         ColorManager _colorManager;
         BoxCollider _boxCollider;
+        ImageShapeChanger _imageShapeChanger;
 
         private void Start()
         {
             _gameStartUIAnim = GetComponent<Animator>();
             _colorManager = changeColorObj.GetComponent<ColorManager>();
-            _gameManager = GameObject.Find("GameManager");
             _gameStateChangeable = _gameManager.GetComponent<IGameStateChangable>();
             _boxCollider = GetComponent<BoxCollider>();
             _scanAppear = spawnerManager.GetComponent<ScanAppear>();
+            _imageShapeChanger = GetComponent<ImageShapeChanger>();
 
             _toPlayTimeCountScreenNum = (int)(_toPlayCountDownTime + ToPlayScreenNumAdd);
             _toPlayTimeCountDownFirstNum = _toPlayCountDownTime;
@@ -74,7 +71,7 @@ namespace Manager
             OnHandJudge();
             if (_onHand)
             {
-                LoadTouchImage();
+                _imageShapeChanger.LoadTouchImage(_toStartTime, _toStartLimitTime);
                 ToStartCount();
             }
 
@@ -111,12 +108,12 @@ namespace Manager
             if (other.gameObject.CompareTag("RHand"))
             {
                 _onRightHand = true;
-                VibrationExtension.Instance.VibrateController(toStartLimitTime, touchFrequeency, touchAmplitude, OVRInput.Controller.RTouch);
+                VibrationExtension.Instance.VibrateController(_toStartLimitTime, touchFrequeency, touchAmplitude, OVRInput.Controller.RTouch);
             }
             else if (other.gameObject.CompareTag("LHand"))
             {
                 _onLeftHand = true;
-                VibrationExtension.Instance.VibrateController(toStartLimitTime, touchFrequeency, touchAmplitude, OVRInput.Controller.LTouch);
+                VibrationExtension.Instance.VibrateController(_toStartLimitTime, touchFrequeency, touchAmplitude, OVRInput.Controller.LTouch);
             }
         }
 
@@ -146,7 +143,7 @@ namespace Manager
             {
                 _onHand = false;
                 _toStartTime = 0; //時間の初期化
-                LoadTouchImage(); //UIの初期化
+                _imageShapeChanger.LoadTouchImage(_toStartTime, _toStartLimitTime); //UIの初期化
             }
         }
 
@@ -157,7 +154,7 @@ namespace Manager
         void ToStartCount()
         {
             _toStartTime += Time.deltaTime;
-            if (_toStartTime > toStartLimitTime)
+            if (_toStartTime > _toStartLimitTime)
             {
                 _toStartTime = 0;
                 GameStart();
@@ -170,6 +167,7 @@ namespace Manager
         void ToPlayCount()
         {
             _toPlayCountDownTime -= Time.deltaTime;
+            var preTimeCountScreenNum = _toPlayTimeCountScreenNum;
             if (_toPlayCountDownTime > 0)
             {
                 _toPlayTimeCountScreenNum = (int)(_toPlayCountDownTime + ToPlayScreenNumAdd);
@@ -179,51 +177,27 @@ namespace Manager
                 _toPlayTimeCountScreenNum = (int)_toPlayCountDownTime;
             }
 
-            LoadCountImage(_toPlayCountDownTime % 1);
-
-            for (int i = 0; i < _countText.Length; i++)
+            if (preTimeCountScreenNum != _toPlayTimeCountScreenNum)
             {
-                _countText[i].text = _toPlayTimeCountScreenNum.ToString();
+                _imageShapeChanger.WriteScreenText(_toPlayTimeCountScreenNum.ToString());
             }
+            _imageShapeChanger.LoadCountImage(_toPlayCountDownTime % 1);
 
             if (_toPlayTimeCountScreenNum <= 0)
             {
                 _gameStateChangeable.ChangeGameState(GameState.Play);
                 _colorManager.ToStartColor();
 
-                WriteScreenText("Start!");
+                _imageShapeChanger.WriteScreenText("Start!");
                 _onStart = false;
             }
         }
 
         public void ResetScreen()
         {
-            WriteScreenText("Ready?");
-            LoadCountImage(1.0f);
+            _imageShapeChanger.WriteScreenText("Ready?");
+            _imageShapeChanger.LoadCountImage(1.0f);
             ActivateGameStart(true);
-        }
-
-        public void WriteScreenText(string input)
-        {
-            for (int i = 0; i < _countText.Length; i++)//登録したUIテキストの全てに変更を加える
-            {
-                _countText[i].text = input;
-            }
-        }
-
-        void LoadTouchImage()
-        {
-            //ロード画面の画像が丸になっていくことでロード時間の可視化をする
-            TouchCountImage.fillAmount = _toStartTime / toStartLimitTime;
-        }
-
-        void LoadCountImage(float per)
-        {
-            //毎秒のイメージの変化
-            for (int i = 0; i < startUIImage.Length; i++)//演出するスクリーンの数だけ繰り返す
-            {
-                startUIImage[i].fillAmount = per;
-            }
         }
 
         public void ChangeAnim()
@@ -234,7 +208,7 @@ namespace Manager
         public void GameStart()
         {
             _gameStateChangeable.ChangeGameState(GameState.Start); //ゲーム開始
-            WriteScreenText(_toPlayTimeCountScreenNum.ToString());
+            _imageShapeChanger.WriteScreenText(_toPlayTimeCountScreenNum.ToString());
             _onRightHand = false;
             _onLeftHand = false;
             _boxCollider.enabled = false;
@@ -250,7 +224,7 @@ namespace Manager
         public void GameEnd()
         {
             ChangeAnim();
-            WriteScreenText("Finish!");
+            _imageShapeChanger.WriteScreenText("Finish!");
         }
 
         void ActivateGameStart(bool isActive)

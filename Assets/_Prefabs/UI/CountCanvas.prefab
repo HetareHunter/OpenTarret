@@ -364,7 +364,7 @@ GameObject:
   - component: {fileID: 6964990973797728351}
   - component: {fileID: 6964990973797728336}
   m_Layer: 0
-  m_Name: LoadUI
+  m_Name: CountLoadUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
