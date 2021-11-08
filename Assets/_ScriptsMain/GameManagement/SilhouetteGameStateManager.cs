@@ -9,7 +9,7 @@ namespace Manager
 {
     public class SilhouetteGameStateManager : MonoBehaviour, IGameStateChangable
     {
-        public GameState gameState = GameState.None;
+        GameState gameState = GameState.None;
         [Inject]
         ISpawnable spawner;
         [SerializeField] GameObject gameStartUI;

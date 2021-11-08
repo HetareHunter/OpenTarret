@@ -18,7 +18,7 @@ namespace Manager
 {
     public class TutorialGameStateManager : MonoBehaviour, IGameStateChangable
     {
-        public GameState gameState = GameState.None;
+        GameState gameState = GameState.None;
         [Inject]
         ISpawnable spawner;
         [SerializeField] GameObject gameStartUI;
