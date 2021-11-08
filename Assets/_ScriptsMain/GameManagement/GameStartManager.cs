@@ -74,21 +74,6 @@ namespace Manager
                 _imageShapeChanger.LoadTouchImage(_toStartTime, _toStartLimitTime);
                 ToStartCount();
             }
-
-            if (_onStart)
-            {
-                if (_scanAppear != null)
-                {
-                    if (_scanAppear.FinishAppear)//オブジェクトの出現が終わっているならばゲームプレイステートへのカウントが始まる
-                    {
-                        ToPlayCount();
-                    }
-                }
-                else//出現させる演出のあるオブジェクトがない場合は即カウントを始める
-                {
-                    ToPlayCount();
-                }
-            }
         }
 
         public void Reset()
@@ -208,11 +193,14 @@ namespace Manager
         public void GameStart()
         {
             _gameStateChangeable.ChangeGameState(GameState.Start); //ゲーム開始
+            _onStart = true;
+            StartCoroutine(ToPlayCoroutine());
+
             _imageShapeChanger.WriteScreenText(_toPlayTimeCountScreenNum.ToString());
             _onRightHand = false;
             _onLeftHand = false;
             _boxCollider.enabled = false;
-            _onStart = true;
+            
             _colorManager.ToChangeColor();
             ChangeAnim();
             if (_scanAppear != null)
@@ -230,6 +218,27 @@ namespace Manager
         void ActivateGameStart(bool isActive)
         {
             _boxCollider.enabled = isActive;
+        }
+
+        IEnumerator ToPlayCoroutine()
+        {
+            var loop = true;
+            while (loop)
+            {
+                if (_scanAppear != null)
+                {
+                    if (_scanAppear.FinishAppear)//オブジェクトの出現が終わっているならばゲームプレイステートへのカウントが始まる
+                    {
+                        ToPlayCount();
+                    }
+                }
+                else//出現させる演出のあるオブジェクトがない場合は即カウントを始める
+                {
+                    ToPlayCount();
+                }
+                if (!_onStart) loop = false;
+                yield return null;
+            }
         }
     }
 }

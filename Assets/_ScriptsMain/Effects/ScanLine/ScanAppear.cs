@@ -96,6 +96,8 @@ public class ScanAppear : MonoBehaviour
     {
         appearLinePosi = startAppearPosi;
         UpdateMTAppearLinePosi();
+        playScan = false;
+        FinishAppear = false;
     }
 
 #if UNITY_EDITOR

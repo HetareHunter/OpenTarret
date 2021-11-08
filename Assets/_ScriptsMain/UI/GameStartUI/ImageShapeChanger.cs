@@ -10,19 +10,6 @@ public class ImageShapeChanger : MonoBehaviour
     [SerializeField] Image[] startUIImage;
     [SerializeField] TextMeshPro[] _countText;//複数のUIに対応するための配列
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void LoadTouchImage(float toStartTime, float toStartLimitTime)
     {
         //ロード画面の画像が丸になっていくことでロード時間の可視化をする
