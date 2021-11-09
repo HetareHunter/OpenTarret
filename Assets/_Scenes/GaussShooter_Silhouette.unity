@@ -4555,7 +4555,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a73d5accec7532d49a02c5db18e9e405, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameState: 0
   gameStartUI: {fileID: 1024909124}
   tarret: {fileID: 449676436726112946}
   SceneMovePanel: {fileID: 596224153}

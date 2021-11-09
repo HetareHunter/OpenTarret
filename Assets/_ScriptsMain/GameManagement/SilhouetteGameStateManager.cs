@@ -9,74 +9,80 @@ namespace Manager
 {
     public class SilhouetteGameStateManager : MonoBehaviour, IGameStateChangable
     {
-        GameState gameState = GameState.None;
+        GameStateType _gameStateType = GameStateType.None;
+        IEnterGameState _enterGameStater;
+        /// <summary>gameStaterのインスタンスのキャッシュ </summary>
+        Dictionary<GameStateType, IEnterGameState> _stateTypess = new Dictionary<GameStateType, IEnterGameState>();
+
         [Inject]
-        ISpawnable spawner;
+        ISpawnable _spawnable;
         [SerializeField] GameObject gameStartUI;
         [SerializeField] GameObject tarret;
         [SerializeField] GameObject SceneMovePanel;
-        MenuButtonSelecter MenuButtonSelecter;
-        GameStartManager gameStart;
-        GameTimer gameTimer;
-        TarretAttacker baseTarretAttackManager;
+        MenuButtonSelecter _menuButtonSelecter;
+        GameStartManager _gameStartManager;
+        GameTimer _gameTimer;
+        TarretAttacker _tarretAttacker;
 
         private void Start()
         {
-            gameStart = gameStartUI.GetComponent<GameStartManager>();
-            gameTimer = GetComponent<GameTimer>();
-            MenuButtonSelecter = SceneMovePanel.GetComponent<MenuButtonSelecter>();
+            _gameStartManager = gameStartUI.GetComponent<GameStartManager>();
+            _gameTimer = GetComponent<GameTimer>();
+            _menuButtonSelecter = SceneMovePanel.GetComponent<MenuButtonSelecter>();
+            _tarretAttacker = tarret.GetComponent<TarretAttacker>();
 
-            ChangeGameState(GameState.Idle);
-
-            baseTarretAttackManager = tarret.GetComponent<TarretAttacker>();
+            _stateTypess.Add(GameStateType.Idle, new IdleState(_gameStartManager, _menuButtonSelecter));
+            _stateTypess.Add(GameStateType.Start, new StartState(_menuButtonSelecter, _spawnable, _tarretAttacker));
+            _stateTypess.Add(GameStateType.Play, new PlayState(_spawnable, _gameTimer, _menuButtonSelecter, _tarretAttacker));
+            _stateTypess.Add(GameStateType.End, new EndState(_spawnable, _gameTimer, _gameStartManager, _menuButtonSelecter));
+            _stateTypess.Add(GameStateType.None, new NoneState());
+            ToIdle();
         }
 
-        public void ChangeGameState(GameState next)
+        public IEnterGameState GetState()
         {
-            //以前の状態を保持
-            var prev = gameState;
-            //次の状態に変更する
-            gameState = next;
-            // ログを出す
-            //Debug.Log($"ChangeState {prev} -> {next}");
-            if (next == GameState.End && prev != GameState.Play) return;
+            return this._enterGameStater;
+        }
 
-            switch (gameState)
-            {
-                case GameState.None:
-                    break;
-                case GameState.Idle:
-                    gameStart.Reset();
-                    MenuButtonSelecter.IdleInteractive();
-                    break;
-                case GameState.Start:
-                    ScoreManager.Instance.ResetScore();
-                    MenuButtonSelecter.AllChangeInteractive(false);
+        public void ToIdle()
+        {
+            _gameStateType = GameStateType.Idle;
+            _enterGameStater = _stateTypess[_gameStateType];
+            _enterGameStater.SilhouetteStateEnter();
+        }
 
-                    baseTarretAttackManager.IsAttackable(false);
-                    break;
-                case GameState.Play:
-                    spawner.SpawnStart();
-                    gameTimer.CountStart();
-                    MenuButtonSelecter.AllChangeInteractive(true);
-                    MenuButtonSelecter.GamePlayInteractive(true);
+        public void ToStart()
+        {
+            _gameStateType = GameStateType.Start;
+            _enterGameStater = _stateTypess[_gameStateType];
+            _enterGameStater.SilhouetteStateEnter();
+        }
 
-                    baseTarretAttackManager.IsAttackable(true);
-                    break;
-                case GameState.End:
-                    spawner.SpawnEnd();
-                    gameTimer.CountEnd();
-                    gameStart.GameEnd();
-                    MenuButtonSelecter.GamePlayInteractive(false);
-                    break;
-                default:
-                    break;
-            }
+        public void ToPlay()
+        {
+            _gameStateType = GameStateType.Play;
+            _enterGameStater = _stateTypess[_gameStateType];
+            _enterGameStater.SilhouetteStateEnter();
+        }
+
+        public void ToEnd()
+        {
+            if (_gameStateType != GameStateType.Play) return;
+            _gameStateType = GameStateType.End;
+            _enterGameStater = _stateTypess[_gameStateType];
+            _enterGameStater.SilhouetteStateEnter();
+        }
+
+        public void ToNone()
+        {
+            _gameStateType = GameStateType.None;
+            _enterGameStater = _stateTypess[_gameStateType];
+            _enterGameStater.SilhouetteStateEnter();
         }
 
         public string CurrentGameStateName()
         {
-            return gameState.ToString();
+            return _enterGameStater.ToString();
         }
 
         public void StopGame()
@@ -98,35 +104,32 @@ namespace Manager
         /// </summary>
         public void DrawGame()
         {
-            ChangeGameState(GameState.End);
+            ToEnd();
         }
 
         #region
 #if UNITY_EDITOR
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Z))
+            var keyCode = Input.inputString;
+            switch (keyCode)
             {
-                switch (gameState)
-                {
-                    case GameState.None:
-                        break;
-                    case GameState.Idle:
-                        //ChangeGameState(GameState.Start);
-                        gameStart.GameStart();
-                        break;
-                    case GameState.Start:
-                        ChangeGameState(GameState.Play);
-                        break;
-                    case GameState.Play:
-                        ChangeGameState(GameState.End);
-                        break;
-                    case GameState.End:
-                        ChangeGameState(GameState.Idle);
-                        break;
-                    default:
-                        break;
-                }
+                case "z":
+                    ToIdle();
+                    break;
+
+                case "x":
+                    ToStart();
+                    _gameStartManager.GameStart();
+                    break;
+
+                case "c":
+                    ToPlay();
+                    break;
+
+                case "v":
+                    ToEnd();
+                    break;
             }
         }
 

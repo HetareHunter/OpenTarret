@@ -16,7 +16,7 @@ namespace Manager
 
         public void GameEnd()
         {
-            stateManager.ChangeGameState(GameState.End);
+            stateManager.ToEnd();
         }
     }
 }

@@ -5,7 +5,7 @@ using Zenject;
 using MenuUI;
 using Tarret;
 
-public enum GameState
+public enum GameStateType
 {
     None,
     Idle,
@@ -18,74 +18,40 @@ namespace Manager
 {
     public class TutorialGameStateManager : MonoBehaviour, IGameStateChangable
     {
-        GameState gameState = GameState.None;
+        GameStateType _gameStateType = GameStateType.None;
+        IEnterGameState _gameStater;
+        /// <summary>gameStaterのインスタンスのキャッシュ </summary>
+        Dictionary<GameStateType, IEnterGameState> _stateTypess = new Dictionary<GameStateType, IEnterGameState>();
+
         [Inject]
-        ISpawnable spawner;
+        ISpawnable _spawnable;
         [SerializeField] GameObject gameStartUI;
         [SerializeField] GameObject tarret;
         [SerializeField] GameObject SceneMovePanel;
-        MenuButtonSelecter MenuButtonSelecter;
-        GameStartManager gameStart;
-        GameTimer gameTimer;
-        TarretAttacker tarretAttackManager;
+        MenuButtonSelecter _menuButtonSelecter;
+        GameStartManager _gameStartManager;
+        GameTimer _gameTimer;
+        TarretAttacker _tarretAttacker;
+
 
         private void Start()
         {
-            gameStart = gameStartUI.GetComponent<GameStartManager>();
-            gameTimer = GetComponent<GameTimer>();
-            MenuButtonSelecter = SceneMovePanel.GetComponent<MenuButtonSelecter>();
+            _gameStartManager = gameStartUI.GetComponent<GameStartManager>();
+            _gameTimer = GetComponent<GameTimer>();
+            _menuButtonSelecter = SceneMovePanel.GetComponent<MenuButtonSelecter>();
+            _tarretAttacker = tarret.GetComponent<TarretAttacker>();
 
-            ChangeGameState(GameState.Idle);
-
-            tarretAttackManager = tarret.GetComponent<TarretAttacker>();
-        }
-
-        public void ChangeGameState(GameState next)
-        {
-            //以前の状態を保持
-            var prev = gameState;
-            //次の状態に変更する
-            gameState = next;
-            // ログを出す
-            //Debug.Log($"ChangeState {prev} -> {next}");
-            if (next == GameState.End && prev != GameState.Play) return;
-
-            switch (gameState)
-            {
-                case GameState.None:
-                    break;
-                case GameState.Idle:
-                    gameStart.Reset();
-                    MenuButtonSelecter.IdleInteractive();
-                    break;
-                case GameState.Start:
-                    ScoreManager.Instance.ResetScore();
-                    MenuButtonSelecter.AllChangeInteractive(false);
-                    spawner.SpawnStart();
-                    tarretAttackManager.IsAttackable(false);
-                    break;
-                case GameState.Play:
-                    spawner.SpawnEnd();
-                    gameTimer.CountStart();
-                    MenuButtonSelecter.AllChangeInteractive(true);
-                    MenuButtonSelecter.GamePlayInteractive(true);
-
-                    tarretAttackManager.IsAttackable(true);
-                    break;
-                case GameState.End:
-                    spawner.Reset();
-                    gameTimer.CountEnd();
-                    gameStart.GameEnd();
-                    MenuButtonSelecter.GamePlayInteractive(false);
-                    break;
-                default:
-                    break;
-            }
+            _stateTypess.Add(GameStateType.Idle, new IdleState(_gameStartManager, _menuButtonSelecter));
+            _stateTypess.Add(GameStateType.Start, new StartState(_menuButtonSelecter, _spawnable, _tarretAttacker));
+            _stateTypess.Add(GameStateType.Play, new PlayState(_spawnable, _gameTimer, _menuButtonSelecter, _tarretAttacker));
+            _stateTypess.Add(GameStateType.End, new EndState(_spawnable, _gameTimer, _gameStartManager, _menuButtonSelecter));
+            _stateTypess.Add(GameStateType.None, new NoneState());
+            ToIdle();
         }
 
         public string CurrentGameStateName()
         {
-            return gameState.ToString();
+            return _gameStateType.ToString();
         }
 
         public void StopGame()
@@ -97,48 +63,223 @@ namespace Manager
             Time.timeScale = 1;
         }
 
-        public void FinishGame(bool win)
-        {
+        public void FinishGame(bool win) { }
 
+        public IEnterGameState GetState()
+        {
+            return this._gameStater;
         }
 
+        public void ToIdle()
+        {
+            _gameStateType = GameStateType.Idle;
+            _gameStater = _stateTypess[_gameStateType];
+            _gameStater.TutorialStateEnter();
+        }
+
+        public void ToStart()
+        {
+            _gameStateType = GameStateType.Start;
+            _gameStater = _stateTypess[_gameStateType];
+            _gameStater.TutorialStateEnter();
+        }
+
+        public void ToPlay()
+        {
+            _gameStateType = GameStateType.Play;
+            _gameStater = _stateTypess[_gameStateType];
+            _gameStater.TutorialStateEnter();
+        }
+
+        public void ToEnd()
+        {
+            if (_gameStateType != GameStateType.Play) return;
+            _gameStateType = GameStateType.End;
+            _gameStater = _stateTypess[_gameStateType];
+            _gameStater.TutorialStateEnter();
+        }
+
+        public void ToNone()
+        {
+            _gameStateType = GameStateType.None;
+            _gameStater = _stateTypess[_gameStateType];
+            _gameStater.TutorialStateEnter();
+        }
         #region
 #if UNITY_EDITOR
-        private void Update()
+        void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Z))
+            var keyCode = Input.inputString;
+            switch (keyCode)
             {
-                switch (gameState)
-                {
-                    case GameState.None:
-                        break;
-                    case GameState.Idle:
-                        //ChangeGameState(GameState.Start);
-                        gameStart.GameStart();
-                        break;
-                    case GameState.Start:
-                        ChangeGameState(GameState.Play);
-                        break;
-                    case GameState.Play:
-                        ChangeGameState(GameState.End);
-                        break;
-                    case GameState.End:
-                        ChangeGameState(GameState.Idle);
-                        break;
-                    default:
-                        break;
-                }
+                case "z":
+                    ToIdle();
+                    break;
+
+                case "x":
+                    ToStart();
+                    _gameStartManager.GameStart();
+                    break;
+
+                case "c":
+                    ToPlay();
+                    break;
+
+                case "v":
+                    ToEnd();
+                    break;
             }
         }
-
 #endif
         #endregion
+    }
+
+
+    public class IdleState : IEnterGameState
+    {
+        GameStartManager gameStartManager;
+        MenuButtonSelecter menuButtonSelecter;
+
+        public IdleState(GameStartManager gameStartManager, MenuButtonSelecter menuButtonSelecter)
+        {
+            this.gameStartManager = gameStartManager;
+            this.menuButtonSelecter = menuButtonSelecter;
+        }
+
+        public void TutorialStateEnter()
+        {
+            gameStartManager.Reset();
+            menuButtonSelecter.IdleInteractive();
+        }
+
+        public void SilhouetteStateEnter()
+        {
+            gameStartManager.Reset();
+            menuButtonSelecter.IdleInteractive();
+        }
+    }
+
+    public class StartState : IEnterGameState
+    {
+        ISpawnable spawnable;
+        MenuButtonSelecter menuButtonSelecter;
+        TarretAttacker tarretAttacker;
+
+        public StartState(MenuButtonSelecter menuButtonSelecter, ISpawnable spawnable, TarretAttacker tarretAttacker)
+        {
+            this.spawnable = spawnable;
+            this.menuButtonSelecter = menuButtonSelecter;
+            this.tarretAttacker = tarretAttacker;
+        }
+
+        public void TutorialStateEnter()
+        {
+            ScoreManager.Instance.ResetScore();
+            menuButtonSelecter.AllChangeInteractive(false);
+            spawnable.SpawnStart();
+            tarretAttacker.IsAttackable(false);
+        }
+
+        public void SilhouetteStateEnter()
+        {
+            ScoreManager.Instance.ResetScore();
+            menuButtonSelecter.AllChangeInteractive(false);
+            tarretAttacker.IsAttackable(false);
+        }
+    }
+
+    public class PlayState : IEnterGameState
+    {
+        ISpawnable spawnable;
+        GameTimer gameTimer;
+        MenuButtonSelecter menuButtonSelecter;
+        TarretAttacker tarretAttacker;
+
+
+        public PlayState(ISpawnable spawnable, GameTimer gameTimer, MenuButtonSelecter menuButtonSelecter, TarretAttacker tarretAttacker)
+        {
+            this.spawnable = spawnable;
+            this.gameTimer = gameTimer;
+            this.menuButtonSelecter = menuButtonSelecter;
+            this.tarretAttacker = tarretAttacker;
+        }
+
+        public void TutorialStateEnter()
+        {
+            spawnable.SpawnEnd();
+            gameTimer.CountStart();
+            menuButtonSelecter.AllChangeInteractive(true);
+            menuButtonSelecter.GamePlayInteractive(true);
+            tarretAttacker.IsAttackable(true);
+        }
+
+        public void SilhouetteStateEnter()
+        {
+            spawnable.SpawnStart();
+            gameTimer.CountStart();
+            menuButtonSelecter.AllChangeInteractive(true);
+            menuButtonSelecter.GamePlayInteractive(true);
+            tarretAttacker.IsAttackable(true);
+        }
+    }
+
+    public class EndState : IEnterGameState
+    {
+        ISpawnable spawnable;
+        GameTimer gameTimer;
+        GameStartManager gameStartManager;
+        MenuButtonSelecter menuButtonSelecter;
+
+        public EndState(ISpawnable spawnable, GameTimer gameTimer, GameStartManager gameStartManager, MenuButtonSelecter menuButtonSelecter)
+        {
+            this.spawnable = spawnable;
+            this.gameTimer = gameTimer;
+            this.gameStartManager = gameStartManager;
+            this.menuButtonSelecter = menuButtonSelecter;
+        }
+
+        public void TutorialStateEnter()
+        {
+            spawnable.Reset();
+            gameTimer.CountEnd();
+            gameStartManager.GameEnd();
+            menuButtonSelecter.GamePlayInteractive(false);
+        }
+
+        public void SilhouetteStateEnter()
+        {
+            spawnable.SpawnEnd();
+            gameTimer.CountEnd();
+            gameStartManager.GameEnd();
+            menuButtonSelecter.GamePlayInteractive(false);
+        }
+    }
+
+    public class NoneState : IEnterGameState
+    {
+        public NoneState()
+        {
+
+        }
+
+        public void TutorialStateEnter() { }
+        public void SilhouetteStateEnter() { }
     }
 }
 
 public interface IGameStateChangable
 {
-    public void ChangeGameState(GameState next);
+    public void ToIdle();
+    public void ToStart();
+    public void ToPlay();
+    public void ToEnd();
+    //public void ChangeGameState(GameStateType next);
     public string CurrentGameStateName();
     public void FinishGame(bool win);
+}
+
+public interface IEnterGameState
+{
+    public void TutorialStateEnter();
+    public void SilhouetteStateEnter();
 }

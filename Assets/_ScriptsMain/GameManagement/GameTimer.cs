@@ -51,7 +51,7 @@ public class GameTimer : MonoBehaviour
 
         if (playNowTime <= 0)
         {
-            gameStateChangeable.ChangeGameState(GameState.End);
+            gameStateChangeable.ToEnd();
         }
         timeText.text = "time:" + playNowTime.ToString("f2");
     }
@@ -67,7 +67,7 @@ public class GameTimer : MonoBehaviour
         currentToIdleTime += Time.deltaTime;
         if (currentToIdleTime >= toIdleStateTime)
         {
-            gameStateChangeable.ChangeGameState(GameState.Idle);
+            gameStateChangeable.ToIdle();
             gameEnd = false;
             currentToIdleTime = 0;
         }

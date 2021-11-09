@@ -170,7 +170,7 @@ namespace Manager
 
             if (_toPlayTimeCountScreenNum <= 0)
             {
-                _gameStateChangeable.ChangeGameState(GameState.Play);
+                _gameStateChangeable.ToPlay();
                 _colorManager.ToStartColor();
 
                 _imageShapeChanger.WriteScreenText("Start!");
@@ -192,7 +192,7 @@ namespace Manager
 
         public void GameStart()
         {
-            _gameStateChangeable.ChangeGameState(GameState.Start); //ゲーム開始
+            _gameStateChangeable.ToStart(); //ゲーム開始
             _onStart = true;
             StartCoroutine(ToPlayCoroutine());
 

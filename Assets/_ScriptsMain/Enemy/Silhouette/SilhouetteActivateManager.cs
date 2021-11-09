@@ -199,7 +199,7 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
     {
         if (!_onSpawn && _activeSilhouetteNum <= 0)
         {
-            _gameStateChangable.ChangeGameState(GameState.End);
+            _gameStateChangable.ToEnd();
         }
     }
 }

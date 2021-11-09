@@ -55,7 +55,7 @@ namespace MenuUI
         {
             if (gameStateChangeable != null)
             {
-                gameStateChangeable.ChangeGameState(GameState.End);
+                gameStateChangeable.ToEnd();
             }
         }
     }
