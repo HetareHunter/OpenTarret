@@ -8,7 +8,7 @@ namespace MenuUI
     public class SceneMover : MonoBehaviour
     {
         GameObject gameManager;
-        IGameStateChangable gameStateChangeable;
+        IGameStateChangeable gameStateChangeable;
         [SerializeField] GameObject centerEyeAnchor;
         OVRScreenFade screenFade;
         // Start is called before the first frame update
@@ -18,7 +18,7 @@ namespace MenuUI
             gameManager = GameObject.Find("GameManager");
             if (gameManager != null)
             {
-                gameStateChangeable = gameManager.GetComponent<IGameStateChangable>();
+                gameStateChangeable = gameManager.GetComponent<IGameStateChangeable>();
             }
         }
 

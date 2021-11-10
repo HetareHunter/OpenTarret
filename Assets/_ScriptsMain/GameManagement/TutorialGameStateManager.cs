@@ -16,12 +16,12 @@ public enum GameStateType
 
 namespace Manager
 {
-    public class TutorialGameStateManager : MonoBehaviour, IGameStateChangable
+    public class TutorialGameStateManager : MonoBehaviour, IGameStateChangeable
     {
         GameStateType _gameStateType = GameStateType.None;
-        IEnterGameState _gameStater;
+        IGameStateEnterble _gameStateEnterble;
         /// <summary>gameStaterのインスタンスのキャッシュ </summary>
-        Dictionary<GameStateType, IEnterGameState> _stateTypess = new Dictionary<GameStateType, IEnterGameState>();
+        Dictionary<GameStateType, IGameStateEnterble> _stateTypes = new Dictionary<GameStateType, IGameStateEnterble>();
 
         [Inject]
         ISpawnable _spawnable;
@@ -41,18 +41,14 @@ namespace Manager
             _menuButtonSelecter = SceneMovePanel.GetComponent<MenuButtonSelecter>();
             _tarretAttacker = tarret.GetComponent<TarretAttacker>();
 
-            _stateTypess.Add(GameStateType.Idle, new IdleState(_gameStartManager, _menuButtonSelecter));
-            _stateTypess.Add(GameStateType.Start, new StartState(_menuButtonSelecter, _spawnable, _tarretAttacker));
-            _stateTypess.Add(GameStateType.Play, new PlayState(_spawnable, _gameTimer, _menuButtonSelecter, _tarretAttacker));
-            _stateTypess.Add(GameStateType.End, new EndState(_spawnable, _gameTimer, _gameStartManager, _menuButtonSelecter));
-            _stateTypess.Add(GameStateType.None, new NoneState());
+            _stateTypes.Add(GameStateType.Idle, new IdleState(_gameStartManager, _menuButtonSelecter));
+            _stateTypes.Add(GameStateType.Start, new StartState(_menuButtonSelecter, _spawnable, _tarretAttacker));
+            _stateTypes.Add(GameStateType.Play, new PlayState(_spawnable, _gameTimer, _menuButtonSelecter, _tarretAttacker));
+            _stateTypes.Add(GameStateType.End, new EndState(_spawnable, _gameTimer, _gameStartManager, _menuButtonSelecter));
+            _stateTypes.Add(GameStateType.None, new NoneState());
             ToIdle();
         }
 
-        public string CurrentGameStateName()
-        {
-            return _gameStateType.ToString();
-        }
 
         public void StopGame()
         {
@@ -63,47 +59,45 @@ namespace Manager
             Time.timeScale = 1;
         }
 
-        public void FinishGame(bool win) { }
-
-        public IEnterGameState GetState()
+        public IGameStateEnterble GetState()
         {
-            return this._gameStater;
+            return this._gameStateEnterble;
         }
 
         public void ToIdle()
         {
             _gameStateType = GameStateType.Idle;
-            _gameStater = _stateTypess[_gameStateType];
-            _gameStater.TutorialStateEnter();
+            _gameStateEnterble = _stateTypes[_gameStateType];
+            _gameStateEnterble.TutorialStateEnter();
         }
 
         public void ToStart()
         {
             _gameStateType = GameStateType.Start;
-            _gameStater = _stateTypess[_gameStateType];
-            _gameStater.TutorialStateEnter();
+            _gameStateEnterble = _stateTypes[_gameStateType];
+            _gameStateEnterble.TutorialStateEnter();
         }
 
         public void ToPlay()
         {
             _gameStateType = GameStateType.Play;
-            _gameStater = _stateTypess[_gameStateType];
-            _gameStater.TutorialStateEnter();
+            _gameStateEnterble = _stateTypes[_gameStateType];
+            _gameStateEnterble.TutorialStateEnter();
         }
 
         public void ToEnd()
         {
             if (_gameStateType != GameStateType.Play) return;
             _gameStateType = GameStateType.End;
-            _gameStater = _stateTypess[_gameStateType];
-            _gameStater.TutorialStateEnter();
+            _gameStateEnterble = _stateTypes[_gameStateType];
+            _gameStateEnterble.TutorialStateEnter();
         }
 
         public void ToNone()
         {
             _gameStateType = GameStateType.None;
-            _gameStater = _stateTypess[_gameStateType];
-            _gameStater.TutorialStateEnter();
+            _gameStateEnterble = _stateTypes[_gameStateType];
+            _gameStateEnterble.TutorialStateEnter();
         }
         #region
 #if UNITY_EDITOR
@@ -135,7 +129,7 @@ namespace Manager
     }
 
 
-    public class IdleState : IEnterGameState
+    public class IdleState : IGameStateEnterble
     {
         GameStartManager gameStartManager;
         MenuButtonSelecter menuButtonSelecter;
@@ -159,7 +153,7 @@ namespace Manager
         }
     }
 
-    public class StartState : IEnterGameState
+    public class StartState : IGameStateEnterble
     {
         ISpawnable spawnable;
         MenuButtonSelecter menuButtonSelecter;
@@ -188,7 +182,7 @@ namespace Manager
         }
     }
 
-    public class PlayState : IEnterGameState
+    public class PlayState : IGameStateEnterble
     {
         ISpawnable spawnable;
         GameTimer gameTimer;
@@ -223,7 +217,7 @@ namespace Manager
         }
     }
 
-    public class EndState : IEnterGameState
+    public class EndState : IGameStateEnterble
     {
         ISpawnable spawnable;
         GameTimer gameTimer;
@@ -255,7 +249,7 @@ namespace Manager
         }
     }
 
-    public class NoneState : IEnterGameState
+    public class NoneState : IGameStateEnterble
     {
         public NoneState()
         {
@@ -267,18 +261,15 @@ namespace Manager
     }
 }
 
-public interface IGameStateChangable
+public interface IGameStateChangeable
 {
     public void ToIdle();
     public void ToStart();
     public void ToPlay();
     public void ToEnd();
-    //public void ChangeGameState(GameStateType next);
-    public string CurrentGameStateName();
-    public void FinishGame(bool win);
 }
 
-public interface IEnterGameState
+public interface IGameStateEnterble
 {
     public void TutorialStateEnter();
     public void SilhouetteStateEnter();

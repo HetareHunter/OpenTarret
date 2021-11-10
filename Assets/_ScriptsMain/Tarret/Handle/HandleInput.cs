@@ -9,7 +9,7 @@ namespace Players
     public class HandleInput : MonoBehaviour
     {
         [Inject]
-        ITarretState tarret;
+        ITarretStateChangeable tarret;
         [SerializeField] GameObject tarretCartObj;
         TarretCartMover tarretCart;
         
@@ -23,7 +23,8 @@ namespace Players
 
         public void Attack()
         {
-            tarret.ChangeTarretState(TarretState.Attack);
+            //tarret.ChangeTarretState(TarretStateType.Attack);
+            tarret.ToAttack();
         }
 
         public void CartMove(Vector2 stick)

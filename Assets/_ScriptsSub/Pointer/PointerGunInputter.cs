@@ -17,18 +17,18 @@ public class PointerGunInputter : MonoBehaviour
     {
         if (OVRInput.Get(OVRInput.Button.PrimaryHandTrigger, OVRInput.Controller.RTouch))
         {
-            tarretStateManager.ChangeTarretState(TarretState.Rotate);
+            tarretStateManager.ToRotate();
         }
 
         if(OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.RTouch))
         {
-            tarretStateManager.ChangeTarretState(TarretState.Attack);
+            tarretStateManager.ToAttack();
         }
 
         if (OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger, OVRInput.Controller.RTouch) 
-            && tarretStateManager.tarretCommandState != TarretState.Idle)
+            && tarretStateManager.GetTarretState() != TarretStateType.Idle)
         {
-            tarretStateManager.ChangeTarretState(TarretState.Idle);
+            tarretStateManager.ToIdle();
         }
     }
 }

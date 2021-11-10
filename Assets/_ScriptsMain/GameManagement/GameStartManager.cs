@@ -16,7 +16,7 @@ namespace Manager
         [SerializeField] GameObject _gameManager;
         [SerializeField] GameObject spawnerManager;
         ScanAppear _scanAppear;
-        IGameStateChangable _gameStateChangeable;
+        IGameStateChangeable _gameStateChangeable;
         bool _onLeftHand = false;
         bool _onRightHand = false;
         bool _onHand = false;
@@ -57,7 +57,7 @@ namespace Manager
         {
             _gameStartUIAnim = GetComponent<Animator>();
             _colorManager = changeColorObj.GetComponent<ColorManager>();
-            _gameStateChangeable = _gameManager.GetComponent<IGameStateChangable>();
+            _gameStateChangeable = _gameManager.GetComponent<IGameStateChangeable>();
             _boxCollider = GetComponent<BoxCollider>();
             _scanAppear = spawnerManager.GetComponent<ScanAppear>();
             _imageShapeChanger = GetComponent<ImageShapeChanger>();

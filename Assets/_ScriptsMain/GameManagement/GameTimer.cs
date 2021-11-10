@@ -5,7 +5,7 @@ using TMPro;
 
 public class GameTimer : MonoBehaviour
 {
-    IGameStateChangable gameStateChangeable;
+    IGameStateChangeable gameStateChangeable;
     /// <summary>
     /// ゲーム時間単位は秒
     /// </summary>
@@ -19,7 +19,7 @@ public class GameTimer : MonoBehaviour
     private void Start()
     {
         playNowTime = gameTime;
-        gameStateChangeable = GetComponent<IGameStateChangable>();
+        gameStateChangeable = GetComponent<IGameStateChangeable>();
     }
     // Update is called once per frame
     void Update()

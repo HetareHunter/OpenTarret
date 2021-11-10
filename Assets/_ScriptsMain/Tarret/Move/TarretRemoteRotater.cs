@@ -50,21 +50,21 @@ namespace Tarret
         /// </summary>
         void MoveManager()
         {
-            switch (tarretStateManager.tarretCommandState)
+            switch (tarretStateManager.GetTarretState())
             {
-                case TarretState.Idle:
+                case TarretStateType.Idle:
                     tarretStateManager.JudgeRotateTarret();
                     break;
 
-                case TarretState.Attack:
+                case TarretStateType.Attack:
                     break;
 
-                case TarretState.Rotate:
+                case TarretStateType.Rotate:
                     HorizontalRotate();
                     VerticalRotate();
                     break;
 
-                case TarretState.Break:
+                case TarretStateType.Break:
                     break;
 
                 default:

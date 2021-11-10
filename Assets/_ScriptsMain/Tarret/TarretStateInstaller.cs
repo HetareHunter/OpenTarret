@@ -8,7 +8,7 @@ public class TarretStateInstaller : MonoInstaller
     public override void InstallBindings()
     {
         Container
-            .Bind<ITarretState>() // InjectアトリビュートがついているIChangeSightColor型のフィールドに
+            .Bind<ITarretStateChangeable>() // InjectアトリビュートがついているIChangeSightColor型のフィールドに
             .To<TarretStateManager>()
             .FromComponentOn(tarret) // TarretScreenSliderChangerクラスのインスタンスを注入する
             .AsTransient();

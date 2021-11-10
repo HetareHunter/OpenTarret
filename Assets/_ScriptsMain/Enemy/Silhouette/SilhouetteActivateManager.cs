@@ -9,7 +9,7 @@ using UnityEngine;
 /// </summary>
 public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
 {
-    IGameStateChangable _gameStateChangable;
+    IGameStateChangeable _gameStateChangable;
     [SerializeField] GameObject _gameManager;
 
     [Tooltip("この子オブジェクトに入れて、setActiveがtrueのシルエットオブジェクトがゲーム中に使用される")]
@@ -64,7 +64,7 @@ public class SilhouetteActivateManager : MonoBehaviour, ISpawnable
     }
     private void Awake()
     {
-        _gameStateChangable = _gameManager.GetComponent<IGameStateChangable>();
+        _gameStateChangable = _gameManager.GetComponent<IGameStateChangeable>();
     }
 
     // Start is called before the first frame update

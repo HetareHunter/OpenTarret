@@ -38,7 +38,7 @@ namespace Tarret
         TarretStateManager tarretStateManager;
 
         public SieldState sieldState;
-        IGameStateChangable gameStateChangable;
+        IGameStateChangeable gameStateChangable;
         [SerializeField] GameObject gameManager;
 
         /// <summary>攻撃を受けているときtrueになる </summary>
@@ -49,12 +49,12 @@ namespace Tarret
             tarretHP = TarretVitalData.TarretMaxHP;
             sieldHP = TarretVitalData.TarretMaxSield;
             tarretStateManager = GetComponent<TarretStateManager>();
-            gameStateChangable = gameManager.GetComponent<IGameStateChangable>();
+            gameStateChangable = gameManager.GetComponent<IGameStateChangeable>();
         }
 
         private void Update()
         {
-            if (tarretStateManager.tarretCommandState != TarretState.Break)
+            if (tarretStateManager.GetTarretState() != TarretStateType.Break)
             {
                 CalculataTarretVital();
             }
@@ -107,7 +107,8 @@ namespace Tarret
             tarretHPSlider.value = tarretHP / TarretVitalData.TarretMaxHP;
             if (tarretHP <= 0)
             {
-                tarretStateManager.ChangeTarretState(TarretState.Break);
+                //tarretStateManager.ChangeTarretState(TarretStateType.Break);
+                tarretStateManager.ToBreak();
             }
 
             Debug.Log("TarretVitalData.TarretHP : " + tarretHP);
@@ -157,7 +158,7 @@ namespace Tarret
             sieldHP = 0;
             ChangeSieldState(SieldState.Brake);
 
-            gameStateChangable.FinishGame(false);
+            //gameStateChangable.FinishGame(false);
         }
 
         public void ResetTarretVital()

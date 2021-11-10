@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Tarret;
 using Zenject;
 
 public enum HandleSide
@@ -37,7 +36,7 @@ namespace Players
         public bool _allowOffhandGrab = true;
 
         [Inject]
-        ITarretState _TarretState;
+        ITarretStateChangeable _tarretState;
         [SerializeField] GameObject anglePointerObj;
         [SerializeField] Color startColor;
         Color _vanishingColor = new Color(0, 0, 0, 0);
@@ -180,7 +179,8 @@ namespace Players
             _returnPosition.Released();
             ChangeOutlineColor(_isSelect);
 
-            _TarretState.ChangeTarretState(Tarret.TarretState.Idle);
+            _tarretState.ToIdle();
+
             _grabbedHandTransform = null;
             _anglePointer.isAdjust = false;
             _handleGrabMoment = false;

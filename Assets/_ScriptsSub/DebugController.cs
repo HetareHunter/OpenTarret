@@ -7,7 +7,7 @@ using Tarret;
 public class DebugController : MonoBehaviour
 {
     [Inject]
-    ITarretState _tarretState;
+    ITarretStateChangeable _tarretState;
 
     /// <summary>
     /// タレットの根本部分。ここを中心に横回転をする
@@ -32,7 +32,7 @@ public class DebugController : MonoBehaviour
     {
         if (Input.GetKeyDown("space"))
         {
-            _tarretState.ChangeTarretState(TarretState.Attack);
+            _tarretState.ChangeTarretState(TarretStateType.Attack);
         }
 
         if (editRotateMode)

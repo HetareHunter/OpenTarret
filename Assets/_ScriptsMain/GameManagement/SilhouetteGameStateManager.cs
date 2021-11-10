@@ -7,12 +7,12 @@ using Tarret;
 
 namespace Manager
 {
-    public class SilhouetteGameStateManager : MonoBehaviour, IGameStateChangable
+    public class SilhouetteGameStateManager : MonoBehaviour, IGameStateChangeable
     {
         GameStateType _gameStateType = GameStateType.None;
-        IEnterGameState _enterGameStater;
+        IGameStateEnterble _enterGameStater;
         /// <summary>gameStaterのインスタンスのキャッシュ </summary>
-        Dictionary<GameStateType, IEnterGameState> _stateTypess = new Dictionary<GameStateType, IEnterGameState>();
+        Dictionary<GameStateType, IGameStateEnterble> _stateTypes = new Dictionary<GameStateType, IGameStateEnterble>();
 
         [Inject]
         ISpawnable _spawnable;
@@ -31,15 +31,15 @@ namespace Manager
             _menuButtonSelecter = SceneMovePanel.GetComponent<MenuButtonSelecter>();
             _tarretAttacker = tarret.GetComponent<TarretAttacker>();
 
-            _stateTypess.Add(GameStateType.Idle, new IdleState(_gameStartManager, _menuButtonSelecter));
-            _stateTypess.Add(GameStateType.Start, new StartState(_menuButtonSelecter, _spawnable, _tarretAttacker));
-            _stateTypess.Add(GameStateType.Play, new PlayState(_spawnable, _gameTimer, _menuButtonSelecter, _tarretAttacker));
-            _stateTypess.Add(GameStateType.End, new EndState(_spawnable, _gameTimer, _gameStartManager, _menuButtonSelecter));
-            _stateTypess.Add(GameStateType.None, new NoneState());
+            _stateTypes.Add(GameStateType.Idle, new IdleState(_gameStartManager, _menuButtonSelecter));
+            _stateTypes.Add(GameStateType.Start, new StartState(_menuButtonSelecter, _spawnable, _tarretAttacker));
+            _stateTypes.Add(GameStateType.Play, new PlayState(_spawnable, _gameTimer, _menuButtonSelecter, _tarretAttacker));
+            _stateTypes.Add(GameStateType.End, new EndState(_spawnable, _gameTimer, _gameStartManager, _menuButtonSelecter));
+            _stateTypes.Add(GameStateType.None, new NoneState());
             ToIdle();
         }
 
-        public IEnterGameState GetState()
+        public IGameStateEnterble GetState()
         {
             return this._enterGameStater;
         }
@@ -47,21 +47,21 @@ namespace Manager
         public void ToIdle()
         {
             _gameStateType = GameStateType.Idle;
-            _enterGameStater = _stateTypess[_gameStateType];
+            _enterGameStater = _stateTypes[_gameStateType];
             _enterGameStater.SilhouetteStateEnter();
         }
 
         public void ToStart()
         {
             _gameStateType = GameStateType.Start;
-            _enterGameStater = _stateTypess[_gameStateType];
+            _enterGameStater = _stateTypes[_gameStateType];
             _enterGameStater.SilhouetteStateEnter();
         }
 
         public void ToPlay()
         {
             _gameStateType = GameStateType.Play;
-            _enterGameStater = _stateTypess[_gameStateType];
+            _enterGameStater = _stateTypes[_gameStateType];
             _enterGameStater.SilhouetteStateEnter();
         }
 
@@ -69,14 +69,14 @@ namespace Manager
         {
             if (_gameStateType != GameStateType.Play) return;
             _gameStateType = GameStateType.End;
-            _enterGameStater = _stateTypess[_gameStateType];
+            _enterGameStater = _stateTypes[_gameStateType];
             _enterGameStater.SilhouetteStateEnter();
         }
 
         public void ToNone()
         {
             _gameStateType = GameStateType.None;
-            _enterGameStater = _stateTypess[_gameStateType];
+            _enterGameStater = _stateTypes[_gameStateType];
             _enterGameStater.SilhouetteStateEnter();
         }
 
@@ -92,11 +92,6 @@ namespace Manager
         public void RebootGame()
         {
             Time.timeScale = 1;
-        }
-
-        public void FinishGame(bool win)
-        {
-
         }
 
         /// <summary>
