@@ -32,7 +32,8 @@ public class DebugController : MonoBehaviour
     {
         if (Input.GetKeyDown("space"))
         {
-            _tarretState.ChangeTarretState(TarretStateType.Attack);
+            //_tarretState.ChangeTarretState(TarretStateType.Attack);
+            _tarretState.ToAttack();
         }
 
         if (editRotateMode)

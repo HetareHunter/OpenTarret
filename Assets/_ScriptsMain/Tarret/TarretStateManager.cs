@@ -24,6 +24,7 @@ namespace Tarret
         public HandleGrabbable _rightHandle;
 
         TarretAttacker _tarretAttacker;
+        TarretRotater _tarretRotater;
         AnglePointer _anglePoint;
         TarretVitalManager _tarretVitalManager;
 
@@ -31,13 +32,14 @@ namespace Tarret
         bool anglePointPlayOneShot = false;
 
         TarretStateType _tarretStateType = TarretStateType.Idle;
-        ITarretStateEnterble _tarretStateEnterble;
+        ITarretStateExecutable _tarretStateExecutable;
         /// <summary>gameStaterのインスタンスのキャッシュ </summary>
-        Dictionary<TarretStateType, ITarretStateEnterble> _tarretStateTypes = new Dictionary<TarretStateType, ITarretStateEnterble>();
+        Dictionary<TarretStateType, ITarretStateExecutable> _tarretStateTypes = new Dictionary<TarretStateType, ITarretStateExecutable>();
 
         private void Start()
         {
             _tarretAttacker = GetComponent<TarretAttacker>();
+            _tarretRotater = GetComponent<TarretRotater>();
             if (tarretAnglePoint != null)
             {
                 _anglePoint = tarretAnglePoint.GetComponent<AnglePointer>();
@@ -48,10 +50,17 @@ namespace Tarret
                 _tarretVitalManager = GetComponent<TarretVitalManager>();
             }
 
-            _tarretStateTypes.Add(TarretStateType.Idle, new TarretIdle());
-            _tarretStateTypes.Add(TarretStateType.Rotate, new TarretRotate());
+            _tarretStateTypes.Add(TarretStateType.Idle, new TarretIdle(this));
+            _tarretStateTypes.Add(TarretStateType.Rotate, new TarretRotate(_tarretRotater));
             _tarretStateTypes.Add(TarretStateType.Attack, new TarretAttack(_tarretAttacker, _leftHandle, _rightHandle));
             _tarretStateTypes.Add(TarretStateType.Break, new TarretBreak(_tarretVitalManager));
+
+            _tarretStateExecutable = _tarretStateTypes[_tarretStateType];
+        }
+
+        void FixedUpdate()
+        {
+            ExecuteState();
         }
 
         /// <summary>
@@ -62,7 +71,6 @@ namespace Tarret
             //両手ともタレットのハンドルを握っているとき
             if (_leftHandle.IsGrabbed && _rightHandle.IsGrabbed)
             {
-                //ChangeTarretState(TarretStateType.Rotate);
                 ToRotate();
                 if (anglePointPlayOneShot)
                 {
@@ -76,64 +84,26 @@ namespace Tarret
             }
         }
 
-        /// <summary>
-        /// Tarretのステート変化を行う関数をここにまとめている
-        /// </summary>
-        /// <param name="next"></param>
-        public void ChangeTarretState(TarretStateType next)
-        {
-            //以前の状態を保持
-            //var prev = tarretCommandState;
-            //次の状態に変更する
-            _tarretStateType = next;
-            //// ログを出す
-            //Debug.Log($"ChangeState {prev} -> {next}");
-
-            switch (_tarretStateType)
-            {
-                case TarretStateType.Idle:
-                    break;
-                case TarretStateType.Attack:
-                    if (_tarretAttacker.attackable)
-                    {
-                        _tarretAttacker.BeginAttack();
-                        _leftHandle.AttackVibe();
-                        _rightHandle.AttackVibe();
-                    }
-                    ChangeTarretState(TarretStateType.Idle);
-                    break;
-
-                case TarretStateType.Rotate:
-                    break;
-
-                case TarretStateType.Break:
-                    _tarretVitalManager.TarretDeath();
-                    break;
-
-                default:
-                    break;
-            }
-        }
-
         public void ToIdle()
         {
             _tarretStateType = TarretStateType.Idle;
-            _tarretStateEnterble = _tarretStateTypes[_tarretStateType];
-            _tarretStateEnterble.EnterTarretState();
+            _tarretStateExecutable = _tarretStateTypes[_tarretStateType];
+            _tarretStateExecutable.EnterTarretState();
         }
+        
 
         public void ToRotate()
         {
             _tarretStateType = TarretStateType.Rotate;
-            _tarretStateEnterble = _tarretStateTypes[_tarretStateType];
-            _tarretStateEnterble.EnterTarretState();
+            _tarretStateExecutable = _tarretStateTypes[_tarretStateType];
+            _tarretStateExecutable.EnterTarretState();
         }
 
         public void ToAttack()
         {
             _tarretStateType = TarretStateType.Attack;
-            _tarretStateEnterble = _tarretStateTypes[_tarretStateType];
-            _tarretStateEnterble.EnterTarretState();
+            _tarretStateExecutable = _tarretStateTypes[_tarretStateType];
+            _tarretStateExecutable.EnterTarretState();
 
             ToIdle();
         }
@@ -141,8 +111,13 @@ namespace Tarret
         public void ToBreak()
         {
             _tarretStateType = TarretStateType.Break;
-            _tarretStateEnterble = _tarretStateTypes[_tarretStateType];
-            _tarretStateEnterble.EnterTarretState();
+            _tarretStateExecutable = _tarretStateTypes[_tarretStateType];
+            _tarretStateExecutable.EnterTarretState();
+        }
+
+        public void ExecuteState()
+        {
+            _tarretStateExecutable.StateUpdate();
         }
 
         public TarretStateType GetTarretState()
@@ -151,33 +126,37 @@ namespace Tarret
         }
     }
 
-    public class TarretIdle : ITarretStateEnterble
+    public class TarretIdle : ITarretStateExecutable
     {
-        public TarretIdle()
+        TarretStateManager _tarretStateManager;
+        public TarretIdle(TarretStateManager tarretStateManager)
         {
-
+            _tarretStateManager = tarretStateManager;
         }
 
-        public void EnterTarretState()
+        public void EnterTarretState() { }
+        public void StateUpdate()
         {
-
+            _tarretStateManager.JudgeRotateTarret();
         }
     }
 
-    public class TarretRotate : ITarretStateEnterble
+    public class TarretRotate : ITarretStateExecutable
     {
-        public TarretRotate()
+        TarretRotater _tarretRotater;
+        public TarretRotate(TarretRotater tarretRotater)
         {
-
+            _tarretRotater = tarretRotater;
         }
 
-        public void EnterTarretState()
+        public void EnterTarretState() { }
+        public void StateUpdate()
         {
-
+            _tarretRotater.MoveManager();
         }
     }
 
-    public class TarretAttack : ITarretStateEnterble
+    public class TarretAttack : ITarretStateExecutable
     {
         TarretAttacker _tarretAttacker;
         HandleGrabbable _leftHandle;
@@ -198,9 +177,10 @@ namespace Tarret
                 _rightHandle.AttackVibe();
             }
         }
+        public void StateUpdate() { }
     }
 
-    public class TarretBreak : ITarretStateEnterble
+    public class TarretBreak : ITarretStateExecutable
     {
         TarretVitalManager _tarretVitalManager;
         public TarretBreak(TarretVitalManager tarretVitalManager)
@@ -212,5 +192,6 @@ namespace Tarret
         {
             _tarretVitalManager.TarretDeath();
         }
+        public void StateUpdate() { }
     }
 }

@@ -12,7 +12,6 @@ public class AttackIntervalCounter : MonoBehaviour
     Slider screenLeftSlider;
     Slider screenRightSlider;
     TarretAttacker tarretAttack;
-    public bool countStart = false;
 
     float m_time = 0;
     // Start is called before the first frame update
@@ -23,25 +22,22 @@ public class AttackIntervalCounter : MonoBehaviour
         tarretAttack = GetComponent<TarretAttacker>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public IEnumerator AttackIntervalCounterEnumerator()
     {
-        if (countStart)
+        var loop = true;
+        while (loop)
         {
-            Counter();
+            m_time += Time.deltaTime;
+            screenLeftSlider.value = Mathf.InverseLerp(attackIntervalTime, 0, m_time);
+            screenRightSlider.value = Mathf.InverseLerp(attackIntervalTime, 0, m_time);
+            if (m_time >= attackIntervalTime)
+            {
+                m_time = 0;
+                loop = false;
+                tarretAttack.EndAttack();
+            }
+            yield return null;
         }
-    }
-
-    void Counter()
-    {
-        m_time += Time.deltaTime;
-        screenLeftSlider.value = Mathf.InverseLerp(attackIntervalTime, 0, m_time);
-        screenRightSlider.value = Mathf.InverseLerp(attackIntervalTime, 0, m_time);
-        if (m_time >= attackIntervalTime)
-        {
-            m_time = 0;
-            countStart = false;
-            tarretAttack.EndAttack();
-        }
+            
     }
 }

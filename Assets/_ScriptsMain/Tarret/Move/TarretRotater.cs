@@ -17,6 +17,7 @@ namespace Tarret
         /// タレットの縦回転をする関節
         /// </summary>
         [SerializeField] GameObject muzzleFlameJointPos;
+
         [SerializeField] float rotateSpeed = 2.5f;
 
         [SerializeField] GameObject _anglePoint;
@@ -36,50 +37,24 @@ namespace Tarret
         float sqrtAnglePointMoveDistance;
         Vector2 anglePointPosi;
 
-        TarretStateManager tarretStateManager;
-
         private void Start()
         {
-            tarretStateManager = GetComponent<TarretStateManager>();
             anglePointer = _anglePoint.GetComponent<AnglePointer>();
             _sqrtcoodinatePlay = Mathf.Sqrt(_coodinatePlayDis);
-        }
-
-        void FixedUpdate()
-        {
-            MoveManager();
         }
 
         /// <summary>
         /// tarretの動きを実行する命令を飛ばす関数
         /// </summary>
-        void MoveManager()
+        public void MoveManager()
         {
-            switch (tarretStateManager.GetTarretState())
+            anglePointMoveDistance = anglePointer.AnglePointMoveDistance;
+            if (anglePointMoveDistance > _coodinatePlayDis)
             {
-                case TarretStateType.Idle:
-                    tarretStateManager.JudgeRotateTarret();
-                    break;
-
-                case TarretStateType.Attack:
-                    break;
-
-                case TarretStateType.Rotate:
-                    anglePointMoveDistance = anglePointer.AnglePointMoveDistance;
-                    if (anglePointMoveDistance > _coodinatePlayDis)
-                    {
-                        sqrtAnglePointMoveDistance = Mathf.Sqrt(anglePointMoveDistance);
-                        anglePointPosi = anglePointer.AnglePointPosi;
-                        HorizontalRotate();
-                        VerticalRotate();
-                    }
-                    break;
-
-                case TarretStateType.Break:
-                    break;
-
-                default:
-                    break;
+                sqrtAnglePointMoveDistance = Mathf.Sqrt(anglePointMoveDistance);
+                anglePointPosi = anglePointer.AnglePointPosi;
+                HorizontalRotate();
+                VerticalRotate();
             }
         }
 

@@ -81,7 +81,8 @@ namespace Tarret
             razerEffecter.InstanceShockWave();
 
             IsAttackable(false);
-            attackInterval.countStart = true;
+            StartCoroutine(attackInterval.AttackIntervalCounterEnumerator());
+            //attackInterval.countStart = true;
         }
 
 

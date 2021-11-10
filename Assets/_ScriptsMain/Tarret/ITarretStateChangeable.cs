@@ -7,7 +7,8 @@ public interface ITarretStateChangeable
     public void ToBreak();
 }
 
-public interface ITarretStateEnterble
+public interface ITarretStateExecutable
 {
     public void EnterTarretState();
+    public void StateUpdate();
 }
